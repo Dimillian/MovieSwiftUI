@@ -7,9 +7,11 @@
 //
 
 import Foundation
+import SwiftUI
 
-struct Movie: Codable {
+struct Movie: Codable, Identifiable {
     let id: Int
     let original_title: String
     let overview: String
+    let poster_path: String
 }
