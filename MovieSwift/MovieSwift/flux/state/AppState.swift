@@ -21,7 +21,9 @@ final class AppState: BindableObject {
     
     func dispatch(action: Action) {
         moviesState = MoviesStateReducer().reduce(state: moviesState, action: action)
-        didChange.send(self)
+        DispatchQueue.main.async {
+            self.didChange.send(self)
+        }
     }
 }
 

@@ -21,9 +21,11 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
         // Use a UIHostingController as window root view controller
         let window = UIWindow(frame: UIScreen.main.bounds)
-        window.rootViewController = UIHostingController(rootView: ContentView().environmentObject(store))
+        window.rootViewController = UIHostingController(rootView: Tabbar().environmentObject(store))
         self.window = window
         window.makeKeyAndVisible()
+        
+        store.dispatch(action: MoviesActions.FetchPopular())
     }
 
     func sceneDidDisconnect(_ scene: UIScene) {
