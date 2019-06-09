@@ -120,4 +120,23 @@ struct MoviesActions {
         let response: PaginatedResponse<Movie>
     }
     
+    struct FetchSearch: Action {
+        init(query: String) {
+            APIService.shared.GET(endpoint: .searchMovie(query: query), params: ["query": query]) {
+                (result: Result<PaginatedResponse<Movie>, APIService.APIError>) in
+                switch result {
+                case let .success(response):
+                    store.dispatch(action: SetSearch(query: query, response: response))
+                case .failure(_):
+                    break
+                }
+            }
+        }
+    }
+    
+    struct SetSearch: Action {
+        let query: String
+        let response: PaginatedResponse<Movie>
+    }
+    
 }

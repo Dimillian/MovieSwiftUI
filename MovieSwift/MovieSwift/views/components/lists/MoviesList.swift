@@ -9,23 +9,30 @@
 import SwiftUI
 
 struct MoviesList : View {
+    @EnvironmentObject var state: AppState
+    @State var searchtext: String = ""
+    
     let movies: [Int]
     
-    @State var searchtext: String = ""
+    var isSearching: Bool {
+        return !searchtext.isEmpty
+    }
+    
+    var searchedMovies: [Int] {
+        return state.moviesState.search[searchtext] ?? []
+    }
     
     var body: some View {
         VStack {
             List {
                 TextField($searchtext,
-                          placeholder: Text("Search any movies"),
-                          onEditingChanged: { (_) in
-                }) {
-                    
-                }
+                          placeholder: Text("Search any movies")) {
+                            store.dispatch(action: MoviesActions.FetchSearch(query: self.searchtext))
+                    }
                     .textFieldStyle(.roundedBorder)
                     .listRowInsets(EdgeInsets())
                     .padding()
-                ForEach(movies) {id in
+                ForEach(isSearching ? searchedMovies : movies) {id in
                     NavigationButton(destination: MovieDetail(movieId: id)) {
                         MovieRow(movieId: id)
                     }

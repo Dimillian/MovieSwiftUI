@@ -10,6 +10,8 @@ import SwiftUI
 
 struct MovieDetail : View {
     @EnvironmentObject var state: AppState
+    @State var addSheetShown = false
+    
     let movieId: Int
     var movie: Movie! {
         return state.moviesState.movies[movieId]!
@@ -55,6 +57,23 @@ struct MovieDetail : View {
         }
     }
     
+    var addActionSheet: ActionSheet {
+        get {
+            let wishlistButton: Alert.Button = .default(Text("Add to wihlist")) {
+                self.addSheetShown = false
+            }
+            let seenButton: Alert.Button = .default(Text("Add to seen list")) {
+                self.addSheetShown = false
+            }
+            let sheet = ActionSheet(title: Text("Add to"),
+                                    message: nil,
+                                    buttons: [wishlistButton, seenButton, .cancel({
+                                        self.addSheetShown = false
+                                    })])
+            return sheet
+        }
+    }
+    
     var body: some View {
         List {
             MovieBackdrop(movieId: movie.id)
@@ -65,16 +84,22 @@ struct MovieDetail : View {
                      casts: credits ?? []).frame(height: 170)
             MovieDetailRow(title: "Similar Movies", movies: similar ?? []).frame(height: 260)
             MovieDetailRow(title: "Recommanded Movies", movies: recommanded ?? []).frame(height: 260)
-        }
-        .edgesIgnoringSafeArea(.top)
-        .navigationBarHidden(true)
-            .onAppear{
+            }
+            .edgesIgnoringSafeArea(.top)
+            .navigationBarItems(trailing: Button(action: onAddButton) {
+                Image(systemName: "text.badge.plus")
+            })
+            .onAppear {
                 store.dispatch(action: MoviesActions.FetchDetail(movie: self.movie.id))
                 store.dispatch(action: CastsActions.FetchMovieCasts(movie: self.movie.id))
                 store.dispatch(action: MoviesActions.FetchRecommanded(movie: self.movie.id))
                 store.dispatch(action: MoviesActions.FetchSimilar(movie: self.movie.id))
-        }
+            }.presentation(self.addSheetShown ? addActionSheet : nil)
         
+    }
+    
+    func onAddButton() {
+        addSheetShown.toggle()
     }
     
 }
@@ -88,3 +113,4 @@ struct MovieDetail_Previews : PreviewProvider {
     }
 }
 #endif
+

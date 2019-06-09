@@ -15,4 +15,5 @@ struct MoviesState: FluxState {
     var popular: [Int] = []
     var topRated: [Int] = []
     var upcoming: [Int] = []
+    var search: [String: [Int]] = [:]
 }

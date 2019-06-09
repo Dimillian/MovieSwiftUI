@@ -38,6 +38,11 @@ struct MoviesReducer: Reducer {
             for (_, value) in action.response.results.enumerated() {
                 state.movies[value.id] = value
             }
+        } else if let action = action as? MoviesActions.SetSearch {
+            state.search[action.query] = action.response.results.map{ $0.id }
+            for movie in action.response.results {
+                state.movies[movie.id] = movie
+            }
         }
         return state
     }

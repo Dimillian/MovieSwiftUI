@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		6915D63922AD42A900DF0C5F /* MovieDetailRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6915D63822AD42A900DF0C5F /* MovieDetailRow.swift */; };
+		6915D63B22AD80EC00DF0C5F /* MyLists.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6915D63A22AD80EC00DF0C5F /* MyLists.swift */; };
 		692AA62F22AD3DFA0054DA84 /* MoviesList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 692AA62E22AD3DFA0054DA84 /* MoviesList.swift */; };
 		695882B122ACFB5800AFABA9 /* ImageLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 695882B022ACFB5800AFABA9 /* ImageLoader.swift */; };
 		695882B522AD008600AFABA9 /* TopRatedList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 695882B422AD008600AFABA9 /* TopRatedList.swift */; };
@@ -44,6 +45,7 @@
 
 /* Begin PBXFileReference section */
 		6915D63822AD42A900DF0C5F /* MovieDetailRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieDetailRow.swift; sourceTree = "<group>"; };
+		6915D63A22AD80EC00DF0C5F /* MyLists.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyLists.swift; sourceTree = "<group>"; };
 		692AA62E22AD3DFA0054DA84 /* MoviesList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoviesList.swift; sourceTree = "<group>"; };
 		695882B022ACFB5800AFABA9 /* ImageLoader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageLoader.swift; sourceTree = "<group>"; };
 		695882B422AD008600AFABA9 /* TopRatedList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopRatedList.swift; sourceTree = "<group>"; };
@@ -127,6 +129,7 @@
 				69B2560B22AAD1D5009F4413 /* PopularList.swift */,
 				695882B422AD008600AFABA9 /* TopRatedList.swift */,
 				695882BC22AD140E00AFABA9 /* UpcomingList.swift */,
+				6915D63A22AD80EC00DF0C5F /* MyLists.swift */,
 			);
 			path = lists;
 			sourceTree = "<group>";
@@ -354,6 +357,7 @@
 				69B2560822AAD1C1009F4413 /* Tabbar.swift in Sources */,
 				69FFAFA422A9AA2600801F3C /* Action.swift in Sources */,
 				69FFAFA622A9AA3500801F3C /* FluxState.swift in Sources */,
+				6915D63B22AD80EC00DF0C5F /* MyLists.swift in Sources */,
 				69FFAFAC22A9AABB00801F3C /* MoviesReducer.swift in Sources */,
 				69B2560C22AAD1D5009F4413 /* PopularList.swift in Sources */,
 				695882BD22AD140E00AFABA9 /* UpcomingList.swift in Sources */,

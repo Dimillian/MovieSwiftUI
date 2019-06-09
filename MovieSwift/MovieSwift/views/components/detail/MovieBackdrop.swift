@@ -21,8 +21,8 @@ struct MovieBackdrop: View {
                                                       size: .original))
             Rectangle()
                 .foregroundColor(.black)
-                .opacity(0.25)
-                .blur(radius: 5)
+                .opacity(0.20)
+                .blur(radius: 100, opaque: false)
                 .frame(height: 80)
             HStack {
                 VStack(alignment: .leading) {

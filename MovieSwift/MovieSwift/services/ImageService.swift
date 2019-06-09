@@ -12,6 +12,8 @@ import UIKit
 
 struct ImageService {
     static let shared = ImageService()
+    static let queue = DispatchQueue(label: "Image queue",
+                                     qos: DispatchQoS.userInitiated)
     
     enum Size: String {
         case medium = "https://image.tmdb.org/t/p/w500/"
@@ -27,7 +29,7 @@ struct ImageService {
     }
     
     func image(poster: String, size: Size, completionHandler: @escaping (Result<UIImage, Error>) -> Void) {
-        DispatchQueue.global().async {
+        ImageService.queue.async {
             do {
                 let data = try Data(contentsOf: size.path(poster: poster))
                 let image = UIImage(data: data)
