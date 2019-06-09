@@ -44,4 +44,22 @@ struct MoviesActions {
     struct SetTopRated: Action {
         let response: PaginatedResponse<Movie>
     }
+    
+    struct FetchUpcoming: Action {
+        init() {
+            APIService.shared.GET(endpoint: .upcoming, params: ["region": "US"]) {
+                (result: Result<PaginatedResponse<Movie>, APIService.APIError>) in
+                switch result {
+                case let .success(response):
+                    store.dispatch(action: SetUpcoming(response: response))
+                case .failure(_):
+                    break
+                }
+            }
+        }
+    }
+    
+    struct SetUpcoming: Action {
+        let response: PaginatedResponse<Movie>
+    }
 }

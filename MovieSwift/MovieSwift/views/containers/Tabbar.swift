@@ -15,6 +15,7 @@ struct Tabbar : View {
         TabbedView {
             PopularList().tabItemLabel(Text("Popular")).tag(0)
             TopRatedList().tabItemLabel(Text("Top Rated")).tag(1)
+            UpcomingList().tabItemLabel(Text("Upcoming")).tag(2)
         }.edgesIgnoringSafeArea(.top)
     }
 }

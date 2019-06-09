@@ -10,6 +10,7 @@
 		695882B122ACFB5800AFABA9 /* ImageLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 695882B022ACFB5800AFABA9 /* ImageLoader.swift */; };
 		695882B522AD008600AFABA9 /* TopRatedList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 695882B422AD008600AFABA9 /* TopRatedList.swift */; };
 		695882B822AD01C500AFABA9 /* MovieDetail.swift in Sources */ = {isa = PBXBuildFile; fileRef = 695882B722AD01C500AFABA9 /* MovieDetail.swift */; };
+		695882BD22AD140E00AFABA9 /* UpcomingList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 695882BC22AD140E00AFABA9 /* UpcomingList.swift */; };
 		699F929E22AAD7F000825DC7 /* ImageService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 699F929D22AAD7F000825DC7 /* ImageService.swift */; };
 		69B2560522A9BDD5009F4413 /* MovieRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69B2560422A9BDD5009F4413 /* MovieRow.swift */; };
 		69B2560822AAD1C1009F4413 /* Tabbar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69B2560722AAD1C1009F4413 /* Tabbar.swift */; };
@@ -35,6 +36,7 @@
 		695882B022ACFB5800AFABA9 /* ImageLoader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageLoader.swift; sourceTree = "<group>"; };
 		695882B422AD008600AFABA9 /* TopRatedList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopRatedList.swift; sourceTree = "<group>"; };
 		695882B722AD01C500AFABA9 /* MovieDetail.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieDetail.swift; sourceTree = "<group>"; };
+		695882BC22AD140E00AFABA9 /* UpcomingList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpcomingList.swift; sourceTree = "<group>"; };
 		699F929D22AAD7F000825DC7 /* ImageService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageService.swift; sourceTree = "<group>"; };
 		69B2560422A9BDD5009F4413 /* MovieRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieRow.swift; sourceTree = "<group>"; };
 		69B2560722AAD1C1009F4413 /* Tabbar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tabbar.swift; sourceTree = "<group>"; };
@@ -77,20 +79,23 @@
 			path = binding;
 			sourceTree = "<group>";
 		};
-		695882B322AD007100AFABA9 /* topRated */ = {
-			isa = PBXGroup;
-			children = (
-				695882B422AD008600AFABA9 /* TopRatedList.swift */,
-			);
-			path = topRated;
-			sourceTree = "<group>";
-		};
 		695882B622AD01B600AFABA9 /* detail */ = {
 			isa = PBXGroup;
 			children = (
 				695882B722AD01C500AFABA9 /* MovieDetail.swift */,
 			);
 			path = detail;
+			sourceTree = "<group>";
+		};
+		695882BB22AD10B300AFABA9 /* tabs */ = {
+			isa = PBXGroup;
+			children = (
+				69B2560E22AAD221009F4413 /* rows */,
+				69B2560B22AAD1D5009F4413 /* PopularList.swift */,
+				695882B422AD008600AFABA9 /* TopRatedList.swift */,
+				695882BC22AD140E00AFABA9 /* UpcomingList.swift */,
+			);
+			path = tabs;
 			sourceTree = "<group>";
 		};
 		69B2560622AAD1B4009F4413 /* containers */ = {
@@ -104,20 +109,10 @@
 		69B2560922AAD1C5009F4413 /* components */ = {
 			isa = PBXGroup;
 			children = (
+				695882BB22AD10B300AFABA9 /* tabs */,
 				695882B622AD01B600AFABA9 /* detail */,
-				69B2560E22AAD221009F4413 /* rows */,
-				69B2560D22AAD1F4009F4413 /* popular */,
-				695882B322AD007100AFABA9 /* topRated */,
 			);
 			path = components;
-			sourceTree = "<group>";
-		};
-		69B2560D22AAD1F4009F4413 /* popular */ = {
-			isa = PBXGroup;
-			children = (
-				69B2560B22AAD1D5009F4413 /* PopularList.swift */,
-			);
-			path = popular;
 			sourceTree = "<group>";
 		};
 		69B2560E22AAD221009F4413 /* rows */ = {
@@ -326,6 +321,7 @@
 				69FFAFA622A9AA3500801F3C /* FluxState.swift in Sources */,
 				69FFAFAC22A9AABB00801F3C /* MoviesStateReducer.swift in Sources */,
 				69B2560C22AAD1D5009F4413 /* PopularList.swift in Sources */,
+				695882BD22AD140E00AFABA9 /* UpcomingList.swift in Sources */,
 				695882B822AD01C500AFABA9 /* MovieDetail.swift in Sources */,
 				695882B122ACFB5800AFABA9 /* ImageLoader.swift in Sources */,
 				69FFAFAA22A9AA6500801F3C /* MoviesState.swift in Sources */,

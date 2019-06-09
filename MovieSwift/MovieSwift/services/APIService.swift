@@ -20,8 +20,8 @@ struct APIService {
         case networkError(error: Error)
     }
     
-    enum Endpoint {
-        case popular, toRated
+    enum Endpoint: String {
+        case popular, toRated, upcoming
         
         func path() -> String {
             switch self {
@@ -29,6 +29,8 @@ struct APIService {
                 return "movie/popular"
             case .toRated:
                 return "movie/top_rated"
+            case .upcoming:
+                return "movie/upcoming"
             }
         }
     }

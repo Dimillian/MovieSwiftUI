@@ -13,8 +13,10 @@ struct MovieDetail : View {
     var body: some View {
         List {
             ZStack(alignment: .bottomLeading) {
-                MovieDetailImage(imageLoader: ImageLoader(poster: movie.backdrop_path,
-                                                          size: .original))
+                if movie.backdrop_path != nil {
+                    MovieDetailImage(imageLoader: ImageLoader(poster: movie.backdrop_path!,
+                                                              size: .original))
+                }
                 Rectangle()
                     .foregroundColor(.black)
                     .opacity(0.25)
@@ -32,7 +34,8 @@ struct MovieDetail : View {
                 
             }.listRowInsets(EdgeInsets())
             VStack(alignment: .leading, spacing: 8) {
-                Text(movie.overview).color(.secondary).lineLimit(nil)
+                Text("Overview:").font(.headline)
+                Text(movie.overview).font(.subheadline).color(.secondary).lineLimit(nil)
             }
         }
         .edgesIgnoringSafeArea(.top)
