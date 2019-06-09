@@ -12,9 +12,26 @@ struct MovieDetail : View {
     let movie: Movie
     var body: some View {
         List {
-            MovieDetailImage(imageLoader: ImageLoader(poster: movie.backdrop_path, size: .original))            .listRowInsets(EdgeInsets())
+            ZStack(alignment: .bottomLeading) {
+                MovieDetailImage(imageLoader: ImageLoader(poster: movie.backdrop_path,
+                                                          size: .original))
+                Rectangle()
+                    .foregroundColor(.black)
+                    .opacity(0.25)
+                    .blur(radius: 5)
+                    .frame(height: 80)
+                HStack {
+                    Text(movie.original_title)
+                        .fontWeight(.bold)
+                        .font(.title)
+                        .color(.white)
+                        .lineLimit(nil)
+                    }
+                    .padding(.bottom)
+                    .padding(.leading)
+                
+            }.listRowInsets(EdgeInsets())
             VStack(alignment: .leading, spacing: 8) {
-                Text(movie.original_title).bold()
                 Text(movie.overview).color(.secondary).lineLimit(nil)
             }
         }
