@@ -17,6 +17,12 @@ struct MoviesStateReducer: Reducer {
                 state.movies[value.id] = value
             }
         }
+        if let action = action as? MoviesActions.SetTopRated {
+            state.topRated = action.response.results.map{ $0.id }
+            for (_, value) in action.response.results.enumerated() {
+                state.movies[value.id] = value
+            }
+        }
         return state
     }
 }

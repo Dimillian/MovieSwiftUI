@@ -13,8 +13,9 @@ struct Tabbar : View {
     
     var body: some View {
         TabbedView {
-            PopularList().tabItemLabel(Text("Popular"))
-        }
+            PopularList().tabItemLabel(Text("Popular")).tag(0)
+            TopRatedList().tabItemLabel(Text("Top Rated")).tag(1)
+        }.edgesIgnoringSafeArea(.top)
     }
 }
 

@@ -8,24 +8,54 @@
 
 import SwiftUI
 
+fileprivate let placeholder = UIImage(named: "poster-placeholder")!
+
 struct MovieRow : View {
     let movie: Movie
+        
+    var body: some View {
+        HStack {
+            MovieRowImage(imageLoader: ImageLoader(poster: movie.poster_path, size: .medium))
+            VStack(alignment: .leading, spacing: 8) {
+                Text(movie.original_title).bold()
+                Text(movie.overview)
+                    .color(.secondary)
+                    .lineLimit(8)
+                    .truncationMode(.tail)
+            }.padding(.leading, 8)
+        }.padding(8)
+    }
+}
+
+
+struct MovieRowImage : View {
+    @State var imageLoader: ImageLoader
     
     var body: some View {
-        VStack(alignment: .leading, spacing: 8) {
-            Text(movie.original_title)
-            Text(movie.overview).color(.secondary).lineLimit(nil)
-        }.padding(8)
+        ZStack {
+            if self.imageLoader.image != nil {
+                Image(uiImage: self.imageLoader.image!)
+                    .resizable()
+                    .frame(width: 100, height: 150)
+                    .cornerRadius(5)
+                    .shadow(radius: 10)
+            } else {
+                Rectangle()
+                    .foregroundColor(.gray)
+                    .frame(width: 100, height: 150)
+                    .cornerRadius(5)
+                    .shadow(radius: 10)
+            }
+            }.onAppear {
+                self.imageLoader.loadImage()
+        }
     }
 }
 
 #if DEBUG
 struct MovieRow_Previews : PreviewProvider {
     static var previews: some View {
-        MovieRow(movie: Movie(id: 0,
-                              original_title: "Title",
-                              overview: "Overview \n Overview",
-                              poster_path: "none"))
+        MovieRow(movie: sampleMovie)
     }
 }
 #endif

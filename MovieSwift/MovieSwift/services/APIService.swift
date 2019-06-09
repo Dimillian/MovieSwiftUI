@@ -21,12 +21,14 @@ struct APIService {
     }
     
     enum Endpoint {
-        case popular
+        case popular, toRated
         
         func path() -> String {
             switch self {
             case .popular:
                 return "movie/popular"
+            case .toRated:
+                return "movie/top_rated"
             }
         }
     }

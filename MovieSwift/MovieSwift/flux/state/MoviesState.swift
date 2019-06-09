@@ -11,4 +11,5 @@ import Foundation
 struct MoviesState: FluxState {
     var movies: [Int: Movie] = [:]
     var popular: [Int] = []
+    var topRated: [Int] = []
 }

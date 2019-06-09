@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		695882B122ACFB5800AFABA9 /* ImageLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 695882B022ACFB5800AFABA9 /* ImageLoader.swift */; };
+		695882B522AD008600AFABA9 /* TopRatedList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 695882B422AD008600AFABA9 /* TopRatedList.swift */; };
+		695882B822AD01C500AFABA9 /* MovieDetail.swift in Sources */ = {isa = PBXBuildFile; fileRef = 695882B722AD01C500AFABA9 /* MovieDetail.swift */; };
 		699F929E22AAD7F000825DC7 /* ImageService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 699F929D22AAD7F000825DC7 /* ImageService.swift */; };
 		69B2560522A9BDD5009F4413 /* MovieRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69B2560422A9BDD5009F4413 /* MovieRow.swift */; };
 		69B2560822AAD1C1009F4413 /* Tabbar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69B2560722AAD1C1009F4413 /* Tabbar.swift */; };
@@ -29,6 +32,9 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		695882B022ACFB5800AFABA9 /* ImageLoader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageLoader.swift; sourceTree = "<group>"; };
+		695882B422AD008600AFABA9 /* TopRatedList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopRatedList.swift; sourceTree = "<group>"; };
+		695882B722AD01C500AFABA9 /* MovieDetail.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieDetail.swift; sourceTree = "<group>"; };
 		699F929D22AAD7F000825DC7 /* ImageService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageService.swift; sourceTree = "<group>"; };
 		69B2560422A9BDD5009F4413 /* MovieRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieRow.swift; sourceTree = "<group>"; };
 		69B2560722AAD1C1009F4413 /* Tabbar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tabbar.swift; sourceTree = "<group>"; };
@@ -63,6 +69,30 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		695882B222ACFBED00AFABA9 /* binding */ = {
+			isa = PBXGroup;
+			children = (
+				695882B022ACFB5800AFABA9 /* ImageLoader.swift */,
+			);
+			path = binding;
+			sourceTree = "<group>";
+		};
+		695882B322AD007100AFABA9 /* topRated */ = {
+			isa = PBXGroup;
+			children = (
+				695882B422AD008600AFABA9 /* TopRatedList.swift */,
+			);
+			path = topRated;
+			sourceTree = "<group>";
+		};
+		695882B622AD01B600AFABA9 /* detail */ = {
+			isa = PBXGroup;
+			children = (
+				695882B722AD01C500AFABA9 /* MovieDetail.swift */,
+			);
+			path = detail;
+			sourceTree = "<group>";
+		};
 		69B2560622AAD1B4009F4413 /* containers */ = {
 			isa = PBXGroup;
 			children = (
@@ -74,8 +104,10 @@
 		69B2560922AAD1C5009F4413 /* components */ = {
 			isa = PBXGroup;
 			children = (
+				695882B622AD01B600AFABA9 /* detail */,
 				69B2560E22AAD221009F4413 /* rows */,
 				69B2560D22AAD1F4009F4413 /* popular */,
+				695882B322AD007100AFABA9 /* topRated */,
 			);
 			path = components;
 			sourceTree = "<group>";
@@ -118,6 +150,7 @@
 				69FFAF9322A9A0D800801F3C /* launch */,
 				69FFAF9522A9A0E300801F3C /* flux */,
 				69FFAF9622A9A11A00801F3C /* services */,
+				695882B222ACFBED00AFABA9 /* binding */,
 				69FFAF9422A9A0DF00801F3C /* views */,
 				69FFAF8522A99F1200801F3C /* Assets.xcassets */,
 				69FFAF8A22A99F1200801F3C /* LaunchScreen.storyboard */,
@@ -293,9 +326,12 @@
 				69FFAFA622A9AA3500801F3C /* FluxState.swift in Sources */,
 				69FFAFAC22A9AABB00801F3C /* MoviesStateReducer.swift in Sources */,
 				69B2560C22AAD1D5009F4413 /* PopularList.swift in Sources */,
+				695882B822AD01C500AFABA9 /* MovieDetail.swift in Sources */,
+				695882B122ACFB5800AFABA9 /* ImageLoader.swift in Sources */,
 				69FFAFAA22A9AA6500801F3C /* MoviesState.swift in Sources */,
 				69B2560522A9BDD5009F4413 /* MovieRow.swift in Sources */,
 				69FFAF9B22A9A66200801F3C /* Movie.swift in Sources */,
+				695882B522AD008600AFABA9 /* TopRatedList.swift in Sources */,
 				69FFAFAE22A9AB1D00801F3C /* MoviesAction.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

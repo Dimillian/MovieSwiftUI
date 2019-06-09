@@ -24,8 +24,6 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         window.rootViewController = UIHostingController(rootView: Tabbar().environmentObject(store))
         self.window = window
         window.makeKeyAndVisible()
-        
-        store.dispatch(action: MoviesActions.FetchPopular())
     }
 
     func sceneDidDisconnect(_ scene: UIScene) {
