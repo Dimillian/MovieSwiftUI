@@ -32,6 +32,8 @@ final class AppState: BindableObject {
 
 let store = AppState()
 let sampleStore = AppState(moviesState: MoviesState(movies: [0: sampleMovie],
+                                                    recommanded: [0: [0]],
+                                                    similar: [0: [0]],
                                                     popular: [0],
                                                     topRated: [0],
                                                     upcoming: [0]),

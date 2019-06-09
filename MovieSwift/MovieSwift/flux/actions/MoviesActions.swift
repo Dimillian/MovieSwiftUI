@@ -81,4 +81,43 @@ struct MoviesActions {
         let movie: Int
         let response: Movie
     }
+    
+    struct FetchRecommanded: Action {
+        init(movie: Int) {
+            APIService.shared.GET(endpoint: .recommanded(movie: movie), params: nil) {
+                (result: Result<PaginatedResponse<Movie>, APIService.APIError>) in
+                switch result {
+                case let .success(response):
+                    store.dispatch(action: SetRecommanded(movie: movie, response: response))
+                case .failure(_):
+                    break
+                }
+            }
+        }
+    }
+    
+    struct SetRecommanded: Action {
+        let movie: Int
+        let response: PaginatedResponse<Movie>
+    }
+    
+    struct FetchSimilar: Action {
+        init(movie: Int) {
+            APIService.shared.GET(endpoint: .similar(movie: movie), params: nil) {
+                (result: Result<PaginatedResponse<Movie>, APIService.APIError>) in
+                switch result {
+                case let .success(response):
+                    store.dispatch(action: SetSimilar(movie: movie, response: response))
+                case .failure(_):
+                    break
+                }
+            }
+        }
+    }
+    
+    struct SetSimilar: Action {
+        let movie: Int
+        let response: PaginatedResponse<Movie>
+    }
+    
 }

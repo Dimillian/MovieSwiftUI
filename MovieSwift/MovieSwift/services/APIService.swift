@@ -21,7 +21,9 @@ struct APIService {
     }
     
     enum Endpoint {
-        case popular, toRated, upcoming, detail(movie: Int), credits(movie: Int)
+        case popular, toRated, upcoming
+        case detail(movie: Int), recommanded(movie: Int), similar(movie: Int)
+        case credits(movie: Int)
         
         func path() -> String {
             switch self {
@@ -35,6 +37,10 @@ struct APIService {
                 return "movie/\(String(movie))"
             case let .credits(movie):
                 return "movie/\(String(movie))/credits"
+            case let .recommanded(movie):
+                return "movie/\(String(movie))/recommendations"
+            case let .similar(movie):
+                return "movie/\(String(movie))/similar"
             }
         }
     }

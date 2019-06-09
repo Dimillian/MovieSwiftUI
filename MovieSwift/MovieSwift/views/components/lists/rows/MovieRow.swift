@@ -43,13 +43,13 @@ struct MovieRowImage : View {
                     .resizable()
                     .frame(width: 100, height: 150)
                     .cornerRadius(5)
-                    .shadow(radius: 10)
+                    .shadow(radius: 8)
             } else {
                 Rectangle()
                     .foregroundColor(.gray)
                     .frame(width: 100, height: 150)
                     .cornerRadius(5)
-                    .shadow(radius: 10)
+                    .shadow(radius: 8)
             }
             }.onAppear {
                 self.imageLoader.loadImage()

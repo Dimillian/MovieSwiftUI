@@ -10,6 +10,8 @@ import Foundation
 
 struct MoviesState: FluxState {
     var movies: [Int: Movie] = [:]
+    var recommanded: [Int: [Int]] = [:]
+    var similar: [Int: [Int ]] = [:]
     var popular: [Int] = []
     var topRated: [Int] = []
     var upcoming: [Int] = []

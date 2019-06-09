@@ -28,6 +28,16 @@ struct MoviesReducer: Reducer {
             }
         } else if let action = action as? MoviesActions.SetDetail {
             state.movies[action.movie] = action.response
+        } else if let action = action as? MoviesActions.SetRecommanded {
+            state.recommanded[action.movie] = action.response.results.map{ $0.id }
+            for (_, value) in action.response.results.enumerated() {
+                state.movies[value.id] = value
+            }
+        } else if let action = action as? MoviesActions.SetSimilar {
+            state.similar[action.movie] = action.response.results.map{ $0.id }
+            for (_, value) in action.response.results.enumerated() {
+                state.movies[value.id] = value
+            }
         }
         return state
     }

@@ -35,20 +35,44 @@ struct MovieDetail : View {
         }
     }
     
+    var recommanded: [Movie]? {
+        get {
+            guard let ids = state.moviesState.recommanded[movie.id] else {
+                return nil
+            }
+            let movies = state.moviesState.movies
+            return ids.filter{ movies[$0] != nil }.map{ movies[$0]! }
+        }
+    }
+    
+    var similar: [Movie]? {
+        get {
+            guard let ids = state.moviesState.similar[movie.id] else {
+                return nil
+            }
+            let movies = state.moviesState.movies
+            return ids.filter{ movies[$0] != nil }.map{ movies[$0]! }
+        }
+    }
+    
     var body: some View {
         List {
             MovieBackdrop(movieId: movie.id)
             MovieOverview(movie: movie)
             CastsRow(title: "Characters",
                      casts: characters ?? []).frame(height: 170)
-            CastsRow(title: "Credits",
+            CastsRow(title: "Crew",
                      casts: credits ?? []).frame(height: 170)
+            MovieDetailRow(title: "Similar Movies", movies: similar ?? []).frame(height: 260)
+            MovieDetailRow(title: "Recommanded Movies", movies: recommanded ?? []).frame(height: 260)
         }
         .edgesIgnoringSafeArea(.top)
         .navigationBarHidden(true)
             .onAppear{
                 store.dispatch(action: MoviesActions.FetchDetail(movie: self.movie.id))
                 store.dispatch(action: CastsActions.FetchMovieCasts(movie: self.movie.id))
+                store.dispatch(action: MoviesActions.FetchRecommanded(movie: self.movie.id))
+                store.dispatch(action: MoviesActions.FetchSimilar(movie: self.movie.id))
         }
         
     }
