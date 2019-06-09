@@ -11,10 +11,25 @@ import SwiftUI
 struct MoviesList : View {
     let movies: [Int]
     
+    @State var searchtext: String = ""
+    
     var body: some View {
-        List(movies) { id in
-            NavigationButton(destination: MovieDetail(movieId: id)) {
-                MovieRow(movieId: id)
+        VStack {
+            List {
+                TextField($searchtext,
+                          placeholder: Text("Search any movies"),
+                          onEditingChanged: { (_) in
+                }) {
+                    
+                }
+                    .textFieldStyle(.roundedBorder)
+                    .listRowInsets(EdgeInsets())
+                    .padding()
+                ForEach(movies) {id in
+                    NavigationButton(destination: MovieDetail(movieId: id)) {
+                        MovieRow(movieId: id)
+                    }
+                }
             }
         }
     }
