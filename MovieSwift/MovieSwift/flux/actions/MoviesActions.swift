@@ -62,4 +62,23 @@ struct MoviesActions {
     struct SetUpcoming: Action {
         let response: PaginatedResponse<Movie>
     }
+    
+    struct FetchDetail: Action {
+        init(movie: Int) {
+            APIService.shared.GET(endpoint: .detail(movie: movie), params: nil) {
+                (result: Result<Movie, APIService.APIError>) in
+                switch result {
+                case let .success(response):
+                    store.dispatch(action: SetDetail(movie: movie, response: response))
+                case .failure(_):
+                    break
+                }
+            }
+        }
+    }
+    
+    struct SetDetail: Action {
+        let movie: Int
+        let response: Movie
+    }
 }

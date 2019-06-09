@@ -8,7 +8,7 @@
 
 import Foundation
 
-struct MoviesStateReducer: Reducer {
+struct MoviesReducer: Reducer {
     func reduce(state: MoviesState, action: Action) -> MoviesState {
         var state = state
         if let action = action as? MoviesActions.SetPopular {
@@ -26,6 +26,8 @@ struct MoviesStateReducer: Reducer {
             for (_, value) in action.response.results.enumerated() {
                 state.movies[value.id] = value
             }
+        } else if let action = action as? MoviesActions.SetDetail {
+            state.movies[action.movie] = action.response
         }
         return state
     }

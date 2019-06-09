@@ -20,6 +20,9 @@ struct Movie: Codable, Identifiable {
     let vote_count: Int
     let release_date: String
     
+    let runtime: Int?
+    let status: String?
+    
 }
 
 let sampleMovie = Movie(id: 0,
@@ -30,4 +33,6 @@ let sampleMovie = Movie(id: 0,
                         popularity: 50.5,
                         vote_average: 8.9,
                         vote_count: 1000,
-                        release_date: "1972-03-14")
+                        release_date: "1972-03-14",
+                        runtime: 80,
+                        status: "released")

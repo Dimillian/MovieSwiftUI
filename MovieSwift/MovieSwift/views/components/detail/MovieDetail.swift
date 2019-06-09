@@ -9,67 +9,57 @@
 import SwiftUI
 
 struct MovieDetail : View {
-    let movie: Movie
+    @EnvironmentObject var state: AppState
+    let movieId: Int
+    var movie: Movie! {
+        return state.moviesState.movies[movieId]!
+    }
+    
+    var characters: [Cast]? {
+        get {
+            guard let ids = state.castsState.castsMovie[movie.id] else {
+                return nil
+            }
+            let cast = state.castsState.casts.filter{ $0.value.character != nil }
+            return ids.filter{ cast[$0] != nil }.map{ cast[$0]! }
+        }
+    }
+    
+    var credits: [Cast]? {
+        get {
+            guard let ids = state.castsState.castsMovie[movie.id] else {
+                return nil
+            }
+            let cast = state.castsState.casts.filter{ $0.value.department != nil }
+            return ids.filter{ cast[$0] != nil }.map{ cast[$0]! }
+        }
+    }
+    
     var body: some View {
         List {
-            ZStack(alignment: .bottomLeading) {
-                if movie.backdrop_path != nil {
-                    MovieDetailImage(imageLoader: ImageLoader(poster: movie.backdrop_path!,
-                                                              size: .original))
-                }
-                Rectangle()
-                    .foregroundColor(.black)
-                    .opacity(0.25)
-                    .blur(radius: 5)
-                    .frame(height: 80)
-                HStack {
-                    Text(movie.original_title)
-                        .fontWeight(.bold)
-                        .font(.title)
-                        .color(.white)
-                        .lineLimit(nil)
-                    }
-                    .padding(.bottom)
-                    .padding(.leading)
-                
-            }.listRowInsets(EdgeInsets())
-            VStack(alignment: .leading, spacing: 8) {
-                Text("Overview:").font(.headline)
-                Text(movie.overview).font(.subheadline).color(.secondary).lineLimit(nil)
-            }
+            MovieBackdrop(movieId: movie.id)
+            MovieOverview(movie: movie)
+            CastsRow(title: "Characters",
+                     casts: characters ?? []).frame(height: 170)
+            CastsRow(title: "Credits",
+                     casts: credits ?? []).frame(height: 170)
         }
         .edgesIgnoringSafeArea(.top)
         .navigationBarHidden(true)
+            .onAppear{
+                store.dispatch(action: MoviesActions.FetchDetail(movie: self.movie.id))
+                store.dispatch(action: CastsActions.FetchMovieCasts(movie: self.movie.id))
+        }
         
     }
     
-}
-
-struct MovieDetailImage : View {
-    @State var imageLoader: ImageLoader
-    
-    var body: some View {
-        ZStack {
-            if self.imageLoader.image != nil {
-                Image(uiImage: self.imageLoader.image!)
-                    .resizable()
-                    .aspectRatio(500/300, contentMode: .fit)
-            } else {
-                Rectangle()
-                    .aspectRatio(500/300, contentMode: .fit)
-                    .foregroundColor(.black)
-            }
-            }.onAppear {
-                self.imageLoader.loadImage()
-        }
-    }
 }
 
 #if DEBUG
 struct MovieDetail_Previews : PreviewProvider {
     static var previews: some View {
         NavigationView {
-            MovieDetail(movie: sampleMovie)
+            MovieDetail(movieId: sampleMovie.id).environmentObject(sampleStore)
         }
     }
 }

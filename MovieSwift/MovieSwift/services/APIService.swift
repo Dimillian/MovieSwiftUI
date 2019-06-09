@@ -20,8 +20,8 @@ struct APIService {
         case networkError(error: Error)
     }
     
-    enum Endpoint: String {
-        case popular, toRated, upcoming
+    enum Endpoint {
+        case popular, toRated, upcoming, detail(movie: Int), credits(movie: Int)
         
         func path() -> String {
             switch self {
@@ -31,6 +31,10 @@ struct APIService {
                 return "movie/top_rated"
             case .upcoming:
                 return "movie/upcoming"
+            case let .detail(movie):
+                return "movie/\(String(movie))"
+            case let .credits(movie):
+                return "movie/\(String(movie))/credits"
             }
         }
     }
@@ -63,6 +67,7 @@ struct APIService {
                 let object = try self.decoder.decode(T.self, from: data)
                 completionHandler(.success(object))
             } catch let error {
+                print(error)
                 completionHandler(.failure(.jsonDecodingError(error: error)))
             }
         }

@@ -11,7 +11,12 @@ import SwiftUI
 fileprivate let placeholder = UIImage(named: "poster-placeholder")!
 
 struct MovieRow : View {
-    let movie: Movie
+    @EnvironmentObject var state: AppState
+    
+    let movieId: Int
+    var movie: Movie! {
+        return state.moviesState.movies[movieId]
+    }
         
     var body: some View {
         HStack {
@@ -55,7 +60,9 @@ struct MovieRowImage : View {
 #if DEBUG
 struct MovieRow_Previews : PreviewProvider {
     static var previews: some View {
-        MovieRow(movie: sampleMovie)
+        List {
+            MovieRow(movieId: sampleMovie.id).environmentObject(sampleStore)
+        }
     }
 }
 #endif

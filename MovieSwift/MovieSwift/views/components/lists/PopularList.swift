@@ -13,11 +13,7 @@ struct PopularList : View {
     
     var body: some View {
         NavigationView {
-            List(state.moviesState.popular) { id in
-                NavigationButton(destination: MovieDetail(movie: self.state.moviesState.movies[id]!)) {
-                    MovieRow(movie: self.state.moviesState.movies[id]!)
-                }
-            }
+            MoviesList(movies: state.moviesState.popular)
             .navigationBarTitle(Text("Popular"))
             }.onAppear {
                 store.dispatch(action: MoviesActions.FetchPopular())
@@ -28,7 +24,7 @@ struct PopularList : View {
 #if DEBUG
 struct PopularList_Previews : PreviewProvider {
     static var previews: some View {
-        PopularList().environmentObject(store)
+        PopularList().environmentObject(sampleStore)
     }
 }
 #endif

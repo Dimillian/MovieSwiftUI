@@ -13,11 +13,7 @@ struct UpcomingList : View {
     
     var body: some View {
         NavigationView {
-            List(state.moviesState.upcoming) { id in
-                NavigationButton(destination: MovieDetail(movie: self.state.moviesState.movies[id]!)) {
-                    MovieRow(movie: self.state.moviesState.movies[id]!)
-                }
-                }
+             MoviesList(movies: state.moviesState.upcoming)
             .navigationBarTitle(Text("Upcoming"))
             }.onAppear {
                 store.dispatch(action: MoviesActions.FetchUpcoming())
@@ -28,7 +24,7 @@ struct UpcomingList : View {
 #if DEBUG
 struct LatestList_Previews : PreviewProvider {
     static var previews: some View {
-        UpcomingList()
+        UpcomingList().environmentObject(sampleStore)
     }
 }
 #endif
