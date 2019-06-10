@@ -45,7 +45,7 @@ struct MoviesList : View {
 #if DEBUG
 struct MoviesList_Previews : PreviewProvider {
     static var previews: some View {
-        MoviesList(movies: [sampleMovie.id])
+        MoviesList(movies: [sampleMovie.id]).environmentObject(sampleStore)
     }
 }
 #endif

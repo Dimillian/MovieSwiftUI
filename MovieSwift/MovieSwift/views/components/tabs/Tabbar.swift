@@ -24,7 +24,7 @@ struct Tabbar : View {
 #if DEBUG
 struct Tabbar_Previews : PreviewProvider {
     static var previews: some View {
-        Tabbar().environmentObject(store)
+        Tabbar().environmentObject(sampleStore)
     }
 }
 #endif

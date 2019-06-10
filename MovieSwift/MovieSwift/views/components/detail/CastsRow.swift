@@ -39,7 +39,7 @@ struct CastRowItem: View {
             CastImage(imageLoader: ImageLoader(poster: cast.profile_path,
                                                size: .medium))
             Text(cast.name).font(.body)
-            Text(cast.character ?? cast.department ?? "")
+            Text(cast.character ??  "")
                 .font(.subheadline)
                 .color(.secondary)
             }.frame(width: 100)
