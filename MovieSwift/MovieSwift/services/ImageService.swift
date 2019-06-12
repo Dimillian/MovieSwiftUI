@@ -21,6 +21,7 @@ class ImageService {
     enum Size: String {
         case small = "https://image.tmdb.org/t/p/w100/"
         case medium = "https://image.tmdb.org/t/p/w500/"
+        case cast = "https://image.tmdb.org/t/p/w120/"
         case original = "https://image.tmdb.org/t/p/original/"
         
         func path(poster: String) -> URL {
@@ -39,6 +40,7 @@ class ImageService {
     func image(poster: String, size: Size, completionHandler: @escaping (Result<UIImage, Error>) -> Void) {
         if let cachedImage = memCache[poster] {
             completionHandler(.success(cachedImage))
+            return
         }
         ImageService.queue.async {
             do {

@@ -37,9 +37,9 @@ struct CastRowItem: View {
     var body: some View {
         VStack(alignment: .center) {
             CastImage(imageLoader: ImageLoader(poster: cast.profile_path,
-                                               size: .medium))
+                                               size: .cast))
             Text(cast.name).font(.body)
-            Text(cast.character ??  "")
+            Text(cast.character ?? cast.department ?? "")
                 .font(.subheadline)
                 .color(.secondary)
             }.frame(width: 100)
