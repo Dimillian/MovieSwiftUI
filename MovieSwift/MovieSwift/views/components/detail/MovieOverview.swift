@@ -20,12 +20,17 @@ struct MovieOverview : View {
                 .color(.secondary)
                 .lineLimit(self.isOverviewExpanded ? nil : 4)
                 .tapAction {
-                    self.isOverviewExpanded.toggle()
+                    withAnimation {
+                        self.isOverviewExpanded.toggle()
+                    }
             }
             Button(action: {
-                self.isOverviewExpanded.toggle()
+                withAnimation {
+                    self.isOverviewExpanded.toggle()
+                }
             }, label: {
                 Text(self.isOverviewExpanded ? "Less" : "Read more")
+                    .color(self.isOverviewExpanded ? .white : .blue)
             })
         }
     }

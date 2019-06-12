@@ -15,6 +15,19 @@ struct MovieBackdrop: View {
         return state.moviesState.movies[movieId]
     }
     
+    //MARK: - View computed properties
+    
+    var transition: AnyTransition {
+        return AnyTransition.move(edge: .leading)
+                .combined(with: .opacity)
+    }
+    
+    var animation: Animation {
+        Animation.spring(initialVelocity: 2)
+            .speed(2)
+            .delay(0.5)
+    }
+    
     var body: some View {
         ZStack(alignment: .bottomLeading) {
             MovieDetailImage(imageLoader: ImageLoader(poster: movie.backdrop_path,
@@ -39,11 +52,15 @@ struct MovieBackdrop: View {
                             Text("• \(movie.runtime!) minutes")
                                 .font(.subheadline)
                                 .color(.white)
+                                .transition(transition)
+                                .animation(animation)
                         }
                         if movie.status != nil {
                             Text("• \(movie.status!)")
                                 .font(.subheadline)
                                 .color(.white)
+                                .transition(transition)
+                                .animation(animation)
                         }
                     }
                 }
@@ -58,6 +75,7 @@ struct MovieBackdrop: View {
 
 struct MovieDetailImage : View {
     @State var imageLoader: ImageLoader
+    @State var isImageLoaded = false
     
     var body: some View {
         ZStack {
@@ -65,10 +83,16 @@ struct MovieDetailImage : View {
                 Image(uiImage: self.imageLoader.image!)
                     .resizable()
                     .aspectRatio(500/300, contentMode: .fit)
+                    .opacity(isImageLoaded ? 1 : 0)
+                    .animation(.basic())
+                    .onAppear{
+                        self.isImageLoaded = true
+                }
             } else {
                 Rectangle()
                     .aspectRatio(500/300, contentMode: .fit)
                     .foregroundColor(.gray)
+                    .opacity(0.1)
             }
             }.onAppear {
                 self.imageLoader.loadImage()

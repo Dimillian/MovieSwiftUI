@@ -10,12 +10,16 @@ import Foundation
 import SwiftUI
 import UIKit
 
-struct ImageService {
+class ImageService {
     static let shared = ImageService()
-    static let queue = DispatchQueue(label: "Image queue",
+    private static let queue = DispatchQueue(label: "Image queue",
                                      qos: DispatchQoS.userInitiated)
     
+    //TODO: Build disk cache too.
+    private var memCache: [String: UIImage] = [:]
+    
     enum Size: String {
+        case small = "https://image.tmdb.org/t/p/w100/"
         case medium = "https://image.tmdb.org/t/p/w500/"
         case original = "https://image.tmdb.org/t/p/original/"
         
@@ -28,13 +32,21 @@ struct ImageService {
         case decodingError
     }
     
+    func purgeCache() {
+        memCache.removeAll()
+    }
+    
     func image(poster: String, size: Size, completionHandler: @escaping (Result<UIImage, Error>) -> Void) {
+        if let cachedImage = memCache[poster] {
+            completionHandler(.success(cachedImage))
+        }
         ImageService.queue.async {
             do {
                 let data = try Data(contentsOf: size.path(poster: poster))
                 let image = UIImage(data: data)
                 DispatchQueue.main.async {
                     if let image = image {
+                        self.memCache[poster] = image
                         completionHandler(.success(image))
                     } else {
                         completionHandler(.failure(ImageError.decodingError))

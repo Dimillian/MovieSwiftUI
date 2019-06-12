@@ -20,7 +20,7 @@ struct MovieRow : View {
         
     var body: some View {
         HStack {
-            MovieRowImage(imageLoader: ImageLoader(poster: movie.poster_path, size: .medium))
+            MovieRowImage(imageLoader: ImageLoader(poster: movie.poster_path, size: .small))
             VStack(alignment: .leading, spacing: 8) {
                 Text(movie.original_title).bold()
                 Text(movie.overview)
@@ -35,7 +35,7 @@ struct MovieRow : View {
 
 struct MovieRowImage : View {
     @State var imageLoader: ImageLoader
-    @State var isHovered = false
+    @State var isImageLoaded = false
     
     var body: some View {
         ZStack {
@@ -44,17 +44,19 @@ struct MovieRowImage : View {
                     .resizable()
                     .frame(width: 100, height: 150)
                     .cornerRadius(5)
-                    .scaleEffect(isHovered ? 1.5 : 1.0)
+                    .opacity(self.isImageLoaded ? 1 : 0.1)
                     .shadow(radius: 8)
-                    .onHover(perform: {hovered in
-                        withAnimation{ self.isHovered = hovered }
-                    })
+                    .animation(.basic())
+                    .onAppear{
+                        self.isImageLoaded = true
+                    }
             } else {
                 Rectangle()
                     .foregroundColor(.gray)
                     .frame(width: 100, height: 150)
                     .cornerRadius(5)
                     .shadow(radius: 8)
+                    .opacity(0.1)
             }
             }.onAppear {
                 self.imageLoader.loadImage()

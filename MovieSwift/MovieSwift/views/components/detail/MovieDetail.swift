@@ -13,6 +13,9 @@ struct MovieDetail : View {
     @State var addSheetShown = false
     
     let movieId: Int
+    
+    //MARK: - App State computed properties
+    
     var movie: Movie! {
         return state.moviesState.movies[movieId]!
     }
@@ -73,6 +76,8 @@ struct MovieDetail : View {
             return sheet
         }
     }
+
+    //MARK: - Body
     
     var body: some View {
         List {
