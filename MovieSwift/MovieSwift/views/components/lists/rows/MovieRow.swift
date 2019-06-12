@@ -35,6 +35,7 @@ struct MovieRow : View {
 
 struct MovieRowImage : View {
     @State var imageLoader: ImageLoader
+    @State var isHovered = false
     
     var body: some View {
         ZStack {
@@ -43,7 +44,11 @@ struct MovieRowImage : View {
                     .resizable()
                     .frame(width: 100, height: 150)
                     .cornerRadius(5)
+                    .scaleEffect(isHovered ? 1.5 : 1.0)
                     .shadow(radius: 8)
+                    .onHover(perform: {hovered in
+                        withAnimation{ self.isHovered = hovered }
+                    })
             } else {
                 Rectangle()
                     .foregroundColor(.gray)

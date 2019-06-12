@@ -24,7 +24,9 @@ struct PopularList : View {
 #if DEBUG
 struct PopularList_Previews : PreviewProvider {
     static var previews: some View {
-        PopularList().environmentObject(sampleStore)
+        NavigationView {
+            PopularList().environmentObject(sampleStore)
+        }
     }
 }
 #endif

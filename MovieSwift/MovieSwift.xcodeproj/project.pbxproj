@@ -60,6 +60,7 @@
 		695882CA22AD2C4700AFABA9 /* MovieOverview.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieOverview.swift; sourceTree = "<group>"; };
 		695882CC22AD2F3000AFABA9 /* CastsRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CastsRow.swift; sourceTree = "<group>"; };
 		699F929D22AAD7F000825DC7 /* ImageService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageService.swift; sourceTree = "<group>"; };
+		69A0F56A22AEFF3C000977BB /* MovieSwift.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = MovieSwift.entitlements; sourceTree = "<group>"; };
 		69B2560422A9BDD5009F4413 /* MovieRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieRow.swift; sourceTree = "<group>"; };
 		69B2560722AAD1C1009F4413 /* Tabbar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tabbar.swift; sourceTree = "<group>"; };
 		69B2560B22AAD1D5009F4413 /* PopularList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopularList.swift; sourceTree = "<group>"; };
@@ -112,11 +113,10 @@
 		695882B622AD01B600AFABA9 /* detail */ = {
 			isa = PBXGroup;
 			children = (
+				69E9149C22B1803700D6185A /* rows */,
 				695882B722AD01C500AFABA9 /* MovieDetail.swift */,
 				695882C822AD2BC700AFABA9 /* MovieBackdrop.swift */,
 				695882CA22AD2C4700AFABA9 /* MovieOverview.swift */,
-				695882CC22AD2F3000AFABA9 /* CastsRow.swift */,
-				6915D63822AD42A900DF0C5F /* MovieDetailRow.swift */,
 			);
 			path = detail;
 			sourceTree = "<group>";
@@ -152,6 +152,15 @@
 			path = rows;
 			sourceTree = "<group>";
 		};
+		69E9149C22B1803700D6185A /* rows */ = {
+			isa = PBXGroup;
+			children = (
+				695882CC22AD2F3000AFABA9 /* CastsRow.swift */,
+				6915D63822AD42A900DF0C5F /* MovieDetailRow.swift */,
+			);
+			path = rows;
+			sourceTree = "<group>";
+		};
 		69FFAF7322A99F1100801F3C = {
 			isa = PBXGroup;
 			children = (
@@ -171,6 +180,7 @@
 		69FFAF7E22A99F1100801F3C /* MovieSwift */ = {
 			isa = PBXGroup;
 			children = (
+				69A0F56A22AEFF3C000977BB /* MovieSwift.entitlements */,
 				69FFAF9322A9A0D800801F3C /* launch */,
 				69FFAF9522A9A0E300801F3C /* flux */,
 				69FFAF9622A9A11A00801F3C /* services */,
@@ -508,7 +518,9 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = MovieSwift/MovieSwift.entitlements;
 				CODE_SIGN_STYLE = Automatic;
+				DERIVE_UIKITFORMAC_PRODUCT_BUNDLE_IDENTIFIER = YES;
 				DEVELOPMENT_ASSET_PATHS = "MovieSwift/Preview\\ Content";
 				DEVELOPMENT_TEAM = Z6P74P6T99;
 				ENABLE_PREVIEWS = YES;
@@ -519,6 +531,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.thomasricouard.MovieSwift;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTS_UIKITFORMAC = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -528,7 +541,9 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = MovieSwift/MovieSwift.entitlements;
 				CODE_SIGN_STYLE = Automatic;
+				DERIVE_UIKITFORMAC_PRODUCT_BUNDLE_IDENTIFIER = YES;
 				DEVELOPMENT_ASSET_PATHS = "MovieSwift/Preview\\ Content";
 				DEVELOPMENT_TEAM = Z6P74P6T99;
 				ENABLE_PREVIEWS = YES;
@@ -539,6 +554,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.thomasricouard.MovieSwift;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTS_UIKITFORMAC = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};

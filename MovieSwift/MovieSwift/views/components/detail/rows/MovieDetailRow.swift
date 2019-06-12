@@ -36,21 +36,26 @@ struct MovieDetailRowItem: View {
     let movie: Movie
     
     var body: some View {
-        VStack(alignment: .center) {
-            MovieRowImage(imageLoader: ImageLoader(poster: movie.poster_path, size: .medium))
-            Text(movie.original_title)
-                .font(.body)
-            Text(movie.release_date.prefix(4))
-                .font(.subheadline)
-                .color(.secondary)
-            }.frame(width: 120)
+            VStack(alignment: .center) {
+                MovieRowImage(imageLoader: ImageLoader(poster: movie.poster_path, size: .medium))
+                NavigationButton(destination: MovieDetail(movieId: movie.id)) {
+                    Text(movie.original_title)
+                        .font(.body)
+                        .color(.primary)
+                    Text(movie.release_date.prefix(4))
+                        .font(.subheadline)
+                        .color(.secondary)
+                }
+                }.frame(width: 120)
     }
 }
 
 #if DEBUG
 struct MovieDetailRow_Previews : PreviewProvider {
     static var previews: some View {
-        MovieDetailRow(title: "Sample", movies: [sampleMovie, sampleMovie])
+        NavigationView {
+            MovieDetailRow(title: "Sample", movies: [sampleMovie, sampleMovie])
+        }
     }
 }
 #endif
