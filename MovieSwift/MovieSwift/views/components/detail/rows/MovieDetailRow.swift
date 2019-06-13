@@ -37,7 +37,7 @@ struct MovieDetailRowItem: View {
     
     var body: some View {
             VStack(alignment: .center) {
-                MovieRowImage(imageLoader: ImageLoader(poster: movie.poster_path, size: .medium))
+                MoviePosterImage(imageLoader: ImageLoader(poster: movie.poster_path, size: .medium))
                 NavigationButton(destination: MovieDetail(movieId: movie.id)) {
                     Text(movie.original_title)
                         .font(.body)

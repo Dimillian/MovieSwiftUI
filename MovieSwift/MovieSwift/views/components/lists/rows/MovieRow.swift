@@ -20,7 +20,7 @@ struct MovieRow : View {
         
     var body: some View {
         HStack {
-            MovieRowImage(imageLoader: ImageLoader(poster: movie.poster_path, size: .small))
+            MoviePosterImage(imageLoader: ImageLoader(poster: movie.poster_path, size: .small))
             VStack(alignment: .leading, spacing: 8) {
                 Text(movie.original_title).bold()
                 Text(movie.overview)
@@ -29,38 +29,6 @@ struct MovieRow : View {
                     .truncationMode(.tail)
             }.padding(.leading, 8)
         }.padding(8)
-    }
-}
-
-
-struct MovieRowImage : View {
-    @State var imageLoader: ImageLoader
-    @State var isImageLoaded = false
-    
-    var body: some View {
-        ZStack {
-            if self.imageLoader.image != nil {
-                Image(uiImage: self.imageLoader.image!)
-                    .resizable()
-                    .frame(width: 100, height: 150)
-                    .cornerRadius(5)
-                    .opacity(self.isImageLoaded ? 1 : 0.1)
-                    .shadow(radius: 8)
-                    .animation(.basic())
-                    .onAppear{
-                        self.isImageLoaded = true
-                    }
-            } else {
-                Rectangle()
-                    .foregroundColor(.gray)
-                    .frame(width: 100, height: 150)
-                    .cornerRadius(5)
-                    .shadow(radius: 8)
-                    .opacity(0.1)
-            }
-            }.onAppear {
-                self.imageLoader.loadImage()
-        }
     }
 }
 

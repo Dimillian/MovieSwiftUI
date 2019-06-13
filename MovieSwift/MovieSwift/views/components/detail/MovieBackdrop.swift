@@ -10,6 +10,8 @@ import SwiftUI
 
 struct MovieBackdrop: View {
     @EnvironmentObject var state: AppState
+    @State var seeImage = false
+    
     let movieId: Int
     var movie: Movie! {
         return state.moviesState.movies[movieId]
@@ -31,42 +33,46 @@ struct MovieBackdrop: View {
     var body: some View {
         ZStack(alignment: .bottomLeading) {
             MovieDetailImage(imageLoader: ImageLoader(poster: movie.backdrop_path,
-                                                      size: .original))
-            Rectangle()
-                .foregroundColor(.black)
-                .opacity(0.20)
-                .blur(radius: 100, opaque: false)
-                .frame(height: 80)
-            HStack {
-                VStack(alignment: .leading) {
-                    Text(movie.original_title)
-                        .fontWeight(.bold)
-                        .font(.title)
-                        .color(.white)
-                        .lineLimit(nil)
-                    HStack {
-                        Text(movie.release_date.prefix(4))
-                            .font(.subheadline)
+                                                      size: .original),
+                             isExpanded: $seeImage)
+                .blur(radius: seeImage ? 0 : 10, opaque: true)
+                .tapAction {
+                    withAnimation{
+                        self.seeImage.toggle()
+                    }
+            }
+            if !seeImage {
+                HStack {
+                    VStack(alignment: .leading) {
+                        Text(movie.original_title)
+                            .fontWeight(.bold)
+                            .font(.title)
                             .color(.white)
-                        if movie.runtime != nil {
-                            Text("• \(movie.runtime!) minutes")
+                            .lineLimit(nil)
+                        HStack {
+                            Text(movie.release_date.prefix(4))
                                 .font(.subheadline)
                                 .color(.white)
-                                .transition(transition)
-                                .animation(animation)
-                        }
-                        if movie.status != nil {
-                            Text("• \(movie.status!)")
-                                .font(.subheadline)
-                                .color(.white)
-                                .transition(transition)
-                                .animation(animation)
+                            if movie.runtime != nil {
+                                Text("• \(movie.runtime!) minutes")
+                                    .font(.subheadline)
+                                    .color(.white)
+                                    .transition(transition)
+                                    .animation(animation)
+                            }
+                            if movie.status != nil {
+                                Text("• \(movie.status!)")
+                                    .font(.subheadline)
+                                    .color(.white)
+                                    .transition(transition)
+                                    .animation(animation)
+                            }
                         }
                     }
-                }
-                }
-                .padding(.leading)
-                .padding(.bottom)
+                    }
+                    .padding(.leading)
+                    .padding(.bottom)
+            }
             
             }.listRowInsets(EdgeInsets())
     }
@@ -76,6 +82,7 @@ struct MovieBackdrop: View {
 struct MovieDetailImage : View {
     @State var imageLoader: ImageLoader
     @State var isImageLoaded = false
+    @Binding var isExpanded: Bool
     
     var body: some View {
         ZStack {
