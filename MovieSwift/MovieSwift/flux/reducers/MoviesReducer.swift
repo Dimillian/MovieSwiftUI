@@ -43,6 +43,14 @@ struct MoviesReducer: Reducer {
             for movie in action.response.results {
                 state.movies[movie.id] = movie
             }
+        } else if let action = action as? MoviesActions.addToWishlist {
+            state.wishlist.insert(action.movie)
+        } else if let action = action as? MoviesActions.removeFromWishlist {
+            state.wishlist.remove(action.movie)
+        } else if let action = action as? MoviesActions.addToSeenlist {
+            state.seenlist.insert(action.movie)
+        } else if let action = action as? MoviesActions.removeFromSeenlist {
+            state.seenlist.remove(action.movie)
         }
         return state
     }

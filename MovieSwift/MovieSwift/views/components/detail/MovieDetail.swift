@@ -64,9 +64,11 @@ struct MovieDetail : View {
         get {
             let wishlistButton: Alert.Button = .default(Text("Add to wihlist")) {
                 self.addSheetShown = false
+                store.dispatch(action: MoviesActions.addToWishlist(movie: self.movieId))
             }
             let seenButton: Alert.Button = .default(Text("Add to seen list")) {
                 self.addSheetShown = false
+                store.dispatch(action: MoviesActions.addToSeenlist(movie: self.movieId))
             }
             let sheet = ActionSheet(title: Text("Add to"),
                                     message: nil,

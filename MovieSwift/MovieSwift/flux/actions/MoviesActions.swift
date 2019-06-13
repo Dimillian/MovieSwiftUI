@@ -139,4 +139,20 @@ struct MoviesActions {
         let response: PaginatedResponse<Movie>
     }
     
+    struct addToWishlist: Action {
+        let movie: Int
+    }
+    
+    struct removeFromWishlist: Action {
+        let movie: Int
+    }
+    
+    struct addToSeenlist: Action {
+        let movie: Int
+    }
+    
+    struct removeFromSeenlist: Action {
+        let movie: Int
+    }
+    
 }

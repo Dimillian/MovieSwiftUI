@@ -10,6 +10,7 @@ import SwiftUI
 
 struct MyLists : View {
     @State var selectedList: Int = 0
+    @EnvironmentObject var state: AppState
     
     var body: some View {
         NavigationView {
@@ -18,8 +19,30 @@ struct MyLists : View {
                     Text("Wishlist").tag(0)
                     Text("Seen").tag(1)
                 }
-            }
-            .navigationBarTitle(Text("My Lists"))
+                if selectedList == 0 {
+                    ForEach(state.moviesState.wishlist.map{ $0.id }) {id in
+                        NavigationButton(destination: MovieDetail(movieId: id)) {
+                            MovieRow(movieId: id)
+                        }
+                        }
+                        .onDelete { (index) in
+                           let movie = self.state.moviesState.wishlist.map{ $0.id }[index.first!]
+                            store.dispatch(action: MoviesActions.removeFromWishlist(movie: movie))
+                            
+                    }
+                } else if selectedList == 1 {
+                    ForEach(state.moviesState.seenlist.map{ $0.id }) {id in
+                        NavigationButton(destination: MovieDetail(movieId: id)) {
+                            MovieRow(movieId: id)
+                        }
+                        }
+                        .onDelete { (index) in
+                            let movie = self.state.moviesState.seenlist.map{ $0.id }[index.first!]
+                            store.dispatch(action: MoviesActions.removeFromSeenlist(movie: movie))
+                    }
+                }
+                }
+                .navigationBarTitle(Text("My Lists"))
         }
     }
 }
@@ -31,3 +54,4 @@ struct MyLists_Previews : PreviewProvider {
     }
 }
 #endif
+
