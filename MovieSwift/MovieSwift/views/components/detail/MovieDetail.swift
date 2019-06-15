@@ -11,6 +11,7 @@ import SwiftUI
 struct MovieDetail : View {
     @EnvironmentObject var state: AppState
     @State var addSheetShown = false
+    @State var showSavedBadge = false
     
     let movieId: Int
     
@@ -64,10 +65,12 @@ struct MovieDetail : View {
         get {
             let wishlistButton: Alert.Button = .default(Text("Add to wihlist")) {
                 self.addSheetShown = false
+                self.displaySavedBadge()
                 store.dispatch(action: MoviesActions.addToWishlist(movie: self.movieId))
             }
             let seenButton: Alert.Button = .default(Text("Add to seen list")) {
                 self.addSheetShown = false
+                self.displaySavedBadge()
                 store.dispatch(action: MoviesActions.addToSeenlist(movie: self.movieId))
             }
             let sheet = ActionSheet(title: Text("Add to"),
@@ -78,31 +81,41 @@ struct MovieDetail : View {
             return sheet
         }
     }
+    
+    func displaySavedBadge() {
+        showSavedBadge = true
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+            self.showSavedBadge = false
+        }
+    }
 
     //MARK: - Body
     
     var body: some View {
-        List {
-            MovieBackdrop(movieId: movie.id)
-            MovieOverview(movie: movie)
-            CastsRow(title: "Characters",
-                     casts: characters ?? []).frame(height: 170)
-            CastsRow(title: "Crew",
-                     casts: credits ?? []).frame(height: 170)
-            MovieDetailRow(title: "Similar Movies", movies: similar ?? []).frame(height: 260)
-            MovieDetailRow(title: "Recommanded Movies", movies: recommanded ?? []).frame(height: 260)
-            }
-            .edgesIgnoringSafeArea(.top)
-            .navigationBarItems(trailing: Button(action: onAddButton) {
-                Image(systemName: "text.badge.plus")
-            })
-            .onAppear {
-                store.dispatch(action: MoviesActions.FetchDetail(movie: self.movie.id))
-                store.dispatch(action: CastsActions.FetchMovieCasts(movie: self.movie.id))
-                store.dispatch(action: MoviesActions.FetchRecommanded(movie: self.movie.id))
-                store.dispatch(action: MoviesActions.FetchSimilar(movie: self.movie.id))
-            }.presentation(self.addSheetShown ? addActionSheet : nil)
-        
+        ZStack(alignment: .bottom) {
+            List {
+                MovieBackdrop(movieId: movie.id)
+                MovieOverview(movie: movie)
+                CastsRow(title: "Characters",
+                         casts: characters ?? []).frame(height: 170)
+                CastsRow(title: "Crew",
+                         casts: credits ?? []).frame(height: 170)
+                MovieDetailRow(title: "Similar Movies", movies: similar ?? []).frame(height: 260)
+                MovieDetailRow(title: "Recommanded Movies", movies: recommanded ?? []).frame(height: 260)
+                }
+                .edgesIgnoringSafeArea(.top)
+                .navigationBarItems(trailing: Button(action: onAddButton) {
+                    Image(systemName: "text.badge.plus")
+                })
+                .onAppear {
+                    store.dispatch(action: MoviesActions.FetchDetail(movie: self.movie.id))
+                    store.dispatch(action: CastsActions.FetchMovieCasts(movie: self.movie.id))
+                    store.dispatch(action: MoviesActions.FetchRecommanded(movie: self.movie.id))
+                    store.dispatch(action: MoviesActions.FetchSimilar(movie: self.movie.id))
+                }.presentation(self.addSheetShown ? addActionSheet : nil)
+            NotificationBadge(text: "Added successfully", color: .blue, show: $showSavedBadge)
+                .padding(.bottom, 10)
+        }
     }
     
     func onAddButton() {

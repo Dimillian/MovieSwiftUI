@@ -8,7 +8,7 @@
 
 import SwiftUI
 
-struct TextBadge : View {
+struct GenreBadge : View {
     let genre: Genre
     
     var body: some View {
@@ -36,7 +36,7 @@ struct TextBadge : View {
 #if DEBUG
 struct TextBadge_Previews : PreviewProvider {
     static var previews: some View {
-        TextBadge(genre: Genre(id: 0, name: "Test"))
+        GenreBadge(genre: Genre(id: 0, name: "Test"))
     }
 }
 #endif

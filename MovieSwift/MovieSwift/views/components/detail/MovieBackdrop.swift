@@ -71,7 +71,7 @@ struct MovieBackdrop: View {
                         ScrollView(showsHorizontalIndicator: false) {
                             HStack {
                                 ForEach(movie.genres ?? []) { genre in
-                                    TextBadge(genre: genre)
+                                    GenreBadge(genre: genre)
                                 }
                             }
                         }.frame(height: 30)
