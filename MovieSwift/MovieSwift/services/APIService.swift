@@ -26,6 +26,7 @@ struct APIService {
         case credits(movie: Int)
         case searchMovie(query: String)
         case genres
+        case discover
         
         func path() -> String {
             switch self {
@@ -47,6 +48,8 @@ struct APIService {
                 return "search/movie"
             case .genres:
                 return "genre/movie/list"
+            case .discover:
+                return "discover/movie"
             }
         }
     }

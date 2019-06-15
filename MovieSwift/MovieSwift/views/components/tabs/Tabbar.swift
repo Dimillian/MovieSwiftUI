@@ -20,9 +20,6 @@ struct Tabbar : View {
         }
             .edgesIgnoringSafeArea(.top)
             .accentColor(.red)
-            .onAppear {
-                self.state.dispatch(action: MoviesActions.FetchGenre())
-        }
     }
 }
 

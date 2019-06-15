@@ -134,16 +134,13 @@ struct MoviesActions {
         }
     }
     
-    struct GenreResponse: Codable {
-        let genres: [Genre]
-    }
-    
-    struct FetchGenre: Action {
-        init() {
-            APIService.shared.GET(endpoint: .genres, params: nil) { (result: Result<GenreResponse, APIService.APIError>) in
+    struct FetchMoviesGenre: Action {
+        init(genre: Genre) {
+            APIService.shared.GET(endpoint: .discover, params: ["with_genres": "\(genre.id)"])
+            { (result: Result<PaginatedResponse<Movie>, APIService.APIError>) in
                 switch result {
                 case let .success(response):
-                    store.dispatch(action: SetGenre(genres: response.genres))
+                    store.dispatch(action: SetMovieForGenre(genre: genre, response: response))
                 case .failure(_):
                     break
                 }
@@ -172,8 +169,8 @@ struct MoviesActions {
         let movie: Int
     }
     
-    struct SetGenre: Action {
-        let genres: [Genre]
+    struct SetMovieForGenre: Action {
+        let genre: Genre
+        let response: PaginatedResponse<Movie>
     }
-    
 }

@@ -20,5 +20,5 @@ struct MoviesState: FluxState {
     var wishlist: Set<Int> = Set()
     var seenlist: Set<Int> = Set()
     
-    var genres: [Int: String] = [:]
+    var genres: [Int: [Int]] = [:]
 }

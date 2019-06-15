@@ -23,7 +23,6 @@ struct Movie: Codable, Identifiable {
     let genres: [Genre]?
     let runtime: Int?
     let status: String?
-    
 }
 
 let sampleMovie = Movie(id: 0,
