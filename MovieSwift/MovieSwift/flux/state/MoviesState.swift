@@ -8,7 +8,7 @@
 
 import Foundation
 
-struct MoviesState: FluxState {
+struct MoviesState: FluxState, Codable {
     var movies: [Int: Movie] = [:]
     var recommanded: [Int: [Int]] = [:]
     var similar: [Int: [Int ]] = [:]
@@ -21,4 +21,8 @@ struct MoviesState: FluxState {
     var seenlist: Set<Int> = Set()
     
     var genres: [Int: [Int]] = [:]
+    
+    enum CodingKeys: String, CodingKey {
+        case movies, wishlist, seenlist
+    }
 }
