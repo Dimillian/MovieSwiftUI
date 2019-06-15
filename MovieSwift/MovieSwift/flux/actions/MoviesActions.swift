@@ -134,6 +134,23 @@ struct MoviesActions {
         }
     }
     
+    struct GenreResponse: Codable {
+        let genres: [Genre]
+    }
+    
+    struct FetchGenre: Action {
+        init() {
+            APIService.shared.GET(endpoint: .genres, params: nil) { (result: Result<GenreResponse, APIService.APIError>) in
+                switch result {
+                case let .success(response):
+                    store.dispatch(action: SetGenre(genres: response.genres))
+                case .failure(_):
+                    break
+                }
+            }
+        }
+    }
+    
     struct SetSearch: Action {
         let query: String
         let response: PaginatedResponse<Movie>
@@ -153,6 +170,10 @@ struct MoviesActions {
     
     struct removeFromSeenlist: Action {
         let movie: Int
+    }
+    
+    struct SetGenre: Action {
+        let genres: [Genre]
     }
     
 }

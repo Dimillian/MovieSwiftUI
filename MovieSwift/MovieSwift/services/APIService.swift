@@ -25,6 +25,7 @@ struct APIService {
         case detail(movie: Int), recommanded(movie: Int), similar(movie: Int)
         case credits(movie: Int)
         case searchMovie(query: String)
+        case genres
         
         func path() -> String {
             switch self {
@@ -44,6 +45,8 @@ struct APIService {
                 return "movie/\(String(movie))/similar"
             case .searchMovie:
                 return "search/movie"
+            case .genres:
+                return "genre/movie/list"
             }
         }
     }

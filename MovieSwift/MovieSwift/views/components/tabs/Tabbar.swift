@@ -17,7 +17,12 @@ struct Tabbar : View {
             TopRatedList().tabItemLabel(Text("Top Rated")).tag(1)
             UpcomingList().tabItemLabel(Text("Upcoming")).tag(2)
             MyLists().tabItemLabel(Text("My Lists")).tag(3)
-        }.edgesIgnoringSafeArea(.top).accentColor(.red)
+        }
+            .edgesIgnoringSafeArea(.top)
+            .accentColor(.red)
+            .onAppear {
+                self.state.dispatch(action: MoviesActions.FetchGenre())
+        }
     }
 }
 

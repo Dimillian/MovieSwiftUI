@@ -68,10 +68,18 @@ struct MovieBackdrop: View {
                                     .animation(animation)
                             }
                         }
+                        ScrollView(showsHorizontalIndicator: false) {
+                            HStack {
+                                ForEach(movie.genres ?? []) { genre in
+                                    TextBadge(text: genre.name)
+                                }
+                            }
+                        }
+                            .frame(height: 30)
                     }
                     }
                     .padding(.leading)
-                    .padding(.bottom)
+                    .padding(.bottom, 5)
             }
             
             }.listRowInsets(EdgeInsets())

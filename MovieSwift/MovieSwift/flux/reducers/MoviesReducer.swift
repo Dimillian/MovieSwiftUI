@@ -51,6 +51,10 @@ struct MoviesReducer: Reducer {
             state.seenlist.insert(action.movie)
         } else if let action = action as? MoviesActions.removeFromSeenlist {
             state.seenlist.remove(action.movie)
+        } else if let action = action as? MoviesActions.SetGenre {
+            for genre in action.genres {
+                state.genres[genre.id] = genre.name
+            }
         }
         return state
     }
