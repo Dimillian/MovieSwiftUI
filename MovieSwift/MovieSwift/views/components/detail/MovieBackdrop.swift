@@ -35,7 +35,6 @@ struct MovieBackdrop: View {
             MovieDetailImage(imageLoader: ImageLoader(poster: movie.backdrop_path,
                                                       size: .original),
                              isExpanded: $seeImage)
-                .blur(radius: seeImage ? 0 : 10, opaque: true)
                 .tapAction {
                     withAnimation{
                         self.seeImage.toggle()
@@ -94,14 +93,18 @@ struct MovieDetailImage : View {
     var body: some View {
         ZStack {
             if self.imageLoader.image != nil {
-                Image(uiImage: self.imageLoader.image!)
-                    .resizable()
-                    .aspectRatio(500/300, contentMode: .fit)
-                    .opacity(isImageLoaded ? 1 : 0)
-                    .animation(.basic())
-                    .onAppear{
-                        self.isImageLoaded = true
-                }
+                ZStack {
+                    GeometryReader { geometry in
+                        Image(uiImage: self.imageLoader.image!)
+                            .resizable()
+                            .blur(radius: !self.isExpanded ? 50 - geometry.frame(in: .global).minY : 0)
+                            .opacity(self.isImageLoaded ? 1 : 0)
+                            .animation(.basic())
+                            .onAppear{
+                                self.isImageLoaded = true
+                        }
+                    }
+                }.aspectRatio(500/300, contentMode: .fit)
             } else {
                 Rectangle()
                     .aspectRatio(500/300, contentMode: .fit)
