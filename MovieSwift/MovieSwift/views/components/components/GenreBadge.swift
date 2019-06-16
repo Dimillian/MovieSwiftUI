@@ -13,22 +13,7 @@ struct GenreBadge : View {
     
     var body: some View {
         NavigationButton(destination: MoviesGenreList(genre: genre)) {
-            HStack {
-                Text(genre.name.capitalized)
-                    .font(.footnote)
-                    .fontWeight(.bold)
-                    .color(.white)
-                    .padding(.leading, 10)
-                    .padding(.trailing, 10)
-                    .padding(.top, 5)
-                    .padding(.bottom, 5)
-                
-                }
-                .background(
-                    Rectangle()
-                        .foregroundColor(.gray)
-                        .cornerRadius(12)
-            )
+            RoundedBadge(text: genre.name)
         }
     }
 }

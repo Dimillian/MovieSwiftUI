@@ -28,7 +28,7 @@ struct MovieReviews : View {
             }
             .navigationBarTitle(Text("Reviews"))
             .navigationBarItems(trailing: Button(action: onCloseButton) {
-                    Image(systemName: "xmark.circle")
+                Image(systemName: "xmark")
             })
             }.onAppear{
                 self.state.dispatch(action: MoviesActions.FetchMovieReviews(movie: self.movie.id))

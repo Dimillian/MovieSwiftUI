@@ -21,6 +21,8 @@ struct MoviesState: FluxState, Codable {
     var seenlist: Set<Int> = Set()
     
     var genres: [Int: [Int]] = [:]
+    var withKeywords: [Int: [Int]] = [:]
+    var withCrew: [Int: [Int]] = [:]
     var reviews: [Int: [Review]] = [:]
     
     enum CodingKeys: String, CodingKey {

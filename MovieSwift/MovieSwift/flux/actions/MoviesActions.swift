@@ -162,6 +162,60 @@ struct MoviesActions {
         }
     }
     
+    
+    struct FetchMovieWithCrew: Action {
+        init(crew: Int) {
+            APIService.shared.GET(endpoint: .discover, params: ["with_people": "\(crew)"])
+            { (result: Result<PaginatedResponse<Movie>, APIService.APIError>) in
+                switch result {
+                case let .success(response):
+                    store.dispatch(action: SetMovieWithCrew(crew: crew, response: response))
+                case .failure(_):
+                    break
+                }
+            }
+        }
+    }
+    
+    struct KeywordResponse: Codable {
+        let id: Int
+        let keywords: [Keyword]
+    }
+    
+    struct FetchMovieKeywords: Action {
+        init(movie: Int) {
+            APIService.shared.GET(endpoint: .keywords(movie: movie), params: nil) {
+                (result: Result<KeywordResponse, APIService.APIError>) in
+                switch result {
+                case let .success(response):
+                    store.dispatch(action: SetMovieKeywords(movie: movie, keywords: response.keywords))
+                case .failure(_):
+                    break
+                }
+            }
+        }
+    }
+    
+    struct FetchMovieWithKeywords: Action {
+        init(keyword: Int) {
+            APIService.shared.GET(endpoint: .discover, params: ["with_keywords": "\(keyword)"])
+            { (result: Result<PaginatedResponse<Movie>, APIService.APIError>) in
+                switch result {
+                case let .success(response):
+                    store.dispatch(action: SetMovieWithKeyword(keyword: keyword, response: response))
+                case .failure(_):
+                    break
+                }
+            }
+        }
+    }
+    
+    
+    struct SetMovieKeywords: Action {
+        let movie: Int
+        let keywords: [Keyword]
+    }
+
     struct SetSearch: Action {
         let query: String
         let response: PaginatedResponse<Movie>
@@ -185,6 +239,16 @@ struct MoviesActions {
     
     struct SetMovieForGenre: Action {
         let genre: Genre
+        let response: PaginatedResponse<Movie>
+    }
+    
+    struct SetMovieWithCrew: Action {
+        let crew: Int
+        let response: PaginatedResponse<Movie>
+    }
+    
+    struct SetMovieWithKeyword: Action {
+        let keyword: Int
         let response: PaginatedResponse<Movie>
     }
     

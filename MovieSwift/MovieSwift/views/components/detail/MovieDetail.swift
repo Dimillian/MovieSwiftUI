@@ -98,11 +98,14 @@ struct MovieDetail : View {
                 MovieRating(movie: movie)
                 MovieOverview(movie: movie)
                 CastsRow(title: "Characters",
-                         casts: characters ?? []).frame(height: 170)
+                         casts: characters ?? []).frame(height: 200)
                 CastsRow(title: "Crew",
-                         casts: credits ?? []).frame(height: 170)
+                         casts: credits ?? []).frame(height: 200)
                 MovieDetailRow(title: "Similar Movies", movies: similar ?? []).frame(height: 260)
                 MovieDetailRow(title: "Recommanded Movies", movies: recommanded ?? []).frame(height: 260)
+                if movie.keywords != nil {
+                    MovieKeywords(keywords: movie.keywords!).frame(height: 90)
+                }
                 }
                 .edgesIgnoringSafeArea(.top)
                 .navigationBarItems(trailing: Button(action: onAddButton) {
@@ -113,6 +116,7 @@ struct MovieDetail : View {
                     store.dispatch(action: CastsActions.FetchMovieCasts(movie: self.movie.id))
                     store.dispatch(action: MoviesActions.FetchRecommanded(movie: self.movie.id))
                     store.dispatch(action: MoviesActions.FetchSimilar(movie: self.movie.id))
+                    store.dispatch(action: MoviesActions.FetchMovieKeywords(movie: self.movie.id))
                 }.presentation(self.addSheetShown ? addActionSheet : nil)
             NotificationBadge(text: "Added successfully", color: .blue, show: $showSavedBadge)
                 .padding(.bottom, 10)

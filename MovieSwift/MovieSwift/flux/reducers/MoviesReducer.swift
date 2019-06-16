@@ -60,6 +60,22 @@ struct MoviesReducer: Reducer {
             }
         } else if let action = action as? MoviesActions.SetMovieReviews {
             state.reviews[action.movie] = action.response.results
+        } else if let action = action as? MoviesActions.SetMovieWithCrew {
+            state.withCrew[action.crew] = action.response.results.map{ $0.id }
+            for movie in action.response.results {
+                if state.movies[movie.id] == nil {
+                    state.movies[movie.id] = movie
+                }
+            }
+        } else if let action = action as? MoviesActions.SetMovieKeywords {
+            state.movies[action.movie]?.keywords = action.keywords
+        } else if let action = action as? MoviesActions.SetMovieWithKeyword {
+            state.withKeywords[action.keyword] = action.response.results.map{ $0.id }
+            for movie in action.response.results {
+                if state.movies[movie.id] == nil {
+                    state.movies[movie.id] = movie
+                }
+            }
         }
         return state
     }
