@@ -95,6 +95,7 @@ struct MovieDetail : View {
         ZStack(alignment: .bottom) {
             List {
                 MovieBackdrop(movieId: movie.id)
+                MovieRating(movie: movie)
                 MovieOverview(movie: movie)
                 CastsRow(title: "Characters",
                          casts: characters ?? []).frame(height: 170)

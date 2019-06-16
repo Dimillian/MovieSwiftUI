@@ -58,6 +58,8 @@ struct MoviesReducer: Reducer {
                     state.movies[movie.id] = movie
                 }
             }
+        } else if let action = action as? MoviesActions.SetMovieReviews {
+            state.reviews[action.movie] = action.response.results
         }
         return state
     }

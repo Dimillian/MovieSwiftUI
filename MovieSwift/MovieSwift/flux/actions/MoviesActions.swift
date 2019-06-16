@@ -148,6 +148,20 @@ struct MoviesActions {
         }
     }
     
+    struct FetchMovieReviews: Action {
+        init(movie: Int) {
+            APIService.shared.GET(endpoint: .review(movie: movie), params: nil) {
+                (result: Result<PaginatedResponse<Review>, APIService.APIError>) in
+                switch result {
+                case let .success(response):
+                    store.dispatch(action: SetMovieReviews(movie: movie, response: response))
+                case .failure(_):
+                    break
+                }
+            }
+        }
+    }
+    
     struct SetSearch: Action {
         let query: String
         let response: PaginatedResponse<Movie>
@@ -172,5 +186,10 @@ struct MoviesActions {
     struct SetMovieForGenre: Action {
         let genre: Genre
         let response: PaginatedResponse<Movie>
+    }
+    
+    struct SetMovieReviews: Action {
+        let movie: Int
+        let response: PaginatedResponse<Review>
     }
 }
