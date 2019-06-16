@@ -13,7 +13,7 @@ struct UpcomingList : View {
     
     var body: some View {
         NavigationView {
-             MoviesList(movies: state.moviesState.upcoming)
+            MoviesList(movies: state.moviesState.upcoming, displaySearch: true)
             .navigationBarTitle(Text("Upcoming"))
             }.onAppear {
                 store.dispatch(action: MoviesActions.FetchUpcoming())

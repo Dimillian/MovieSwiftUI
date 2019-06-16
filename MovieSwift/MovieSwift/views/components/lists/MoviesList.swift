@@ -13,6 +13,7 @@ struct MoviesList : View {
     @State var searchtext: String = ""
     
     let movies: [Int]
+    let displaySearch: Bool
     
     var isSearching: Bool {
         return !searchtext.isEmpty
@@ -25,13 +26,15 @@ struct MoviesList : View {
     var body: some View {
         VStack {
             List {
-                TextField($searchtext,
-                          placeholder: Text("Search any movies")) {
-                            store.dispatch(action: MoviesActions.FetchSearch(query: self.searchtext))
-                    }
-                    .textFieldStyle(.roundedBorder)
-                    .listRowInsets(EdgeInsets())
-                    .padding()
+                if displaySearch {
+                    TextField($searchtext,
+                              placeholder: Text("Search any movies")) {
+                                store.dispatch(action: MoviesActions.FetchSearch(query: self.searchtext))
+                        }
+                        .textFieldStyle(.roundedBorder)
+                        .listRowInsets(EdgeInsets())
+                        .padding()
+                }
                 ForEach(isSearching ? searchedMovies : movies) {id in
                     NavigationButton(destination: MovieDetail(movieId: id)) {
                         MovieRow(movieId: id)
@@ -45,7 +48,7 @@ struct MoviesList : View {
 #if DEBUG
 struct MoviesList_Previews : PreviewProvider {
     static var previews: some View {
-        MoviesList(movies: [sampleMovie.id]).environmentObject(sampleStore)
+        MoviesList(movies: [sampleMovie.id], displaySearch: true).environmentObject(sampleStore)
     }
 }
 #endif

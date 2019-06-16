@@ -13,7 +13,7 @@ struct MoviesGenreList : View {
     let genre: Genre
     
     var body: some View {
-        MoviesList(movies: state.moviesState.genres[genre.id] ?? [])
+        MoviesList(movies: state.moviesState.genres[genre.id] ?? [], displaySearch: false)
             .navigationBarTitle(Text(genre.name))
             .onAppear {
                 store.dispatch(action: MoviesActions.FetchMoviesGenre(genre: self.genre))

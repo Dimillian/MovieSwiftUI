@@ -13,7 +13,7 @@ struct MovieKeywordList : View {
     let keyword: Keyword
     
     var body: some View {
-        MoviesList(movies: state.moviesState.withKeywords[keyword.id] ?? [])
+        MoviesList(movies: state.moviesState.withKeywords[keyword.id] ?? [], displaySearch: false)
             .navigationBarTitle(Text(keyword.name))
             .onAppear {
                 store.dispatch(action: MoviesActions.FetchMovieWithKeywords(keyword: self.keyword.id))

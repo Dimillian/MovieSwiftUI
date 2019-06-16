@@ -13,7 +13,7 @@ struct PopularList : View {
     
     var body: some View {
         NavigationView {
-            MoviesList(movies: state.moviesState.popular)
+            MoviesList(movies: state.moviesState.popular, displaySearch: true)
             .navigationBarTitle(Text("Popular"))
             }.onAppear {
                 store.dispatch(action: MoviesActions.FetchPopular())

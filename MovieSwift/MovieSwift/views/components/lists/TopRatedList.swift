@@ -13,7 +13,7 @@ struct TopRatedList : View {
     
     var body: some View {
         NavigationView {
-            MoviesList(movies: state.moviesState.topRated)
+            MoviesList(movies: state.moviesState.topRated, displaySearch: true)
             .navigationBarTitle(Text("Top Rated"))
             }.onAppear {
                 store.dispatch(action: MoviesActions.FetchTopRated())
