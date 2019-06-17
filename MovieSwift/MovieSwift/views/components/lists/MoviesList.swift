@@ -23,14 +23,17 @@ struct MoviesList : View {
         return state.moviesState.search[searchtext] ?? []
     }
     
+    func onChange() {
+        store.dispatch(action: MoviesActions.FetchSearch(query: searchtext))
+    }
+    
     var body: some View {
         VStack {
             List {
                 if displaySearch {
                     TextField($searchtext,
-                              placeholder: Text("Search any movies")) {
-                                store.dispatch(action: MoviesActions.FetchSearch(query: self.searchtext))
-                        }
+                              placeholder: Text("Search any movies"))
+                        .onReceive(NotificationCenter.default.publisher(for: UITextField.textDidChangeNotification), perform: onChange)
                         .textFieldStyle(.roundedBorder)
                         .listRowInsets(EdgeInsets())
                         .padding()
