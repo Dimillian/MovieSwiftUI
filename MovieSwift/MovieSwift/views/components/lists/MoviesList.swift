@@ -10,6 +10,7 @@ import SwiftUI
 
 struct MoviesList : View {
     @EnvironmentObject var state: AppState
+    
     @State var searchtext: String = ""
     
     let movies: [Int]
@@ -33,7 +34,9 @@ struct MoviesList : View {
                 if displaySearch {
                     TextField($searchtext,
                               placeholder: Text("Search any movies"))
-                        .onReceive(NotificationCenter.default.publisher(for: UITextField.textDidChangeNotification), perform: onChange)
+                        .onReceive(NotificationCenter.default.publisher(for: UITextField.textDidChangeNotification).debounce(for: 0.5,
+                                                                                                                             scheduler: DispatchQueue.main),
+                                   perform: onChange)
                         .textFieldStyle(.roundedBorder)
                         .listRowInsets(EdgeInsets())
                         .padding()
