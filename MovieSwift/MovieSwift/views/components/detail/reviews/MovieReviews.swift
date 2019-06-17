@@ -10,7 +10,7 @@ import SwiftUI
 
 struct MovieReviews : View {
     @EnvironmentObject var state: AppState
-    @Binding var showReviews: Bool
+    @Environment(\.isPresented) var isPresented
     
     let movie: Int
     
@@ -19,8 +19,9 @@ struct MovieReviews : View {
     }
     
     func onCloseButton() {
-        showReviews = false
+        isPresented?.value = false
     }
+    
     var body: some View {
         NavigationView {
             List(reviews) {review in

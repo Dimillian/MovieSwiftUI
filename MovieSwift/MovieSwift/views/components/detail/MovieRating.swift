@@ -11,22 +11,17 @@ import SwiftUI
 struct MovieRating : View {
     let movie: Movie
     
-    @State var showReview = false
-    
     var body: some View {
         VStack(alignment: .leading, spacing: 8) {
             HStack {
                 PopularityBadge(score: Int(movie.vote_average * 10))
                 Text("\(movie.vote_count) ratings")
             }
-            Button(action: {
-                self.showReview = true
-            }, label: {
-                Text("See reviews").color(.blue)
+            PresentationButton(destination: MovieReviews(movie: movie.id).environmentObject(store),
+                               label: {
+                                Text("See reviews").color(.blue)
             })
-            }.presentation(self.showReview ?
-                Modal(MovieReviews(showReviews: $showReview, movie: movie.id).environmentObject(store))
-            : nil)
+            }
             .padding(.top, 8)
             .padding(.bottom, 8)
     }
