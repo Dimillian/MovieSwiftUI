@@ -8,7 +8,7 @@
 
 import SwiftUI
 
-struct MovieDetailImage : View {
+struct MovieBackdropImage : View {
     @State var imageLoader: ImageLoader
     @State var isImageLoaded = false
     @Binding var isExpanded: Bool

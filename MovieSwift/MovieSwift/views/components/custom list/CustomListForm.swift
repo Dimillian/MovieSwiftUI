@@ -122,7 +122,7 @@ struct CustomListPreviewRow: View {
     
     var body: some View {
         ZStack {
-            MovieDetailImage(imageLoader: ImageLoader(poster: movie?.backdrop_path,
+            MovieBackdropImage(imageLoader: ImageLoader(poster: movie?.backdrop_path,
                                                       size: .original),
                              isExpanded: $isExpanded,
                              fill: true)
