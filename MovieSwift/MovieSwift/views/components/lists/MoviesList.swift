@@ -29,8 +29,10 @@ struct MoviesList : View {
     }
     
     func onChange() {
-        store.dispatch(action: MoviesActions.FetchSearch(query: searchtext))
-        store.dispatch(action: MoviesActions.FetchSearchKeyword(query: searchtext))
+        if !searchtext.isEmpty {
+            store.dispatch(action: MoviesActions.FetchSearch(query: searchtext))
+            store.dispatch(action: MoviesActions.FetchSearchKeyword(query: searchtext))
+        }
     }
     
     var body: some View {

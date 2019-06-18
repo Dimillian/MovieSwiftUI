@@ -19,6 +19,11 @@ struct MyLists : View {
                     Text("Wishlist").tag(0)
                     Text("Seen").tag(1)
                 }
+                PresentationButton(destination: CustomListForm().environmentObject(store),
+                                   label: {
+                                    Text("Create custom list")
+                                        .color(.blue)
+                })
                 if selectedList == 0 {
                     ForEach(state.moviesState.wishlist.map{ $0.id }) {id in
                         NavigationButton(destination: MovieDetail(movieId: id)) {

@@ -13,6 +13,8 @@ struct MovieDetailImage : View {
     @State var isImageLoaded = false
     @Binding var isExpanded: Bool
     
+    var fill: Bool = false
+    
     private let threeshold: CGFloat = 50
     private let maxBlur: CGFloat = 100
     
@@ -42,10 +44,13 @@ struct MovieDetailImage : View {
                                 self.isImageLoaded = true
                         }
                     }
-                    }.aspectRatio(500/300, contentMode: .fit)
+                    }
+                    .frame(maxHeight: fill ? 100 : 300)
+                    .aspectRatio(500/300, contentMode: fill ? .fill : .fit)
             } else {
                 Rectangle()
-                    .aspectRatio(500/300, contentMode: .fit)
+                    .frame(maxHeight: fill ? 100 : 300)
+                    .aspectRatio(500/300, contentMode: fill ? .fill : .fit)
                     .foregroundColor(.gray)
                     .opacity(0.1)
             }

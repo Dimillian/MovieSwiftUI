@@ -9,6 +9,9 @@
 import Foundation
 
 struct MoviesActions {
+    
+    // MARK: - Requests
+    
     struct FetchPopular: Action {
         init() {
             APIService.shared.GET(endpoint: .popular, params: nil) {
@@ -21,10 +24,6 @@ struct MoviesActions {
                 }
             }
         }
-    }
-    
-    struct SetPopular: Action {
-        let response: PaginatedResponse<Movie>
     }
     
     struct FetchTopRated: Action {
@@ -41,10 +40,6 @@ struct MoviesActions {
         }
     }
     
-    struct SetTopRated: Action {
-        let response: PaginatedResponse<Movie>
-    }
-    
     struct FetchUpcoming: Action {
         init() {
             APIService.shared.GET(endpoint: .upcoming, params: ["region": "US"]) {
@@ -57,10 +52,6 @@ struct MoviesActions {
                 }
             }
         }
-    }
-    
-    struct SetUpcoming: Action {
-        let response: PaginatedResponse<Movie>
     }
     
     struct FetchDetail: Action {
@@ -77,11 +68,6 @@ struct MoviesActions {
         }
     }
     
-    struct SetDetail: Action {
-        let movie: Int
-        let response: Movie
-    }
-    
     struct FetchRecommanded: Action {
         init(movie: Int) {
             APIService.shared.GET(endpoint: .recommanded(movie: movie), params: nil) {
@@ -96,10 +82,6 @@ struct MoviesActions {
         }
     }
     
-    struct SetRecommanded: Action {
-        let movie: Int
-        let response: PaginatedResponse<Movie>
-    }
     
     struct FetchSimilar: Action {
         init(movie: Int) {
@@ -115,10 +97,7 @@ struct MoviesActions {
         }
     }
     
-    struct SetSimilar: Action {
-        let movie: Int
-        let response: PaginatedResponse<Movie>
-    }
+   
     
     struct FetchSearch: Action {
         init(query: String) {
@@ -191,10 +170,7 @@ struct MoviesActions {
         }
     }
     
-    struct KeywordResponse: Codable {
-        let id: Int
-        let keywords: [Keyword]
-    }
+    
     
     struct FetchMovieKeywords: Action {
         init(movie: Int) {
@@ -224,6 +200,34 @@ struct MoviesActions {
         }
     }
     
+    // MARK: - Reduced actions
+    
+    struct SetPopular: Action {
+        let response: PaginatedResponse<Movie>
+    }
+    struct SetTopRated: Action {
+        let response: PaginatedResponse<Movie>
+    }
+    
+    struct SetUpcoming: Action {
+        let response: PaginatedResponse<Movie>
+    }
+    struct SetDetail: Action {
+        let movie: Int
+        let response: Movie
+    }
+    struct SetRecommanded: Action {
+        let movie: Int
+        let response: PaginatedResponse<Movie>
+    }
+    struct SetSimilar: Action {
+        let movie: Int
+        let response: PaginatedResponse<Movie>
+    }
+    struct KeywordResponse: Codable {
+        let id: Int
+        let keywords: [Keyword]
+    }
     
     struct SetMovieKeywords: Action {
         let movie: Int
@@ -274,5 +278,29 @@ struct MoviesActions {
     struct SetMovieReviews: Action {
         let movie: Int
         let response: PaginatedResponse<Review>
+    }
+    
+    struct AddCustomList: Action {
+        let list: CustomList
+    }
+    
+    struct EditCustomList: Action {
+        let list: UUID
+        let name: String?
+        let cover: Int?
+    }
+    
+    struct AddMovieToCustomList: Action {
+        let list: UUID
+        let movie: Int
+    }
+    
+    struct RemoveMovieFromCustomList: Action {
+        let list: UUID
+        let movie: Int
+    }
+    
+    struct RemoveCustomList: Action {
+        let list: UUID
     }
 }

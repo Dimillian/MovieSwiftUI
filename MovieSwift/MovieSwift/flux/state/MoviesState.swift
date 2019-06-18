@@ -25,6 +25,7 @@ struct MoviesState: FluxState, Codable {
     var withKeywords: [Int: [Int]] = [:]
     var withCrew: [Int: [Int]] = [:]
     var reviews: [Int: [Review]] = [:]
+    var customLists: [CustomList] = []
     
     enum CodingKeys: String, CodingKey {
         case movies, wishlist, seenlist
