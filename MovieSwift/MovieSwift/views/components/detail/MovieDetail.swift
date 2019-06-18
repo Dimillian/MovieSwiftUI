@@ -96,14 +96,23 @@ struct MovieDetail : View {
             List {
                 MovieBackdrop(movieId: movie.id)
                 MovieRating(movie: movie)
+                MovieAddToList()
                 MovieOverview(movie: movie)
-                CastsRow(title: "Characters",
-                         casts: characters ?? []).frame(height: 200)
-                CastsRow(title: "Crew",
-                         casts: credits ?? []).frame(height: 200)
-                MovieDetailRow(title: "Similar Movies", movies: similar ?? []).frame(height: 260)
-                MovieDetailRow(title: "Recommanded Movies", movies: recommanded ?? []).frame(height: 260)
-                if movie.keywords != nil {
+                if characters != nil && characters?.isEmpty == false {
+                    CastsRow(title: "Characters",
+                             casts: characters ?? []).frame(height: 200)
+                }
+                if credits != nil && credits?.isEmpty == false {
+                    CastsRow(title: "Crew",
+                             casts: credits ?? []).frame(height: 200)
+                }
+                if similar != nil && similar?.isEmpty == false {
+                    MovieDetailRow(title: "Similar Movies", movies: similar ?? []).frame(height: 260)
+                }
+                if recommanded != nil && recommanded?.isEmpty == false {
+                    MovieDetailRow(title: "Recommanded Movies", movies: recommanded ?? []).frame(height: 260)
+                }
+                if movie.keywords != nil && movie.keywords?.isEmpty == false {
                     MovieKeywords(keywords: movie.keywords!).frame(height: 90)
                 }
                 }
