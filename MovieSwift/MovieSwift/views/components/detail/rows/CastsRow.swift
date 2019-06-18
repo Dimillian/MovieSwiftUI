@@ -36,9 +36,9 @@ struct CastRowItem: View {
     
     var body: some View {
         VStack(alignment: .center) {
-            NavigationButton(destination: MoviesCrewList(crew: cast)) {
-                CastImage(imageLoader: ImageLoader(poster: cast.profile_path,
+            CastImage(imageLoader: ImageLoader(poster: cast.profile_path,
                                                size: .cast))
+            NavigationButton(destination: MoviesCrewList(crew: cast)) {
                 Text(cast.name).font(.body).color(.primary)
                 Text(cast.character ?? cast.department ?? "")
                     .font(.subheadline)
