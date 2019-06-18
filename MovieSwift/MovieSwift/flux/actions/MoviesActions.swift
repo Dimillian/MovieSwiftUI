@@ -122,11 +122,25 @@ struct MoviesActions {
     
     struct FetchSearch: Action {
         init(query: String) {
-            APIService.shared.GET(endpoint: .searchMovie(query: query), params: ["query": query]) {
+            APIService.shared.GET(endpoint: .searchMovie, params: ["query": query]) {
                 (result: Result<PaginatedResponse<Movie>, APIService.APIError>) in
                 switch result {
                 case let .success(response):
                     store.dispatch(action: SetSearch(query: query, response: response))
+                case .failure(_):
+                    break
+                }
+            }
+        }
+    }
+    
+    struct FetchSearchKeyword: Action {
+        init(query: String) {
+            APIService.shared.GET(endpoint: .searchKeyword, params: ["query": query]) {
+                (result: Result<PaginatedResponse<Keyword>, APIService.APIError>) in
+                switch result {
+                case let .success(response):
+                    store.dispatch(action: SetSearchKeyword(query: query, response: response))
                 case .failure(_):
                     break
                 }
@@ -219,6 +233,11 @@ struct MoviesActions {
     struct SetSearch: Action {
         let query: String
         let response: PaginatedResponse<Movie>
+    }
+    
+    struct SetSearchKeyword: Action {
+        let query: String
+        let response: PaginatedResponse<Keyword>
     }
     
     struct addToWishlist: Action {

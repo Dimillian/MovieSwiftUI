@@ -24,8 +24,13 @@ struct MoviesList : View {
         return state.moviesState.search[searchtext] ?? []
     }
     
+    var keywords: [Keyword]? {
+        return state.moviesState.searchKeywords[searchtext]?.prefix(5).map{ $0 }
+    }
+    
     func onChange() {
         store.dispatch(action: MoviesActions.FetchSearch(query: searchtext))
+        store.dispatch(action: MoviesActions.FetchSearchKeyword(query: searchtext))
     }
     
     var body: some View {
@@ -34,16 +39,28 @@ struct MoviesList : View {
                 if displaySearch {
                     TextField($searchtext,
                               placeholder: Text("Search any movies"))
-                        .onReceive(NotificationCenter.default.publisher(for: UITextField.textDidChangeNotification).debounce(for: 0.5,
-                                                                                                                             scheduler: DispatchQueue.main),
+                        .onReceive(NotificationCenter.default.publisher(for: UITextField.textDidChangeNotification)
+                            .debounce(for: 0.5,
+                                      scheduler: DispatchQueue.main),
                                    perform: onChange)
                         .textFieldStyle(.roundedBorder)
                         .listRowInsets(EdgeInsets())
                         .padding()
                 }
-                ForEach(isSearching ? searchedMovies : movies) {id in
-                    NavigationButton(destination: MovieDetail(movieId: id)) {
-                        MovieRow(movieId: id)
+                if isSearching && keywords != nil {
+                    Section {
+                        ForEach(keywords!) {keyword in
+                            NavigationButton(destination: MovieKeywordList(keyword: keyword)) {
+                                Text(keyword.name)
+                            }
+                        }
+                    }
+                }
+                Section {
+                    ForEach(isSearching ? searchedMovies : movies) {id in
+                        NavigationButton(destination: MovieDetail(movieId: id)) {
+                            MovieRow(movieId: id)
+                        }
                     }
                 }
             }
