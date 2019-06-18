@@ -10,7 +10,7 @@ import SwiftUI
 
 struct Tabbar : View {
     @EnvironmentObject var state: AppState
-    
+
     var body: some View {
         TabbedView {
             PopularList().tabItemLabel(Text("Popular")).tag(0)

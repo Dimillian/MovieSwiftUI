@@ -36,9 +36,9 @@ struct CastRowItem: View {
     
     var body: some View {
         VStack(alignment: .center) {
-            CastImage(imageLoader: ImageLoader(poster: cast.profile_path,
-                                               size: .cast))
             NavigationButton(destination: MoviesCrewList(crew: cast)) {
+                CastImage(imageLoader: ImageLoader(poster: cast.profile_path,
+                                                   size: .cast))
                 Text(cast.name).font(.body).color(.primary)
                 Text(cast.character ?? cast.department ?? "")
                     .font(.subheadline)
@@ -58,6 +58,7 @@ struct CastImage : View {
             if self.imageLoader.image != nil {
                 Image(uiImage: self.imageLoader.image!)
                     .resizable()
+                    .renderingMode(.original)
                     .cornerRadius(10)
                     .frame(width: 60, height: 90)
             } else {

@@ -17,6 +17,7 @@ struct MoviePosterImage : View {
             if self.imageLoader.image != nil {
                 Image(uiImage: self.imageLoader.image!)
                     .resizable()
+                    .renderingMode(.original)
                     .frame(width: 100, height: 150)
                     .cornerRadius(5)
                     .opacity(self.isImageLoaded ? 1 : 0.1)

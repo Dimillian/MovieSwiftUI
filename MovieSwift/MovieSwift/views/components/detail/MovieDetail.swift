@@ -61,6 +61,7 @@ struct MovieDetail : View {
         }
     }
     
+    // MARK: - Actions
     var addActionSheet: ActionSheet {
         get {
             let wishlistButton: Alert.Button = .default(Text("Add to wihlist")) {
@@ -96,7 +97,9 @@ struct MovieDetail : View {
             List {
                 MovieBackdrop(movieId: movie.id)
                 MovieRating(movie: movie)
-                MovieAddToList()
+                MovieAddToList(addedToWishlist: false,
+                               addedToSeenlist: false,
+                               movieId: movie.id)
                 MovieOverview(movie: movie)
                 if characters != nil && characters?.isEmpty == false {
                     CastsRow(title: "Characters",
