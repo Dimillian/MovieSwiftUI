@@ -13,12 +13,12 @@ struct MoviesActions {
     // MARK: - Requests
     
     struct FetchPopular: Action {
-        init() {
-            APIService.shared.GET(endpoint: .popular, params: nil) {
+        init(page: Int) {
+            APIService.shared.GET(endpoint: .popular, params: ["page": "\(page)"]) {
                 (result: Result<PaginatedResponse<Movie>, APIService.APIError>) in
                 switch result {
                 case let .success(response):
-                    store.dispatch(action: SetPopular(response: response))
+                    store.dispatch(action: SetPopular(page: page, response: response))
                 case .failure(_):
                     break
                 }
@@ -203,6 +203,7 @@ struct MoviesActions {
     // MARK: - Reduced actions
     
     struct SetPopular: Action {
+        let page: Int
         let response: PaginatedResponse<Movie>
     }
     struct SetTopRated: Action {
