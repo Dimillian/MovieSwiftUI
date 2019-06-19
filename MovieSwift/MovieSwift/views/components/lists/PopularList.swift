@@ -7,17 +7,26 @@
 //
 
 import SwiftUI
+import Combine
+
+final class PopularPageListener: PageListener {
+    override func loadPage() {
+        store.dispatch(action: MoviesActions.FetchPopular(page: currentPage))
+    }
+}
 
 struct PopularList : View {
     @EnvironmentObject var state: AppState
+    @State var pageListener = PopularPageListener()
     
     var body: some View {
         NavigationView {
-            MoviesList(movies: state.moviesState.popular, displaySearch: true)
-            .navigationBarTitle(Text("Popular"))
-            }.onAppear {
-                store.dispatch(action: MoviesActions.FetchPopular())
-        }
+            MoviesList(movies: state.moviesState.popular, displaySearch: true, pageListener: pageListener)
+                .navigationBarTitle(Text("Popular"))
+            }
+            .onAppear {
+                self.pageListener.loadPage()
+            }
     }
 }
 
