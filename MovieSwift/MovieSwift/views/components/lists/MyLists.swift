@@ -12,42 +12,62 @@ struct MyLists : View {
     @State var selectedList: Int = 0
     @EnvironmentObject var state: AppState
     
+    var customListsSection: some View {
+        Section(header: Text("Custom Lists")) {
+            PresentationButton(destination: CustomListForm().environmentObject(store),
+                               label: {
+                                Text("Create custom list")
+                                    .color(.blue)
+            })
+            ForEach(state.moviesState.customLists) { list in
+                CustomListRow(list: list)
+            }
+        }
+    }
+    
+    var wishlistSection: some View {
+        Section(header: Text("Wishlist")) {
+            ForEach(state.moviesState.wishlist.map{ $0.id }) {id in
+                NavigationButton(destination: MovieDetail(movieId: id)) {
+                    MovieRow(movieId: id)
+                }
+                }
+                .onDelete { (index) in
+                    let movie = self.state.moviesState.wishlist.map{ $0.id }[index.first!]
+                    store.dispatch(action: MoviesActions.removeFromWishlist(movie: movie))
+                    
+            }
+        }
+    }
+    
+    var seenSection: some View {
+        Section(header: Text("Seen")) {
+            ForEach(state.moviesState.seenlist.map{ $0.id }) {id in
+                NavigationButton(destination: MovieDetail(movieId: id)) {
+                    MovieRow(movieId: id)
+                }
+                }
+                .onDelete { (index) in
+                    let movie = self.state.moviesState.seenlist.map{ $0.id }[index.first!]
+                    store.dispatch(action: MoviesActions.removeFromSeenlist(movie: movie))
+            }
+        }
+    }
     var body: some View {
         NavigationView {
             List {
+                customListsSection
                 SegmentedControl(selection: $selectedList) {
                     Text("Wishlist").tag(0)
                     Text("Seen").tag(1)
                 }
-                PresentationButton(destination: CustomListForm().environmentObject(store),
-                                   label: {
-                                    Text("Create custom list")
-                                        .color(.blue)
-                })
                 if selectedList == 0 {
-                    ForEach(state.moviesState.wishlist.map{ $0.id }) {id in
-                        NavigationButton(destination: MovieDetail(movieId: id)) {
-                            MovieRow(movieId: id)
-                        }
-                        }
-                        .onDelete { (index) in
-                           let movie = self.state.moviesState.wishlist.map{ $0.id }[index.first!]
-                            store.dispatch(action: MoviesActions.removeFromWishlist(movie: movie))
-                            
-                    }
+                    wishlistSection
                 } else if selectedList == 1 {
-                    ForEach(state.moviesState.seenlist.map{ $0.id }) {id in
-                        NavigationButton(destination: MovieDetail(movieId: id)) {
-                            MovieRow(movieId: id)
-                        }
-                        }
-                        .onDelete { (index) in
-                            let movie = self.state.moviesState.seenlist.map{ $0.id }[index.first!]
-                            store.dispatch(action: MoviesActions.removeFromSeenlist(movie: movie))
-                    }
+                    seenSection
                 }
-                }
-                .navigationBarTitle(Text("My Lists"))
+            }
+            .navigationBarTitle(Text("My Lists"))
         }
     }
 }

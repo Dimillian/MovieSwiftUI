@@ -11,8 +11,10 @@ import SwiftUI
 struct MovieBackdropImage : View {
     @State var imageLoader: ImageLoader
     @State var isImageLoaded = false
+    
     @Binding var isExpanded: Bool
     
+    var forceBlur: Bool = false
     var fill: Bool = false
     
     private let threeshold: CGFloat = 50
@@ -37,7 +39,7 @@ struct MovieBackdropImage : View {
                     GeometryReader { geometry in
                         Image(uiImage: self.imageLoader.image!)
                             .resizable()
-                            .blur(radius: self.blurFor(minY: geometry.frame(in: .global).minY), opaque: false)
+                            .blur(radius: self.forceBlur ? 50 : self.blurFor(minY: geometry.frame(in: .global).minY), opaque: false)
                             .opacity(self.isImageLoaded ? 1 : 0)
                             .animation(.basic())
                             .onAppear{

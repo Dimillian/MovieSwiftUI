@@ -18,10 +18,9 @@ struct CustomListForm : View {
     var body: some View {
         NavigationView {
             Form {
-                CustomListPreviewRow(listName: $listName, listMovieCover: $listMovieCover)
                 TopSection(listMovieCover: $listMovieCover, movieSearch: $movieSearch, listName: $listName)
                 MovieSearchSection(movieSearch: $movieSearch, listMovieCover: $listMovieCover)
-                SaveCancelSection()
+                SaveCancelSection(listName: $listName, listMovieCover: $listMovieCover)
             }
             .navigationBarTitle(Text("New list"))
         }
@@ -43,9 +42,8 @@ struct TopSection: View {
     
     var body: some View {
         Section(header: Text("List information"),
-                footer: listMovieCover == nil ? Text("Movie cover is optional") : nil,
                 content: {
-                    TextField($listName, placeholder: Text("Name your list"))
+                        TextField($listName, placeholder: Text("Name your list"))
                     if listMovieCover == nil {
                         TextField($movieSearch,
                                   placeholder: Text("Add movie as your cover"))
@@ -54,7 +52,10 @@ struct TopSection: View {
                                           scheduler: DispatchQueue.main),
                                        perform: onKeyStroke)
                             .textFieldStyle(.plain)
-                    } else {
+                            .disabled(listMovieCover != nil)
+                    }
+                    if listMovieCover != nil {
+                        MovieRow(movieId: listMovieCover!)
                         Button(action: {
                             self.listMovieCover = nil
                         }, label: {
@@ -88,12 +89,20 @@ struct MovieSearchSection: View {
 }
 
 struct SaveCancelSection: View {
+    @EnvironmentObject var state: AppState
     @Environment(\.isPresented) var isPresented
+    
+    @Binding var listName: String
+    @Binding var listMovieCover: Int?
     
     var body: some View {
         Section {
             Button(action: {
+                self.state.dispatch(action: MoviesActions.AddCustomList(list: CustomList(name: self.listName,
+                                                                                    cover: self.listMovieCover,
+                                                                                    movies: [])))
                 self.isPresented?.value = false
+                
             }, label: {
                 Text("Create").color(.blue)
             })
@@ -103,31 +112,6 @@ struct SaveCancelSection: View {
                 Text("Cancel").color(.red)
             })
         }
-    }
-}
-
-struct CustomListPreviewRow: View {
-    @EnvironmentObject var state: AppState
-    
-    @Binding var listName: String
-    @Binding var listMovieCover: Int?
-    @State var isExpanded = false
-    
-    var movie: Movie? {
-        guard let id = listMovieCover else {
-            return nil
-        }
-        return state.moviesState.movies[id]
-    }
-    
-    var body: some View {
-        ZStack {
-            MovieBackdropImage(imageLoader: ImageLoader(poster: movie?.backdrop_path,
-                                                      size: .original),
-                             isExpanded: $isExpanded,
-                             fill: true)
-            Text(listName)
-            }.frame(height: 100)
     }
 }
 

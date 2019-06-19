@@ -28,6 +28,6 @@ struct MoviesState: FluxState, Codable {
     var customLists: [CustomList] = []
     
     enum CodingKeys: String, CodingKey {
-        case movies, wishlist, seenlist
+        case movies, wishlist, seenlist, customLists
     }
 }

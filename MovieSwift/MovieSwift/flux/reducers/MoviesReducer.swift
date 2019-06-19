@@ -78,6 +78,10 @@ struct MoviesReducer: Reducer {
                     state.movies[movie.id] = movie
                 }
             }
+        } else if let action = action as? MoviesActions.AddCustomList {
+            state.customLists.append(action.list)
+        } else if let action = action as? MoviesActions.RemoveCustomList {
+            state.customLists.removeAll{ $0.id == action.list }
         }
         return state
     }
