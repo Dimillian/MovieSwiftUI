@@ -20,7 +20,9 @@ struct MyLists : View {
                                     .color(.blue)
             })
             ForEach(state.moviesState.customLists) { list in
-                CustomListRow(list: list)
+                NavigationButton(destination: CustomListDetail(listId: list.id)) {
+                    CustomListRow(list: list)
+                }
             }
         }
     }
@@ -75,7 +77,7 @@ struct MyLists : View {
 #if DEBUG
 struct MyLists_Previews : PreviewProvider {
     static var previews: some View {
-        MyLists(selectedList: 0)
+        MyLists(selectedList: 0).environmentObject(sampleStore)
     }
 }
 #endif

@@ -25,7 +25,7 @@ struct CustomListRow : View {
                                                         size: .original),
                                isExpanded: .constant(false),
                                forceBlur: true,
-                               fill: true)
+                               fill: true).frame(height: 50)
             VStack(alignment: .leading, spacing: 2) {
                 Text(list.name)
                 Text("\(list.movies.count) movies")
