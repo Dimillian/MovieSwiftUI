@@ -51,7 +51,7 @@ struct DiscoverView : View {
         }
     }
     
-    var infoView: some View {
+    var filterView: some View {
         HStack(alignment: .center, spacing: 8) {
             Text("Year: \(state.moviesState.discoverParams["year"] ?? "loading")")
                 .color(.secondary)
@@ -69,6 +69,29 @@ struct DiscoverView : View {
     var zonesButtons: some View {
         GeometryReader { geometry in
             ZStack(alignment: .center) {
+                if !self.movies.isEmpty {
+                    Text(self.state.moviesState.movies[self.movies.reversed()[0]]!.original_title)
+                        .color(.primary)
+                        .multilineTextAlignment(.center)
+                        .font(.subheadline)
+                        .lineLimit(2)
+                        .opacity(self.draggedViewState.isDragging ? 0.0 : 1.0)
+                        .position(x: geometry.frame(in: .global).midX,
+                                  y: geometry.frame(in: .global).midY + 150)
+                        .animation(.basic())
+                    
+                    PresentationButton(destination:
+                        NavigationView { MovieDetail(movieId: self.movies.reversed()[0]) }.environmentObject(store),
+                                       label: {
+                                        Text("See detail").color(.blue)
+                                        
+                    })
+                        .opacity(self.draggedViewState.isDragging ? 0.0 : 0.7)
+                        .position(x: geometry.frame(in: .global).midX, y: geometry.frame(in: .global).midY + 180)
+                        .animation(.fluidSpring())
+                        .environmentObject(store)
+                }
+                
                 Circle()
                     .strokeBorder(Color.pink, lineWidth: 1)
                     .background(Image(systemName: "heart").foregroundColor(.pink))
@@ -85,18 +108,6 @@ struct DiscoverView : View {
                     .opacity(self.draggedViewState.isDragging ? 0.3 + Double(self.rightZoneResistance()) : 0)
                     .animation(.fluidSpring())
                 
-                
-                if !self.movies.isEmpty {
-                    PresentationButton(destination: NavigationView { MovieDetail(movieId: self.movies.reversed()[0]) },
-                                       label: {
-                                        Text("See detail").color(.blue)
-                                        
-                    })
-                        .opacity(self.draggedViewState.isDragging ? 0.0 : 0.7)
-                        .position(x: geometry.frame(in: .global).midX, y: geometry.frame(in: .global).midY + 180)
-                        .animation(.fluidSpring())
-                        .environmentObject(store)
-                }
                 
                 Circle()
                     .strokeBorder(Color.red, lineWidth: 1)
@@ -115,7 +126,7 @@ struct DiscoverView : View {
     
     var body: some View {
         ZStack(alignment: .center) {
-            infoView.position(x: 100, y: 20)
+            filterView.position(x: 100, y: 20)
             zonesButtons
             ForEach(movies) {id in
                 if self.movies.reversed().firstIndex(of: id) == 0 {

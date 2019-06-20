@@ -63,7 +63,7 @@ struct DraggableCover : View {
     @GestureState private var dragState = DragState.inactive
     
     // MARK: - Internal consts
-    private let minimumLongPressDuration = 0.1
+    private let minimumLongPressDuration = 0.01
     private let shadowSize: Length = 4
     private let shadowRadius: Length = 16
     
