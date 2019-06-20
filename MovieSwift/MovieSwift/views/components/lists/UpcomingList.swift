@@ -8,15 +8,23 @@
 
 import SwiftUI
 
+final class UpcomingPageListener: PageListener {
+    override func loadPage() {
+        store.dispatch(action: MoviesActions.FetchUpcoming(page: currentPage))
+    }
+}
+
+
 struct UpcomingList : View {
     @EnvironmentObject var state: AppState
+    @State var pageListener = UpcomingPageListener()
     
     var body: some View {
         NavigationView {
-            MoviesList(movies: state.moviesState.upcoming, displaySearch: true)
+            MoviesList(movies: state.moviesState.upcoming, displaySearch: true, pageListener: pageListener)
             .navigationBarTitle(Text("Upcoming"))
             }.onAppear {
-                store.dispatch(action: MoviesActions.FetchUpcoming())
+                self.pageListener.loadPage()
         }
     }
 }

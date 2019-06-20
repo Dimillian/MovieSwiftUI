@@ -37,7 +37,10 @@ struct TopSection: View {
     var body: some View {
         Section(header: Text("List information"),
                 content: {
+                    HStack {
+                        Text("Name:")
                         TextField($listName, placeholder: Text("Name your list"))
+                    }
                     if listMovieCover == nil {
                         SearchField(searchText: $movieSearch,
                                     placeholder: Text("Search and add a movie as your cover"),

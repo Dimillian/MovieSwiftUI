@@ -27,12 +27,12 @@ struct MoviesActions {
     }
     
     struct FetchTopRated: Action {
-        init() {
-            APIService.shared.GET(endpoint: .toRated, params: nil) {
+        init(page: Int) {
+            APIService.shared.GET(endpoint: .toRated, params: ["page": "\(page)"]) {
                 (result: Result<PaginatedResponse<Movie>, APIService.APIError>) in
                 switch result {
                 case let .success(response):
-                    store.dispatch(action: SetTopRated(response: response))
+                    store.dispatch(action: SetTopRated(page: page, response: response))
                 case .failure(_):
                     break
                 }
@@ -41,12 +41,12 @@ struct MoviesActions {
     }
     
     struct FetchUpcoming: Action {
-        init() {
-            APIService.shared.GET(endpoint: .upcoming, params: ["region": "US"]) {
+        init(page: Int) {
+            APIService.shared.GET(endpoint: .upcoming, params: ["region": "US", "page": "\(page)"]) {
                 (result: Result<PaginatedResponse<Movie>, APIService.APIError>) in
                 switch result {
                 case let .success(response):
-                    store.dispatch(action: SetUpcoming(response: response))
+                    store.dispatch(action: SetUpcoming(page: page, response: response))
                 case .failure(_):
                     break
                 }
@@ -209,10 +209,12 @@ struct MoviesActions {
         let response: PaginatedResponse<Movie>
     }
     struct SetTopRated: Action {
+        let page: Int
         let response: PaginatedResponse<Movie>
     }
     
     struct SetUpcoming: Action {
+        let page: Int
         let response: PaginatedResponse<Movie>
     }
     struct SetDetail: Action {

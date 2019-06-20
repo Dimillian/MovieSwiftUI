@@ -8,15 +8,22 @@
 
 import SwiftUI
 
+final class TopRatedListPageListener: PageListener {
+    override func loadPage() {
+        store.dispatch(action: MoviesActions.FetchTopRated(page: currentPage))
+    }
+}
+
 struct TopRatedList : View {
     @EnvironmentObject var state: AppState
+    @State var pageListener = TopRatedListPageListener()
     
     var body: some View {
         NavigationView {
-            MoviesList(movies: state.moviesState.topRated, displaySearch: true)
+            MoviesList(movies: state.moviesState.topRated, displaySearch: true, pageListener: pageListener)
             .navigationBarTitle(Text("Top Rated"))
             }.onAppear {
-                store.dispatch(action: MoviesActions.FetchTopRated())
+                self.pageListener.loadPage()
         }
     }
 }

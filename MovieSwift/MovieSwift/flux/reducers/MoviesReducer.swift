@@ -21,12 +21,20 @@ struct MoviesReducer: Reducer {
                 state.movies[value.id] = value
             }
         } else if let action = action as? MoviesActions.SetTopRated {
-            state.topRated = action.response.results.map{ $0.id }
+            if action.page == 1 {
+                state.topRated = action.response.results.map{ $0.id }
+            } else {
+                state.topRated.append(contentsOf: action.response.results.map{ $0.id })
+            }
             for (_, value) in action.response.results.enumerated() {
                 state.movies[value.id] = value
             }
         } else if let action = action as? MoviesActions.SetUpcoming {
-            state.upcoming = action.response.results.map{ $0.id }
+            if action.page == 1 {
+                state.upcoming = action.response.results.map{ $0.id }
+            } else {
+                state.upcoming.append(contentsOf: action.response.results.map{ $0.id })
+            }
             for (_, value) in action.response.results.enumerated() {
                 state.movies[value.id] = value
             }
