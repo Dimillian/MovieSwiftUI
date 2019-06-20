@@ -20,9 +20,19 @@ class PageListener {
     }
 }
 
+
+final class SearchPageListener: PageListener {
+    var text: String!
+    
+    override func loadPage() {
+        store.dispatch(action: MoviesActions.FetchSearch(query: text, page: currentPage))
+    }
+}
+
 struct MoviesList : View {
     @EnvironmentObject var state: AppState
     @State var searchtext: String = ""
+    @State var searchPageListener = SearchPageListener()
     
     let movies: [Int]
     let displaySearch: Bool
@@ -65,7 +75,8 @@ struct MoviesList : View {
                     placeholder: Text("Search movies"),
                     onUpdateSearchText: {text in
                         if !text.isEmpty {
-                            self.state.dispatch(action: MoviesActions.FetchSearch(query: text))
+                            self.searchPageListener.text = text
+                            self.searchPageListener.currentPage = 1
                             self.state.dispatch(action: MoviesActions.FetchSearchKeyword(query: text))
                         }
         })
@@ -80,11 +91,13 @@ struct MoviesList : View {
                 searchSection
             }
             movieSection
-            if !movies.isEmpty {
+            if !movies.isEmpty || !searchedMovies.isEmpty {
                 Rectangle()
                     .foregroundColor(.clear)
                     .onAppear {
-                        if self.pageListener != nil {
+                        if self.isSearching && !self.searchedMovies.isEmpty{
+                            self.searchPageListener.currentPage += 1
+                        } else if self.pageListener != nil {
                             self.pageListener!.currentPage += 1
                         }
                 }

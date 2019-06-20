@@ -12,14 +12,13 @@ struct MoviesReducer: Reducer {
     func reduce(state: MoviesState, action: Action) -> MoviesState {
         var state = state
         if let action = action as? MoviesActions.SetPopular {
-            if action.page == 0 {
+            if action.page == 1 {
                 state.popular = action.response.results.map{ $0.id }
+            } else {
+                state.popular.append(contentsOf: action.response.results.map{ $0.id })
             }
             for (_, value) in action.response.results.enumerated() {
                 state.movies[value.id] = value
-                if action.page > 0 {
-                    state.popular.append(value.id)
-                }
             }
         } else if let action = action as? MoviesActions.SetTopRated {
             state.topRated = action.response.results.map{ $0.id }
@@ -44,7 +43,11 @@ struct MoviesReducer: Reducer {
                 state.movies[value.id] = value
             }
         } else if let action = action as? MoviesActions.SetSearch {
-            state.search[action.query] = action.response.results.map{ $0.id }
+            if action.page == 1 {
+                state.search[action.query] = action.response.results.map{ $0.id }
+            } else {
+                state.search[action.query]?.append(contentsOf: action.response.results.map{ $0.id })
+            }
             for movie in action.response.results {
                 state.movies[movie.id] = movie
             }

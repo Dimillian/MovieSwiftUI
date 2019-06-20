@@ -43,7 +43,7 @@ struct TopSection: View {
                                     placeholder: Text("Search and add a movie as your cover"),
                                     onUpdateSearchText: {text in
                                         if !text.isEmpty {
-                                            self.state.dispatch(action: MoviesActions.FetchSearch(query: text))
+                                            self.state.dispatch(action: MoviesActions.FetchSearch(query: text, page: 1))
                                         }
                         }).disabled(listMovieCover != nil)
                     }
