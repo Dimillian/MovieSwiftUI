@@ -30,7 +30,6 @@ struct DiscoverCoverImage : View {
                     .foregroundColor(.gray)
                     .frame(width: 200, height: 300)
                     .cornerRadius(5)
-                    .opacity(0.5)
             } else {
                 Rectangle()
                     .foregroundColor(.clear)

@@ -17,8 +17,12 @@ struct DiscoverView : View {
         state.moviesState.discover
     }
     
-    func scaleResistance() -> CGFloat {
-        abs(draggedViewState.translation.width) / 2000
+    func dragResistance() -> CGFloat {
+        abs(draggedViewState.translation.width) / 5
+    }
+    
+    func opacityResistance() -> Double {
+        Double(abs(draggedViewState.translation.width) / 1000)
     }
     
     func leftZoneResistance() -> CGFloat {
@@ -120,16 +124,11 @@ struct DiscoverView : View {
                                    endGestureHandler: { handler in
                                     self.doneGesture(handler: handler)
                     })
-                } else if self.movies.reversed().firstIndex(of: id) == 1 {
-                    DiscoverCoverImage(imageLoader: ImageLoader(poster: self.state.moviesState.movies[id]!.poster_path,
-                                                                size: .original))
-                        .padding(.bottom, Length(self.movies.reversed().firstIndex(of: id)! * 8))
-                        .scaleEffect(self.draggedViewState.isDragging ?  1.0 + self.scaleResistance() : 1.0)
-                        .animation(.spring())
                 } else {
                     DiscoverCoverImage(imageLoader: ImageLoader(poster: self.state.moviesState.movies[id]!.poster_path,
                                                                 size: .original))
-                        .padding(.bottom, Length(self.movies.reversed().firstIndex(of: id)! * 8))
+                        .padding(.bottom, Length(self.movies.reversed().firstIndex(of: id)! * 8) - self.dragResistance())
+                        .opacity(Double(self.movies.firstIndex(of: id)!) * 0.05 + self.opacityResistance())
                         .animation(.spring())
                 }
             }

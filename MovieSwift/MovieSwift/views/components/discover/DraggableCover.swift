@@ -112,9 +112,9 @@ struct DraggableCover : View {
                                                   predictedLocation: self.dragState.predictedLocation)
             }.onEnded { value in
                 let endLocation = self.gestureViewState.predictedLocation
-                if endLocation.x < 0 {
+                if endLocation.x < -50 {
                     self.endGestureHandler(.left)
-                } else if endLocation.x > UIScreen.main.bounds.width {
+                } else if endLocation.x > UIScreen.main.bounds.width - 100 {
                     self.endGestureHandler(.right)
                 } else {
                     self.endGestureHandler(.cancelled)
@@ -126,7 +126,7 @@ struct DraggableCover : View {
                                                          size: .original))
             .offset(computedOffset())
             .rotationEffect(computeAngle())
-            .scaleEffect(dragState.isActive ? 1.1: 1)
+            .scaleEffect(dragState.isActive ? 1.05: 1)
             .shadow(color: .secondary,
                     radius: dragState.isActive ? shadowRadius : 0,
                     x: dragState.isActive ? shadowSize : 0,
