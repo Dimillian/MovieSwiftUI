@@ -40,13 +40,6 @@ struct MoviesList : View {
         return state.moviesState.searchKeywords[searchtext]?.prefix(5).map{ $0 }
     }
     
-    func onChange() {
-        if !searchtext.isEmpty {
-            store.dispatch(action: MoviesActions.FetchSearch(query: searchtext))
-            store.dispatch(action: MoviesActions.FetchSearchKeyword(query: searchtext))
-        }
-    }
-    
     var movieSection: some View {
         Section {
             ForEach(isSearching ? searchedMovies : movies) {id in
@@ -68,15 +61,14 @@ struct MoviesList : View {
     }
     
     var searchField: some View {
-        TextField($searchtext,
-                  placeholder: Text("Search any movies"))
-            .onReceive(NotificationCenter.default.publisher(for: UITextField.textDidChangeNotification)
-                .debounce(for: 0.5,
-                          scheduler: DispatchQueue.main),
-                       perform: onChange)
-            .textFieldStyle(.roundedBorder)
-            .listRowInsets(EdgeInsets())
-            .padding()
+        SearchField(searchText: $searchtext,
+                    placeholder: Text("Search movies"),
+                    onUpdateSearchText: {text in
+                        if !text.isEmpty {
+                            self.state.dispatch(action: MoviesActions.FetchSearch(query: text))
+                            self.state.dispatch(action: MoviesActions.FetchSearchKeyword(query: text))
+                        }
+        })
     }
     
     var body: some View {

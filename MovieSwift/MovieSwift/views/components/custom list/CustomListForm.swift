@@ -34,25 +34,18 @@ struct TopSection: View {
     @Binding var movieSearch: String
     @Binding var listName: String
     
-    func onKeyStroke() {
-        if !movieSearch.isEmpty {
-            state.dispatch(action: MoviesActions.FetchSearch(query: movieSearch))
-        }
-    }
-    
     var body: some View {
         Section(header: Text("List information"),
                 content: {
                         TextField($listName, placeholder: Text("Name your list"))
                     if listMovieCover == nil {
-                        TextField($movieSearch,
-                                  placeholder: Text("Add movie as your cover"))
-                            .onReceive(NotificationCenter.default.publisher(for: UITextField.textDidChangeNotification)
-                                .debounce(for: 0.5,
-                                          scheduler: DispatchQueue.main),
-                                       perform: onKeyStroke)
-                            .textFieldStyle(.plain)
-                            .disabled(listMovieCover != nil)
+                        SearchField(searchText: $movieSearch,
+                                    placeholder: Text("Search and add a movie as your cover"),
+                                    onUpdateSearchText: {text in
+                                        if !text.isEmpty {
+                                            self.state.dispatch(action: MoviesActions.FetchSearch(query: text))
+                                        }
+                        }).disabled(listMovieCover != nil)
                     }
                     if listMovieCover != nil {
                         MovieRow(movieId: listMovieCover!)
