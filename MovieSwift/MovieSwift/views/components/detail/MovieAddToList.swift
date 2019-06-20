@@ -24,15 +24,15 @@ struct MovieAddToList : View {
     var body: some View {
         HStack(alignment: .center, spacing: 8) {
             BorderedButton(text: addedToWishlist ? "In wishlist" : "Add to wishlist",
-                           systemImageName: "film",
-                           color: .blue,
+                           systemImageName: "heart",
+                           color: .pink,
                            isOn: addedToWishlist,
                            action: {
                 store.dispatch(action: MoviesActions.addToWishlist(movie: self.movieId))
             })
 
             BorderedButton(text: addedToSeenlist ? "Seen" : "Mark as seen",
-                           systemImageName: "eyeglasses",
+                           systemImageName: "eye",
                            color: .green,
                            isOn: addedToSeenlist,
                            action: {

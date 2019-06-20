@@ -14,14 +14,23 @@ struct DraggableCover : View {
     enum DragState {
         case inactive
         case pressing
-        case dragging(translation: CGSize)
+        case dragging(translation: CGSize, predictedLocation: CGPoint)
         
         var translation: CGSize {
             switch self {
             case .inactive, .pressing:
                 return .zero
-            case .dragging(let translation):
-                return translation
+            case .dragging(let data):
+                return data.translation
+            }
+        }
+        
+        var predictedLocation: CGPoint {
+            switch self {
+            case .inactive, .pressing:
+                return .zero
+            case .dragging(let data):
+                return data.predictedLocation
             }
         }
         
@@ -44,6 +53,10 @@ struct DraggableCover : View {
         }
     }
     
+    enum EndState {
+        case left, right, cancelled
+    }
+    
     // MARK: - Internal vars
     @State private var viewState = CGSize.zero
     @EnvironmentObject private var state: AppState
@@ -56,7 +69,8 @@ struct DraggableCover : View {
     
     // MARK: - Constructor vars
     let movieId: Int
-    @Binding var draggedViewState: DragState
+    @Binding var gestureViewState: DragState
+    let endGestureHandler: (EndState) -> Void
     
     // MARK: - Computed vars
     var movie: Movie! {
@@ -80,20 +94,32 @@ struct DraggableCover : View {
     var body: some View {
         // MARK: - Gesture
         let longPressDrag = LongPressGesture(minimumDuration: minimumLongPressDuration)
+            .onEnded { value in
+                self.gestureViewState = .inactive
+            }
             .sequenced(before: DragGesture())
             .updating($dragState) { value, state, transaction in
                 switch value {
                 case .first(true):
                     state = .pressing
                 case .second(true, let drag):
-                    state = .dragging(translation: drag?.translation ?? .zero)
+                    state = .dragging(translation: drag?.translation ?? .zero, predictedLocation: drag?.predictedEndLocation ?? .zero)
                 default:
                     state = .inactive
                 }
             }.onChanged { value in
-                self.draggedViewState = .dragging(translation: self.dragState.translation)
+                self.gestureViewState = .dragging(translation: self.dragState.translation,
+                                                  predictedLocation: self.dragState.predictedLocation)
             }.onEnded { value in
-                self.draggedViewState = .inactive
+                let endLocation = self.gestureViewState.predictedLocation
+                if endLocation.x < 0 {
+                    self.endGestureHandler(.left)
+                } else if endLocation.x > UIScreen.main.bounds.width {
+                    self.endGestureHandler(.right)
+                } else {
+                    self.endGestureHandler(.cancelled)
+                }
+                self.gestureViewState = .inactive
             }
         // MARK: - View return
         return DiscoverCoverImage(imageLoader: ImageLoader(poster: movie.poster_path,
@@ -114,7 +140,9 @@ struct DraggableCover : View {
 #if DEBUG
 struct DraggableCover_Previews : PreviewProvider {
     static var previews: some View {
-        DraggableCover(movieId: 0, draggedViewState: .constant(.inactive)).environmentObject(sampleStore)
+        DraggableCover(movieId: 0, gestureViewState: .constant(.inactive), endGestureHandler: {handler in
+            
+        }).environmentObject(sampleStore)
     }
 }
 #endif

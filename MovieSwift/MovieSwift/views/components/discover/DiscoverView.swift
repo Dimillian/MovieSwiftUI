@@ -10,8 +10,12 @@ import SwiftUI
 
 struct DiscoverView : View {
     @EnvironmentObject var state: AppState
-    
     @State var draggedViewState = DraggableCover.DragState.inactive
+    @State var popIndex: Int = 0
+    
+    var movies: [Int] {
+        state.moviesState.discover
+    }
     
     func scaleResistance() -> CGFloat {
         abs(draggedViewState.translation.width) / 2000
@@ -25,42 +29,113 @@ struct DiscoverView : View {
         draggedViewState.translation.width / 1000
     }
     
-    var zones: some View {
-        ZStack(alignment: .center) {
-            Rectangle()
-                .foregroundColor(.green)
-                .frame(width: 50, height: UIScreen.main.bounds.height, alignment: .leading)
-                .position(x: 25, y: UIScreen.main.bounds.midY)
-                .opacity(draggedViewState.isDragging ? 0.3 + Double(leftZoneResistance()) : 0)
-                .animation(.basic())
-            Rectangle()
-                .foregroundColor(.red)
-                .frame(width: 50, height: UIScreen.main.bounds.height, alignment: .leading)
-                .position(x: UIScreen.main.bounds.width - 25, y: UIScreen.main.bounds.midY)
-                .opacity(draggedViewState.isDragging ? 0.3 + Double(rightZoneResistance()) : 0)
-                .animation(.basic())
+    func doneGesture(handler: DraggableCover.EndState) {
+        if handler == .left || handler == .right {
+            if handler == .left {
+                store.dispatch(action: MoviesActions.addToWishlist(movie: movies.reversed()[0]))
+            } else if handler == .right {
+                store.dispatch(action: MoviesActions.addToSeenlist(movie: movies.reversed()[0]))
+            }
+            state.dispatch(action: MoviesActions.PopRandromDiscover())
+            fetchRandomMovies()
+        }
+    }
+    
+    func fetchRandomMovies() {
+        if movies.count < 10 {
+            self.state.dispatch(action: MoviesActions.FetchRandomDiscover())
+        }
+    }
+    
+    var infoView: some View {
+        HStack(alignment: .center, spacing: 8) {
+            Text("Year: \(state.moviesState.discoverParams["year"] ?? "loading")")
+                .color(.secondary)
+                .font(.footnote)
+                .frame(width: 100)
+            Button(action: {
+                self.state.dispatch(action: MoviesActions.ResetRandomDiscover())
+                self.fetchRandomMovies()
+            }, label: {
+                Text("Reload").color(.blue)
+            })
+        }
+    }
+    
+    var zonesButtons: some View {
+        GeometryReader { geometry in
+            ZStack(alignment: .center) {
+                Circle()
+                    .strokeBorder(Color.pink, lineWidth: 1)
+                    .background(Image(systemName: "heart").foregroundColor(.pink))
+                    .frame(width: 50, height: 50)
+                    .position(x: geometry.frame(in: .global).midX - 50, y: geometry.frame(in: .global).midY + 200)
+                    .opacity(self.draggedViewState.isDragging ? 0.3 + Double(self.leftZoneResistance()) : 0)
+                    .animation(.fluidSpring())
+                
+                Circle()
+                    .strokeBorder(Color.green, lineWidth: 1)
+                    .background(Image(systemName: "eye").foregroundColor(.green))
+                    .frame(width: 50, height: 50)
+                    .position(x: geometry.frame(in: .global).midX + 50, y: geometry.frame(in: .global).midY + 200)
+                    .opacity(self.draggedViewState.isDragging ? 0.3 + Double(self.rightZoneResistance()) : 0)
+                    .animation(.fluidSpring())
+                
+                
+                if !self.movies.isEmpty {
+                    PresentationButton(destination: NavigationView { MovieDetail(movieId: self.movies.reversed()[0]) },
+                                       label: {
+                                        Text("See detail").color(.blue)
+                                        
+                    })
+                        .opacity(self.draggedViewState.isDragging ? 0.0 : 0.7)
+                        .position(x: geometry.frame(in: .global).midX, y: geometry.frame(in: .global).midY + 180)
+                        .animation(.fluidSpring())
+                        .environmentObject(store)
+                }
+                
+                Circle()
+                    .strokeBorder(Color.red, lineWidth: 1)
+                    .background(Image(systemName: "xmark").foregroundColor(.red))
+                    .frame(width: 50, height: 50)
+                    .position(x: geometry.frame(in: .global).midX, y: geometry.frame(in: .global).midY + 230)
+                    .opacity(self.draggedViewState.isDragging ? 0.0 : 0.7)
+                    .animation(.fluidSpring())
+                    .tapAction {
+                        self.state.dispatch(action: MoviesActions.PopRandromDiscover())
+                        self.fetchRandomMovies()
+                }
+            }
         }
     }
     
     var body: some View {
         ZStack(alignment: .center) {
-            zones
-            ForEach(state.moviesState.popular.reversed()) {id in
-                if self.state.moviesState.popular.firstIndex(of: id) == 0 {
-                    DraggableCover(movieId: id, draggedViewState: self.$draggedViewState)
-                } else if self.state.moviesState.popular.firstIndex(of: id) == 1 {
+            infoView.position(x: 100, y: 20)
+            zonesButtons
+            ForEach(movies) {id in
+                if self.movies.reversed().firstIndex(of: id) == 0 {
+                    DraggableCover(movieId: id,
+                                   gestureViewState: self.$draggedViewState,
+                                   endGestureHandler: { handler in
+                                    self.doneGesture(handler: handler)
+                    })
+                } else if self.movies.reversed().firstIndex(of: id) == 1 {
                     DiscoverCoverImage(imageLoader: ImageLoader(poster: self.state.moviesState.movies[id]!.poster_path,
                                                                 size: .original))
-                        .padding(.bottom, Length(self.state.moviesState.popular.firstIndex(of: id)! * 8))
+                        .padding(.bottom, Length(self.movies.reversed().firstIndex(of: id)! * 8))
                         .scaleEffect(self.draggedViewState.isDragging ?  1.0 + self.scaleResistance() : 1.0)
                         .animation(.spring())
                 } else {
                     DiscoverCoverImage(imageLoader: ImageLoader(poster: self.state.moviesState.movies[id]!.poster_path,
                                                                 size: .original))
-                        .padding(.bottom, Length(self.state.moviesState.popular.firstIndex(of: id)! * 8))
+                        .padding(.bottom, Length(self.movies.reversed().firstIndex(of: id)! * 8))
                         .animation(.spring())
                 }
             }
+            }
+            .onAppear {
+                self.fetchRandomMovies()
         }
     }
 }

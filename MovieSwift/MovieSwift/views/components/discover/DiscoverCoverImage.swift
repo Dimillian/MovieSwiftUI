@@ -14,7 +14,7 @@ struct DiscoverCoverImage : View {
     
     var body: some View {
         ZStack {
-            if self.imageLoader.image != nil {
+            if imageLoader.image != nil {
                 Image(uiImage: self.imageLoader.image!)
                     .resizable()
                     .renderingMode(.original)
@@ -25,12 +25,16 @@ struct DiscoverCoverImage : View {
                     .onAppear{
                         self.isImageLoaded = true
                 }
-            } else {
+            } else if imageLoader.poster == nil {
                 Rectangle()
                     .foregroundColor(.gray)
-                    .frame(width: 100, height: 150)
+                    .frame(width: 200, height: 300)
                     .cornerRadius(5)
-                    .opacity(0.1)
+                    .opacity(0.5)
+            } else {
+                Rectangle()
+                    .foregroundColor(.clear)
+                    .frame(width: 50, height: 50)
             }
             }.onAppear {
                 self.imageLoader.loadImage()

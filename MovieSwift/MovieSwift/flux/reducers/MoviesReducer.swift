@@ -76,6 +76,18 @@ struct MoviesReducer: Reducer {
                     state.movies[movie.id] = movie
                 }
             }
+        } else if let action = action as? MoviesActions.SetRandomDiscover {
+            if state.discover.isEmpty {
+                state.discover = action.response.results.map{ $0.id }
+            } else {
+                state.discover.insert(contentsOf: action.response.results.map{ $0.id }, at: 0)
+            }
+            for movie in action.response.results {
+                if state.movies[movie.id] == nil {
+                    state.movies[movie.id] = movie
+                }
+            }
+            state.discoverParams = action.params
         } else if let action = action as? MoviesActions.SetMovieReviews {
             state.reviews[action.movie] = action.response.results
         } else if let action = action as? MoviesActions.SetMovieWithCrew {
@@ -98,6 +110,11 @@ struct MoviesReducer: Reducer {
             state.customLists.append(action.list)
         } else if let action = action as? MoviesActions.RemoveCustomList {
             state.customLists.removeAll{ $0.id == action.list }
+        } else if action is MoviesActions.PopRandromDiscover {
+            _ = state.discover.popLast()
+        } else if action is MoviesActions.ResetRandomDiscover {
+            state.discoverParams = [:]
+            state.discover = []
         }
         return state
     }
