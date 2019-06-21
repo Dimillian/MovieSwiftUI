@@ -9,12 +9,12 @@
 import SwiftUI
 
 struct MovieBackdrop: View {
-    @EnvironmentObject var state: AppState
+    @EnvironmentObject var store: AppStore
     @State var seeImage = false
     
     let movieId: Int
     var movie: Movie! {
-        return state.moviesState.movies[movieId]
+        return store.state.moviesState.movies[movieId]
     }
     
     //MARK: - View computed properties

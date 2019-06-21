@@ -9,13 +9,13 @@
 import SwiftUI
 
 struct MovieReviews : View {
-    @EnvironmentObject var state: AppState
+    @EnvironmentObject var store: AppStore
     @Environment(\.isPresented) var isPresented
     
     let movie: Int
     
     var reviews: [Review] {
-        return state.moviesState.reviews[movie] ?? []
+        return store.state.moviesState.reviews[movie] ?? []
     }
     
     func onCloseButton() {
@@ -32,7 +32,7 @@ struct MovieReviews : View {
                 Image(systemName: "xmark")
             })
             }.onAppear{
-                self.state.dispatch(action: MoviesActions.FetchMovieReviews(movie: self.movie.id))
+                self.store.dispatch(action: MoviesActions.FetchMovieReviews(movie: self.movie.id))
         }
     }
 }

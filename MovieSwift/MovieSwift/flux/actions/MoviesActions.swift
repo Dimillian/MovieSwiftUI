@@ -203,22 +203,25 @@ struct MoviesActions {
     }
     
     struct FetchRandomDiscover: Action {
-        init() {
-            let sortBy = ["popularity.desc",
-                          "popularity.asc",
-                          "vote_average.asc",
-                          "vote_average.desc"]
-            let calendar = Calendar.current
-            let randomYear = Int.random(in: 1950..<calendar.component(.year, from: Date()))
-            var params: [String : String] = [:]
-            params["year"] = "\(randomYear)"
-            params["page"] = "\(Int.random(in: 1..<10))"
-            params["sort_by"] = sortBy[Int.random(in: 0..<sortBy.count)]
+        init(params: [String: String]? = nil) {
+            var params = params
+            if params == nil {
+                let sortBy = ["popularity.desc",
+                              "popularity.asc",
+                              "vote_average.asc",
+                              "vote_average.desc"]
+                let calendar = Calendar.current
+                let randomYear = Int.random(in: 1950..<calendar.component(.year, from: Date()))
+                params = [:]
+                params!["year"] = "\(randomYear)"
+                params!["page"] = "\(Int.random(in: 1..<10))"
+                params!["sort_by"] = sortBy[Int.random(in: 0..<sortBy.count)]
+            }
             APIService.shared.GET(endpoint: .discover, params: params)
             { (result: Result<PaginatedResponse<Movie>, APIService.APIError>) in
                 switch result {
                 case let .success(response):
-                    store.dispatch(action: SetRandomDiscover(params: params, response: response))
+                    store.dispatch(action: SetRandomDiscover(params: params!, response: response))
                 case .failure(_):
                     break
                 }

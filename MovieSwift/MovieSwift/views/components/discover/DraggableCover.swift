@@ -59,7 +59,7 @@ struct DraggableCover : View {
     
     // MARK: - Internal vars
     @State private var viewState = CGSize.zero
-    @EnvironmentObject private var state: AppState
+    @EnvironmentObject private var store: AppStore
     @GestureState private var dragState = DragState.inactive
     
     // MARK: - Internal consts
@@ -74,7 +74,7 @@ struct DraggableCover : View {
     
     // MARK: - Computed vars
     var movie: Movie! {
-        state.moviesState.movies[movieId]
+        store.state.moviesState.movies[movieId]
     }
     
     // MARK: - Viewd functions

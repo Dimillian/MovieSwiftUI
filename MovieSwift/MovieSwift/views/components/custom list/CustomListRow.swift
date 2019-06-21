@@ -9,14 +9,14 @@
 import SwiftUI
 
 struct CustomListRow : View {
-    @EnvironmentObject var state: AppState
+    @EnvironmentObject var store: AppStore
     
     let list: CustomList
     var coverMovie: Movie? {
         guard let id = list.cover else {
             return nil
         }
-        return state.moviesState.movies[id]
+        return store.state.moviesState.movies[id]
     }
     
     var body: some View {

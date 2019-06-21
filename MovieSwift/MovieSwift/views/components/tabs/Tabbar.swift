@@ -9,7 +9,7 @@
 import SwiftUI
 
 struct Tabbar : View {
-    @EnvironmentObject var state: AppState
+    @EnvironmentObject var store: AppStore
 
     var body: some View {
         TabbedView {

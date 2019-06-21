@@ -16,12 +16,12 @@ final class UpcomingPageListener: PageListener {
 
 
 struct UpcomingList : View {
-    @EnvironmentObject var state: AppState
+    @EnvironmentObject var store: AppStore
     @State var pageListener = UpcomingPageListener()
     
     var body: some View {
         NavigationView {
-            MoviesList(movies: state.moviesState.upcoming, displaySearch: true, pageListener: pageListener)
+            MoviesList(movies: store.state.moviesState.upcoming, displaySearch: true, pageListener: pageListener)
             .navigationBarTitle(Text("Upcoming"))
             }.onAppear {
                 self.pageListener.loadPage()

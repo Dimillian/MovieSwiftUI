@@ -9,11 +9,11 @@
 import SwiftUI
 
 struct CustomListDetail : View {
-    @EnvironmentObject var state: AppState
+    @EnvironmentObject var store: AppStore
     let listId: UUID
     
     var list: CustomList {
-        return state.moviesState.customLists.first{ $0.id == listId}!
+        return store.state.moviesState.customLists.first{ $0.id == listId}!
     }
     
     var body: some View {
@@ -24,7 +24,7 @@ struct CustomListDetail : View {
 #if DEBUG
 struct CustomListDetail_Previews : PreviewProvider {
     static var previews: some View {
-        CustomListDetail(listId: sampleStore.moviesState.customLists.first!.id)
+        CustomListDetail(listId: sampleStore.state.moviesState.customLists.first!.id)
             .environmentObject(sampleStore)
     }
 }

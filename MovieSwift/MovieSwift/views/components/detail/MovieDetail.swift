@@ -9,7 +9,7 @@
 import SwiftUI
 
 struct MovieDetail : View {
-    @EnvironmentObject var state: AppState
+    @EnvironmentObject var store: AppStore
     @State var addSheetShown = false
     @State var showSavedBadge = false
     
@@ -18,45 +18,45 @@ struct MovieDetail : View {
     //MARK: - App State computed properties
     
     var movie: Movie! {
-        return state.moviesState.movies[movieId]!
+        return store.state.moviesState.movies[movieId]!
     }
     
     var characters: [Cast]? {
         get {
-            guard let ids = state.castsState.castsMovie[movie.id] else {
+            guard let ids = store.state.castsState.castsMovie[movie.id] else {
                 return nil
             }
-            let cast = state.castsState.casts.filter{ $0.value.character != nil }
+            let cast = store.state.castsState.casts.filter{ $0.value.character != nil }
             return ids.filter{ cast[$0] != nil }.map{ cast[$0]! }
         }
     }
     
     var credits: [Cast]? {
         get {
-            guard let ids = state.castsState.castsMovie[movie.id] else {
+            guard let ids = store.state.castsState.castsMovie[movie.id] else {
                 return nil
             }
-            let cast = state.castsState.casts.filter{ $0.value.department != nil }
+            let cast = store.state.castsState.casts.filter{ $0.value.department != nil }
             return ids.filter{ cast[$0] != nil }.map{ cast[$0]! }
         }
     }
     
     var recommanded: [Movie]? {
         get {
-            guard let ids = state.moviesState.recommanded[movie.id] else {
+            guard let ids = store.state.moviesState.recommanded[movie.id] else {
                 return nil
             }
-            let movies = state.moviesState.movies
+            let movies = store.state.moviesState.movies
             return ids.filter{ movies[$0] != nil }.map{ movies[$0]! }
         }
     }
     
     var similar: [Movie]? {
         get {
-            guard let ids = state.moviesState.similar[movie.id] else {
+            guard let ids = store.state.moviesState.similar[movie.id] else {
                 return nil
             }
-            let movies = state.moviesState.movies
+            let movies = store.state.moviesState.movies
             return ids.filter{ movies[$0] != nil }.map{ movies[$0]! }
         }
     }
@@ -67,12 +67,12 @@ struct MovieDetail : View {
             let wishlistButton: Alert.Button = .default(Text("Add to wihlist")) {
                 self.addSheetShown = false
                 self.displaySavedBadge()
-                store.dispatch(action: MoviesActions.addToWishlist(movie: self.movieId))
+                self.store.dispatch(action: MoviesActions.addToWishlist(movie: self.movieId))
             }
             let seenButton: Alert.Button = .default(Text("Add to seen list")) {
                 self.addSheetShown = false
                 self.displaySavedBadge()
-                store.dispatch(action: MoviesActions.addToSeenlist(movie: self.movieId))
+                self.store.dispatch(action: MoviesActions.addToSeenlist(movie: self.movieId))
             }
             let sheet = ActionSheet(title: Text("Add to"),
                                     message: nil,
@@ -124,11 +124,11 @@ struct MovieDetail : View {
                     Image(systemName: "text.badge.plus")
                 })
                 .onAppear {
-                    store.dispatch(action: MoviesActions.FetchDetail(movie: self.movie.id))
-                    store.dispatch(action: CastsActions.FetchMovieCasts(movie: self.movie.id))
-                    store.dispatch(action: MoviesActions.FetchRecommanded(movie: self.movie.id))
-                    store.dispatch(action: MoviesActions.FetchSimilar(movie: self.movie.id))
-                    store.dispatch(action: MoviesActions.FetchMovieKeywords(movie: self.movie.id))
+                    self.store.dispatch(action: MoviesActions.FetchDetail(movie: self.movie.id))
+                    self.store.dispatch(action: CastsActions.FetchMovieCasts(movie: self.movie.id))
+                    self.store.dispatch(action: MoviesActions.FetchRecommanded(movie: self.movie.id))
+                    self.store.dispatch(action: MoviesActions.FetchSimilar(movie: self.movie.id))
+                    self.store.dispatch(action: MoviesActions.FetchMovieKeywords(movie: self.movie.id))
                 }.presentation(self.addSheetShown ? addActionSheet : nil)
             NotificationBadge(text: "Added successfully", color: .blue, show: $showSavedBadge)
                 .padding(.bottom, 10)

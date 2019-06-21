@@ -30,7 +30,7 @@ final class SearchPageListener: PageListener {
 }
 
 struct MoviesList : View {
-    @EnvironmentObject var state: AppState
+    @EnvironmentObject var store: AppStore
     @State var searchtext: String = ""
     @State var searchPageListener = SearchPageListener()
     
@@ -43,11 +43,11 @@ struct MoviesList : View {
     }
     
     var searchedMovies: [Int] {
-        return state.moviesState.search[searchtext] ?? []
+        return store.state.moviesState.search[searchtext] ?? []
     }
     
     var keywords: [Keyword]? {
-        return state.moviesState.searchKeywords[searchtext]?.prefix(5).map{ $0 }
+        return store.state.moviesState.searchKeywords[searchtext]?.prefix(5).map{ $0 }
     }
     
     var movieSection: some View {
@@ -77,7 +77,7 @@ struct MoviesList : View {
                         if !text.isEmpty {
                             self.searchPageListener.text = text
                             self.searchPageListener.currentPage = 1
-                            self.state.dispatch(action: MoviesActions.FetchSearchKeyword(query: text))
+                            self.store.dispatch(action: MoviesActions.FetchSearchKeyword(query: text))
                         }
         })
     }

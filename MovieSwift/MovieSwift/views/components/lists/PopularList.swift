@@ -16,12 +16,12 @@ final class PopularPageListener: PageListener {
 }
 
 struct PopularList : View {
-    @EnvironmentObject var state: AppState
+    @EnvironmentObject var store: AppStore
     @State var pageListener = PopularPageListener()
     
     var body: some View {
         NavigationView {
-            MoviesList(movies: state.moviesState.popular, displaySearch: true, pageListener: pageListener)
+            MoviesList(movies: store.state.moviesState.popular, displaySearch: true, pageListener: pageListener)
                 .navigationBarTitle(Text("Popular"))
             }
             .onAppear {

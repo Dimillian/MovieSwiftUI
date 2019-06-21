@@ -9,14 +9,14 @@
 import SwiftUI
 
 struct MovieAddToList : View {
-    @EnvironmentObject var state: AppState
+    @EnvironmentObject var store: AppStore
     
     @State var addedToWishlist: Bool {
-        return state.moviesState.wishlist.contains(movieId)
+        return store.state.moviesState.wishlist.contains(movieId)
     }
     
     @State var addedToSeenlist: Bool {
-        return state.moviesState.seenlist.contains(movieId)
+        return store.state.moviesState.seenlist.contains(movieId)
     }
     
     let movieId: Int
@@ -28,7 +28,7 @@ struct MovieAddToList : View {
                            color: .pink,
                            isOn: addedToWishlist,
                            action: {
-                store.dispatch(action: MoviesActions.addToWishlist(movie: self.movieId))
+                self.store.dispatch(action: MoviesActions.addToWishlist(movie: self.movieId))
             })
 
             BorderedButton(text: addedToSeenlist ? "Seen" : "Mark as seen",
@@ -36,7 +36,7 @@ struct MovieAddToList : View {
                            color: .green,
                            isOn: addedToSeenlist,
                            action: {
-                store.dispatch(action: MoviesActions.addToSeenlist(movie: self.movieId))
+                self.store.dispatch(action: MoviesActions.addToSeenlist(movie: self.movieId))
             })
         }
     }

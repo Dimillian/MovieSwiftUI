@@ -9,14 +9,14 @@
 import SwiftUI
 
 struct MoviesCrewList : View {
-    @EnvironmentObject var state: AppState
+    @EnvironmentObject var store: AppStore
     let crew: Cast
 
     var body: some View {
-        MoviesList(movies: state.moviesState.withCrew[crew.id] ?? [], displaySearch: false)
+        MoviesList(movies: store.state.moviesState.withCrew[crew.id] ?? [], displaySearch: false)
             .navigationBarTitle(Text(crew.name))
             .onAppear {
-                store.dispatch(action: MoviesActions.FetchMovieWithCrew(crew: self.crew.id))
+                self.store.dispatch(action: MoviesActions.FetchMovieWithCrew(crew: self.crew.id))
         }
     }
 }

@@ -9,14 +9,14 @@
 import SwiftUI
 
 struct MoviesGenreList : View {
-    @EnvironmentObject var state: AppState
+    @EnvironmentObject var store: AppStore
     let genre: Genre
     
     var body: some View {
-        MoviesList(movies: state.moviesState.genres[genre.id] ?? [], displaySearch: false)
+        MoviesList(movies: store.state.moviesState.genres[genre.id] ?? [], displaySearch: false)
             .navigationBarTitle(Text(genre.name))
             .onAppear {
-                store.dispatch(action: MoviesActions.FetchMoviesGenre(genre: self.genre))
+                self.store.dispatch(action: MoviesActions.FetchMoviesGenre(genre: self.genre))
             }
     }
 }

@@ -9,12 +9,12 @@
 import SwiftUI
 
 struct DiscoverView : View {
-    @EnvironmentObject var state: AppState
+    @EnvironmentObject var store: AppStore
     @State var draggedViewState = DraggableCover.DragState.inactive
     @State var popIndex: Int = 0
     
     var movies: [Int] {
-        state.moviesState.discover
+        store.state.moviesState.discover
     }
     
     func dragResistance() -> CGFloat {
@@ -40,37 +40,43 @@ struct DiscoverView : View {
             } else if handler == .right {
                 store.dispatch(action: MoviesActions.addToSeenlist(movie: movies.reversed()[0]))
             }
-            state.dispatch(action: MoviesActions.PopRandromDiscover())
+            store.dispatch(action: MoviesActions.PopRandromDiscover())
             fetchRandomMovies()
         }
     }
     
     func fetchRandomMovies() {
         if movies.count < 10 {
-            self.state.dispatch(action: MoviesActions.FetchRandomDiscover())
+            store.dispatch(action: MoviesActions.FetchRandomDiscover())
         }
     }
     
     var filterView: some View {
         HStack(alignment: .center, spacing: 8) {
-            Text("Year: \(state.moviesState.discoverParams["year"] ?? "loading")")
+            Text("Year: \(store.state.moviesState.discoverParams["year"] ?? "loading")")
                 .color(.secondary)
                 .font(.footnote)
-                .frame(width: 100)
+            Text("Sort: \(store.state.moviesState.discoverParams["sort_by"] ?? "loading")")
+                .color(.secondary)
+                .font(.footnote)
+            Text("Page: \(store.state.moviesState.discoverParams["page"] ?? "loading")")
+                .color(.secondary)
+                .font(.footnote)
             Button(action: {
-                self.state.dispatch(action: MoviesActions.ResetRandomDiscover())
+                self.store.dispatch(action: MoviesActions.ResetRandomDiscover())
                 self.fetchRandomMovies()
             }, label: {
-                Text("Reload").color(.blue)
+                Image(systemName: "arrow.clockwise")
             })
-        }
+            }
+            .fixedSize()
     }
     
     var zonesButtons: some View {
         GeometryReader { geometry in
             ZStack(alignment: .center) {
                 if !self.movies.isEmpty {
-                    Text(self.state.moviesState.movies[self.movies.reversed()[0]]!.original_title)
+                    Text(self.store.state.moviesState.movies[self.movies.reversed()[0]]!.original_title)
                         .color(.primary)
                         .multilineTextAlignment(.center)
                         .font(.subheadline)
@@ -81,7 +87,7 @@ struct DiscoverView : View {
                         .animation(.basic())
                     
                     PresentationButton(destination:
-                        NavigationView { MovieDetail(movieId: self.movies.reversed()[0]) }.environmentObject(store),
+                        NavigationView { MovieDetail(movieId: self.movies.reversed()[0]) }.environmentObject(self.store),
                                        label: {
                                         Text("See detail").color(.blue)
                                         
@@ -89,7 +95,7 @@ struct DiscoverView : View {
                         .opacity(self.draggedViewState.isDragging ? 0.0 : 0.7)
                         .position(x: geometry.frame(in: .global).midX, y: geometry.frame(in: .global).midY + 180)
                         .animation(.fluidSpring())
-                        .environmentObject(store)
+                        .environmentObject(self.store)
                 }
                 
                 Circle()
@@ -117,7 +123,7 @@ struct DiscoverView : View {
                     .opacity(self.draggedViewState.isDragging ? 0.0 : 0.7)
                     .animation(.fluidSpring())
                     .tapAction {
-                        self.state.dispatch(action: MoviesActions.PopRandromDiscover())
+                        self.store.dispatch(action: MoviesActions.PopRandromDiscover())
                         self.fetchRandomMovies()
                 }
             }
@@ -126,7 +132,10 @@ struct DiscoverView : View {
     
     var body: some View {
         ZStack(alignment: .center) {
-            filterView.position(x: 100, y: 20)
+            GeometryReader { reader in
+                self.filterView.position(x: reader.frame(in: .global).midX,
+                                    y: 20)
+            }
             zonesButtons
             ForEach(movies) {id in
                 if self.movies.reversed().firstIndex(of: id) == 0 {
@@ -136,7 +145,7 @@ struct DiscoverView : View {
                                     self.doneGesture(handler: handler)
                     })
                 } else {
-                    DiscoverCoverImage(imageLoader: ImageLoader(poster: self.state.moviesState.movies[id]!.poster_path,
+                    DiscoverCoverImage(imageLoader: ImageLoader(poster: self.store.state.moviesState.movies[id]!.poster_path,
                                                                 size: .original))
                         .padding(.bottom, Length(self.movies.reversed().firstIndex(of: id)! * 8) - self.dragResistance())
                         .opacity(Double(self.movies.firstIndex(of: id)!) * 0.05 + self.opacityResistance())

@@ -9,14 +9,14 @@
 import SwiftUI
 
 struct MovieKeywordList : View {
-    @EnvironmentObject var state: AppState
+    @EnvironmentObject var store: AppStore
     let keyword: Keyword
     
     var body: some View {
-        MoviesList(movies: state.moviesState.withKeywords[keyword.id] ?? [], displaySearch: false)
+        MoviesList(movies: store.state.moviesState.withKeywords[keyword.id] ?? [], displaySearch: false)
             .navigationBarTitle(Text(keyword.name.capitalized))
             .onAppear {
-                store.dispatch(action: MoviesActions.FetchMovieWithKeywords(keyword: self.keyword.id))
+                self.store.dispatch(action: MoviesActions.FetchMovieWithKeywords(keyword: self.keyword.id))
         }
     }
 }

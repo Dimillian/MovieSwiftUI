@@ -9,7 +9,7 @@
 import SwiftUI
 
 struct CustomListForm : View {
-    @EnvironmentObject var state: AppState
+    @EnvironmentObject var store: AppStore
 
     @State var listName: String = ""
     @State var movieSearch: String = ""
@@ -28,7 +28,7 @@ struct CustomListForm : View {
 }
 
 struct TopSection: View {
-    @EnvironmentObject var state: AppState
+    @EnvironmentObject var store: AppStore
     
     @Binding var listMovieCover: Int?
     @Binding var movieSearch: String
@@ -46,7 +46,7 @@ struct TopSection: View {
                                     placeholder: Text("Search and add a movie as your cover"),
                                     onUpdateSearchText: {text in
                                         if !text.isEmpty {
-                                            self.state.dispatch(action: MoviesActions.FetchSearch(query: text, page: 1))
+                                            self.store.dispatch(action: MoviesActions.FetchSearch(query: text, page: 1))
                                         }
                         }).disabled(listMovieCover != nil)
                     }
@@ -63,13 +63,13 @@ struct TopSection: View {
 }
 
 struct MovieSearchSection: View {
-    @EnvironmentObject var state: AppState
+    @EnvironmentObject var store: AppStore
     
     @Binding var movieSearch: String
     @Binding var listMovieCover: Int?
     
     var searchedMovies: [Int] {
-        return state.moviesState.search[movieSearch]?.prefix(2).map{ $0 } ?? []
+        return store.state.moviesState.search[movieSearch]?.prefix(2).map{ $0 } ?? []
     }
     
     var body: some View {
@@ -85,7 +85,7 @@ struct MovieSearchSection: View {
 }
 
 struct SaveCancelSection: View {
-    @EnvironmentObject var state: AppState
+    @EnvironmentObject var store: AppStore
     @Environment(\.isPresented) var isPresented
     
     @Binding var listName: String
@@ -94,7 +94,7 @@ struct SaveCancelSection: View {
     var body: some View {
         Section {
             Button(action: {
-                self.state.dispatch(action: MoviesActions.AddCustomList(list: CustomList(name: self.listName,
+                self.store.dispatch(action: MoviesActions.AddCustomList(list: CustomList(name: self.listName,
                                                                                     cover: self.listMovieCover,
                                                                                     movies: [])))
                 self.isPresented?.value = false

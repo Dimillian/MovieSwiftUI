@@ -11,11 +11,11 @@ import SwiftUI
 fileprivate let placeholder = UIImage(named: "poster-placeholder")!
 
 struct MovieRow : View {
-    @EnvironmentObject var state: AppState
+    @EnvironmentObject var store: AppStore
     
     let movieId: Int
     var movie: Movie! {
-        return state.moviesState.movies[movieId]
+        return store.state.moviesState.movies[movieId]
     }
         
     var body: some View {
