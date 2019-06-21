@@ -10,7 +10,6 @@ import SwiftUI
 
 struct DiscoverCoverImage : View {
     @State var imageLoader: ImageLoader
-    @State var isImageLoaded = false
     
     var body: some View {
         ZStack {
@@ -20,11 +19,6 @@ struct DiscoverCoverImage : View {
                     .renderingMode(.original)
                     .frame(width: 200, height: 300)
                     .cornerRadius(5)
-                    .opacity(self.isImageLoaded ? 1 : 0.1)
-                    .animation(.basic())
-                    .onAppear{
-                        self.isImageLoaded = true
-                }
             } else if imageLoader.poster == nil {
                 Rectangle()
                     .foregroundColor(.gray)

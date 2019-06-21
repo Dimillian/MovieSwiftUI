@@ -94,9 +94,6 @@ struct DraggableCover : View {
     var body: some View {
         // MARK: - Gesture
         let longPressDrag = LongPressGesture(minimumDuration: minimumLongPressDuration)
-            .onEnded { value in
-                self.gestureViewState = .inactive
-            }
             .sequenced(before: DragGesture())
             .updating($dragState) { value, state, transaction in
                 switch value {
@@ -108,8 +105,12 @@ struct DraggableCover : View {
                     state = .inactive
                 }
             }.onChanged { value in
-                self.gestureViewState = .dragging(translation: self.dragState.translation,
-                                                  predictedLocation: self.dragState.predictedLocation)
+                if self.dragState.translation.width == 0.0 {
+                    self.gestureViewState = .pressing
+                } else {
+                    self.gestureViewState = .dragging(translation: self.dragState.translation,
+                                                      predictedLocation: self.dragState.predictedLocation)
+                }
             }.onEnded { value in
                 let endLocation = self.gestureViewState.predictedLocation
                 if endLocation.x < -50 {
@@ -126,12 +127,16 @@ struct DraggableCover : View {
                                                          size: .original))
             .offset(computedOffset())
             .rotationEffect(computeAngle())
-            .scaleEffect(dragState.isActive ? 1.05: 1)
+            .scaleEffect(dragState.isActive ? 1.03: 1)
             .shadow(color: .secondary,
                     radius: dragState.isActive ? shadowRadius : 0,
                     x: dragState.isActive ? shadowSize : 0,
                     y: dragState.isActive ? shadowSize : 0)
-            .animation(.fluidSpring())
+            .animation(.fluidSpring(stiffness: 80,
+                                    dampingFraction: 0.7,
+                                    blendDuration: 0,
+                                    timestep: 1.0 / 300,
+                                    idleThreshold: 0.5))
             .gesture(longPressDrag)
     }
 }
