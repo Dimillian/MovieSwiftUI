@@ -12,11 +12,6 @@ struct MoviePostersRow : View {
     let posters: [MovieImage]
     @Binding var selectedPoster: MovieImage?
     
-    func presentedPoster(poster: MovieImage) -> some View {
-        ZStack(alignment: .center) {
-            Text("hello")
-        }
-    }
     var body: some View {
         VStack(alignment: .leading) {
             Text("Other poster")
