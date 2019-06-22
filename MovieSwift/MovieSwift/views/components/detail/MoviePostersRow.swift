@@ -28,7 +28,9 @@ struct MoviePostersRow : View {
                     ForEach(self.posters) { poster in
                         MoviePosterImage(imageLoader: ImageLoader(poster: poster.file_path,
                                                                   size: .small)).tapAction {
-                                                                    self.selectedPoster = poster
+                                                                    withAnimation {
+                                                                        self.selectedPoster = poster
+                                                                    }
                         }
                     }
                     }.padding(.leading)

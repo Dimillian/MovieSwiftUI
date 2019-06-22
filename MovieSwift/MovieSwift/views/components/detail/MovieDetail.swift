@@ -109,7 +109,9 @@ struct MovieDetail : View {
                                                              size: .original))
                     .position(x: reader.frame(in: .global).midX, y: reader.frame(in: .global).midY)
                     .tapAction {
-                        self.selectedPoster = nil
+                        withAnimation {
+                            self.selectedPoster = nil
+                        }
                     }
                 }
         }
@@ -146,9 +148,6 @@ struct MovieDetail : View {
                         .frame(height: 220)
                 }
                 }
-                .animation(nil)
-                .blur(radius: selectedPoster != nil ? 50 : 0)
-                .animation(.basic())
                 .edgesIgnoringSafeArea(.top)
                 .navigationBarItems(trailing: Button(action: onAddButton) {
                     Image(systemName: "text.badge.plus")
@@ -157,6 +156,7 @@ struct MovieDetail : View {
                     self.fetchMovieDetails()
                 }
                 .presentation(self.addSheetShown ? addActionSheet : nil)
+                .blur(radius: selectedPoster != nil ? 50 : 0)
             
             NotificationBadge(text: "Added successfully", color: .blue, show: $showSavedBadge)
                 .padding(.bottom, 10)
