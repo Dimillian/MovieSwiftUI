@@ -12,6 +12,7 @@ struct MovieDetail : View {
     @EnvironmentObject var store: AppStore
     @State var addSheetShown = false
     @State var showSavedBadge = false
+    @State var selectedPoster: MovieImage?
     
     let movieId: Int
     
@@ -62,6 +63,15 @@ struct MovieDetail : View {
     }
     
     // MARK: - Actions
+    func fetchMovieDetails() {
+        store.dispatch(action: MoviesActions.FetchDetail(movie: movie.id))
+        store.dispatch(action: CastsActions.FetchMovieCasts(movie: movie.id))
+        store.dispatch(action: MoviesActions.FetchRecommanded(movie: movie.id))
+        store.dispatch(action: MoviesActions.FetchSimilar(movie: movie.id))
+        store.dispatch(action: MoviesActions.FetchMovieKeywords(movie: movie.id))
+        store.dispatch(action: MoviesActions.FetchMovieImages(movie: movie.id))
+    }
+    
     var addActionSheet: ActionSheet {
         get {
             let wishlistButton: Alert.Button = .default(Text("Add to wihlist")) {
@@ -92,6 +102,19 @@ struct MovieDetail : View {
 
     //MARK: - Body
     
+    var posterView: some View {
+        GeometryReader { reader in
+            ZStack(alignment: .center) {
+                BigMoviePosterImage(imageLoader: ImageLoader(poster: self.selectedPoster!.file_path,
+                                                             size: .original))
+                    .position(x: reader.frame(in: .global).midX, y: reader.frame(in: .global).midY)
+                    .tapAction {
+                        self.selectedPoster = nil
+                    }
+                }
+        }
+    }
+    
     var body: some View {
         ZStack(alignment: .bottom) {
             List {
@@ -118,20 +141,28 @@ struct MovieDetail : View {
                 if movie.keywords != nil && movie.keywords?.isEmpty == false {
                     MovieKeywords(keywords: movie.keywords!).frame(height: 90)
                 }
+                if movie.posters != nil {
+                    MoviePostersRow(posters: movie.posters!, selectedPoster: $selectedPoster)
+                        .frame(height: 220)
                 }
+                }
+                .animation(nil)
+                .blur(radius: selectedPoster != nil ? 50 : 0)
+                .animation(.basic())
                 .edgesIgnoringSafeArea(.top)
                 .navigationBarItems(trailing: Button(action: onAddButton) {
                     Image(systemName: "text.badge.plus")
                 })
                 .onAppear {
-                    self.store.dispatch(action: MoviesActions.FetchDetail(movie: self.movie.id))
-                    self.store.dispatch(action: CastsActions.FetchMovieCasts(movie: self.movie.id))
-                    self.store.dispatch(action: MoviesActions.FetchRecommanded(movie: self.movie.id))
-                    self.store.dispatch(action: MoviesActions.FetchSimilar(movie: self.movie.id))
-                    self.store.dispatch(action: MoviesActions.FetchMovieKeywords(movie: self.movie.id))
-                }.presentation(self.addSheetShown ? addActionSheet : nil)
+                    self.fetchMovieDetails()
+                }
+                .presentation(self.addSheetShown ? addActionSheet : nil)
+            
             NotificationBadge(text: "Added successfully", color: .blue, show: $showSavedBadge)
                 .padding(.bottom, 10)
+            if selectedPoster != nil {
+               posterView
+            }
         }
     }
     
