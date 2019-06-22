@@ -25,6 +25,9 @@ struct Movie: Codable, Identifiable {
     let status: String?
     
     var keywords: [Keyword]?
+    
+    var backdrops: [MovieImage]?
+    var posters: [MovieImage]?
 }
 
 let sampleMovie = Movie(id: 0,

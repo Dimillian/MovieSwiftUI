@@ -229,6 +229,26 @@ struct MoviesActions {
         }
     }
     
+    struct MovieImagesResponse: Codable {
+        let id: Int
+        let backdrops: [MovieImage]?
+        let posters: [MovieImage]?
+    }
+    
+    struct FetchMovieImages: Action {
+        init(movie: Int) {
+            APIService.shared.GET(endpoint: .images(movie: movie), params: nil)
+            { (result: Result<MovieImagesResponse, APIService.APIError>) in
+                switch result {
+                case let .success(response):
+                    store.dispatch(action: SetMovieImages(movie: movie, response: response))
+                case .failure(_):
+                    break
+                }
+            }
+        }
+    }
+    
     // MARK: - Reduced actions
     
     struct SetPopular: Action {
@@ -306,6 +326,11 @@ struct MoviesActions {
     struct SetMovieWithKeyword: Action {
         let keyword: Int
         let response: PaginatedResponse<Movie>
+    }
+    
+    struct SetMovieImages: Action {
+        let movie: Int
+        let response: MovieImagesResponse
     }
     
     struct ResetRandomDiscover: Action {

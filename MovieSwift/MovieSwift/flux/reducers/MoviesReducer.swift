@@ -115,6 +115,9 @@ struct MoviesReducer: Reducer {
         } else if action is MoviesActions.ResetRandomDiscover {
             state.discoverParams = [:]
             state.discover = []
+        } else if let action = action as? MoviesActions.SetMovieImages {
+            state.movies[action.movie]?.posters = action.response.posters
+            state.movies[action.movie]?.backdrops = action.response.backdrops
         }
         return state
     }
