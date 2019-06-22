@@ -17,24 +17,22 @@ struct MoviesHome : View {
     
     var body: some View {
         NavigationView {
-            VStack {
-                SegmentedControl(selection: $selectedIndex) {
-                    Text("Popular").tag(Categories.popular)
-                    Text("Top Rated").tag(Categories.topRated)
-                    Text("Upcoming").tag(Categories.upcoming)
-                    Text("Now Playing").tag(Categories.nowPlaying)
+            SegmentedControl(selection: $selectedIndex) {
+                Text("Popular").tag(Categories.popular)
+                Text("Top Rated").tag(Categories.topRated)
+                Text("Upcoming").tag(Categories.upcoming)
+                Text("Now Playing").tag(Categories.nowPlaying)
                 }.navigationBarHidden(false)
-                    .padding(.leading)
-                    .padding(.trailing)
-                if selectedIndex == .popular {
-                    PopularList()
-                } else if selectedIndex == .topRated {
-                    TopRatedList()
-                } else if selectedIndex == .upcoming {
-                    UpcomingList()
-                } else if selectedIndex == .nowPlaying {
-                    NowPlayingList()
-                }
+                .padding(.leading)
+                .padding(.trailing)
+            if selectedIndex == .popular {
+                PopularList()
+            } else if selectedIndex == .topRated {
+                TopRatedList()
+            } else if selectedIndex == .upcoming {
+                UpcomingList()
+            } else if selectedIndex == .nowPlaying {
+                NowPlayingList()
             }
         }
     }

@@ -10,12 +10,17 @@ import SwiftUI
 
 struct Tabbar : View {
     @EnvironmentObject var store: AppStore
+    @State var selectedTab = Tab.movies
+    
+    enum Tab: Int {
+        case movies, discover, myLists
+    }
 
     var body: some View {
-        TabbedView {
-            MoviesHome().tabItemLabel(Text("Movies")).tag(0)
-            DiscoverView().tabItemLabel(Text("Discover")).tag(1)
-            MyLists().tabItemLabel(Text("My Lists")).tag(2)
+        TabbedView(selection: $selectedTab) {
+            MoviesHome().tabItemLabel(Text("Movies")).tag(Tab.movies)
+            DiscoverView().tabItemLabel(Text("Discover")).tag(Tab.discover)
+            MyLists().tabItemLabel(Text("My Lists")).tag(Tab.myLists)
         }
             .edgesIgnoringSafeArea(.top)
             .accentColor(.red)

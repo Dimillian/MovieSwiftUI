@@ -251,7 +251,7 @@ struct MoviesActions {
     
     struct FetchMovieImages: Action {
         init(movie: Int) {
-            APIService.shared.GET(endpoint: .images(movie: movie), params: nil)
+            APIService.shared.GET(endpoint: .images(movie: movie), params: ["language": "en-US", "include_image_language": "en"])
             { (result: Result<MovieImagesResponse, APIService.APIError>) in
                 switch result {
                 case let .success(response):

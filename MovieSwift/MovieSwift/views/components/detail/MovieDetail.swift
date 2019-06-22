@@ -95,26 +95,57 @@ struct MovieDetail : View {
     
     func displaySavedBadge() {
         showSavedBadge = true
-        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
             self.showSavedBadge = false
         }
     }
-
-    //MARK: - Body
     
-    var posterView: some View {
+    // MARK: - Posters Carousel
+    
+    func computeCarouselPosterScale(width: Length, itemX: Length) -> Length {
+        let trueX = itemX - (width/2 - 250/3)
+        if trueX == 0 {
+            return 1
+        }
+        if trueX < -5 {
+            return 1 - (abs(trueX) / width)
+        }
+        if trueX > 5 {
+            return 1 - (trueX / width)
+        }
+        return 1
+    }
+
+    
+    var carouselView: some View {
         GeometryReader { reader in
             ZStack(alignment: .center) {
-                BigMoviePosterImage(imageLoader: ImageLoader(poster: self.selectedPoster!.file_path,
-                                                             size: .medium))
-                    .position(x: reader.frame(in: .global).midX,
-                              y: reader.frame(in: .global).midY - 50)
-                    .tapAction {
-                        self.selectedPoster = nil
+                ScrollView(showsHorizontalIndicator: false) {
+                    HStack(spacing: 200) {
+                        ForEach(self.movie.posters!) { poster in
+                            GeometryReader { reader2 in
+                                BigMoviePosterImage(imageLoader: ImageLoader(poster: poster.file_path,
+                                                                             size: .medium))
+                                    .scaleEffect(self.computeCarouselPosterScale(width: reader.frame(in: .global).width,
+                                                                                 itemX: reader2.frame(in: .global).midX),
+                                                 anchor: .center)
+                                    .tapAction {
+                                        self.selectedPoster = nil
+                                }
+                            }
+                        }
                     }
                 }
+                    .position(x: reader.frame(in: .global).midX,
+                              y: reader.frame(in: .global).midY)
+                    .tapAction {
+                        self.selectedPoster = nil
+                }
+            }
         }
     }
+    
+    //MARK: - Body
     
     var body: some View {
         ZStack(alignment: .bottom) {
@@ -168,7 +199,7 @@ struct MovieDetail : View {
             NotificationBadge(text: "Added successfully", color: .blue, show: $showSavedBadge)
                 .padding(.bottom, 10)
             if selectedPoster != nil {
-               posterView
+               carouselView
             }
         }
     }
@@ -179,6 +210,7 @@ struct MovieDetail : View {
     
 }
 
+// MARK: - Preview
 #if DEBUG
 struct MovieDetail_Previews : PreviewProvider {
     static var previews: some View {
