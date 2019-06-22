@@ -109,9 +109,7 @@ struct MovieDetail : View {
                                                              size: .original))
                     .position(x: reader.frame(in: .global).midX, y: reader.frame(in: .global).midY)
                     .tapAction {
-                        withAnimation {
-                            self.selectedPoster = nil
-                        }
+                        self.selectedPoster = nil
                     }
                 }
         }
