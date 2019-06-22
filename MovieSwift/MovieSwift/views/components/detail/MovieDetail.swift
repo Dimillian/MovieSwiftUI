@@ -74,12 +74,12 @@ struct MovieDetail : View {
     
     var addActionSheet: ActionSheet {
         get {
-            let wishlistButton: Alert.Button = .default(Text("Add to wihlist")) {
+            let wishlistButton: Alert.Button = .default(Text("Add to wishlist")) {
                 self.addSheetShown = false
                 self.displaySavedBadge()
                 self.store.dispatch(action: MoviesActions.addToWishlist(movie: self.movieId))
             }
-            let seenButton: Alert.Button = .default(Text("Add to seen list")) {
+            let seenButton: Alert.Button = .default(Text("Add to seenlist")) {
                 self.addSheetShown = false
                 self.displaySavedBadge()
                 self.store.dispatch(action: MoviesActions.addToSeenlist(movie: self.movieId))
@@ -106,8 +106,9 @@ struct MovieDetail : View {
         GeometryReader { reader in
             ZStack(alignment: .center) {
                 BigMoviePosterImage(imageLoader: ImageLoader(poster: self.selectedPoster!.file_path,
-                                                             size: .original))
-                    .position(x: reader.frame(in: .global).midX, y: reader.frame(in: .global).midY)
+                                                             size: .medium))
+                    .position(x: reader.frame(in: .global).midX,
+                              y: reader.frame(in: .global).midY - 50)
                     .tapAction {
                         self.selectedPoster = nil
                     }
@@ -124,6 +125,9 @@ struct MovieDetail : View {
                                addedToSeenlist: false,
                                movieId: movie.id)
                 MovieOverview(movie: movie)
+                if movie.keywords != nil && movie.keywords?.isEmpty == false {
+                    MovieKeywords(keywords: movie.keywords!).frame(height: 90)
+                }
                 if characters != nil && characters?.isEmpty == false {
                     CastsRow(title: "Characters",
                              casts: characters ?? []).frame(height: 200)
@@ -137,9 +141,6 @@ struct MovieDetail : View {
                 }
                 if recommanded != nil && recommanded?.isEmpty == false {
                     MovieDetailRow(title: "Recommanded Movies", movies: recommanded ?? []).frame(height: 260)
-                }
-                if movie.keywords != nil && movie.keywords?.isEmpty == false {
-                    MovieKeywords(keywords: movie.keywords!).frame(height: 90)
                 }
                 if movie.posters != nil {
                     MoviePostersRow(posters: movie.posters!, selectedPoster: $selectedPoster)
