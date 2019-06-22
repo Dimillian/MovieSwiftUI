@@ -13,11 +13,9 @@ struct Tabbar : View {
 
     var body: some View {
         TabbedView {
-            PopularList().tabItemLabel(Text("Popular")).tag(0)
-            TopRatedList().tabItemLabel(Text("Top Rated")).tag(1)
-            UpcomingList().tabItemLabel(Text("Upcoming")).tag(2)
-            DiscoverView().tabItemLabel(Text("Discover")).tag(3)
-            MyLists().tabItemLabel(Text("My Lists")).tag(4)
+            MoviesHome().tabItemLabel(Text("Movies")).tag(0)
+            DiscoverView().tabItemLabel(Text("Discover")).tag(1)
+            MyLists().tabItemLabel(Text("My Lists")).tag(2)
         }
             .edgesIgnoringSafeArea(.top)
             .accentColor(.red)

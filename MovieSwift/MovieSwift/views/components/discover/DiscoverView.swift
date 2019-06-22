@@ -11,7 +11,6 @@ import SwiftUI
 struct DiscoverView : View {
     @EnvironmentObject var store: AppStore
     @State var draggedViewState = DraggableCover.DragState.inactive
-    @State var popIndex: Int = 0
     
     var movies: [Int] {
         store.state.moviesState.discover

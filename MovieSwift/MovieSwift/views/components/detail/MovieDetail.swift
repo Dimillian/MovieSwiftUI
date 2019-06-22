@@ -125,26 +125,34 @@ struct MovieDetail : View {
                                addedToSeenlist: false,
                                movieId: movie.id)
                 MovieOverview(movie: movie)
-                if movie.keywords != nil && movie.keywords?.isEmpty == false {
-                    MovieKeywords(keywords: movie.keywords!).frame(height: 90)
-                }
-                if characters != nil && characters?.isEmpty == false {
-                    CastsRow(title: "Characters",
-                             casts: characters ?? []).frame(height: 200)
-                }
-                if credits != nil && credits?.isEmpty == false {
-                    CastsRow(title: "Crew",
-                             casts: credits ?? []).frame(height: 200)
-                }
-                if similar != nil && similar?.isEmpty == false {
-                    MovieDetailRow(title: "Similar Movies", movies: similar ?? []).frame(height: 260)
-                }
-                if recommanded != nil && recommanded?.isEmpty == false {
-                    MovieDetailRow(title: "Recommanded Movies", movies: recommanded ?? []).frame(height: 260)
-                }
-                if movie.posters != nil {
-                    MoviePostersRow(posters: movie.posters!, selectedPoster: $selectedPoster)
-                        .frame(height: 220)
+                Group {
+                    if movie.keywords != nil && movie.keywords?.isEmpty == false {
+                        MovieKeywords(keywords: movie.keywords!).frame(height: 90)
+                    }
+                    if characters != nil && characters?.isEmpty == false {
+                        CastsRow(title: "Characters",
+                                 casts: characters ?? []).frame(height: 200)
+                    }
+                    if credits != nil && credits?.isEmpty == false {
+                        CastsRow(title: "Crew",
+                                 casts: credits ?? []).frame(height: 200)
+                    }
+                    if similar != nil && similar?.isEmpty == false {
+                        MovieDetailRow(title: "Similar Movies", movies: similar ?? []).frame(height: 260)
+                    }
+                    if recommanded != nil && recommanded?.isEmpty == false {
+                        MovieDetailRow(title: "Recommanded Movies", movies: recommanded ?? []).frame(height: 260)
+                    }
+                    if movie.posters != nil {
+                        MoviePostersRow(posters: movie.posters!,
+                                        selectedPoster: $selectedPoster)
+                            .frame(height: 220)
+                    }
+                    if movie.backdrops != nil {
+                        MovieBackdropsRow(backdrops: movie.backdrops!,
+                                          selectedBackdrop: $selectedPoster)
+                            .frame(height: 300)
+                    }
                 }
                 }
                 .edgesIgnoringSafeArea(.top)

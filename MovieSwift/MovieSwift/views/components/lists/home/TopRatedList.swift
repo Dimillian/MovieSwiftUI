@@ -19,10 +19,9 @@ struct TopRatedList : View {
     @State var pageListener = TopRatedListPageListener()
     
     var body: some View {
-        NavigationView {
-            MoviesList(movies: store.state.moviesState.topRated, displaySearch: true, pageListener: pageListener)
+        MoviesList(movies: store.state.moviesState.topRated, displaySearch: true, pageListener: pageListener)
             .navigationBarTitle(Text("Top Rated"))
-            }.onAppear {
+            .onAppear {
                 self.pageListener.loadPage()
         }
     }

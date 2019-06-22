@@ -20,10 +20,9 @@ struct UpcomingList : View {
     @State var pageListener = UpcomingPageListener()
     
     var body: some View {
-        NavigationView {
-            MoviesList(movies: store.state.moviesState.upcoming, displaySearch: true, pageListener: pageListener)
+        MoviesList(movies: store.state.moviesState.upcoming, displaySearch: true, pageListener: pageListener)
             .navigationBarTitle(Text("Upcoming"))
-            }.onAppear {
+            .onAppear {
                 self.pageListener.loadPage()
         }
     }

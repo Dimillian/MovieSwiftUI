@@ -20,13 +20,11 @@ struct PopularList : View {
     @State var pageListener = PopularPageListener()
     
     var body: some View {
-        NavigationView {
-            MoviesList(movies: store.state.moviesState.popular, displaySearch: true, pageListener: pageListener)
-                .navigationBarTitle(Text("Popular"))
-            }
+        MoviesList(movies: store.state.moviesState.popular, displaySearch: true, pageListener: pageListener)
+            .navigationBarTitle(Text("Popular"), displayMode: .automatic)
             .onAppear {
                 self.pageListener.loadPage()
-            }
+        }
     }
 }
 
