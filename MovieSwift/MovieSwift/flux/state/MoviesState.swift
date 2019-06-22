@@ -15,6 +15,7 @@ struct MoviesState: FluxState, Codable {
     var popular: [Int] = []
     var topRated: [Int] = []
     var upcoming: [Int] = []
+    var nowPlaying: [Int] = []
     var search: [String: [Int]] = [:]
     var searchKeywords: [String: [Keyword]] = [:]
     var discover: [Int] = []

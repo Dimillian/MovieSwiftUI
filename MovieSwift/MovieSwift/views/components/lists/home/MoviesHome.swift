@@ -10,7 +10,7 @@ import SwiftUI
 
 struct MoviesHome : View {
     enum Categories: Int {
-        case popular, topRated, upcoming
+        case popular, topRated, upcoming, nowPlaying
     }
     
     @State var selectedIndex: Categories = Categories.popular
@@ -22,6 +22,7 @@ struct MoviesHome : View {
                     Text("Popular").tag(Categories.popular)
                     Text("Top Rated").tag(Categories.topRated)
                     Text("Upcoming").tag(Categories.upcoming)
+                    Text("Now Playing").tag(Categories.nowPlaying)
                 }.navigationBarHidden(false)
                     .padding(.leading)
                     .padding(.trailing)
@@ -31,6 +32,8 @@ struct MoviesHome : View {
                     TopRatedList()
                 } else if selectedIndex == .upcoming {
                     UpcomingList()
+                } else if selectedIndex == .nowPlaying {
+                    NowPlayingList()
                 }
             }
         }

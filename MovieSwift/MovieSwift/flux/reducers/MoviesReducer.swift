@@ -38,6 +38,15 @@ struct MoviesReducer: Reducer {
             for (_, value) in action.response.results.enumerated() {
                 state.movies[value.id] = value
             }
+        } else if let action = action as? MoviesActions.SetNowPlaying {
+            if action.page == 1 {
+                state.nowPlaying = action.response.results.map{ $0.id }
+            } else {
+                state.nowPlaying.append(contentsOf: action.response.results.map{ $0.id })
+            }
+            for (_, value) in action.response.results.enumerated() {
+                state.movies[value.id] = value
+            }
         } else if let action = action as? MoviesActions.SetDetail {
             state.movies[action.movie] = action.response
         } else if let action = action as? MoviesActions.SetRecommanded {
