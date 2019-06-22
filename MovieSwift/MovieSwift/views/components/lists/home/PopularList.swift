@@ -21,7 +21,7 @@ struct PopularList : View {
     
     var body: some View {
         MoviesList(movies: store.state.moviesState.popular, displaySearch: true, pageListener: pageListener)
-            .navigationBarTitle(Text("Popular"), displayMode: .automatic)
+            .navigationBarTitle(Text("Popular"))
             .onAppear {
                 self.pageListener.loadPage()
         }

@@ -22,7 +22,7 @@ struct MoviesHome : View {
                     Text("Popular").tag(Categories.popular)
                     Text("Top Rated").tag(Categories.topRated)
                     Text("Upcoming").tag(Categories.upcoming)
-                }.navigationBarHidden(true)
+                }.navigationBarHidden(false)
                     .padding(.leading)
                     .padding(.trailing)
                 if selectedIndex == .popular {
