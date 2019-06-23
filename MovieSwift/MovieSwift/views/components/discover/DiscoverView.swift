@@ -99,7 +99,7 @@ struct DiscoverView : View {
                 
                 Circle()
                     .strokeBorder(Color.pink, lineWidth: 1)
-                    .background(Image(systemName: "heart").foregroundColor(.pink))
+                    .background(Image(systemName: "heart.fill").foregroundColor(.pink))
                     .frame(width: 50, height: 50)
                     .position(x: geometry.frame(in: .global).midX - 50, y: geometry.frame(in: .global).midY + 200)
                     .opacity(self.draggedViewState.isDragging ? 0.3 + Double(self.leftZoneResistance()) : 0)
@@ -107,7 +107,7 @@ struct DiscoverView : View {
                 
                 Circle()
                     .strokeBorder(Color.green, lineWidth: 1)
-                    .background(Image(systemName: "eye").foregroundColor(.green))
+                    .background(Image(systemName: "eye.fill").foregroundColor(.green))
                     .frame(width: 50, height: 50)
                     .position(x: geometry.frame(in: .global).midX + 50, y: geometry.frame(in: .global).midY + 200)
                     .opacity(self.draggedViewState.isDragging ? 0.3 + Double(self.rightZoneResistance()) : 0)
@@ -145,7 +145,7 @@ struct DiscoverView : View {
                     })
                 } else {
                     DiscoverCoverImage(imageLoader: ImageLoader(poster: self.store.state.moviesState.movies[id]!.poster_path,
-                                                                size: .original))
+                                                                size: .small))
                         .padding(.bottom, Length(self.movies.reversed().firstIndex(of: id)! * 8) - self.dragResistance())
                         .opacity(Double(self.movies.firstIndex(of: id)!) * 0.05 + self.opacityResistance())
                         .animation(.spring())

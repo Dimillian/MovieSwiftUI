@@ -124,7 +124,7 @@ struct DraggableCover : View {
             }
         // MARK: - View return
         return DiscoverCoverImage(imageLoader: ImageLoader(poster: movie.poster_path,
-                                                         size: .original))
+                                                         size: .small))
             .offset(computedOffset())
             .rotationEffect(computeAngle())
             .scaleEffect(dragState.isActive ? 1.03: 1)

@@ -100,53 +100,7 @@ struct MovieDetail : View {
         }
     }
     
-    // MARK: - Posters Carousel
-    
-    func computeCarouselPosterScale(width: Length, itemX: Length) -> Length {
-        let trueX = itemX - (width/2 - 250/3)
-        if trueX == 0 {
-            return 1
-        }
-        if trueX < -5 {
-            return 1 - (abs(trueX) / width)
-        }
-        if trueX > 5 {
-            return 1 - (trueX / width)
-        }
-        return 1
-    }
-
-    
-    var carouselView: some View {
-        GeometryReader { reader in
-            ZStack(alignment: .center) {
-                ScrollView(showsHorizontalIndicator: false) {
-                    HStack(spacing: 200) {
-                        ForEach(self.movie.posters!) { poster in
-                            GeometryReader { reader2 in
-                                BigMoviePosterImage(imageLoader: ImageLoader(poster: poster.file_path,
-                                                                             size: .medium))
-                                    .scaleEffect(self.computeCarouselPosterScale(width: reader.frame(in: .global).width,
-                                                                                 itemX: reader2.frame(in: .global).midX),
-                                                 anchor: .center)
-                                    .tapAction {
-                                        self.selectedPoster = nil
-                                }
-                            }
-                        }
-                    }
-                }
-                    .position(x: reader.frame(in: .global).midX,
-                              y: reader.frame(in: .global).midY)
-                    .tapAction {
-                        self.selectedPoster = nil
-                }
-            }
-        }
-    }
-    
     //MARK: - Body
-    
     var body: some View {
         ZStack(alignment: .bottom) {
             List {
@@ -174,12 +128,12 @@ struct MovieDetail : View {
                     if recommanded != nil && recommanded?.isEmpty == false {
                         MovieDetailRow(title: "Recommanded Movies", movies: recommanded ?? []).frame(height: 260)
                     }
-                    if movie.posters != nil {
+                    if movie.posters != nil && movie.posters?.isEmpty == false {
                         MoviePostersRow(posters: movie.posters!,
                                         selectedPoster: $selectedPoster)
                             .frame(height: 220)
                     }
-                    if movie.backdrops != nil {
+                    if movie.backdrops != nil && movie.backdrops?.isEmpty == false {
                         MovieBackdropsRow(backdrops: movie.backdrops!,
                                           selectedBackdrop: $selectedPoster)
                             .frame(height: 300)
@@ -198,8 +152,8 @@ struct MovieDetail : View {
             
             NotificationBadge(text: "Added successfully", color: .blue, show: $showSavedBadge)
                 .padding(.bottom, 10)
-            if selectedPoster != nil {
-               carouselView
+            if selectedPoster != nil && movie.posters != nil {
+                MoviePostersCarouselView(posters: movie.posters!, selectedPoster: $selectedPoster)
             }
         }
     }
