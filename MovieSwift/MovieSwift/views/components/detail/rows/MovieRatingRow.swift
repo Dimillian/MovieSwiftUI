@@ -8,7 +8,7 @@
 
 import SwiftUI
 
-struct MovieRating : View {
+struct MovieRatingRow : View {
     let movie: Movie
     
     var body: some View {
@@ -30,7 +30,7 @@ struct MovieRating : View {
 #if DEBUG
 struct MovieRating_Previews : PreviewProvider {
     static var previews: some View {
-        MovieRating(movie: sampleMovie)
+        MovieRatingRow(movie: sampleMovie)
     }
 }
 #endif

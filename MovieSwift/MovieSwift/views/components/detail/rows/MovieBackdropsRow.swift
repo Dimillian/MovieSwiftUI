@@ -15,7 +15,7 @@ struct MovieBackdropsRow : View {
     var body: some View {
         VStack(alignment: .leading) {
             Text("Images")
-                .font(.headline)
+                .font(.FHACondFrenchNC(size: 20))
                 .fontWeight(.bold)
                 .padding(.leading)
             ScrollView(showsHorizontalIndicator: false) {

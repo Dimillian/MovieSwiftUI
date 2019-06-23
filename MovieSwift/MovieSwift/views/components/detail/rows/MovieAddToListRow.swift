@@ -8,7 +8,7 @@
 
 import SwiftUI
 
-struct MovieAddToList : View {
+struct MovieAddToListRow : View {
     @EnvironmentObject var store: AppStore
     
     @State var addedToWishlist: Bool {
@@ -45,7 +45,7 @@ struct MovieAddToList : View {
 #if DEBUG
 struct MovieAddToList_Previews : PreviewProvider {
     static var previews: some View {
-        MovieAddToList(addedToWishlist: true,
+        MovieAddToListRow(addedToWishlist: true,
                        addedToSeenlist: false,
                        movieId: 0).environmentObject(sampleStore)
     }

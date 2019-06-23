@@ -105,8 +105,8 @@ struct MovieDetail : View {
         ZStack(alignment: .bottom) {
             List {
                 MovieBackdrop(movieId: movie.id)
-                MovieRating(movie: movie)
-                MovieAddToList(addedToWishlist: false,
+                MovieRatingRow(movie: movie)
+                MovieAddToListRow(addedToWishlist: false,
                                addedToSeenlist: false,
                                movieId: movie.id)
                 MovieOverview(movie: movie)
@@ -115,18 +115,18 @@ struct MovieDetail : View {
                         MovieKeywords(keywords: movie.keywords!).frame(height: 90)
                     }
                     if characters != nil && characters?.isEmpty == false {
-                        CastsRow(title: "Characters",
+                        MovieCrosslinePeopleRow(title: "Characters",
                                  casts: characters ?? []).frame(height: 200)
                     }
                     if credits != nil && credits?.isEmpty == false {
-                        CastsRow(title: "Crew",
+                        MovieCrosslinePeopleRow(title: "Crew",
                                  casts: credits ?? []).frame(height: 200)
                     }
                     if similar != nil && similar?.isEmpty == false {
-                        MovieDetailRow(title: "Similar Movies", movies: similar ?? []).frame(height: 260)
+                        MovieCrosslineRow(title: "Similar Movies", movies: similar ?? []).frame(height: 260)
                     }
                     if recommanded != nil && recommanded?.isEmpty == false {
-                        MovieDetailRow(title: "Recommanded Movies", movies: recommanded ?? []).frame(height: 260)
+                        MovieCrosslineRow(title: "Recommanded Movies", movies: recommanded ?? []).frame(height: 260)
                     }
                     if movie.posters != nil && movie.posters?.isEmpty == false {
                         MoviePostersRow(posters: movie.posters!,

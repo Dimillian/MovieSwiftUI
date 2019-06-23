@@ -8,15 +8,14 @@
 
 import SwiftUI
 
-struct CastsRow : View {
+struct MovieCrosslinePeopleRow : View {
     let title: String
     let casts: [Cast]
     
     var body: some View {
         VStack(alignment: .leading) {
             Text(title)
-                .font(.headline)
-                .fontWeight(.bold)
+                .font(.FHACondFrenchNC(size: 20))
                 .padding(.leading)
             ScrollView(showsHorizontalIndicator: false) {
                 HStack {
@@ -77,7 +76,7 @@ struct CastImage : View {
 #if DEBUG
 struct CastsRow_Previews : PreviewProvider {
     static var previews: some View {
-        CastsRow(title: "Sample", casts: sampleCasts)
+        MovieCrosslinePeopleRow(title: "Sample", casts: sampleCasts)
     }
 }
 #endif

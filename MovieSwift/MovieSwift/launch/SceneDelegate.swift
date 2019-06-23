@@ -22,6 +22,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         let window = UIWindow(frame: UIScreen.main.bounds)
         #endif
         window.rootViewController = UIHostingController(rootView: Tabbar().environmentObject(store))
+        window.tintColor = UIColor(named: "steam_gold")
         self.window = window
         window.makeKeyAndVisible()
     }

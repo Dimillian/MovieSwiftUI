@@ -8,15 +8,14 @@
 
 import SwiftUI
 
-struct MovieDetailRow : View {
+struct MovieCrosslineRow : View {
     let title: String
     let movies: [Movie]
     
     var body: some View {
         VStack(alignment: .leading) {
             Text(title)
-                .font(.headline)
-                .fontWeight(.bold)
+                .font(.FHACondFrenchNC(size: 20))
                 .padding(.leading)
             ScrollView(showsHorizontalIndicator: false) {
                 HStack(spacing: 32) {
@@ -54,7 +53,7 @@ struct MovieDetailRowItem: View {
 struct MovieDetailRow_Previews : PreviewProvider {
     static var previews: some View {
         NavigationView {
-            MovieDetailRow(title: "Sample", movies: [sampleMovie, sampleMovie])
+            MovieCrosslineRow(title: "Sample", movies: [sampleMovie, sampleMovie])
         }
     }
 }

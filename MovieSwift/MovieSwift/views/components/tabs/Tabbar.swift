@@ -23,7 +23,6 @@ struct Tabbar : View {
             MyLists().tabItemLabel(Text("My Lists")).tag(Tab.myLists)
         }
             .edgesIgnoringSafeArea(.top)
-            .accentColor(.red)
     }
 }
 

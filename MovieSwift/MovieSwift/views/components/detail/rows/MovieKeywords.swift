@@ -14,7 +14,7 @@ struct MovieKeywords : View {
     var body: some View {
         VStack(alignment: .leading, spacing: 8) {
             Text("Keywords")
-                .font(.headline)
+                .font(.FHACondFrenchNC(size: 20))
                 .padding(.leading)
             ScrollView(showsHorizontalIndicator: false) {
                 HStack {
