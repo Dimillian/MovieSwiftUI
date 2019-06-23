@@ -362,6 +362,10 @@ struct MoviesActions {
         let response: PaginatedResponse<Movie>
     }
     
+    struct PushRandomDiscover: Action {
+        let movie: Int
+    }
+    
     struct PopRandromDiscover: Action {
         
     }

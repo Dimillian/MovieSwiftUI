@@ -59,6 +59,18 @@ struct MoviePostersCarouselView_Previews : PreviewProvider {
         MoviePostersCarouselView(posters: [MovieImage(aspect_ratio: 0.666666666666667,
                                                       file_path: "/fpemzjF623QVTe98pCVlwwtFC5N.jpg",
                                                       height: 720,
+                                                      width: 1280),
+                                           MovieImage(aspect_ratio: 0.666666666666667,
+                                                      file_path: "/fpemzjF623QVTe98pCVlwwtFC5N.jpg",
+                                                      height: 720,
+                                                      width: 1280),
+                                           MovieImage(aspect_ratio: 0.666666666666667,
+                                                      file_path: "/fpemzjF623QVTe98pCVlwwtFC5N.jpg",
+                                                      height: 720,
+                                                      width: 1280),
+                                           MovieImage(aspect_ratio: 0.666666666666667,
+                                                      file_path: "/fpemzjF623QVTe98pCVlwwtFC5N.jpg",
+                                                      height: 720,
                                                       width: 1280)],
                                  selectedPoster: .constant(nil))
     }

@@ -121,6 +121,8 @@ struct MoviesReducer: Reducer {
             state.customLists.removeAll{ $0.id == action.list }
         } else if action is MoviesActions.PopRandromDiscover {
             _ = state.discover.popLast()
+        } else if let action = action as? MoviesActions.PushRandomDiscover {
+            state.discover.append(action.movie)
         } else if action is MoviesActions.ResetRandomDiscover {
             state.discoverParams = [:]
             state.discover = []

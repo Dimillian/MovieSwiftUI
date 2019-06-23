@@ -11,9 +11,14 @@ import SwiftUI
 struct DiscoverView : View {
     @EnvironmentObject var store: AppStore
     @State var draggedViewState = DraggableCover.DragState.inactive
+    @State var previousMovie: Int? = nil
     
     var movies: [Int] {
         store.state.moviesState.discover
+    }
+    
+    var currentMovie: Movie {
+        return store.state.moviesState.movies[store.state.moviesState.discover.reversed()[0].id]!
     }
     
     func dragResistance() -> CGFloat {
@@ -21,7 +26,7 @@ struct DiscoverView : View {
     }
     
     func opacityResistance() -> Double {
-        Double(abs(draggedViewState.translation.width) / 1000)
+        Double(abs(draggedViewState.translation.width) / 800)
     }
     
     func leftZoneResistance() -> CGFloat {
@@ -34,10 +39,11 @@ struct DiscoverView : View {
     
     func doneGesture(handler: DraggableCover.EndState) {
         if handler == .left || handler == .right {
+            previousMovie = currentMovie.id
             if handler == .left {
-                store.dispatch(action: MoviesActions.addToWishlist(movie: movies.reversed()[0]))
+                store.dispatch(action: MoviesActions.addToWishlist(movie: currentMovie.id))
             } else if handler == .right {
-                store.dispatch(action: MoviesActions.addToSeenlist(movie: movies.reversed()[0]))
+                store.dispatch(action: MoviesActions.addToSeenlist(movie: currentMovie.id))
             }
             store.dispatch(action: MoviesActions.PopRandromDiscover())
             fetchRandomMovies()
@@ -75,7 +81,7 @@ struct DiscoverView : View {
         GeometryReader { geometry in
             ZStack(alignment: .center) {
                 if !self.movies.isEmpty {
-                    Text(self.store.state.moviesState.movies[self.movies.reversed()[0]]!.original_title)
+                    Text(self.currentMovie.original_title)
                         .color(.primary)
                         .multilineTextAlignment(.center)
                         .font(.subheadline)
@@ -86,7 +92,7 @@ struct DiscoverView : View {
                         .animation(.basic())
                     
                     PresentationButton(destination:
-                        NavigationView { MovieDetail(movieId: self.movies.reversed()[0]) }.environmentObject(self.store),
+                        NavigationView { MovieDetail(movieId: self.currentMovie.id) }.environmentObject(self.store),
                                        label: {
                                         Text("See detail").color(.blue)
                                         
@@ -119,11 +125,25 @@ struct DiscoverView : View {
                     .background(Image(systemName: "xmark").foregroundColor(.red))
                     .frame(width: 50, height: 50)
                     .position(x: geometry.frame(in: .global).midX, y: geometry.frame(in: .global).midY + 230)
-                    .opacity(self.draggedViewState.isDragging ? 0.0 : 0.7)
+                    .opacity(self.draggedViewState.isDragging ? 0.0 : 1)
                     .animation(.fluidSpring())
                     .tapAction {
+                        self.previousMovie = self.currentMovie.id
                         self.store.dispatch(action: MoviesActions.PopRandromDiscover())
                         self.fetchRandomMovies()
+                }
+                
+                Circle()
+                    .foregroundColor(.clear)
+                    .background(Image(systemName: "gobackward").foregroundColor(.blue))
+                    .frame(width: 50, height: 50)
+                    .position(x: geometry.frame(in: .global).midX - 50,
+                              y: geometry.frame(in: .global).midY + 230)
+                    .opacity(self.previousMovie != nil && !self.draggedViewState.isActive ? 1 : 0)
+                    .animation(.fluidSpring())
+                    .tapAction {
+                        self.store.dispatch(action: MoviesActions.PushRandomDiscover(movie: self.previousMovie!))
+                        self.previousMovie = nil
                 }
             }
         }
@@ -161,7 +181,7 @@ struct DiscoverView : View {
 #if DEBUG
 struct DiscoverView_Previews : PreviewProvider {
     static var previews: some View {
-        DiscoverView().environmentObject(sampleStore)
+        DiscoverView().environmentObject(store)
     }
 }
 #endif

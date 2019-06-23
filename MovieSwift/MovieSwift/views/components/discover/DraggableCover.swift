@@ -122,6 +122,7 @@ struct DraggableCover : View {
                 }
                 self.gestureViewState = .inactive
             }
+        
         // MARK: - View return
         return DiscoverCoverImage(imageLoader: ImageLoader(poster: movie.poster_path,
                                                          size: .small))
@@ -145,7 +146,9 @@ struct DraggableCover : View {
 #if DEBUG
 struct DraggableCover_Previews : PreviewProvider {
     static var previews: some View {
-        DraggableCover(movieId: 0, gestureViewState: .constant(.inactive), endGestureHandler: {handler in
+        DraggableCover(movieId: 0,
+                       gestureViewState: .constant(.inactive),
+                       endGestureHandler: {handler in
             
         }).environmentObject(sampleStore)
     }
