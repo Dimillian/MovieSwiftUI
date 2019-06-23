@@ -25,7 +25,11 @@ struct DiscoverFilterForm : View {
     @State var selectedDate: Int = 0
     @State var selectedGenre: Int = 0
     @State var selectedCountry: Int = 0
-        
+    
+    var currentFilter: DiscoverFilter? {
+        store.state.moviesState.discoverFilter
+    }
+    
     var formFilter: DiscoverFilter? {
         if selectedGenre == 0 && selectedCountry == 0 && selectedDate == 0 {
             return nil
@@ -134,6 +138,16 @@ struct DiscoverFilterForm : View {
                 }
                 .navigationBarTitle(Text("Discover filter"))
                 .onAppear {
+                    if let startYear = self.currentFilter?.startYear {
+                        self.selectedDate = self.datesInt.firstIndex(of: startYear) ?? 0
+                    }
+                    if let genre = self.currentFilter?.genre {
+                        self.selectedGenre = self.genres?.firstIndex{ $0.id == genre } ?? 0
+                    }
+                    if let region = self.currentFilter?.region,
+                        let index = NSLocale.isoCountryCodes.firstIndex(of: region) {
+                        self.selectedCountry = index + 1
+                    }
                     self.store.dispatch(action: MoviesActions.FetchGenres())
             }
         }

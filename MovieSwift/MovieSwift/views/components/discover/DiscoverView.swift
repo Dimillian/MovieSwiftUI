@@ -9,10 +9,16 @@
 import SwiftUI
 
 struct DiscoverView : View {
+    
+    // MARk: - State vars
+    
     @EnvironmentObject var store: AppStore
     @State var draggedViewState = DraggableCover.DragState.inactive
     @State var previousMovie: Int? = nil
     @State var filterFormPresented = false
+    @State var movieDetailPresented = false
+    
+    // MARK: - Computed properties
     
     var movies: [Int] {
         store.state.moviesState.discover
@@ -61,6 +67,8 @@ struct DiscoverView : View {
         }
     }
     
+    // MARK: - Modals
+    
     var filterFormModal: Modal {
         Modal(DiscoverFilterForm(isPresented: $filterFormPresented).environmentObject(store),
               onDismiss: {
@@ -68,6 +76,22 @@ struct DiscoverView : View {
         })
     }
     
+    var movieDetailModal: Modal {
+        Modal(NavigationView{ MovieDetail(movieId: currentMovie.id).environmentObject(store) }) {
+            self.movieDetailPresented = false
+        }
+    }
+    
+    var currentModal: Modal? {
+        if filterFormPresented {
+            return filterFormModal
+        } else if movieDetailPresented {
+            return movieDetailModal
+        }
+        return nil
+    }
+    
+    // MARK: Body views
     var filterView: some View {
         var text = String("")
         if let startYear = filter?.startYear, let endYear = filter?.endYear {
@@ -85,10 +109,10 @@ struct DiscoverView : View {
             text = text + " · \(region)"
         }
         return BorderedButton(text: text,
-            systemImageName: "line.horizontal.3.decrease",
-            color: .steam_blue,
-            isOn: false) {
-                self.filterFormPresented = true
+                              systemImageName: "line.horizontal.3.decrease",
+                              color: .steam_blue,
+                              isOn: false) {
+                                self.filterFormPresented = true
         }
     }
     
@@ -99,78 +123,71 @@ struct DiscoverView : View {
                     Text(self.currentMovie.original_title)
                         .color(.primary)
                         .multilineTextAlignment(.center)
-                        .font(.subheadline)
+                        .font(.FHACondFrenchNC(size: 18))
                         .lineLimit(2)
                         .opacity(self.draggedViewState.isDragging ? 0.0 : 1.0)
                         .position(x: geometry.frame(in: .global).midX,
-                                  y: geometry.frame(in: .global).midY + 150)
+                                  y: geometry.frame(in: .global).midY + 170)
                         .animation(.basic())
+                        .tapAction {
+                            self.movieDetailPresented = true
+                    }
                     
-                    PresentationButton(destination:
-                        NavigationView { MovieDetail(movieId: self.currentMovie.id) }.environmentObject(self.store),
-                                       label: {
-                                        Text("See detail").color(.steam_blue)
-                                        
-                    })
-                        .opacity(self.draggedViewState.isDragging ? 0.0 : 0.7)
-                        .position(x: geometry.frame(in: .global).midX, y: geometry.frame(in: .global).midY + 180)
+                    
+                    Circle()
+                        .strokeBorder(Color.pink, lineWidth: 1)
+                        .background(Image(systemName: "heart.fill").foregroundColor(.pink))
+                        .frame(width: 50, height: 50)
+                        .position(x: geometry.frame(in: .global).midX - 50, y: geometry.frame(in: .global).midY + 200)
+                        .opacity(self.draggedViewState.isDragging ? 0.3 + Double(self.leftZoneResistance()) : 0)
                         .animation(.fluidSpring())
-                        .environmentObject(self.store)
-                }
-                
-                Circle()
-                    .strokeBorder(Color.pink, lineWidth: 1)
-                    .background(Image(systemName: "heart.fill").foregroundColor(.pink))
-                    .frame(width: 50, height: 50)
-                    .position(x: geometry.frame(in: .global).midX - 50, y: geometry.frame(in: .global).midY + 200)
-                    .opacity(self.draggedViewState.isDragging ? 0.3 + Double(self.leftZoneResistance()) : 0)
-                    .animation(.fluidSpring())
-                
-                Circle()
-                    .strokeBorder(Color.green, lineWidth: 1)
-                    .background(Image(systemName: "eye.fill").foregroundColor(.green))
-                    .frame(width: 50, height: 50)
-                    .position(x: geometry.frame(in: .global).midX + 50, y: geometry.frame(in: .global).midY + 200)
-                    .opacity(self.draggedViewState.isDragging ? 0.3 + Double(self.rightZoneResistance()) : 0)
-                    .animation(.fluidSpring())
-                
-                
-                Circle()
-                    .strokeBorder(Color.red, lineWidth: 1)
-                    .background(Image(systemName: "xmark").foregroundColor(.red))
-                    .frame(width: 50, height: 50)
-                    .position(x: geometry.frame(in: .global).midX, y: geometry.frame(in: .global).midY + 230)
-                    .opacity(self.draggedViewState.isDragging ? 0.0 : 1)
-                    .animation(.fluidSpring())
-                    .tapAction {
-                        self.previousMovie = self.currentMovie.id
-                        self.store.dispatch(action: MoviesActions.PopRandromDiscover())
+                    
+                    Circle()
+                        .strokeBorder(Color.green, lineWidth: 1)
+                        .background(Image(systemName: "eye.fill").foregroundColor(.green))
+                        .frame(width: 50, height: 50)
+                        .position(x: geometry.frame(in: .global).midX + 50, y: geometry.frame(in: .global).midY + 200)
+                        .opacity(self.draggedViewState.isDragging ? 0.3 + Double(self.rightZoneResistance()) : 0)
+                        .animation(.fluidSpring())
+                    
+                    
+                    Circle()
+                        .strokeBorder(Color.red, lineWidth: 1)
+                        .background(Image(systemName: "xmark").foregroundColor(.red))
+                        .frame(width: 50, height: 50)
+                        .position(x: geometry.frame(in: .global).midX, y: geometry.frame(in: .global).midY + 230)
+                        .opacity(self.draggedViewState.isDragging ? 0.0 : 1)
+                        .animation(.fluidSpring())
+                        .tapAction {
+                            self.previousMovie = self.currentMovie.id
+                            self.store.dispatch(action: MoviesActions.PopRandromDiscover())
+                            self.fetchRandomMovies()
+                    }
+                    
+                    Button(action: {
+                        self.store.dispatch(action: MoviesActions.PushRandomDiscover(movie: self.previousMovie!))
+                        self.previousMovie = nil
+                    }, label: {
+                        Image(systemName: "gobackward").foregroundColor(.steam_blue)
+                    }) .frame(width: 50, height: 50)
+                        .position(x: geometry.frame(in: .global).midX - 60,
+                                  y: geometry.frame(in: .global).midY + 230)
+                        .opacity(self.previousMovie != nil && !self.draggedViewState.isActive ? 1 : 0)
+                        .animation(.fluidSpring())
+                    
+                    Button(action: {
+                        self.store.dispatch(action: MoviesActions.ResetRandomDiscover())
                         self.fetchRandomMovies()
+                    }, label: {
+                        Image(systemName: "arrow.swap")
+                            .foregroundColor(.steam_blue)
+                    })
+                        .frame(width: 50, height: 50)
+                        .position(x: geometry.frame(in: .global).midX + 60,
+                                  y: geometry.frame(in: .global).midY + 230)
+                        .opacity(self.draggedViewState.isDragging ? 0.0 : 1.0)
+                        .animation(.fluidSpring())
                 }
-                
-                Button(action: {
-                    self.store.dispatch(action: MoviesActions.PushRandomDiscover(movie: self.previousMovie!))
-                    self.previousMovie = nil
-                }, label: {
-                    Image(systemName: "gobackward").foregroundColor(.steam_blue)
-                }) .frame(width: 50, height: 50)
-                    .position(x: geometry.frame(in: .global).midX - 60,
-                              y: geometry.frame(in: .global).midY + 230)
-                    .opacity(self.previousMovie != nil && !self.draggedViewState.isActive ? 1 : 0)
-                    .animation(.fluidSpring())
-                
-                Button(action: {
-                    self.store.dispatch(action: MoviesActions.ResetRandomDiscover())
-                    self.fetchRandomMovies()
-                }, label: {
-                    Image(systemName: "arrow.swap")
-                        .foregroundColor(.steam_blue)
-                })
-                    .frame(width: 50, height: 50)
-                    .position(x: geometry.frame(in: .global).midX + 60,
-                              y: geometry.frame(in: .global).midY + 230)
-                    .opacity(self.draggedViewState.isDragging ? 0.0 : 1.0)
-                    .animation(.fluidSpring())
             }
         }
     }
@@ -198,7 +215,7 @@ struct DiscoverView : View {
                 }
             }
             }
-            .presentation(filterFormPresented ? filterFormModal : nil)
+            .presentation(currentModal)
             .onAppear {
                 self.fetchRandomMovies()
         }
