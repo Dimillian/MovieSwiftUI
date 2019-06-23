@@ -79,7 +79,7 @@ struct MoviesReducer: Reducer {
         } else if let action = action as? MoviesActions.removeFromSeenlist {
             state.seenlist.remove(action.movie)
         } else if let action = action as? MoviesActions.SetMovieForGenre {
-            state.genres[action.genre.id] = action.response.results.map{ $0.id }
+            state.withGenre[action.genre.id] = action.response.results.map{ $0.id }
             for movie in action.response.results {
                 if state.movies[movie.id] == nil {
                     state.movies[movie.id] = movie
@@ -96,7 +96,7 @@ struct MoviesReducer: Reducer {
                     state.movies[movie.id] = movie
                 }
             }
-            state.discoverParams = action.params
+            state.discoverFilter = action.filter
         } else if let action = action as? MoviesActions.SetMovieReviews {
             state.reviews[action.movie] = action.response.results
         } else if let action = action as? MoviesActions.SetMovieWithCrew {
@@ -124,11 +124,14 @@ struct MoviesReducer: Reducer {
         } else if let action = action as? MoviesActions.PushRandomDiscover {
             state.discover.append(action.movie)
         } else if action is MoviesActions.ResetRandomDiscover {
-            state.discoverParams = [:]
+            state.discoverFilter = nil
             state.discover = []
         } else if let action = action as? MoviesActions.SetMovieImages {
             state.movies[action.movie]?.posters = action.response.posters
             state.movies[action.movie]?.backdrops = action.response.backdrops
+        } else if let action = action as? MoviesActions.SetGenres {
+            state.genres = action.genres
+            state.genres.insert(Genre(id: -1, name: "Random"), at: 0)
         }
         return state
     }

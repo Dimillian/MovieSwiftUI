@@ -18,17 +18,20 @@ struct MoviesState: FluxState, Codable {
     var nowPlaying: [Int] = []
     var search: [String: [Int]] = [:]
     var searchKeywords: [String: [Keyword]] = [:]
+    
     var discover: [Int] = []
-    var discoverParams: [String: String] = [:]
+    var discoverFilter: DiscoverFilter?
     
     var wishlist: Set<Int> = Set()
     var seenlist: Set<Int> = Set()
     
-    var genres: [Int: [Int]] = [:]
+    var withGenre: [Int: [Int]] = [:]
     var withKeywords: [Int: [Int]] = [:]
     var withCrew: [Int: [Int]] = [:]
     var reviews: [Int: [Review]] = [:]
     var customLists: [CustomList] = []
+    
+    var genres: [Genre] = []
     
     enum CodingKeys: String, CodingKey {
         case movies, wishlist, seenlist, customLists

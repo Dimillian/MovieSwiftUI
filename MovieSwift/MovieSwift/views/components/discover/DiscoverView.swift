@@ -12,9 +12,14 @@ struct DiscoverView : View {
     @EnvironmentObject var store: AppStore
     @State var draggedViewState = DraggableCover.DragState.inactive
     @State var previousMovie: Int? = nil
+    @State var filterFormPresented = false
     
     var movies: [Int] {
         store.state.moviesState.discover
+    }
+    
+    var filter: DiscoverFilter? {
+        store.state.moviesState.discoverFilter
     }
     
     var currentMovie: Movie {
@@ -52,29 +57,39 @@ struct DiscoverView : View {
     
     func fetchRandomMovies() {
         if movies.count < 10 {
-            store.dispatch(action: MoviesActions.FetchRandomDiscover())
+            store.dispatch(action: MoviesActions.FetchRandomDiscover(filter: filter))
         }
     }
     
+    var filterFormModal: Modal {
+        Modal(DiscoverFilterForm(isPresented: $filterFormPresented).environmentObject(store),
+              onDismiss: {
+            self.filterFormPresented = false
+        })
+    }
+    
     var filterView: some View {
-        HStack(alignment: .center, spacing: 8) {
-            Text("Year: \(store.state.moviesState.discoverParams["year"] ?? "loading")")
-                .color(.secondary)
-                .font(.footnote)
-            Text("Sort: \(store.state.moviesState.discoverParams["sort_by"] ?? "loading")")
-                .color(.secondary)
-                .font(.footnote)
-            Text("Page: \(store.state.moviesState.discoverParams["page"] ?? "loading")")
-                .color(.secondary)
-                .font(.footnote)
-            Button(action: {
-                self.store.dispatch(action: MoviesActions.ResetRandomDiscover())
-                self.fetchRandomMovies()
-            }, label: {
-                Image(systemName: "arrow.clockwise")
-            })
-            }
-            .fixedSize()
+        var text = String("")
+        if let startYear = filter?.startYear, let endYear = filter?.endYear {
+            text = text + "\(startYear)-\(endYear)"
+        } else {
+            text = text + "\(filter?.year != nil ? String(filter!.year) : "Loading") · Random"
+        }
+        if let genre = filter?.genre,
+            let stateGenre = store.state.moviesState.genres.first(where: { (realGenre) -> Bool in
+            realGenre.id == genre
+        }) {
+            text = text + " · \(stateGenre.name)"
+        }
+        if let region = filter?.region {
+            text = text + " · \(region)"
+        }
+        return BorderedButton(text: text,
+            systemImageName: "line.horizontal.3.decrease",
+            color: .steam_blue,
+            isOn: false) {
+                self.filterFormPresented = true
+        }
     }
     
     var zonesButtons: some View {
@@ -94,7 +109,7 @@ struct DiscoverView : View {
                     PresentationButton(destination:
                         NavigationView { MovieDetail(movieId: self.currentMovie.id) }.environmentObject(self.store),
                                        label: {
-                                        Text("See detail").color(.blue)
+                                        Text("See detail").color(.steam_blue)
                                         
                     })
                         .opacity(self.draggedViewState.isDragging ? 0.0 : 0.7)
@@ -133,18 +148,29 @@ struct DiscoverView : View {
                         self.fetchRandomMovies()
                 }
                 
-                Circle()
-                    .foregroundColor(.clear)
-                    .background(Image(systemName: "gobackward").foregroundColor(.blue))
-                    .frame(width: 50, height: 50)
-                    .position(x: geometry.frame(in: .global).midX - 50,
+                Button(action: {
+                    self.store.dispatch(action: MoviesActions.PushRandomDiscover(movie: self.previousMovie!))
+                    self.previousMovie = nil
+                }, label: {
+                    Image(systemName: "gobackward").foregroundColor(.steam_blue)
+                }) .frame(width: 50, height: 50)
+                    .position(x: geometry.frame(in: .global).midX - 60,
                               y: geometry.frame(in: .global).midY + 230)
                     .opacity(self.previousMovie != nil && !self.draggedViewState.isActive ? 1 : 0)
                     .animation(.fluidSpring())
-                    .tapAction {
-                        self.store.dispatch(action: MoviesActions.PushRandomDiscover(movie: self.previousMovie!))
-                        self.previousMovie = nil
-                }
+                
+                Button(action: {
+                    self.store.dispatch(action: MoviesActions.ResetRandomDiscover())
+                    self.fetchRandomMovies()
+                }, label: {
+                    Image(systemName: "arrow.swap")
+                        .foregroundColor(.steam_blue)
+                })
+                    .frame(width: 50, height: 50)
+                    .position(x: geometry.frame(in: .global).midX + 60,
+                              y: geometry.frame(in: .global).midY + 230)
+                    .opacity(self.draggedViewState.isDragging ? 0.0 : 1.0)
+                    .animation(.fluidSpring())
             }
         }
     }
@@ -153,7 +179,7 @@ struct DiscoverView : View {
         ZStack(alignment: .center) {
             GeometryReader { reader in
                 self.filterView.position(x: reader.frame(in: .global).midX,
-                                    y: 20)
+                                    y: 30)
             }
             zonesButtons
             ForEach(movies) {id in
@@ -172,6 +198,7 @@ struct DiscoverView : View {
                 }
             }
             }
+            .presentation(filterFormPresented ? filterFormModal : nil)
             .onAppear {
                 self.fetchRandomMovies()
         }

@@ -30,7 +30,7 @@ struct MovieOverview : View {
                 }
             }, label: {
                 Text(self.isOverviewExpanded ? "Less" : "Read more")
-                    .color(self.isOverviewExpanded ? .white : .blue)
+                    .color(.steam_blue)
             })
         }
     }

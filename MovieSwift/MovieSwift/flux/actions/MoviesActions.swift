@@ -217,25 +217,16 @@ struct MoviesActions {
     }
     
     struct FetchRandomDiscover: Action {
-        init(params: [String: String]? = nil) {
-            var params = params
-            if params == nil {
-                let sortBy = ["popularity.desc",
-                              "popularity.asc",
-                              "vote_average.asc",
-                              "vote_average.desc"]
-                let calendar = Calendar.current
-                let randomYear = Int.random(in: 1950..<calendar.component(.year, from: Date()))
-                params = [:]
-                params!["year"] = "\(randomYear)"
-                params!["page"] = "\(Int.random(in: 1..<10))"
-                params!["sort_by"] = sortBy[Int.random(in: 0..<sortBy.count)]
+        init(filter: DiscoverFilter? = nil) {
+            var filter = filter
+            if filter == nil {
+                filter = DiscoverFilter.randomFilter()
             }
-            APIService.shared.GET(endpoint: .discover, params: params)
+            APIService.shared.GET(endpoint: .discover, params: filter!.toParams())
             { (result: Result<PaginatedResponse<Movie>, APIService.APIError>) in
                 switch result {
                 case let .success(response):
-                    store.dispatch(action: SetRandomDiscover(params: params!, response: response))
+                    store.dispatch(action: SetRandomDiscover(filter: filter!, response: response))
                 case .failure(_):
                     break
                 }
@@ -256,6 +247,24 @@ struct MoviesActions {
                 switch result {
                 case let .success(response):
                     store.dispatch(action: SetMovieImages(movie: movie, response: response))
+                case .failure(_):
+                    break
+                }
+            }
+        }
+    }
+    
+    struct GenresResponse: Codable {
+        let genres: [Genre]
+    }
+    
+    struct FetchGenres: Action {
+        init() {
+            APIService.shared.GET(endpoint: .genres, params: nil)
+            { (result: Result<GenresResponse, APIService.APIError>) in
+                switch result {
+                case let .success(response):
+                    store.dispatch(action: SetGenres(genres: response.genres))
                 case .failure(_):
                     break
                 }
@@ -312,6 +321,10 @@ struct MoviesActions {
         let response: PaginatedResponse<Movie>
     }
     
+    struct SetGenres: Action {
+        let genres: [Genre]
+    }
+    
     struct SetSearchKeyword: Action {
         let query: String
         let response: PaginatedResponse<Keyword>
@@ -358,7 +371,7 @@ struct MoviesActions {
     }
     
     struct SetRandomDiscover: Action {
-        let params: [String: String]
+        let filter: DiscoverFilter
         let response: PaginatedResponse<Movie>
     }
     

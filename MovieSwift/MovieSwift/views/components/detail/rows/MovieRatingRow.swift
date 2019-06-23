@@ -19,7 +19,7 @@ struct MovieRatingRow : View {
             }
             PresentationButton(destination: MovieReviews(movie: movie.id).environmentObject(store),
                                label: {
-                                Text("See reviews").color(.blue)
+                                Text("See reviews").color(.steam_blue)
             })
             }
             .padding(.top, 8)
