@@ -22,7 +22,7 @@ struct MovieRow : View {
         HStack {
             MoviePosterImage(imageLoader: ImageLoader(poster: movie.poster_path, size: .small))
             VStack(alignment: .leading, spacing: 8) {
-                Text(movie.original_title).bold()
+                Text(movie.original_title).font(.FHACondFrenchNC(size: 22))
                 Text(movie.overview)
                     .color(.secondary)
                     .lineLimit(8)
