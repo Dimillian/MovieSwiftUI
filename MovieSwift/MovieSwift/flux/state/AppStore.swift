@@ -67,7 +67,7 @@ final class AppStore: BindableObject {
 let store = AppStore(useAchivedState: true)
 let sampleStore = AppStore(useAchivedState: false,
                            moviesState: MoviesState(movies: [0: sampleMovie],
-                                                    recommanded: [0: [0]],
+                                                    recommended: [0: [0]],
                                                     similar: [0: [0]],
                                                     popular: [0],
                                                     topRated: [0],
