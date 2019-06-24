@@ -18,7 +18,11 @@ final class AppStore: BindableObject {
         var castsState: CastsState
     }
     
-    private(set) var state = AppState(moviesState: MoviesState(), castsState: CastsState())
+    private(set) var state = AppState(moviesState: MoviesState(), castsState: CastsState()) {
+        didSet {
+            self.didChange.send(self)
+        }
+    }
     
     private let savePath: URL
     private let encoder = JSONEncoder()
@@ -58,9 +62,6 @@ final class AppStore: BindableObject {
         state.moviesState = MoviesReducer().reduce(state: state.moviesState, action: action)
         state.castsState = CastsReducer().reduce(state: state.castsState, action: action)
         self.state = state
-        DispatchQueue.main.async {
-            self.didChange.send(self)
-        }
     }
 }
 
