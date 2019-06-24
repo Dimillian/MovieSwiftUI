@@ -82,13 +82,13 @@ struct MoviesActions {
         }
     }
     
-    struct FetchRecommanded: Action {
+    struct FetchRecommended: Action {
         init(movie: Int) {
-            APIService.shared.GET(endpoint: .recommanded(movie: movie), params: nil) {
+            APIService.shared.GET(endpoint: .recommended(movie: movie), params: nil) {
                 (result: Result<PaginatedResponse<Movie>, APIService.APIError>) in
                 switch result {
                 case let .success(response):
-                    store.dispatch(action: SetRecommanded(movie: movie, response: response))
+                    store.dispatch(action: SetRecommended(movie: movie, response: response))
                 case .failure(_):
                     break
                 }
@@ -297,7 +297,7 @@ struct MoviesActions {
         let movie: Int
         let response: Movie
     }
-    struct SetRecommanded: Action {
+    struct SetRecommended: Action {
         let movie: Int
         let response: PaginatedResponse<Movie>
     }

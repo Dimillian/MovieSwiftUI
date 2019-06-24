@@ -42,9 +42,9 @@ struct MovieDetail : View {
         }
     }
     
-    var recommanded: [Movie]? {
+    var recommended: [Movie]? {
         get {
-            guard let ids = store.state.moviesState.recommanded[movie.id] else {
+            guard let ids = store.state.moviesState.recommended[movie.id] else {
                 return nil
             }
             let movies = store.state.moviesState.movies
@@ -66,7 +66,7 @@ struct MovieDetail : View {
     func fetchMovieDetails() {
         store.dispatch(action: MoviesActions.FetchDetail(movie: movie.id))
         store.dispatch(action: CastsActions.FetchMovieCasts(movie: movie.id))
-        store.dispatch(action: MoviesActions.FetchRecommanded(movie: movie.id))
+        store.dispatch(action: MoviesActions.FetchRecommended(movie: movie.id))
         store.dispatch(action: MoviesActions.FetchSimilar(movie: movie.id))
         store.dispatch(action: MoviesActions.FetchMovieKeywords(movie: movie.id))
         store.dispatch(action: MoviesActions.FetchMovieImages(movie: movie.id))
@@ -125,8 +125,8 @@ struct MovieDetail : View {
                     if similar != nil && similar?.isEmpty == false {
                         MovieCrosslineRow(title: "Similar Movies", movies: similar ?? []).frame(height: 260)
                     }
-                    if recommanded != nil && recommanded?.isEmpty == false {
-                        MovieCrosslineRow(title: "Recommanded Movies", movies: recommanded ?? []).frame(height: 260)
+                    if recommended != nil && recommended?.isEmpty == false {
+                        MovieCrosslineRow(title: "Recommended Movies", movies: recommended ?? []).frame(height: 260)
                     }
                     if movie.posters != nil && movie.posters?.isEmpty == false {
                         MoviePostersRow(posters: movie.posters!,

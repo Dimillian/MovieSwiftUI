@@ -10,7 +10,7 @@ import Foundation
 
 struct MoviesState: FluxState, Codable {
     var movies: [Int: Movie] = [:]
-    var recommanded: [Int: [Int]] = [:]
+    var recommended: [Int: [Int]] = [:]
     var similar: [Int: [Int ]] = [:]
     var popular: [Int] = []
     var topRated: [Int] = []

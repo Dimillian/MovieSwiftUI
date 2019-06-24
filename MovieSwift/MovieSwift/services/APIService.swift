@@ -22,7 +22,7 @@ struct APIService {
     
     enum Endpoint {
         case popular, toRated, upcoming, nowPlaying
-        case detail(movie: Int), recommanded(movie: Int), similar(movie: Int)
+        case detail(movie: Int), recommended(movie: Int), similar(movie: Int)
         case credits(movie: Int), review(movie: Int), keywords(movie: Int)
         case images(movie: Int)
         case searchMovie, searchKeyword
@@ -45,7 +45,7 @@ struct APIService {
                 return "movie/\(String(movie))/credits"
             case let .review(movie):
                 return "movie/\(String(movie))/reviews"
-            case let .recommanded(movie):
+            case let .recommended(movie):
                 return "movie/\(String(movie))/recommendations"
             case let .similar(movie):
                 return "movie/\(String(movie))/similar"
