@@ -37,6 +37,11 @@ class ImageService {
         memCache.removeAll()
     }
     
+    func syncImageFromCache(poster: String, size: Size) -> UIImage? {
+        return memCache[poster]
+    }
+    
+    // TODO: Prefix memcache with poster size.
     func image(poster: String, size: Size, completionHandler: @escaping (Result<UIImage, Error>) -> Void) {
         if let cachedImage = memCache[poster] {
             completionHandler(.success(cachedImage))

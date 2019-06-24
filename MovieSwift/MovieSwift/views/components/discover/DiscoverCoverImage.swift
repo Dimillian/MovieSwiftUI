@@ -11,15 +11,22 @@ import SwiftUI
 struct DiscoverCoverImage : View {
     @State var imageLoader: ImageLoader
     
+    var cachedImage: UIImage? {
+        if let poster = imageLoader.poster {
+            return ImageService.shared.syncImageFromCache(poster: poster, size: imageLoader.size)
+        }
+        return nil
+    }
+    
     var body: some View {
         ZStack {
-            if imageLoader.image != nil {
-                Image(uiImage: self.imageLoader.image!)
+            if cachedImage != nil || imageLoader.image != nil {
+                Image(uiImage: cachedImage ?? self.imageLoader.image!)
                     .resizable()
                     .renderingMode(.original)
                     .frame(width: 200, height: 300)
                     .cornerRadius(5)
-            } else if imageLoader.poster == nil {
+            } else if imageLoader.missing == true {
                 Rectangle()
                     .foregroundColor(.gray)
                     .frame(width: 200, height: 300)

@@ -59,6 +59,7 @@ struct DraggableCover : View {
     
     // MARK: - Internal vars
     @State private var viewState = CGSize.zero
+    @State private var predictedEndLocation: CGPoint? = nil
     @EnvironmentObject private var store: AppStore
     @GestureState private var dragState = DragState.inactive
     
@@ -80,6 +81,11 @@ struct DraggableCover : View {
     // MARK: - Viewd functions
     
     func computedOffset() -> CGSize {
+        if let location = predictedEndLocation {
+            return CGSize(width: viewState.width + location.x,
+                          height: 0)
+        }
+        
         return CGSize(
             width: dragState.isActive ? viewState.width +  dragState.translation.width : 0,
             height: 0
@@ -87,10 +93,22 @@ struct DraggableCover : View {
     }
     
     func computeAngle() -> Angle {
-        Angle(degrees: Double(dragState.translation.width / 15))
+        if let location = predictedEndLocation {
+            return Angle(degrees: Double(location.x / 15))
+        }
+        return Angle(degrees: Double(dragState.translation.width / 15))
+    }
+    
+    var coverSpringAnimation: Animation {
+        .fluidSpring(stiffness: 80,
+                     dampingFraction: 0.7,
+                     blendDuration: 0,
+                     timestep: 1.0 / 300,
+                     idleThreshold: 0.5)
     }
     
     // MARK: - View
+    
     var body: some View {
         // MARK: - Gesture
         let longPressDrag = LongPressGesture(minimumDuration: minimumLongPressDuration)
@@ -113,10 +131,16 @@ struct DraggableCover : View {
                 }
             }.onEnded { value in
                 let endLocation = self.gestureViewState.predictedLocation
-                if endLocation.x < -50 {
-                    self.endGestureHandler(.left)
-                } else if endLocation.x > UIScreen.main.bounds.width - 100 {
-                    self.endGestureHandler(.right)
+                if endLocation.x < -150 {
+                    self.predictedEndLocation = endLocation
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
+                        self.endGestureHandler(.left)
+                    }
+                } else if endLocation.x > UIScreen.main.bounds.width - 50 {
+                    self.predictedEndLocation = endLocation
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
+                        self.endGestureHandler(.right)
+                    }
                 } else {
                     self.endGestureHandler(.cancelled)
                 }
@@ -127,17 +151,15 @@ struct DraggableCover : View {
         return DiscoverCoverImage(imageLoader: ImageLoader(poster: movie.poster_path,
                                                          size: .small))
             .offset(computedOffset())
+            .animation(dragState.isActive ? coverSpringAnimation : nil)
+            .opacity(predictedEndLocation != nil ? 0 : 1)
             .rotationEffect(computeAngle())
             .scaleEffect(dragState.isActive ? 1.03: 1)
             .shadow(color: .secondary,
                     radius: dragState.isActive ? shadowRadius : 0,
                     x: dragState.isActive ? shadowSize : 0,
                     y: dragState.isActive ? shadowSize : 0)
-            .animation(.fluidSpring(stiffness: 80,
-                                    dampingFraction: 0.7,
-                                    blendDuration: 0,
-                                    timestep: 1.0 / 300,
-                                    idleThreshold: 0.5))
+            .animation(coverSpringAnimation)
             .gesture(longPressDrag)
     }
 }

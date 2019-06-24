@@ -37,7 +37,7 @@ struct DiscoverView : View {
     }
     
     func opacityResistance() -> Double {
-        Double(abs(draggedViewState.translation.width) / 800)
+        Double(abs(draggedViewState.translation.width) / 1000)
     }
     
     func leftZoneResistance() -> CGFloat {
@@ -210,7 +210,7 @@ struct DiscoverView : View {
                     DiscoverCoverImage(imageLoader: ImageLoader(poster: self.store.state.moviesState.movies[id]!.poster_path,
                                                                 size: .small))
                         .padding(.bottom, Length(self.movies.reversed().firstIndex(of: id)! * 8) - self.dragResistance())
-                        .opacity(Double(self.movies.firstIndex(of: id)!) * 0.05 + self.opacityResistance())
+                        .opacity(self.movies.firstIndex(of: id)! == self.movies.count - 2 ? 1.0 : Double(self.movies.firstIndex(of: id)!) * 0.05 + self.opacityResistance())
                         .animation(.spring())
                 }
             }
