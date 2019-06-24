@@ -14,7 +14,6 @@ struct DiscoverFilter: Codable {
     let startYear: Int?
     let endYear: Int?
     let sort: String
-    let page: Int
     let genre: Int?
     let region: String?
     
@@ -23,7 +22,6 @@ struct DiscoverFilter: Codable {
                               startYear: nil,
                               endYear: nil,
                               sort: randomSort(),
-                              page: randomPage(),
                               genre: nil,
                               region: nil)
     }
@@ -59,7 +57,7 @@ struct DiscoverFilter: Codable {
         if let region = region {
             params["region"] = region
         }
-        params["page"] = "\(page)"
+        params["page"] = "\(DiscoverFilter.randomPage())"
         params["sort_by"] = sort
         params["language"] = "en-US"
         return params

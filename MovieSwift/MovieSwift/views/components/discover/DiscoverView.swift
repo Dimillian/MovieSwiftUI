@@ -32,12 +32,12 @@ struct DiscoverView : View {
         return store.state.moviesState.movies[store.state.moviesState.discover.reversed()[0].id]!
     }
     
-    func dragResistance() -> CGFloat {
-        abs(draggedViewState.translation.width) / 5
+    func scaleResistance() -> Double {
+        Double(abs(draggedViewState.translation.width) / 5000)
     }
     
-    func opacityResistance() -> Double {
-        Double(abs(draggedViewState.translation.width) / 1000)
+    func dragResistance() -> CGFloat {
+        abs(draggedViewState.translation.width) / 10
     }
     
     func leftZoneResistance() -> CGFloat {
@@ -198,7 +198,6 @@ struct DiscoverView : View {
                 self.filterView.position(x: reader.frame(in: .global).midX,
                                     y: 30)
             }
-            zonesButtons
             ForEach(movies) {id in
                 if self.movies.reversed().firstIndex(of: id) == 0 {
                     DraggableCover(movieId: id,
@@ -209,11 +208,12 @@ struct DiscoverView : View {
                 } else {
                     DiscoverCoverImage(imageLoader: ImageLoader(poster: self.store.state.moviesState.movies[id]!.poster_path,
                                                                 size: .small))
-                        .padding(.bottom, Length(self.movies.reversed().firstIndex(of: id)! * 8) - self.dragResistance())
-                        .opacity(self.movies.firstIndex(of: id)! == self.movies.count - 2 ? 1.0 : Double(self.movies.firstIndex(of: id)!) * 0.05 + self.opacityResistance())
+                        .scaleEffect(1.0 - Length(self.movies.reversed().firstIndex(of: id)!) * 0.03 + Length(self.scaleResistance()))
+                        .padding(.bottom, Length(self.movies.reversed().firstIndex(of: id)! * 16) - self.dragResistance())
                         .animation(.spring())
                 }
             }
+            zonesButtons
             }
             .presentation(currentModal)
             .onAppear {

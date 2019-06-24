@@ -53,7 +53,6 @@ struct DiscoverFilterForm : View {
                               startYear: startDate,
                               endYear: endDtate,
                               sort: DiscoverFilter.randomSort(),
-                              page: DiscoverFilter.randomPage(),
                               genre: genre,
                               region: region)
     }
