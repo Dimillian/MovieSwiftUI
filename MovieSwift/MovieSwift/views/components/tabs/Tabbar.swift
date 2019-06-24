@@ -18,9 +18,9 @@ struct Tabbar : View {
 
     var body: some View {
         TabbedView(selection: $selectedTab) {
-            MoviesHome().tabItemLabel(Text("Movies")).tag(Tab.movies)
-            DiscoverView().tabItemLabel(Text("Discover")).tag(Tab.discover)
-            MyLists().tabItemLabel(Text("My Lists")).tag(Tab.myLists)
+            MoviesHome().tabItemLabel(VStack{Image("tab_movie");Text("Movies")}).tag(Tab.movies)
+            DiscoverView().tabItemLabel(VStack{Image("tab_discover");Text("Discover")}).tag(Tab.discover)
+            MyLists().tabItemLabel(Image("tab_my_list");Text("My Lists")}).tag(Tab.myLists)
         }
             .edgesIgnoringSafeArea(.top)
     }
