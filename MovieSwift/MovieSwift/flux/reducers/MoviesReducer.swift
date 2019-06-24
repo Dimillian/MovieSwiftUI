@@ -88,7 +88,7 @@ struct MoviesReducer: Reducer {
         } else if let action = action as? MoviesActions.SetRandomDiscover {
             if state.discover.isEmpty {
                 state.discover = action.response.results.map{ $0.id }
-            } else if state.discover.count < 15 {
+            } else if state.discover.count < 10 {
                 state.discover.insert(contentsOf: action.response.results.map{ $0.id }, at: 0)
             }
             for movie in action.response.results {

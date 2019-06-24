@@ -20,7 +20,9 @@ final class AppStore: BindableObject {
     
     private(set) var state = AppState(moviesState: MoviesState(), castsState: CastsState()) {
         didSet {
-            self.didChange.send(self)
+            DispatchQueue.main.async {
+                self.didChange.send(self)
+            }
         }
     }
     
