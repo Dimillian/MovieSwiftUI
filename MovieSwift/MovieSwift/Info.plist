@@ -25,6 +25,7 @@
 	<key>UIAppFonts</key>
 	<array>
 		<string>FHACondFrenchNC.otf</string>
+		<string>American Captain.otf</string>
 	</array>
 	<key>UIApplicationSceneManifest</key>
 	<dict>

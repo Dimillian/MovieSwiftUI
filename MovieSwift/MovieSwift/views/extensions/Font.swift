@@ -13,4 +13,8 @@ extension Font {
     public static func FHACondFrenchNC(size: Length) -> Font {
         return Font.custom("FHA Condensed French NC", size: size)
     }
+    
+    public static func AmericanCaptain(size: Length) -> Font {
+        return Font.custom("American Captain", size: size)
+    }
 }

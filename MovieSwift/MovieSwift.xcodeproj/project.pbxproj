@@ -19,6 +19,7 @@
 		6915D63B22AD80EC00DF0C5F /* MyLists.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6915D63A22AD80EC00DF0C5F /* MyLists.swift */; };
 		6918454522BD7CB20011E742 /* MovieImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6918454422BD7CB20011E742 /* MovieImage.swift */; };
 		6918454922BDF2980011E742 /* MoviePostersRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6918454822BDF2980011E742 /* MoviePostersRow.swift */; };
+		6918810122C2949800E2E253 /* American Captain.otf in Resources */ = {isa = PBXBuildFile; fileRef = 6918810022C2949800E2E253 /* American Captain.otf */; };
 		691CE12822B58D4E00F7EDE8 /* NotificationBadge.swift in Sources */ = {isa = PBXBuildFile; fileRef = 691CE12722B58D4E00F7EDE8 /* NotificationBadge.swift */; };
 		691E82CF22B54B4800170CEA /* Genre.swift in Sources */ = {isa = PBXBuildFile; fileRef = 691E82CE22B54B4800170CEA /* Genre.swift */; };
 		691E82D222B54BCF00170CEA /* GenreBadge.swift in Sources */ = {isa = PBXBuildFile; fileRef = 691E82D122B54BCF00170CEA /* GenreBadge.swift */; };
@@ -98,6 +99,7 @@
 		6915D63A22AD80EC00DF0C5F /* MyLists.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyLists.swift; sourceTree = "<group>"; };
 		6918454422BD7CB20011E742 /* MovieImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieImage.swift; sourceTree = "<group>"; };
 		6918454822BDF2980011E742 /* MoviePostersRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoviePostersRow.swift; sourceTree = "<group>"; };
+		6918810022C2949800E2E253 /* American Captain.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "American Captain.otf"; sourceTree = "<group>"; };
 		691CE12722B58D4E00F7EDE8 /* NotificationBadge.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationBadge.swift; sourceTree = "<group>"; };
 		691E82CE22B54B4800170CEA /* Genre.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Genre.swift; sourceTree = "<group>"; };
 		691E82D122B54BCF00170CEA /* GenreBadge.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GenreBadge.swift; sourceTree = "<group>"; };
@@ -181,6 +183,7 @@
 		691E905522BF5A3D00AA23FE /* fonts */ = {
 			isa = PBXGroup;
 			children = (
+				6918810022C2949800E2E253 /* American Captain.otf */,
 				691E905622BF5A3D00AA23FE /* FHACondFrenchNC.otf */,
 			);
 			path = fonts;
@@ -587,6 +590,7 @@
 			files = (
 				691E905722BF5A3D00AA23FE /* FHACondFrenchNC.otf in Resources */,
 				69FFAF8C22A99F1200801F3C /* LaunchScreen.storyboard in Resources */,
+				6918810122C2949800E2E253 /* American Captain.otf in Resources */,
 				69FFAF8922A99F1200801F3C /* Preview Assets.xcassets in Resources */,
 				69FFAF8622A99F1200801F3C /* Assets.xcassets in Resources */,
 			);
