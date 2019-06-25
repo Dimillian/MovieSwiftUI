@@ -129,7 +129,7 @@ struct DiscoverView : View {
                     .font(.FHACondFrenchNC(size: 18))
                     .lineLimit(2)
                     .opacity(self.draggedViewState.isDragging ? 0.0 : 1.0)
-                    .offset(x: 0, y: -30)
+                    .offset(x: 0, y: -15)
                     .animation(.basic())
                     .tapAction {
                         self.movieDetailPresented = true
@@ -217,7 +217,7 @@ struct DiscoverView : View {
             GeometryReader { reader in
                 self.actionsButtons
                     .position(x: reader.frame(in: .global).midX,
-                              y: reader.frame(in: .global).maxY - 130)
+                              y: reader.frame(in: .local).maxY - reader.safeAreaInsets.bottom - 20)
             }
             }
             .presentation(currentModal)
