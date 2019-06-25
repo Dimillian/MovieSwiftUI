@@ -14,15 +14,17 @@ struct MyLists : View {
     
     var customListsSection: some View {
         Section(header: Text("Custom Lists")) {
-            PresentationButton(destination: CustomListForm().environmentObject(store),
-                               label: {
-                                Text("Create custom list")
-                                    .color(.blue)
-            })
-            ForEach(store.state.moviesState.customLists) { list in
+            PresentationButton(destination: CustomListForm().environmentObject(store)) {
+                Text("Create custom list").color(.steam_blue)
+            }
+            ForEach(store.state.moviesState.customLists.compactMap{ $0.value} ) { list in
                 NavigationButton(destination: CustomListDetail(listId: list.id)) {
                     CustomListRow(list: list)
                 }
+            }
+            .onDelete { (index) in
+                let list = self.store.state.moviesState.customLists.compactMap{ $0.value}[index.first!]
+                self.store.dispatch(action: MoviesActions.RemoveCustomList(list: list.id))
             }
         }
     }
@@ -36,7 +38,7 @@ struct MyLists : View {
                 }
                 .onDelete { (index) in
                     let movie = self.store.state.moviesState.wishlist.map{ $0.id }[index.first!]
-                    self.store.dispatch(action: MoviesActions.removeFromWishlist(movie: movie))
+                    self.store.dispatch(action: MoviesActions.RemoveFromWishlist(movie: movie))
                     
             }
         }
@@ -51,7 +53,7 @@ struct MyLists : View {
                 }
                 .onDelete { (index) in
                     let movie = self.store.state.moviesState.seenlist.map{ $0.id }[index.first!]
-                    self.store.dispatch(action: MoviesActions.removeFromSeenlist(movie: movie))
+                    self.store.dispatch(action: MoviesActions.RemoveFromSeenList(movie: movie))
             }
         }
     }

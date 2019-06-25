@@ -62,6 +62,7 @@ struct DraggableCover : View {
     @State private var predictedEndLocation: CGPoint? = nil
     @EnvironmentObject private var store: AppStore
     @GestureState private var dragState = DragState.inactive
+    private let hapticFeedback = UISelectionFeedbackGenerator()
     
     // MARK: - Internal consts
     private let minimumLongPressDuration = 0.01
@@ -74,13 +75,13 @@ struct DraggableCover : View {
     let endGestureHandler: (EndState) -> Void
     
     // MARK: - Computed vars
-    var movie: Movie! {
+    private var movie: Movie! {
         store.state.moviesState.movies[movieId]
     }
     
     // MARK: - Viewd functions
     
-    func computedOffset() -> CGSize {
+    private func computedOffset() -> CGSize {
         if let location = predictedEndLocation {
             return CGSize(width: viewState.width + location.x,
                           height: 0)
@@ -92,14 +93,14 @@ struct DraggableCover : View {
         )
     }
     
-    func computeAngle() -> Angle {
+    private func computeAngle() -> Angle {
         if let location = predictedEndLocation {
             return Angle(degrees: Double(location.x / 15))
         }
         return Angle(degrees: Double(dragState.translation.width / 15))
     }
     
-    var coverSpringAnimation: Animation {
+    private var coverSpringAnimation: Animation {
         .fluidSpring(stiffness: 80,
                      dampingFraction: 0.7,
                      blendDuration: 0,
@@ -117,6 +118,7 @@ struct DraggableCover : View {
                 switch value {
                 case .first(true):
                     state = .pressing
+                    self.hapticFeedback.selectionChanged()
                 case .second(true, let drag):
                     state = .dragging(translation: drag?.translation ?? .zero, predictedLocation: drag?.predictedEndLocation ?? .zero)
                 default:
@@ -161,6 +163,9 @@ struct DraggableCover : View {
                     y: dragState.isActive ? shadowSize : 0)
             .animation(coverSpringAnimation)
             .gesture(longPressDrag)
+            .onAppear{
+                self.hapticFeedback.prepare()
+        }
     }
 }
 

@@ -29,7 +29,8 @@ struct MoviesState: FluxState, Codable {
     var withKeywords: [Int: [Int]] = [:]
     var withCrew: [Int: [Int]] = [:]
     var reviews: [Int: [Review]] = [:]
-    var customLists: [CustomList] = []
+    
+    var customLists: [UUID: CustomList] = [:]
     
     var genres: [Genre] = []
     

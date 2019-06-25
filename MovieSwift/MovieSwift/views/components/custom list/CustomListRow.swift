@@ -30,7 +30,9 @@ struct CustomListRow : View {
                 Text(list.name)
                 Text("\(list.movies.count) movies")
             }.blendMode(.overlay)
-        }.frame(height: 50)
+                .padding()
+        }.listRowInsets(EdgeInsets())
+            .frame(height: 50)
     }
 }
 

@@ -16,11 +16,17 @@ struct MovieRatingRow : View {
             HStack {
                 PopularityBadge(score: Int(movie.vote_average * 10))
                 Text("\(movie.vote_count) ratings")
+                PresentationButton(destination: MovieReviews(movie: movie.id).environmentObject(store),
+                                   label: {
+                                    HStack {
+                                        Text("Reviews").color(.steam_blue)
+                                        Image(systemName: "chevron.right")
+                                            .resizable()
+                                            .frame(width: 5, height: 10)
+                                            .foregroundColor(.steam_blue)
+                                    }
+                })
             }
-            PresentationButton(destination: MovieReviews(movie: movie.id).environmentObject(store),
-                               label: {
-                                Text("See reviews").color(.steam_blue)
-            })
             }
             .padding(.top, 8)
             .padding(.bottom, 8)

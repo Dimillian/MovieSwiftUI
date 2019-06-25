@@ -22,7 +22,13 @@ struct MoviesHome : View {
                 Text("Top Rated").tag(Categories.topRated)
                 Text("Upcoming").tag(Categories.upcoming)
                 Text("Now Playing").tag(Categories.nowPlaying)
-                }.navigationBarHidden(false)
+                }
+                .navigationBarItems(trailing:
+                    PresentationButton(destination: SettingsForm()) {
+                        Image(systemName: "gear")
+                    }
+                )
+                .navigationBarHidden(false)
                 .padding(.leading)
                 .padding(.trailing)
             if selectedIndex == .popular {

@@ -24,10 +24,24 @@ struct Movie: Codable, Identifiable {
     let runtime: Int?
     let status: String?
     
-    var keywords: [Keyword]?
+    var keywords: Keywords?
+    var images: Images?
     
-    var backdrops: [MovieImage]?
-    var posters: [MovieImage]?
+    var production_countries: [productionCountry]?
+    
+    struct Keywords: Codable {
+        let keywords: [Keyword]?
+    }
+    
+    struct Images: Codable {
+        let posters: [MovieImage]?
+        let backdrops: [MovieImage]?
+    }
+    
+    struct productionCountry: Codable, Identifiable {
+        let id = UUID()
+        let name: String
+    }
 }
 
 let sampleMovie = Movie(id: 0,

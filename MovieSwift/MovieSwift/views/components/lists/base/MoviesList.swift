@@ -37,6 +37,7 @@ struct MoviesList : View {
     let movies: [Int]
     let displaySearch: Bool
     var pageListener: PageListener?
+    var deleteHandler: ((Int) -> Void)? = nil
     
     var isSearching: Bool {
         return !searchtext.isEmpty

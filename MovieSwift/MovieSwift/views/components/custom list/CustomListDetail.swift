@@ -13,19 +13,23 @@ struct CustomListDetail : View {
     let listId: UUID
     
     var list: CustomList {
-        return store.state.moviesState.customLists.first{ $0.id == listId}!
+        return store.state.moviesState.customLists[listId]!
     }
     
     var body: some View {
-        Text(list.name)
+        MoviesList(movies: list.movies,
+                   displaySearch: false)
+            .navigationBarTitle(Text(list.name))
     }
 }
 
 #if DEBUG
 struct CustomListDetail_Previews : PreviewProvider {
     static var previews: some View {
-        CustomListDetail(listId: sampleStore.state.moviesState.customLists.first!.id)
-            .environmentObject(sampleStore)
+        NavigationView {
+            CustomListDetail(listId: sampleStore.state.moviesState.customLists.first!.key)
+                .environmentObject(sampleStore)
+        }
     }
 }
 #endif

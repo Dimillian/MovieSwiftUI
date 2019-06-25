@@ -66,17 +66,23 @@ struct MoviesReducer: Reducer {
         case let action as MoviesActions.SetSearchKeyword:
             state.searchKeywords[action.query] = action.response.results
             
-        case let action as MoviesActions.addToWishlist:
+        case let action as MoviesActions.AddToWishlist:
             state.wishlist.insert(action.movie)
             
-        case let action as MoviesActions.removeFromWishlist:
+        case let action as MoviesActions.RemoveFromWishlist:
             state.wishlist.remove(action.movie)
             
-        case let action as MoviesActions.addToSeenlist:
+        case let action as MoviesActions.AddToSeenList:
             state.seenlist.insert(action.movie)
             
-        case let action as MoviesActions.removeFromSeenlist:
+        case let action as MoviesActions.RemoveFromSeenList:
             state.seenlist.remove(action.movie)
+            
+        case let action as MoviesActions.AddMovieToCustomList:
+            state.customLists[action.list]?.movies.append(action.movie)
+            
+        case let action as MoviesActions.RemoveMovieFromCustomList:
+            state.customLists[action.list]?.movies.removeAll{ $0 == action.movie }
             
         case let action as MoviesActions.SetMovieForGenre:
             state.withGenre[action.genre.id] = action.response.results.map{ $0.id }
@@ -98,18 +104,15 @@ struct MoviesReducer: Reducer {
             state.withCrew[action.crew] = action.response.results.map{ $0.id }
             state = mergeMovies(movies: action.response.results, state: state)
             
-        case let action as MoviesActions.SetMovieKeywords:
-            state.movies[action.movie]?.keywords = action.keywords
-            
         case let action as MoviesActions.SetMovieWithKeyword:
             state.withKeywords[action.keyword] = action.response.results.map{ $0.id }
             state = mergeMovies(movies: action.response.results, state: state)
             
-        case let action as  MoviesActions.AddCustomList:
-            state.customLists.append(action.list)
+        case let action as MoviesActions.AddCustomList:
+            state.customLists[action.list.id] = action.list
             
-        case let action as  MoviesActions.RemoveCustomList:
-            state.customLists.removeAll{ $0.id == action.list }
+        case let action as MoviesActions.RemoveCustomList:
+            state.customLists[action.list] = nil
             
         case _ as  MoviesActions.PopRandromDiscover:
             _ = state.discover.popLast()
@@ -119,11 +122,7 @@ struct MoviesReducer: Reducer {
         case _ as  MoviesActions.ResetRandomDiscover:
             state.discoverFilter = nil
             state.discover = []
-            
-        case let action as  MoviesActions.SetMovieImages:
-            state.movies[action.movie]?.posters = action.response.posters
-            state.movies[action.movie]?.backdrops = action.response.backdrops
-            
+                        
         case let action as  MoviesActions.SetGenres:
             state.genres = action.genres
             state.genres.insert(Genre(id: -1, name: "Random"), at: 0)

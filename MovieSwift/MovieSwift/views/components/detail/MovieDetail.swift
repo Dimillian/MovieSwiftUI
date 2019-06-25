@@ -68,27 +68,39 @@ struct MovieDetail : View {
         store.dispatch(action: CastsActions.FetchMovieCasts(movie: movie.id))
         store.dispatch(action: MoviesActions.FetchRecommended(movie: movie.id))
         store.dispatch(action: MoviesActions.FetchSimilar(movie: movie.id))
-        store.dispatch(action: MoviesActions.FetchMovieKeywords(movie: movie.id))
-        store.dispatch(action: MoviesActions.FetchMovieImages(movie: movie.id))
     }
     
     var addActionSheet: ActionSheet {
         get {
+            var buttons: [Alert.Button] = []
             let wishlistButton: Alert.Button = .default(Text("Add to wishlist")) {
                 self.addSheetShown = false
                 self.displaySavedBadge()
-                self.store.dispatch(action: MoviesActions.addToWishlist(movie: self.movieId))
+                self.store.dispatch(action: MoviesActions.AddToWishlist(movie: self.movieId))
             }
             let seenButton: Alert.Button = .default(Text("Add to seenlist")) {
                 self.addSheetShown = false
                 self.displaySavedBadge()
-                self.store.dispatch(action: MoviesActions.addToSeenlist(movie: self.movieId))
+                self.store.dispatch(action: MoviesActions.AddToSeenList(movie: self.movieId))
             }
+            buttons.append(wishlistButton)
+            buttons.append(seenButton)
+            for list in store.state.moviesState.customLists.compactMap({ $0.value }) {
+                let button: Alert.Button = .default(Text("Add to \(list.name)")) {
+                    self.addSheetShown = false
+                    self.displaySavedBadge()
+                    self.store.dispatch(action: MoviesActions.AddMovieToCustomList(list: list.id,
+                                                                                   movie: self.movieId))
+                }
+                buttons.append(button)
+            }
+            let cancelButton = Alert.Button.cancel {
+                self.addSheetShown = false
+            }
+            buttons.append(cancelButton)
             let sheet = ActionSheet(title: Text("Add to"),
-                                    message: nil,
-                                    buttons: [wishlistButton, seenButton, .cancel({
-                                        self.addSheetShown = false
-                                    })])
+                                    message: Text("Add this movie to your list"),
+                                    buttons: buttons)
             return sheet
         }
     }
@@ -111,8 +123,8 @@ struct MovieDetail : View {
                                movieId: movie.id)
                 MovieOverview(movie: movie)
                 Group {
-                    if movie.keywords != nil && movie.keywords?.isEmpty == false {
-                        MovieKeywords(keywords: movie.keywords!).frame(height: 90)
+                    if movie.keywords?.keywords != nil && movie.keywords?.keywords?.isEmpty == false {
+                        MovieKeywords(keywords: movie.keywords!.keywords!).frame(height: 90)
                     }
                     if characters != nil && characters?.isEmpty == false {
                         MovieCrosslinePeopleRow(title: "Characters",
@@ -128,13 +140,13 @@ struct MovieDetail : View {
                     if recommended != nil && recommended?.isEmpty == false {
                         MovieCrosslineRow(title: "Recommended Movies", movies: recommended ?? []).frame(height: 260)
                     }
-                    if movie.posters != nil && movie.posters?.isEmpty == false {
-                        MoviePostersRow(posters: movie.posters!,
+                    if movie.images?.posters != nil && movie.images?.posters?.isEmpty == false {
+                        MoviePostersRow(posters: movie.images!.posters!,
                                         selectedPoster: $selectedPoster)
                             .frame(height: 220)
                     }
-                    if movie.backdrops != nil && movie.backdrops?.isEmpty == false {
-                        MovieBackdropsRow(backdrops: movie.backdrops!,
+                    if movie.images?.backdrops != nil && movie.images?.backdrops?.isEmpty == false {
+                        MovieBackdropsRow(backdrops: movie.images!.backdrops!,
                                           selectedBackdrop: $selectedPoster)
                             .frame(height: 300)
                     }
@@ -152,8 +164,8 @@ struct MovieDetail : View {
             
             NotificationBadge(text: "Added successfully", color: .blue, show: $showSavedBadge)
                 .padding(.bottom, 10)
-            if selectedPoster != nil && movie.posters != nil {
-                MoviePostersCarouselView(posters: movie.posters!, selectedPoster: $selectedPoster)
+            if selectedPoster != nil && movie.images?.posters != nil {
+                MoviePostersCarouselView(posters: movie.images!.posters!, selectedPoster: $selectedPoster)
             }
         }
     }
