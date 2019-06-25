@@ -14,7 +14,8 @@ struct MoviesActions {
     
     struct FetchPopular: Action {
         init(page: Int) {
-            APIService.shared.GET(endpoint: .popular, params: ["page": "\(page)"]) {
+            APIService.shared.GET(endpoint: .popular, params: ["page": "\(page)",
+                                                                "region": AppUserDefaults.region]) {
                 (result: Result<PaginatedResponse<Movie>, APIService.APIError>) in
                 switch result {
                 case let .success(response):
@@ -28,7 +29,8 @@ struct MoviesActions {
     
     struct FetchTopRated: Action {
         init(page: Int) {
-            APIService.shared.GET(endpoint: .toRated, params: ["region": "US", "page": "\(page)"]) {
+            APIService.shared.GET(endpoint: .toRated, params: ["page": "\(page)",
+                                                                "region": AppUserDefaults.region]) {
                 (result: Result<PaginatedResponse<Movie>, APIService.APIError>) in
                 switch result {
                 case let .success(response):
@@ -42,7 +44,8 @@ struct MoviesActions {
     
     struct FetchUpcoming: Action {
         init(page: Int) {
-            APIService.shared.GET(endpoint: .upcoming, params: ["region": "US", "page": "\(page)"]) {
+            APIService.shared.GET(endpoint: .upcoming, params: ["page": "\(page)",
+                                                                "region": AppUserDefaults.region]) {
                 (result: Result<PaginatedResponse<Movie>, APIService.APIError>) in
                 switch result {
                 case let .success(response):
@@ -56,7 +59,8 @@ struct MoviesActions {
     
     struct FetchNowPlaying: Action {
         init(page: Int) {
-            APIService.shared.GET(endpoint: .nowPlaying, params: ["region": "US", "page": "\(page)"]) {
+            APIService.shared.GET(endpoint: .nowPlaying, params: ["page": "\(page)",
+                                                                    "region": AppUserDefaults.region]) {
                 (result: Result<PaginatedResponse<Movie>, APIService.APIError>) in
                 switch result {
                 case let .success(response):
@@ -351,22 +355,22 @@ struct MoviesActions {
     }
     
     struct EditCustomList: Action {
-        let list: UUID
+        let list: Int
         let name: String?
         let cover: Int?
     }
     
     struct AddMovieToCustomList: Action {
-        let list: UUID
+        let list: Int
         let movie: Int
     }
     
     struct RemoveMovieFromCustomList: Action {
-        let list: UUID
+        let list: Int
         let movie: Int
     }
     
     struct RemoveCustomList: Action {
-        let list: UUID
+        let list: Int
     }
 }

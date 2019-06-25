@@ -10,7 +10,7 @@ import SwiftUI
 
 struct CustomListDetail : View {
     @EnvironmentObject var store: AppStore
-    let listId: UUID
+    let listId: Int
     
     var list: CustomList {
         return store.state.moviesState.customLists[listId]!

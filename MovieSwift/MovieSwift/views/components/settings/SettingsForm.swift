@@ -9,8 +9,59 @@
 import SwiftUI
 
 struct SettingsForm : View {
+    @State var selectedRegion: Int = 0
+    @State var alwaysOriginalTitle: Bool = false
+    @Environment(\.isPresented) var isPresented
+    
+    var countries: [String] {
+        get {
+            var countries: [String] = []
+            for code in NSLocale.isoCountryCodes {
+                let id = NSLocale.localeIdentifier(fromComponents: [NSLocale.Key.countryCode.rawValue: code])
+                let name = NSLocale(localeIdentifier: "en_US").displayName(forKey: NSLocale.Key.identifier, value: id)!
+                countries.append(name)
+            }
+            return countries
+        }
+    }
+    
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello World!"/*@END_MENU_TOKEN@*/)
+        NavigationView {
+            Form {
+                Section(header: Text("Region preferences"),
+                        footer: Text("Region is used to display a more accurate movies list"),
+                        content: {
+                        Toggle(isOn: $alwaysOriginalTitle) {
+                            Text("Always show original title")
+                        }
+                        Picker(selection: $selectedRegion,
+                               label: Text("Region"),
+                               content: {
+                                ForEach(0 ..< self.countries.count) {
+                                    Text(self.countries[$0]).tag($0)
+                                }
+                        })
+                })
+                Section(header: Text("App data"), footer: Text("None of those action are working yet ;)"), content: {
+                    Text("Export my data")
+                    Text("Backup to iCloud")
+                    Text("Restore from iCloud")
+                    Text("Reset application data").color(.red)
+                })
+                }.onAppear{
+                    if let index = NSLocale.isoCountryCodes.firstIndex(of: AppUserDefaults.region) {
+                        self.selectedRegion = index
+                    }
+                    self.alwaysOriginalTitle = AppUserDefaults.alwaysOriginalTitle
+                }.navigationBarItems(trailing: Button(action: {
+                    AppUserDefaults.region = NSLocale.isoCountryCodes[self.selectedRegion]
+                    AppUserDefaults.alwaysOriginalTitle = self.alwaysOriginalTitle
+                    self.isPresented?.value = false
+                }, label: {
+                    Text("Save")
+                }))
+                .navigationBarTitle(Text("Settings"))
+        }
     }
 }
 

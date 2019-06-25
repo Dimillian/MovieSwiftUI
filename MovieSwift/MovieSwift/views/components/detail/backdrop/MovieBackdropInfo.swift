@@ -25,9 +25,9 @@ struct MovieBackdropInfo : View {
     var body: some View {
         HStack {
             VStack(alignment: .leading) {
-                Text(movie.original_title)
+                Text(movie.userTitle)
                     .font(.FHACondFrenchNC(size: 28))
-                    .color(.white)
+                    .color(.steam_gold)
                     .lineLimit(nil)
                     .padding(.leading)
                 HStack {

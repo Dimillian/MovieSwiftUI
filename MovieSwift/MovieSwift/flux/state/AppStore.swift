@@ -70,7 +70,8 @@ final class AppStore: BindableObject {
 let store = AppStore(useAchivedState: true)
 
 #if DEBUG
-let sampleCustomList = CustomList(name: "TestName",
+let sampleCustomList = CustomList(id: 0,
+                                  name: "TestName",
                                   cover: 0,
                                   movies: [0])
 let sampleStore = AppStore(useAchivedState: false,
@@ -80,6 +81,6 @@ let sampleStore = AppStore(useAchivedState: false,
                                                     popular: [0],
                                                     topRated: [0],
                                                     upcoming: [0],
-                                                    customLists: [sampleCustomList.id: sampleCustomList]),
+                                                    customLists: [0: sampleCustomList]),
                            castsState: CastsState())
 #endif

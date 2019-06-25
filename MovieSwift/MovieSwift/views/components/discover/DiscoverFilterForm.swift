@@ -66,8 +66,7 @@ struct DiscoverFilterForm : View {
             var countries: [String] = ["Random"]
             for code in NSLocale.isoCountryCodes {
                 let id = NSLocale.localeIdentifier(fromComponents: [NSLocale.Key.countryCode.rawValue: code])
-                let name = NSLocale(localeIdentifier: "en_US")
-                    .displayName(forKey: NSLocale.Key.identifier, value: id)!
+                let name = NSLocale(localeIdentifier: "en_US").displayName(forKey: NSLocale.Key.identifier, value: id)!
                 countries.append(name)
             }
             return countries

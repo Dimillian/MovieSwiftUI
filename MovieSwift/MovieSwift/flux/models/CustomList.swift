@@ -10,7 +10,7 @@ import Foundation
 import SwiftUI
 
 struct CustomList: Codable, Identifiable {
-    let id = UUID()
+    let id: Int
     var name: String
     var cover: Int?
     var movies: [Int]

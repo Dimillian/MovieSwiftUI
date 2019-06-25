@@ -23,7 +23,7 @@ struct MyLists : View {
                 }
             }
             .onDelete { (index) in
-                let list = self.store.state.moviesState.customLists.compactMap{ $0.value}[index.first!]
+                let list = self.store.state.moviesState.customLists.compactMap{ $0.value }[index.first!]
                 self.store.dispatch(action: MoviesActions.RemoveCustomList(list: list.id))
             }
         }

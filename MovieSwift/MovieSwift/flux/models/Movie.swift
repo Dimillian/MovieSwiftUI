@@ -11,7 +11,13 @@ import SwiftUI
 
 struct Movie: Codable, Identifiable {
     let id: Int
+    
     let original_title: String
+    let title: String
+    var userTitle: String {
+        return AppUserDefaults.alwaysOriginalTitle ? original_title : title
+    }
+    
     let overview: String
     let poster_path: String?
     let backdrop_path: String?
@@ -46,6 +52,7 @@ struct Movie: Codable, Identifiable {
 
 let sampleMovie = Movie(id: 0,
                         original_title: "Test movie",
+                        title: "Test movie",
                         overview: "Test desc",
                         poster_path: "/uC6TTUhPpQCmgldGyYveKRAu8JN.jpg",
                         backdrop_path: "/nl79FQ8xWZkhL3rDr1v2RFFR6J0.jpg",

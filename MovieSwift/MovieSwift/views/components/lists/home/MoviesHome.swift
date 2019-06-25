@@ -25,7 +25,7 @@ struct MoviesHome : View {
                 }
                 .navigationBarItems(trailing:
                     PresentationButton(destination: SettingsForm()) {
-                        Image(systemName: "gear")
+                        Image(systemName: "wrench")
                     }
                 )
                 .navigationBarHidden(false)

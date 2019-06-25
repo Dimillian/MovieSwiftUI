@@ -123,7 +123,7 @@ struct DiscoverView : View {
     private var actionsButtons: some View {
         ZStack(alignment: .center) {
             if !self.movies.isEmpty {
-                Text(self.currentMovie.original_title)
+                Text(self.currentMovie.userTitle)
                     .color(.primary)
                     .multilineTextAlignment(.center)
                     .font(.FHACondFrenchNC(size: 18))

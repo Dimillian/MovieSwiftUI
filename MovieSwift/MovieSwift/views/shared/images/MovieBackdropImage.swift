@@ -39,7 +39,7 @@ struct MovieBackdropImage : View {
                     GeometryReader { geometry in
                         Image(uiImage: self.imageLoader.image!)
                             .resizable()
-                            .blur(radius: self.forceBlur ? 50 : self.blurFor(minY: geometry.frame(in: .global).minY), opaque: false)
+                            .blur(radius: self.forceBlur ? 50 : self.blurFor(minY: geometry.frame(in: .global).minY), opaque: true)
                             .opacity(self.isImageLoaded ? 1 : 0)
                             .animation(.basic())
                             .onAppear{

@@ -21,6 +21,11 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         #else
         let window = UIWindow(frame: UIScreen.main.bounds)
         #endif
+        
+        UINavigationBar.appearance().largeTitleTextAttributes = [
+            NSAttributedString.Key.foregroundColor: UIColor(named: "steam_gold")!,
+            NSAttributedString.Key.font: UIFont(name: "FHA Condensed French NC", size: 40)!]
+        
         window.rootViewController = UIHostingController(rootView: Tabbar().environmentObject(store))
         window.tintColor = UIColor(named: "steam_gold")
         self.window = window

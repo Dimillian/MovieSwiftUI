@@ -39,7 +39,7 @@ struct CustomListRow : View {
 #if DEBUG
 struct CustomListRow_Previews : PreviewProvider {
     static var previews: some View {
-        CustomListRow(list: CustomList(name: "Wow", cover: 0, movies: [0]))
+        CustomListRow(list: CustomList(id: 0, name: "Wow", cover: 0, movies: [0]))
             .environmentObject(sampleStore)
     }
 }

@@ -94,9 +94,11 @@ struct SaveCancelSection: View {
     var body: some View {
         Section {
             Button(action: {
-                self.store.dispatch(action: MoviesActions.AddCustomList(list: CustomList(name: self.listName,
-                                                                                    cover: self.listMovieCover,
-                                                                                    movies: [])))
+                let newList = CustomList(id: Int.random(in: self.store.state.moviesState.customLists.count ..< 1000^3),
+                                         name: self.listName,
+                                         cover: self.listMovieCover,
+                                         movies: [])
+                self.store.dispatch(action: MoviesActions.AddCustomList(list: newList))
                 self.isPresented?.value = false
                 
             }, label: {
