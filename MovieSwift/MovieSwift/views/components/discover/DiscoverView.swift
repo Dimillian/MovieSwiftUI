@@ -116,78 +116,73 @@ struct DiscoverView : View {
         }
     }
     
-    var zonesButtons: some View {
-        GeometryReader { geometry in
-            ZStack(alignment: .center) {
-                if !self.movies.isEmpty {
-                    Text(self.currentMovie.original_title)
-                        .color(.primary)
-                        .multilineTextAlignment(.center)
-                        .font(.FHACondFrenchNC(size: 18))
-                        .lineLimit(2)
-                        .opacity(self.draggedViewState.isDragging ? 0.0 : 1.0)
-                        .position(x: geometry.frame(in: .global).midX,
-                                  y: geometry.frame(in: .global).midY + 170)
-                        .animation(.basic())
-                        .tapAction {
-                            self.movieDetailPresented = true
-                    }
-                    
-                    
-                    Circle()
-                        .strokeBorder(Color.pink, lineWidth: 1)
-                        .background(Image(systemName: "heart.fill").foregroundColor(.pink))
-                        .frame(width: 50, height: 50)
-                        .position(x: geometry.frame(in: .global).midX - 50, y: geometry.frame(in: .global).midY + 200)
-                        .opacity(self.draggedViewState.isDragging ? 0.3 + Double(self.leftZoneResistance()) : 0)
-                        .animation(.fluidSpring())
-                    
-                    Circle()
-                        .strokeBorder(Color.green, lineWidth: 1)
-                        .background(Image(systemName: "eye.fill").foregroundColor(.green))
-                        .frame(width: 50, height: 50)
-                        .position(x: geometry.frame(in: .global).midX + 50, y: geometry.frame(in: .global).midY + 200)
-                        .opacity(self.draggedViewState.isDragging ? 0.3 + Double(self.rightZoneResistance()) : 0)
-                        .animation(.fluidSpring())
-                    
-                    
-                    Circle()
-                        .strokeBorder(Color.red, lineWidth: 1)
-                        .background(Image(systemName: "xmark").foregroundColor(.red))
-                        .frame(width: 50, height: 50)
-                        .position(x: geometry.frame(in: .global).midX, y: geometry.frame(in: .global).midY + 230)
-                        .opacity(self.draggedViewState.isDragging ? 0.0 : 1)
-                        .animation(.fluidSpring())
-                        .tapAction {
-                            self.previousMovie = self.currentMovie.id
-                            self.store.dispatch(action: MoviesActions.PopRandromDiscover())
-                            self.fetchRandomMovies()
-                    }
-                    
-                    Button(action: {
-                        self.store.dispatch(action: MoviesActions.PushRandomDiscover(movie: self.previousMovie!))
-                        self.previousMovie = nil
-                    }, label: {
-                        Image(systemName: "gobackward").foregroundColor(.steam_blue)
-                    }) .frame(width: 50, height: 50)
-                        .position(x: geometry.frame(in: .global).midX - 60,
-                                  y: geometry.frame(in: .global).midY + 230)
-                        .opacity(self.previousMovie != nil && !self.draggedViewState.isActive ? 1 : 0)
-                        .animation(.fluidSpring())
-                    
-                    Button(action: {
-                        self.store.dispatch(action: MoviesActions.ResetRandomDiscover())
-                        self.fetchRandomMovies()
-                    }, label: {
-                        Image(systemName: "arrow.swap")
-                            .foregroundColor(.steam_blue)
-                    })
-                        .frame(width: 50, height: 50)
-                        .position(x: geometry.frame(in: .global).midX + 60,
-                                  y: geometry.frame(in: .global).midY + 230)
-                        .opacity(self.draggedViewState.isDragging ? 0.0 : 1.0)
-                        .animation(.fluidSpring())
+    var actionsButtons: some View {
+        ZStack(alignment: .center) {
+            if !self.movies.isEmpty {
+                Text(self.currentMovie.original_title)
+                    .color(.primary)
+                    .multilineTextAlignment(.center)
+                    .font(.FHACondFrenchNC(size: 18))
+                    .lineLimit(2)
+                    .opacity(self.draggedViewState.isDragging ? 0.0 : 1.0)
+                    .offset(x: 0, y: -30)
+                    .animation(.basic())
+                    .tapAction {
+                        self.movieDetailPresented = true
                 }
+                
+                
+                Circle()
+                    .strokeBorder(Color.pink, lineWidth: 1)
+                    .background(Image(systemName: "heart.fill").foregroundColor(.pink))
+                    .frame(width: 50, height: 50)
+                    .offset(x: -70, y: 0)
+                    .opacity(self.draggedViewState.isDragging ? 0.3 + Double(self.leftZoneResistance()) : 0)
+                    .animation(.fluidSpring())
+                
+                Circle()
+                    .strokeBorder(Color.green, lineWidth: 1)
+                    .background(Image(systemName: "eye.fill").foregroundColor(.green))
+                    .frame(width: 50, height: 50)
+                    .offset(x: 70, y: 0)
+                    .opacity(self.draggedViewState.isDragging ? 0.3 + Double(self.rightZoneResistance()) : 0)
+                    .animation(.fluidSpring())
+                
+                
+                Circle()
+                    .strokeBorder(Color.red, lineWidth: 1)
+                    .background(Image(systemName: "xmark").foregroundColor(.red))
+                    .frame(width: 50, height: 50)
+                    .offset(x: 0, y: 30)
+                    .opacity(self.draggedViewState.isDragging ? 0.0 : 1)
+                    .animation(.fluidSpring())
+                    .tapAction {
+                        self.previousMovie = self.currentMovie.id
+                        self.store.dispatch(action: MoviesActions.PopRandromDiscover())
+                        self.fetchRandomMovies()
+                }
+                
+                Button(action: {
+                    self.store.dispatch(action: MoviesActions.PushRandomDiscover(movie: self.previousMovie!))
+                    self.previousMovie = nil
+                }, label: {
+                    Image(systemName: "gobackward").foregroundColor(.steam_blue)
+                }) .frame(width: 50, height: 50)
+                    .offset(x: -50, y: 30)
+                    .opacity(self.previousMovie != nil && !self.draggedViewState.isActive ? 1 : 0)
+                    .animation(.fluidSpring())
+                
+                Button(action: {
+                    self.store.dispatch(action: MoviesActions.ResetRandomDiscover())
+                    self.fetchRandomMovies()
+                }, label: {
+                    Image(systemName: "arrow.swap")
+                        .foregroundColor(.steam_blue)
+                })
+                    .frame(width: 50, height: 50)
+                    .offset(x: 50, y: 30)
+                    .opacity(self.draggedViewState.isDragging ? 0.0 : 1.0)
+                    .animation(.fluidSpring())
             }
         }
     }
@@ -195,8 +190,9 @@ struct DiscoverView : View {
     var body: some View {
         ZStack(alignment: .center) {
             GeometryReader { reader in
-                self.filterView.position(x: reader.frame(in: .global).midX,
-                                    y: 30)
+                    self.filterView
+                        .position(x: reader.frame(in: .global).midX, y: 30)
+                        .frame(height: 50)
             }
             ForEach(movies) {id in
                 if self.movies.reversed().firstIndex(of: id) == 0 {
@@ -213,7 +209,11 @@ struct DiscoverView : View {
                         .animation(.spring())
                 }
             }
-            zonesButtons
+            GeometryReader { reader in
+                self.actionsButtons
+                    .position(x: reader.frame(in: .global).midX,
+                              y: reader.frame(in: .global).maxY - 90)
+            }
             }
             .presentation(currentModal)
             .onAppear {
