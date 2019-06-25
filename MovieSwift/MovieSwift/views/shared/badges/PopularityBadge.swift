@@ -17,7 +17,7 @@ struct PopularityBadge : View {
                 return .red
             } else if score < 60 {
                 return .orange
-            } else if score < 80 {
+            } else if score < 75 {
                 return .yellow
             }
             return .green
@@ -29,9 +29,11 @@ struct PopularityBadge : View {
             Circle()
                 .foregroundColor(.clear)
                 .frame(width: 40)
-                .overlay((Circle().stroke(scoreColor, lineWidth: 2)))
+                .overlay((Circle().stroke(scoreColor, lineWidth: 2))
+                    .shadow(color: scoreColor, radius: 3))
             Text("\(score)%").font(Font.system(size: 10)).fontWeight(.light)
-            }.frame(width: 40, height: 40)
+            }
+            .frame(width: 40, height: 40)
     }
 }
 

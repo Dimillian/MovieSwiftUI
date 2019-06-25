@@ -38,7 +38,8 @@ struct MovieAddToListRow : View {
                            action: {
                 self.store.dispatch(action: MoviesActions.addToSeenlist(movie: self.movieId))
             })
-        }
+        }.padding(.top, 8)
+            .padding(.bottom, 8)
     }
 }
 
