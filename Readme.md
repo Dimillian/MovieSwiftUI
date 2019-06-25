@@ -9,7 +9,7 @@ It demos some SwiftUI (& Combine) concepts. The goal is to make a real world app
 
 MovieSwiftUI data flow is a subset and a custom implementation of the Flux part of [Redux](https://redux.js.org/). 
 It implement the State as a [BindableObject](https://developer.apple.com/documentation/swiftui/bindableobject) and [publish](https://developer.apple.com/documentation/swiftui/binding/3264174-publisher) changes whenever a dispatched action produces a new state after being reduced. 
-The state is injected as en environment object in the root view of the application, and is easily accessible anywhere in the application. 
+The state is injected as an environment object in the root view of the application, and is easily accessible anywhere in the application. 
 SwiftUI does all aspects of diffing on the render pass when your state changes. No need to be clever when extracting props from your State, they're simple dynamic vars at the view level. No matter your objects' graph size, SwiftUI speed depends on the complexity of your views hierarchy, not the complexity of your object graph.
 
 ## SwiftUI
