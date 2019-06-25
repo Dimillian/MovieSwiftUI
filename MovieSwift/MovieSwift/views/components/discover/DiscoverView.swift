@@ -212,7 +212,7 @@ struct DiscoverView : View {
             GeometryReader { reader in
                 self.actionsButtons
                     .position(x: reader.frame(in: .global).midX,
-                              y: reader.frame(in: .global).maxY - 90)
+                              y: reader.frame(in: .global).maxY - 130)
             }
             }
             .presentation(currentModal)
