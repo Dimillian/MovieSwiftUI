@@ -15,12 +15,19 @@ struct Tabbar : View {
     enum Tab: Int {
         case movies, discover, myLists
     }
+    
+    func tabbarItem(text: String, image: String) -> some View {
+        VStack {
+            Image(image)
+            Text(text)
+        }
+    }
 
     var body: some View {
         TabbedView(selection: $selectedTab) {
-            MoviesHome().tabItemLabel(Text("Movies")).tag(Tab.movies)
-            DiscoverView().tabItemLabel(Text("Discover")).tag(Tab.discover)
-            MyLists().tabItemLabel(Text("My Lists")).tag(Tab.myLists)
+            MoviesHome().tabItemLabel(tabbarItem(text: "Popular", image: "icon-movies")).tag(Tab.movies)
+            DiscoverView().tabItemLabel(tabbarItem(text: "Discover", image: "icon-discover")).tag(Tab.discover)
+            MyLists().tabItemLabel(tabbarItem(text: "My lists", image: "icon-my-lists")).tag(Tab.myLists)
         }
             .edgesIgnoringSafeArea(.top)
     }
