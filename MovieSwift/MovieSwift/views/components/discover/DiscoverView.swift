@@ -19,7 +19,7 @@ struct DiscoverView : View {
     @State private var filterFormPresented = false
     @State private var movieDetailPresented = false
     @State private var willEndPosition: CGSize? = nil
-    private let hapticFeedback =  UINotificationFeedbackGenerator()
+    private let hapticFeedback = UIImpactFeedbackGenerator(style: .soft)
     
     // MARK: - Computed properties
     
@@ -55,10 +55,10 @@ struct DiscoverView : View {
         if handler == .left || handler == .right {
             previousMovie = currentMovie.id
             if handler == .left {
-                hapticFeedback.notificationOccurred(.success)
+                hapticFeedback.impactOccurred(withIntensity: 0.8)
                 store.dispatch(action: MoviesActions.AddToWishlist(movie: currentMovie.id))
             } else if handler == .right {
-                hapticFeedback.notificationOccurred(.success)
+                hapticFeedback.impactOccurred(withIntensity: 0.8)
                 store.dispatch(action: MoviesActions.AddToSeenList(movie: currentMovie.id))
             }
             store.dispatch(action: MoviesActions.PopRandromDiscover())
@@ -163,7 +163,7 @@ struct DiscoverView : View {
                     .opacity(self.draggedViewState.isDragging ? 0.0 : 1)
                     .animation(.fluidSpring())
                     .tapAction {
-                        self.hapticFeedback.notificationOccurred(.error)
+                        self.hapticFeedback.impactOccurred(withIntensity: 0.5)
                         self.previousMovie = self.currentMovie.id
                         self.store.dispatch(action: MoviesActions.PopRandromDiscover())
                         self.fetchRandomMovies()
