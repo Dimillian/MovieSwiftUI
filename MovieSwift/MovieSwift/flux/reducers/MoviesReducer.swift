@@ -7,7 +7,7 @@
 //
 
 import Foundation
-import Flux
+import SwiftUIFlux
 
 func moviesStateReducer(state: MoviesState, action: Action) -> MoviesState {
     var state = state

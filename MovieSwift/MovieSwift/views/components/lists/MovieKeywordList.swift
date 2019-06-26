@@ -7,7 +7,7 @@
 //
 
 import SwiftUI
-import Flux
+import SwiftUIFlux
 
 final class KeywordPageListener: PageListener {
     var keyword: Int!

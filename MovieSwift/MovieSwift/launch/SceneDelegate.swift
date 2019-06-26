@@ -8,7 +8,7 @@
 
 import UIKit
 import SwiftUI
-import Flux
+import SwiftUIFlux
 
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 

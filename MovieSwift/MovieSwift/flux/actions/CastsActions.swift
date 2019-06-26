@@ -7,7 +7,7 @@
 //
 
 import Foundation
-import Flux
+import SwiftUIFlux
 
 struct CastsActions {
     struct FetchMovieCasts: Action {

@@ -7,7 +7,7 @@
 //
 
 import SwiftUI
-import Flux
+import SwiftUIFlux
 
 fileprivate let placeholder = UIImage(named: "poster-placeholder")!
 

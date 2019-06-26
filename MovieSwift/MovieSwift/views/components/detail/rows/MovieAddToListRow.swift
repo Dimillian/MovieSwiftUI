@@ -7,7 +7,7 @@
 //
 
 import SwiftUI
-import Flux
+import SwiftUIFlux
 
 struct MovieAddToListRow : View {
     @EnvironmentObject var store: Store<AppState>

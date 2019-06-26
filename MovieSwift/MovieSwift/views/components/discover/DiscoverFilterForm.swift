@@ -7,7 +7,7 @@
 //
 
 import SwiftUI
-import Flux
+import SwiftUIFlux
 
 struct DiscoverFilterForm : View {
     @EnvironmentObject private var store: Store<AppState>

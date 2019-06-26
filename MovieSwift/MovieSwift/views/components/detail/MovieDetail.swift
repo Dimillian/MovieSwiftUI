@@ -7,7 +7,7 @@
 //
 
 import SwiftUI
-import Flux
+import SwiftUIFlux
 
 struct MovieDetail : View {
     @EnvironmentObject var store: Store<AppState>

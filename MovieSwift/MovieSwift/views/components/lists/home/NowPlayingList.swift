@@ -7,7 +7,7 @@
 //
 
 import SwiftUI
-import Flux
+import SwiftUIFlux
 
 final class NowPlayingPageListener: PageListener {
     override func loadPage() {

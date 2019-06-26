@@ -8,7 +8,7 @@
 
 import SwiftUI
 import Combine
-import Flux
+import SwiftUIFlux
 
 final class PopularPageListener: PageListener {
     override func loadPage() {
