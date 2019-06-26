@@ -7,12 +7,13 @@
 //
 
 import SwiftUI
+import Flux
 
 struct DiscoverView : View {
     
     // MARk: - State vars
     
-    @EnvironmentObject private var store: AppStore
+    @EnvironmentObject private var store: Store<AppState>
     
     @State private var draggedViewState = DraggableCover.DragState.inactive
     @State private var previousMovie: Int? = nil

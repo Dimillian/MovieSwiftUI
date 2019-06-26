@@ -7,9 +7,10 @@
 //
 
 import SwiftUI
+import Flux
 
 struct MoviesCrewList : View {
-    @EnvironmentObject var store: AppStore
+    @EnvironmentObject var store: Store<AppState>
     let crew: Cast
 
     var body: some View {

@@ -7,9 +7,10 @@
 //
 
 import SwiftUI
+import Flux
 
 struct MovieBackdrop: View {
-    @EnvironmentObject var store: AppStore
+    @EnvironmentObject var store: Store<AppState>
     @State var seeImage = false
     
     let movieId: Int

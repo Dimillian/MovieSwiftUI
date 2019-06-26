@@ -7,9 +7,10 @@
 //
 
 import SwiftUI
+import Flux
 
 struct Tabbar : View {
-    @EnvironmentObject var store: AppStore
+    @EnvironmentObject var store: Store<AppState>
     @State var selectedTab = Tab.movies
     
     enum Tab: Int {

@@ -7,6 +7,7 @@
 //
 
 import SwiftUI
+import Flux
 
 struct DraggableCover : View {
     
@@ -60,7 +61,7 @@ struct DraggableCover : View {
     // MARK: - Internal vars
     @State private var viewState = CGSize.zero
     @State private var predictedEndLocation: CGPoint? = nil
-    @EnvironmentObject private var store: AppStore
+    @EnvironmentObject private var store: Store<AppState>
     @GestureState private var dragState = DragState.inactive
     private let hapticFeedback = UISelectionFeedbackGenerator()
     

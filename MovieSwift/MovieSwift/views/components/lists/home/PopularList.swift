@@ -8,6 +8,7 @@
 
 import SwiftUI
 import Combine
+import Flux
 
 final class PopularPageListener: PageListener {
     override func loadPage() {
@@ -16,7 +17,7 @@ final class PopularPageListener: PageListener {
 }
 
 struct PopularList : View {
-    @EnvironmentObject var store: AppStore
+    @EnvironmentObject var store: Store<AppState>
     @State var pageListener = PopularPageListener()
     
     var body: some View {

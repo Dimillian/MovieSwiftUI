@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import Flux
 
 struct MoviesState: FluxState, Codable {
     var movies: [Int: Movie] = [:]

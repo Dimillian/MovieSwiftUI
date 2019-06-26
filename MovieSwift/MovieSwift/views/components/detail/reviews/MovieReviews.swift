@@ -7,9 +7,10 @@
 //
 
 import SwiftUI
+import Flux
 
 struct MovieReviews : View {
-    @EnvironmentObject var store: AppStore
+    @EnvironmentObject var store: Store<AppState>
     @Environment(\.isPresented) var isPresented
     
     let movie: Int

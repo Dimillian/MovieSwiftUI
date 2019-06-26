@@ -7,6 +7,7 @@
 //
 
 import SwiftUI
+import Flux
 
 final class TopRatedListPageListener: PageListener {
     override func loadPage() {
@@ -15,7 +16,7 @@ final class TopRatedListPageListener: PageListener {
 }
 
 struct TopRatedList : View {
-    @EnvironmentObject var store: AppStore
+    @EnvironmentObject var store: Store<AppState>
     @State var pageListener = TopRatedListPageListener()
     
     var body: some View {

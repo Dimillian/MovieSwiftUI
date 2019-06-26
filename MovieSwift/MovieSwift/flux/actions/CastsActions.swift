@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import Flux
 
 struct CastsActions {
     struct FetchMovieCasts: Action {

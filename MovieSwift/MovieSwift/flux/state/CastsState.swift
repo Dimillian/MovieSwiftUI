@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import Flux
 
 struct CastsState: FluxState {
     var casts: [Int: Cast] = [:]

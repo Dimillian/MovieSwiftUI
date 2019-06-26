@@ -8,7 +8,6 @@
 
 import Foundation
 
-protocol Reducer {
-    associatedtype StateType: FluxState
-    func reduce(state: StateType, action: Action) -> StateType
-}
+public typealias Reducer<FluxState> =
+    (_ state: FluxState, _ action: Action) -> FluxState
+

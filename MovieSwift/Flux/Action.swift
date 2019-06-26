@@ -8,6 +8,4 @@
 
 import Foundation
 
-protocol Action {
-    
-}
+public protocol Action { }

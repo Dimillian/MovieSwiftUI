@@ -7,9 +7,10 @@
 //
 
 import SwiftUI
+import Flux
 
 struct CustomListDetail : View {
-    @EnvironmentObject var store: AppStore
+    @EnvironmentObject var store: Store<AppState>
     let listId: Int
     
     var list: CustomList {

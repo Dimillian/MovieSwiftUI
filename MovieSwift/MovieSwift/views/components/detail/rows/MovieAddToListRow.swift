@@ -7,9 +7,10 @@
 //
 
 import SwiftUI
+import Flux
 
 struct MovieAddToListRow : View {
-    @EnvironmentObject var store: AppStore
+    @EnvironmentObject var store: Store<AppState>
     
     @State var addedToWishlist: Bool {
         return store.state.moviesState.wishlist.contains(movieId)

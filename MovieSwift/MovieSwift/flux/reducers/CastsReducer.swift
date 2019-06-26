@@ -7,19 +7,18 @@
 //
 
 import Foundation
+import Flux
 
-struct CastsReducer: Reducer {
-    func reduce(state: CastsState, action: Action) -> CastsState {
-        var state = state
-        if let action = action as? CastsActions.SetMovieCasts {
-            for cast in action.response.cast {
-                state.casts[cast.id] = cast
-            }
-            for cast in action.response.crew {
-                state.casts[cast.id] = cast
-            }
-            state.castsMovie[action.movie] = action.response.cast.map{ $0.id } + action.response.crew.map{ $0.id }
+func castsStateReducer(state: CastsState, action: Action) -> CastsState {
+    var state = state
+    if let action = action as? CastsActions.SetMovieCasts {
+        for cast in action.response.cast {
+            state.casts[cast.id] = cast
         }
-        return state
+        for cast in action.response.crew {
+            state.casts[cast.id] = cast
+        }
+        state.castsMovie[action.movie] = action.response.cast.map{ $0.id } + action.response.crew.map{ $0.id }
     }
+    return state
 }

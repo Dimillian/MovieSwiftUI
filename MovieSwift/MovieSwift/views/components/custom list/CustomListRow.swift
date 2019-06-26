@@ -7,9 +7,10 @@
 //
 
 import SwiftUI
+import Flux
 
 struct CustomListRow : View {
-    @EnvironmentObject var store: AppStore
+    @EnvironmentObject var store: Store<AppState>
     
     let list: CustomList
     var coverMovie: Movie? {

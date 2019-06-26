@@ -7,9 +7,10 @@
 //
 
 import SwiftUI
+import Flux
 
 struct CustomListForm : View {
-    @EnvironmentObject var store: AppStore
+    @EnvironmentObject var store: Store<AppState>
 
     @State var listName: String = ""
     @State var movieSearch: String = ""
@@ -28,7 +29,7 @@ struct CustomListForm : View {
 }
 
 struct TopSection: View {
-    @EnvironmentObject var store: AppStore
+    @EnvironmentObject var store: Store<AppState>
     
     @Binding var listMovieCover: Int?
     @Binding var movieSearch: String
@@ -63,7 +64,7 @@ struct TopSection: View {
 }
 
 struct MovieSearchSection: View {
-    @EnvironmentObject var store: AppStore
+    @EnvironmentObject var store: Store<AppState>
     
     @Binding var movieSearch: String
     @Binding var listMovieCover: Int?
@@ -85,7 +86,7 @@ struct MovieSearchSection: View {
 }
 
 struct SaveCancelSection: View {
-    @EnvironmentObject var store: AppStore
+    @EnvironmentObject var store: Store<AppState>
     @Environment(\.isPresented) var isPresented
     
     @Binding var listName: String

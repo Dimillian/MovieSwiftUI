@@ -7,6 +7,7 @@
 //
 
 import SwiftUI
+import Flux
 
 final class NowPlayingPageListener: PageListener {
     override func loadPage() {
@@ -16,7 +17,7 @@ final class NowPlayingPageListener: PageListener {
 
 
 struct NowPlayingList : View {
-    @EnvironmentObject var store: AppStore
+    @EnvironmentObject var store: Store<AppState>
     @State var pageListener = NowPlayingPageListener()
     
     var body: some View {

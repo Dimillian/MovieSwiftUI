@@ -7,6 +7,7 @@
 //
 
 import SwiftUI
+import Flux
 
 final class KeywordPageListener: PageListener {
     var keyword: Int!
@@ -18,7 +19,7 @@ final class KeywordPageListener: PageListener {
 }
 
 struct MovieKeywordList : View {
-    @EnvironmentObject var store: AppStore
+    @EnvironmentObject var store: Store<AppState>
     @State var pageListener = KeywordPageListener()
     let keyword: Keyword
     

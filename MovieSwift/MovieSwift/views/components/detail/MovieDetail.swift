@@ -7,9 +7,10 @@
 //
 
 import SwiftUI
+import Flux
 
 struct MovieDetail : View {
-    @EnvironmentObject var store: AppStore
+    @EnvironmentObject var store: Store<AppState>
     @State var addSheetShown = false
     @State var showSavedBadge = false
     @State var selectedPoster: MovieImage?

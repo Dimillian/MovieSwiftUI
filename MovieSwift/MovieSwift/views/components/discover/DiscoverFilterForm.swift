@@ -7,9 +7,10 @@
 //
 
 import SwiftUI
+import Flux
 
 struct DiscoverFilterForm : View {
-    @EnvironmentObject private var store: AppStore
+    @EnvironmentObject private var store: Store<AppState>
     @Binding var isPresented: Bool
     
     let datesText = ["Random",

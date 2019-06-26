@@ -7,6 +7,7 @@
 //
 
 import SwiftUI
+import Flux
 
 class PageListener {
     var currentPage: Int = 1 {
@@ -30,7 +31,7 @@ final class SearchPageListener: PageListener {
 }
 
 struct MoviesList : View {
-    @EnvironmentObject var store: AppStore
+    @EnvironmentObject var store: Store<AppState>
     @State var searchtext: String = ""
     @State var searchPageListener = SearchPageListener()
     

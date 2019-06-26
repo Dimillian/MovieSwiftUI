@@ -7,10 +7,11 @@
 //
 
 import SwiftUI
+import Flux
 
 struct MyLists : View {
     @State var selectedList: Int = 0
-    @EnvironmentObject var store: AppStore
+    @EnvironmentObject var store: Store<AppState>
     
     var customListsSection: some View {
         Section(header: Text("Custom Lists")) {

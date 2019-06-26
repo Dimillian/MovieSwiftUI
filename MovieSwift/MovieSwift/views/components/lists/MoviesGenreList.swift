@@ -7,9 +7,10 @@
 //
 
 import SwiftUI
+import Flux
 
 struct MoviesGenreList : View {
-    @EnvironmentObject var store: AppStore
+    @EnvironmentObject var store: Store<AppState>
     let genre: Genre
     
     var body: some View {

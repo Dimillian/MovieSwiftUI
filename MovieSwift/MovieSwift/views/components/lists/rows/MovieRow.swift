@@ -7,11 +7,12 @@
 //
 
 import SwiftUI
+import Flux
 
 fileprivate let placeholder = UIImage(named: "poster-placeholder")!
 
 struct MovieRow : View {
-    @EnvironmentObject var store: AppStore
+    @EnvironmentObject var store: Store<AppState>
     
     let movieId: Int
     private var movie: Movie! {

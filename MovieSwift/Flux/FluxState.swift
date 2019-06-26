@@ -8,6 +8,4 @@
 
 import Foundation
 
-protocol FluxState {
-    
-}
+public protocol FluxState { }

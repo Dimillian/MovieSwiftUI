@@ -8,6 +8,7 @@
 
 import UIKit
 import SwiftUI
+import Flux
 
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
@@ -33,7 +34,28 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     }
     
     func sceneDidEnterBackground(_ scene: UIScene) {
-        store.archiveState()
+        store.state.archiveState()
     }
 }
+
+
+let store = Store<AppState>(reducer: appStateReducer, state: AppState())
+
+#if DEBUG
+let sampleCustomList = CustomList(id: 0,
+                                  name: "TestName",
+                                  cover: 0,
+                                  movies: [0])
+let sampleStore = Store<AppState>(reducer: appStateReducer,
+                           state: AppState(moviesState:
+                            MoviesState(movies: [0: sampleMovie],
+                                      recommended: [0: [0]],
+                                      similar: [0: [0]],
+                                      popular: [0],
+                                      topRated: [0],
+                                      upcoming: [0],
+                                      customLists: [0: sampleCustomList]),
+             castsState: CastsState()))
+#endif
+
 
