@@ -24,7 +24,13 @@ struct Movie: Codable, Identifiable {
     let popularity: Float
     let vote_average: Float
     let vote_count: Int
+    
     let release_date: String
+    var releaseDate: Date {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "YYYY-MM-DD"
+        return formatter.date(from: release_date)!
+    }
     
     let genres: [Genre]?
     let runtime: Int?

@@ -14,9 +14,15 @@ struct MovieRow : View {
     @EnvironmentObject var store: AppStore
     
     let movieId: Int
-    var movie: Movie! {
+    private var movie: Movie! {
         return store.state.moviesState.movies[movieId]
     }
+    
+    private static let formatter: DateFormatter = {
+        let formatter = DateFormatter()
+        formatter.dateStyle = .medium
+        return formatter
+    }()
         
     var body: some View {
         HStack {
@@ -25,10 +31,16 @@ struct MovieRow : View {
                 Text(movie.userTitle)
                     .font(.FHACondFrenchNC(size: 22))
                     .color(.steam_gold)
-                    .lineLimit(2)
+                    .lineLimit(nil)
+                HStack {
+                    PopularityBadge(score: Int(movie.vote_average * 10))
+                    Text(MovieRow.formatter.string(from: movie.releaseDate))
+                        .font(.subheadline)
+                        .color(.secondary)
+                }
                 Text(movie.overview)
                     .color(.secondary)
-                    .lineLimit(8)
+                    .lineLimit(nil)
                     .truncationMode(.tail)
             }.padding(.leading, 8)
         }.padding(8)
