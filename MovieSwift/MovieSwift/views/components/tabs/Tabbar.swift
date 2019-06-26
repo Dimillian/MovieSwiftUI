@@ -25,7 +25,7 @@ struct Tabbar : View {
 
     var body: some View {
         TabbedView(selection: $selectedTab) {
-            MoviesHome().tabItemLabel(tabbarItem(text: "Popular", image: "icon-movies")).tag(Tab.movies)
+            MoviesHome().tabItemLabel(tabbarItem(text: "Movies", image: "icon-movies")).tag(Tab.movies)
             DiscoverView().tabItemLabel(tabbarItem(text: "Discover", image: "icon-discover")).tag(Tab.discover)
             MyLists().tabItemLabel(tabbarItem(text: "My lists", image: "icon-my-lists")).tag(Tab.myLists)
         }

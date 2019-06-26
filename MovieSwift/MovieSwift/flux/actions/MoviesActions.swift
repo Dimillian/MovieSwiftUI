@@ -195,12 +195,14 @@ struct MoviesActions {
     
     
     struct FetchMovieWithKeywords: Action {
-        init(keyword: Int) {
-            APIService.shared.GET(endpoint: .discover, params: ["with_keywords": "\(keyword)"])
+        init(keyword: Int, page: Int) {
+            APIService.shared.GET(endpoint: .discover, params: ["page": "\(page)", "with_keywords": "\(keyword)"])
             { (result: Result<PaginatedResponse<Movie>, APIService.APIError>) in
                 switch result {
                 case let .success(response):
-                    store.dispatch(action: SetMovieWithKeyword(keyword: keyword, response: response))
+                    store.dispatch(action: SetMovieWithKeyword(keyword: keyword,
+                                                               page: page,
+                                                               response: response))
                 case .failure(_):
                     break
                 }
@@ -325,6 +327,7 @@ struct MoviesActions {
     
     struct SetMovieWithKeyword: Action {
         let keyword: Int
+        let page: Int
         let response: PaginatedResponse<Movie>
     }
         

@@ -105,7 +105,12 @@ struct MoviesReducer: Reducer {
             state = mergeMovies(movies: action.response.results, state: state)
             
         case let action as MoviesActions.SetMovieWithKeyword:
-            state.withKeywords[action.keyword] = action.response.results.map{ $0.id }
+            if action.page == 1 {
+                state.withKeywords[action.keyword] = action.response.results.map{ $0.id }
+            } else {
+                state.withKeywords[action.keyword]?.append(contentsOf: action.response.results.map{ $0.id })
+            }
+            
             state = mergeMovies(movies: action.response.results, state: state)
             
         case let action as MoviesActions.AddCustomList:
