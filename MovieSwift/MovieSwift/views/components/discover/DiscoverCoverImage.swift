@@ -11,9 +11,9 @@ import SwiftUI
 struct DiscoverPosterStyle: ViewModifier {
     func body(content: Content) -> some View {
         return content
-            .aspectRatio(0.6, contentMode: .fit)
-            .frame(maxWidth: UIScreen.main.bounds.width * 0.60,
-                   maxHeight: UIScreen.main.bounds.height * 0.70)
+            .aspectRatio(0.66, contentMode: .fit)
+            .frame(maxWidth: UIScreen.main.bounds.width * 0.65,
+                   maxHeight: UIScreen.main.bounds.height * 0.65)
             .cornerRadius(5)
     }
 }

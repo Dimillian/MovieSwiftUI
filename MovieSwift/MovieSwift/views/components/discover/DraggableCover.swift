@@ -72,6 +72,7 @@ struct DraggableCover : View {
     // MARK: - Constructor vars
     let movieId: Int
     @Binding var gestureViewState: DragState
+    let willEndGesture: (CGSize) -> Void
     let endGestureHandler: (EndState) -> Void
     
     // MARK: - Computed vars
@@ -135,11 +136,13 @@ struct DraggableCover : View {
                 let endLocation = self.gestureViewState.predictedLocation
                 if endLocation.x < -150 {
                     self.predictedEndLocation = endLocation
+                    self.willEndGesture(self.gestureViewState.translation)
                     DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
                         self.endGestureHandler(.left)
                     }
                 } else if endLocation.x > UIScreen.main.bounds.width - 50 {
                     self.predictedEndLocation = endLocation
+                    self.willEndGesture(self.gestureViewState.translation)
                     DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
                         self.endGestureHandler(.right)
                     }
@@ -175,6 +178,9 @@ struct DraggableCover_Previews : PreviewProvider {
     static var previews: some View {
         DraggableCover(movieId: 0,
                        gestureViewState: .constant(.inactive),
+                       willEndGesture: { _ in
+                        
+        },
                        endGestureHandler: {handler in
             
         }).environmentObject(sampleStore)

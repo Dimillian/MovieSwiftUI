@@ -18,6 +18,7 @@ struct DiscoverView : View {
     @State private var previousMovie: Int? = nil
     @State private var filterFormPresented = false
     @State private var movieDetailPresented = false
+    @State private var willEndPosition: CGSize? = nil
     private let hapticFeedback =  UINotificationFeedbackGenerator()
     
     // MARK: - Computed properties
@@ -35,11 +36,11 @@ struct DiscoverView : View {
     }
     
     private func scaleResistance() -> Double {
-        Double(abs(draggedViewState.translation.width) / 5000)
+        Double(abs(willEndPosition?.width ?? draggedViewState.translation.width) / 6800)
     }
     
     private func dragResistance() -> CGFloat {
-        abs(draggedViewState.translation.width) / 10
+        abs(willEndPosition?.width ?? draggedViewState.translation.width) / 12
     }
     
     private func leftZoneResistance() -> CGFloat {
@@ -61,6 +62,7 @@ struct DiscoverView : View {
                 store.dispatch(action: MoviesActions.AddToSeenList(movie: currentMovie.id))
             }
             store.dispatch(action: MoviesActions.PopRandromDiscover())
+            willEndPosition = nil
             fetchRandomMovies()
         }
     }
@@ -203,6 +205,9 @@ struct DiscoverView : View {
                 if self.movies.reversed().firstIndex(of: id) == 0 {
                     DraggableCover(movieId: id,
                                    gestureViewState: self.$draggedViewState,
+                                   willEndGesture: { position in
+                                    self.willEndPosition = position
+                    },
                                    endGestureHandler: { handler in
                                     self.draggableCoverEndGestureHandler(handler: handler)
                     })
