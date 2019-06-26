@@ -18,13 +18,17 @@ final class ImageLoader: BindableObject {
     
     var image: UIImage? = nil {
         didSet {
-            didChange.send(image)
+            DispatchQueue.main.async {
+                self.didChange.send(self.image)
+            }
         }
     }
     
     var missing: Bool = false {
         didSet {
-            didChange.send(nil)
+            DispatchQueue.main.async {
+                self.didChange.send(nil)
+            }
         }
     }
     

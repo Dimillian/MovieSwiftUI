@@ -15,7 +15,7 @@ struct MovieCrosslinePeopleRow : View {
     var body: some View {
         VStack(alignment: .leading) {
             Text(title)
-                .font(.FHACondFrenchNC(size: 20))
+                .font(.FjallaOne(size: 20))
                 .padding(.leading)
             ScrollView(showsHorizontalIndicator: false) {
                 HStack {

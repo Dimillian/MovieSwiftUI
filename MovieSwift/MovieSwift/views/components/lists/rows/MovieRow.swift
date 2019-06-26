@@ -30,12 +30,12 @@ struct MovieRow : View {
             MoviePosterImage(imageLoader: ImageLoader(poster: movie.poster_path, size: .small))
             VStack(alignment: .leading, spacing: 8) {
                 Text(movie.userTitle)
-                    .font(.FHACondFrenchNC(size: 22))
+                    .font(.FjallaOne(size: 20))
                     .color(.steam_gold)
                     .lineLimit(nil)
                 HStack {
                     PopularityBadge(score: Int(movie.vote_average * 10))
-                    Text(MovieRow.formatter.string(from: movie.releaseDate))
+                    Text(MovieRow.formatter.string(from: movie.releaseDate ?? Date()))
                         .font(.subheadline)
                         .color(.secondary)
                 }

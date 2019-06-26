@@ -26,10 +26,10 @@ struct Movie: Codable, Identifiable {
     let vote_count: Int
     
     let release_date: String
-    var releaseDate: Date {
+    var releaseDate: Date? {
         let formatter = DateFormatter()
         formatter.dateFormat = "YYYY-MM-DD"
-        return formatter.date(from: release_date)!
+        return formatter.date(from: release_date)
     }
     
     let genres: [Genre]?

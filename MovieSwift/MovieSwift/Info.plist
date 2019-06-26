@@ -26,6 +26,7 @@
 	<array>
 		<string>FHACondFrenchNC.otf</string>
 		<string>American Captain.otf</string>
+		<string>FjallaOne-Regular.ttf</string>
 	</array>
 	<key>UIApplicationSceneManifest</key>
 	<dict>

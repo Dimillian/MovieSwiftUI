@@ -129,7 +129,7 @@ struct DiscoverView : View {
                 Text(self.currentMovie.userTitle)
                     .color(.primary)
                     .multilineTextAlignment(.center)
-                    .font(.FHACondFrenchNC(size: 18))
+                    .font(.FjallaOne(size: 18))
                     .lineLimit(2)
                     .opacity(self.draggedViewState.isDragging ? 0.0 : 1.0)
                     .offset(x: 0, y: -15)

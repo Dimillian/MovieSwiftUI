@@ -25,7 +25,16 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         
         UINavigationBar.appearance().largeTitleTextAttributes = [
             NSAttributedString.Key.foregroundColor: UIColor(named: "steam_gold")!,
-            NSAttributedString.Key.font: UIFont(name: "FHA Condensed French NC", size: 40)!]
+            NSAttributedString.Key.font: UIFont(name: "FjallaOne-Regular", size: 40)!]
+        
+        UINavigationBar.appearance().titleTextAttributes = [
+            NSAttributedString.Key.foregroundColor: UIColor(named: "steam_gold")!,
+            NSAttributedString.Key.font: UIFont(name: "FjallaOne-Regular", size: 18)!]
+        
+        UIBarButtonItem.appearance().setTitleTextAttributes([
+            NSAttributedString.Key.foregroundColor: UIColor(named: "steam_gold")!,
+            NSAttributedString.Key.font: UIFont(name: "FjallaOne-Regular", size: 16)!],
+                                                            for: .normal)
         
         window.rootViewController = UIHostingController(rootView: Tabbar().environmentObject(store))
         window.tintColor = UIColor(named: "steam_gold")

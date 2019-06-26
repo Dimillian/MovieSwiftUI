@@ -71,6 +71,7 @@
 		69FB61E622BA245100CBEEC7 /* DraggableCover.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69FB61E522BA245100CBEEC7 /* DraggableCover.swift */; };
 		69FB61E822BA2A2D00CBEEC7 /* CustomListDetail.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69FB61E722BA2A2D00CBEEC7 /* CustomListDetail.swift */; };
 		69FB61EB22BA2E1900CBEEC7 /* DiscoverCoverImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69FB61EA22BA2E1900CBEEC7 /* DiscoverCoverImage.swift */; };
+		69FC640922C3A8620043AB37 /* FjallaOne-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 69FC640822C3A72F0043AB37 /* FjallaOne-Regular.ttf */; };
 		69FD020C22B55268003E529E /* MoviesGenreList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69FD020B22B55268003E529E /* MoviesGenreList.swift */; };
 		69FFAF8022A99F1100801F3C /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69FFAF7F22A99F1100801F3C /* AppDelegate.swift */; };
 		69FFAF8222A99F1100801F3C /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69FFAF8122A99F1100801F3C /* SceneDelegate.swift */; };
@@ -163,6 +164,7 @@
 		69FB61E522BA245100CBEEC7 /* DraggableCover.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DraggableCover.swift; sourceTree = "<group>"; };
 		69FB61E722BA2A2D00CBEEC7 /* CustomListDetail.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomListDetail.swift; sourceTree = "<group>"; };
 		69FB61EA22BA2E1900CBEEC7 /* DiscoverCoverImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiscoverCoverImage.swift; sourceTree = "<group>"; };
+		69FC640822C3A72F0043AB37 /* FjallaOne-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "FjallaOne-Regular.ttf"; sourceTree = "<group>"; };
 		69FD020B22B55268003E529E /* MoviesGenreList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoviesGenreList.swift; sourceTree = "<group>"; };
 		69FFAF7C22A99F1100801F3C /* MovieSwift.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MovieSwift.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		69FFAF7F22A99F1100801F3C /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -194,6 +196,7 @@
 		691E905522BF5A3D00AA23FE /* fonts */ = {
 			isa = PBXGroup;
 			children = (
+				69FC640822C3A72F0043AB37 /* FjallaOne-Regular.ttf */,
 				6918810022C2949800E2E253 /* American Captain.otf */,
 				691E905622BF5A3D00AA23FE /* FHACondFrenchNC.otf */,
 			);
@@ -606,6 +609,7 @@
 			files = (
 				691E905722BF5A3D00AA23FE /* FHACondFrenchNC.otf in Resources */,
 				69FFAF8C22A99F1200801F3C /* LaunchScreen.storyboard in Resources */,
+				69FC640922C3A8620043AB37 /* FjallaOne-Regular.ttf in Resources */,
 				6918810122C2949800E2E253 /* American Captain.otf in Resources */,
 				69FFAF8922A99F1200801F3C /* Preview Assets.xcassets in Resources */,
 				69FFAF8622A99F1200801F3C /* Assets.xcassets in Resources */,

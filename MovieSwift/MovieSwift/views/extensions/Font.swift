@@ -17,4 +17,15 @@ extension Font {
     public static func AmericanCaptain(size: Length) -> Font {
         return Font.custom("American Captain", size: size)
     }
+    
+    public static func FjallaOne(size: Length) -> Font {
+        return Font.custom("FjallaOne-Regular", size: size)
+    }
+}
+
+struct TitleFont: ViewModifier {
+    let size: Length
+    func body(content: Content) -> some View {
+        return content.font(.FjallaOne(size: size))
+    }
 }

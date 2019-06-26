@@ -125,31 +125,31 @@ struct MovieDetail : View {
                 MovieOverview(movie: movie)
                 Group {
                     if movie.keywords?.keywords != nil && movie.keywords?.keywords?.isEmpty == false {
-                        MovieKeywords(keywords: movie.keywords!.keywords!).frame(height: 90)
+                        MovieKeywords(keywords: movie.keywords!.keywords!).frame(height: 100)
                     }
                     if characters != nil && characters?.isEmpty == false {
                         MovieCrosslinePeopleRow(title: "Characters",
-                                 casts: characters ?? []).frame(height: 200)
+                                 casts: characters ?? []).frame(height: 210)
                     }
                     if credits != nil && credits?.isEmpty == false {
                         MovieCrosslinePeopleRow(title: "Crew",
-                                 casts: credits ?? []).frame(height: 200)
+                                 casts: credits ?? []).frame(height: 210)
                     }
                     if similar != nil && similar?.isEmpty == false {
-                        MovieCrosslineRow(title: "Similar Movies", movies: similar ?? []).frame(height: 260)
+                        MovieCrosslineRow(title: "Similar Movies", movies: similar ?? []).frame(height: 270)
                     }
                     if recommended != nil && recommended?.isEmpty == false {
-                        MovieCrosslineRow(title: "Recommended Movies", movies: recommended ?? []).frame(height: 260)
+                        MovieCrosslineRow(title: "Recommended Movies", movies: recommended ?? []).frame(height: 270)
                     }
                     if movie.images?.posters != nil && movie.images?.posters?.isEmpty == false {
                         MoviePostersRow(posters: movie.images!.posters!,
                                         selectedPoster: $selectedPoster)
-                            .frame(height: 220)
+                            .frame(height: 230)
                     }
                     if movie.images?.backdrops != nil && movie.images?.backdrops?.isEmpty == false {
                         MovieBackdropsRow(backdrops: movie.images!.backdrops!,
                                           selectedBackdrop: $selectedPoster)
-                            .frame(height: 300)
+                            .frame(height: 310)
                     }
                 }
                 }

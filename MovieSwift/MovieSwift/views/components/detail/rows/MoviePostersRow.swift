@@ -15,7 +15,7 @@ struct MoviePostersRow : View {
     var body: some View {
         VStack(alignment: .leading) {
             Text("Other posters")
-                .font(.FHACondFrenchNC(size: 20))
+                .font(.FjallaOne(size: 20))
                 .fontWeight(.bold)
                 .padding(.leading)
             ScrollView(showsHorizontalIndicator: false) {
