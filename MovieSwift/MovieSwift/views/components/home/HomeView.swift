@@ -9,6 +9,7 @@
 import SwiftUI
 import SwiftUIFlux
 
+// MARK:- Shared View
 struct HomeView: View {
     #if targetEnvironment(UIKitForMac)
     var body: some View {
@@ -21,6 +22,7 @@ struct HomeView: View {
     #endif
 }
 
+// MARK: - iOS implementation
 struct TabbarView: View {
     @State var selectedTab = Tab.movies
     
@@ -45,27 +47,23 @@ struct TabbarView: View {
     }
 }
 
+// MARK: - MacOS implementation
 struct SplitView: View {
-    enum Menu: Int {
-        case popular, topRated, upcoming, nowPlaying, discover, wishlist, seenlist, myLists
-    }
-    
-    @State var selectedMenu: Int = Menu.popular.rawValue
+    @State var selectedMenu: OutlineMenu = .popular
     
     var contentView: some View {
-        let menu = Menu(rawValue: selectedMenu)!
         return Group {
-            if menu == .popular {
-                PopularList()
-            } else if menu == .topRated {
-                TopRatedList()
-            } else if menu == .upcoming {
-                UpcomingList()
-            } else if menu == .nowPlaying {
-                NowPlayingList()
-            } else if menu == .discover {
+            if selectedMenu == .popular {
+                NavigationView{ PopularList() }
+            } else if selectedMenu == .topRated {
+                NavigationView{ TopRatedList() }
+            } else if selectedMenu == .upcoming {
+                NavigationView{ UpcomingList() }
+            } else if selectedMenu == .nowPlaying {
+                NavigationView{ NowPlayingList() }
+            } else if selectedMenu == .discover {
                 DiscoverView()
-            } else if menu == .wishlist || menu == .seenlist || menu == .myLists {
+            } else if selectedMenu == .wishlist || selectedMenu == .seenlist || selectedMenu  == .myLists {
                 MyLists()
             }
         }
@@ -73,41 +71,12 @@ struct SplitView: View {
     
     var body: some View {
         HStack(spacing: 0) {
-            List {
-                Section(header: Text("Movies")) {
-                    Text("Popular").tapAction {
-                        self.selectedMenu = Menu.popular.rawValue
-                    }
-                    Text("Top Rated").tapAction {
-                        self.selectedMenu = Menu.topRated.rawValue
-                    }
-                    Text("Upcoming").tapAction {
-                        self.selectedMenu = Menu.upcoming.rawValue
-                    }
-                    Text("Now playing").tapAction {
-                        self.selectedMenu = Menu.nowPlaying.rawValue
-                    }
+            List(OutlineMenu.allCases) { menu in
+                OutlineRow(item: menu, selectedMenu: self.$selectedMenu)
                 }
-                Text("Discover").tapAction {
-                    self.selectedMenu = Menu.discover.rawValue
-                }
-                Section(header: Text("Movies lists")) {
-                    Text("Wishlist").tapAction {
-                        self.selectedMenu = Menu.wishlist.rawValue
-                    }
-                    Text("Seenlist").tapAction {
-                        self.selectedMenu = Menu.seenlist.rawValue
-                    }
-                    Text("My Lists").tapAction {
-                        self.selectedMenu = Menu.myLists.rawValue
-                    }
-                }
-                }
-                .frame(width: 200)
+                .frame(width: 250)
             Spacer().frame(width: 1).foregroundColor(.secondary)
-            NavigationView {
-                contentView
-            }
+            contentView
         }
     }
 }

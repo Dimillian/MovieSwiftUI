@@ -48,6 +48,8 @@
 		695BBE3F22B96FAE000C7539 /* CustomListRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 695BBE3E22B96FAE000C7539 /* CustomListRow.swift */; };
 		695D55DD22B2316C00F4E68C /* Color.swift in Sources */ = {isa = PBXBuildFile; fileRef = 695D55DC22B2316C00F4E68C /* Color.swift */; };
 		695D55DF22B2326800F4E68C /* MoviePosterImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 695D55DE22B2326800F4E68C /* MoviePosterImage.swift */; };
+		695DA7CE22C557A7003096B9 /* OutlineMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = 695DA7CD22C557A7003096B9 /* OutlineMenu.swift */; };
+		695DA7D122C558B1003096B9 /* OutlineRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 695DA7D022C558B1003096B9 /* OutlineRow.swift */; };
 		696B43E722BF9E3D008B3D56 /* DiscoverFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 696B43E622BF9E3D008B3D56 /* DiscoverFilter.swift */; };
 		696B43E922BFA286008B3D56 /* DiscoverFilterForm.swift in Sources */ = {isa = PBXBuildFile; fileRef = 696B43E822BFA286008B3D56 /* DiscoverFilterForm.swift */; };
 		697376E422BE9E7C00BC9A3B /* NowPlayingList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 697376E322BE9E7C00BC9A3B /* NowPlayingList.swift */; };
@@ -141,6 +143,8 @@
 		695BBE3E22B96FAE000C7539 /* CustomListRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomListRow.swift; sourceTree = "<group>"; };
 		695D55DC22B2316C00F4E68C /* Color.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Color.swift; sourceTree = "<group>"; };
 		695D55DE22B2326800F4E68C /* MoviePosterImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoviePosterImage.swift; sourceTree = "<group>"; };
+		695DA7CD22C557A7003096B9 /* OutlineMenu.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OutlineMenu.swift; sourceTree = "<group>"; };
+		695DA7D022C558B1003096B9 /* OutlineRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OutlineRow.swift; sourceTree = "<group>"; };
 		696B43E622BF9E3D008B3D56 /* DiscoverFilter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiscoverFilter.swift; sourceTree = "<group>"; };
 		696B43E822BFA286008B3D56 /* DiscoverFilterForm.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiscoverFilterForm.swift; sourceTree = "<group>"; };
 		697376E322BE9E7C00BC9A3B /* NowPlayingList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NowPlayingList.swift; sourceTree = "<group>"; };
@@ -206,6 +210,7 @@
 		692AA63022AD3FEF0054DA84 /* home */ = {
 			isa = PBXGroup;
 			children = (
+				695DA7CF22C557AE003096B9 /* outline */,
 				6904D46522C53E2700EB3FBA /* HomeView.swift */,
 			);
 			path = home;
@@ -271,6 +276,15 @@
 				691E905822BF5AE800AA23FE /* Font.swift */,
 			);
 			path = extensions;
+			sourceTree = "<group>";
+		};
+		695DA7CF22C557AE003096B9 /* outline */ = {
+			isa = PBXGroup;
+			children = (
+				695DA7CD22C557A7003096B9 /* OutlineMenu.swift */,
+				695DA7D022C558B1003096B9 /* OutlineRow.swift */,
+			);
+			path = outline;
 			sourceTree = "<group>";
 		};
 		6961612922B96A41000002FB /* badges */ = {
@@ -666,11 +680,13 @@
 				691E82D222B54BCF00170CEA /* GenreBadge.swift in Sources */,
 				6918454522BD7CB20011E742 /* MovieImage.swift in Sources */,
 				695882B822AD01C500AFABA9 /* MovieDetail.swift in Sources */,
+				695DA7D122C558B1003096B9 /* OutlineRow.swift in Sources */,
 				692AA62F22AD3DFA0054DA84 /* MoviesList.swift in Sources */,
 				695882B122ACFB5800AFABA9 /* ImageLoader.swift in Sources */,
 				69FB11CB22C376D0002EB74A /* AppReducer.swift in Sources */,
 				692C57E722B8B06B00128DD3 /* BorderedButton.swift in Sources */,
 				69FFAFAA22A9AA6500801F3C /* MoviesState.swift in Sources */,
+				695DA7CE22C557A7003096B9 /* OutlineMenu.swift in Sources */,
 				69FB61E422BA217C00CBEEC7 /* DiscoverView.swift in Sources */,
 				6902647B22B6D2B400459C2E /* MovieKeywordList.swift in Sources */,
 				697376E422BE9E7C00BC9A3B /* NowPlayingList.swift in Sources */,
