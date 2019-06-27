@@ -3,7 +3,7 @@
 MovieSwiftUI is an application that uses the MovieDB API and is built with SwiftUI. 
 It demos some SwiftUI (& Combine) concepts. The goal is to make a real world application using SwiftUI only. It'll be updated with new features as they come to the SwiftUI framework. 
 
-![App Image](images/MovieSwiftUI.png?)
+![App Image](images/MovieSwiftUI_promo.png?)
 
 ## Architecture
 
