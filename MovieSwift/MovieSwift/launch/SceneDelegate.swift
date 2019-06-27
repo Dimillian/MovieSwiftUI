@@ -37,7 +37,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             NSAttributedString.Key.font: UIFont(name: "FjallaOne-Regular", size: 16)!],
                                                             for: .normal)
         
-        window.rootViewController = UIHostingController(rootView: Tabbar().environmentObject(store))
+        window.rootViewController = UIHostingController(rootView: HomeView().environmentObject(store))
         window.tintColor = UIColor(named: "steam_gold")
         self.window = window
         window.makeKeyAndVisible()
