@@ -32,8 +32,11 @@ struct DiscoverView : View {
         store.state.moviesState.discoverFilter
     }
     
-    private var currentMovie: Movie {
-        return store.state.moviesState.movies[store.state.moviesState.discover.reversed()[0].id]!
+    private var currentMovie: Movie? {
+        guard !movies.isEmpty else {
+            return nil
+        }
+        return store.state.moviesState.movies[movies.reversed()[0].id]
     }
     
     private func scaleResistance() -> Double {
@@ -53,6 +56,9 @@ struct DiscoverView : View {
     }
     
     private func draggableCoverEndGestureHandler(handler: DraggableCover.EndState) {
+        guard let currentMovie = currentMovie else {
+            return
+        }
         if handler == .left || handler == .right {
             previousMovie = currentMovie.id
             if handler == .left {
@@ -84,7 +90,10 @@ struct DiscoverView : View {
     }
     
     private var movieDetailModal: Modal {
-        Modal(NavigationView{ MovieDetail(movieId: currentMovie.id).environmentObject(store) }) {
+        Modal(NavigationView{
+            MovieDetail(movieId: currentMovie!.id).environmentObject(store)
+            
+        }) {
             self.movieDetailPresented = false
         }
     }
@@ -125,8 +134,8 @@ struct DiscoverView : View {
     
     private var actionsButtons: some View {
         ZStack(alignment: .center) {
-            if !self.movies.isEmpty {
-                Text(self.currentMovie.userTitle)
+            if self.currentMovie != nil {
+                Text(self.currentMovie!.userTitle)
                     .color(.primary)
                     .multilineTextAlignment(.center)
                     .font(.FjallaOne(size: 18))
@@ -165,7 +174,7 @@ struct DiscoverView : View {
                     .animation(.fluidSpring())
                     .tapAction {
                         self.hapticFeedback.impactOccurred(withIntensity: 0.5)
-                        self.previousMovie = self.currentMovie.id
+                        self.previousMovie = self.currentMovie!.id
                         self.store.dispatch(action: MoviesActions.PopRandromDiscover())
                         self.fetchRandomMovies(force: false, filter: self.filter)
                 }

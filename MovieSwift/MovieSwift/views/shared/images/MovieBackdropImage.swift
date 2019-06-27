@@ -45,15 +45,17 @@ struct MovieBackdropImage : View {
                             .animation(.basic())
                             .onAppear{
                                 self.isImageLoaded = true
-                        }
+                            }.tapAction {
+                                self.isExpanded.toggle()
+                            }
                     }
                     }
                     .frame(maxHeight: fill ? 50 : 300)
-                    .aspectRatio(500/300, contentMode: fill ? .fill : .fit)
+                    .aspectRatio(500/300, contentMode: fill || !isExpanded ? .fill : .fit)
             } else {
                 Rectangle()
                     .frame(maxHeight: fill ? 50 : 300)
-                    .aspectRatio(500/300, contentMode: fill ? .fill : .fit)
+                    .aspectRatio(500/300, contentMode: fill || !isExpanded ? .fill : .fit)
                     .foregroundColor(.gray)
                     .opacity(0.1)
             }

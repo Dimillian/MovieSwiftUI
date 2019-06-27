@@ -23,7 +23,7 @@ struct MovieBackdropsRow : View {
                     ForEach(self.backdrops) { backdrop in
                         MovieBackdropImage(imageLoader: ImageLoader(poster: backdrop.file_path,
                                                                     size: .original),
-                                           isExpanded: .constant(false))
+                                           isExpanded: .constant(true))
                             .frame(height: 200)
                             .tapAction {
                                 withAnimation {
