@@ -28,7 +28,7 @@ struct Movie: Codable, Identifiable {
     let release_date: String
     var releaseDate: Date? {
         let formatter = DateFormatter()
-        formatter.dateFormat = "YYYY-MM-DD"
+        formatter.dateFormat = "YYYY-DD-MM"
         return formatter.date(from: release_date)
     }
     
