@@ -5,9 +5,9 @@
         "package": "SwiftUIFlux",
         "repositoryURL": "https://github.com/Dimillian/SwiftUIFlux",
         "state": {
-          "branch": "master",
-          "revision": "c210a8bea3d4ce96c5f6261f2271582f05334501",
-          "version": null
+          "branch": null,
+          "revision": "7c6d4a323f45afcfb23b7ef3ffacdeca9a416f12",
+          "version": "0.2.0"
         }
       }
     ]

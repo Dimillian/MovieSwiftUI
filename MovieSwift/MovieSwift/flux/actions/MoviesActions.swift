@@ -13,29 +13,52 @@ struct MoviesActions {
     
     // MARK: - Requests
     
-    struct FetchPopular: Action {
-        init(page: Int) {
+    struct FetchPopular: AsyncAction {
+        let page: Int
+        
+        func execute(state: FluxState?, dispatch: @escaping DispatchFunction) {
             APIService.shared.GET(endpoint: .popular, params: ["page": "\(page)",
-                                                                "region": AppUserDefaults.region]) {
-                (result: Result<PaginatedResponse<Movie>, APIService.APIError>) in
-                switch result {
-                case let .success(response):
-                    store.dispatch(action: SetPopular(page: page, response: response))
-                case .failure(_):
-                    break
-                }
+                                                            "region": AppUserDefaults.region])
+            {
+                    (result: Result<PaginatedResponse<Movie>, APIService.APIError>) in
+                    switch result {
+                    case let .success(response):
+                        dispatch(SetPopular(page: self.page, response: response))
+                    case .failure(_):
+                        break
+                    }
             }
         }
     }
     
-    struct FetchTopRated: Action {
-        init(page: Int) {
+    struct FetchTopRated: AsyncAction {
+        let page: Int
+        
+        func execute(state: FluxState?, dispatch: @escaping DispatchFunction) {
             APIService.shared.GET(endpoint: .toRated, params: ["page": "\(page)",
-                                                                "region": AppUserDefaults.region]) {
+                                                                "region": AppUserDefaults.region])
+            {
+                    (result: Result<PaginatedResponse<Movie>, APIService.APIError>) in
+                    switch result {
+                    case let .success(response):
+                        dispatch(SetTopRated(page: self.page, response: response))
+                    case .failure(_):
+                        break
+                    }
+            }
+        }
+    }
+    
+    struct FetchUpcoming: AsyncAction {
+        let page: Int
+        
+        func execute(state: FluxState?, dispatch: @escaping DispatchFunction) {
+            APIService.shared.GET(endpoint: .upcoming, params: ["page": "\(page)","region": AppUserDefaults.region])
+            {
                 (result: Result<PaginatedResponse<Movie>, APIService.APIError>) in
                 switch result {
                 case let .success(response):
-                    store.dispatch(action: SetTopRated(page: page, response: response))
+                    dispatch(SetUpcoming(page: self.page, response: response))
                 case .failure(_):
                     break
                 }
@@ -43,45 +66,37 @@ struct MoviesActions {
         }
     }
     
-    struct FetchUpcoming: Action {
-        init(page: Int) {
-            APIService.shared.GET(endpoint: .upcoming, params: ["page": "\(page)",
-                                                                "region": AppUserDefaults.region]) {
-                (result: Result<PaginatedResponse<Movie>, APIService.APIError>) in
-                switch result {
-                case let .success(response):
-                    store.dispatch(action: SetUpcoming(page: page, response: response))
-                case .failure(_):
-                    break
-                }
-            }
-        }
-    }
-    
-    struct FetchNowPlaying: Action {
-        init(page: Int) {
+    struct FetchNowPlaying: AsyncAction {
+        let page: Int
+        
+        func execute(state: FluxState?, dispatch: @escaping DispatchFunction) {
             APIService.shared.GET(endpoint: .nowPlaying, params: ["page": "\(page)",
-                                                                    "region": AppUserDefaults.region]) {
-                (result: Result<PaginatedResponse<Movie>, APIService.APIError>) in
-                switch result {
-                case let .success(response):
-                    store.dispatch(action: SetNowPlaying(page: page, response: response))
-                case .failure(_):
-                    break
-                }
+                "region": AppUserDefaults.region])
+            {
+                    (result: Result<PaginatedResponse<Movie>, APIService.APIError>) in
+                    switch result {
+                    case let .success(response):
+                        dispatch(SetNowPlaying(page: self.page, response: response))
+                    case .failure(_):
+                        break
+                    }
             }
         }
     }
     
-    struct FetchDetail: Action {
-        init(movie: Int) {
-            APIService.shared.GET(endpoint: .detail(movie: movie), params: ["append_to_response": "keywords,images",
-                                                                            "language": "en-US",
-                                                                            "include_image_language": "en"]) {
+    struct FetchDetail: AsyncAction {
+        let movie: Int
+        
+        func execute(state: FluxState?, dispatch: @escaping DispatchFunction) {
+            APIService.shared.GET(endpoint: .detail(movie: movie),
+                                  params: ["append_to_response": "keywords,images",
+                                           "language": "en-US",
+                                           "include_image_language": "en"])
+            {
                 (result: Result<Movie, APIService.APIError>) in
                 switch result {
                 case let .success(response):
-                    store.dispatch(action: SetDetail(movie: movie, response: response))
+                    dispatch(SetDetail(movie: self.movie, response: response))
                 case .failure(_):
                     break
                 }
@@ -89,13 +104,16 @@ struct MoviesActions {
         }
     }
     
-    struct FetchRecommended: Action {
-        init(movie: Int) {
-            APIService.shared.GET(endpoint: .recommended(movie: movie), params: nil) {
+    struct FetchRecommended: AsyncAction {
+        let movie: Int
+        
+        func execute(state: FluxState?, dispatch: @escaping DispatchFunction) {
+            APIService.shared.GET(endpoint: .recommended(movie: movie), params: nil)
+            {
                 (result: Result<PaginatedResponse<Movie>, APIService.APIError>) in
                 switch result {
                 case let .success(response):
-                    store.dispatch(action: SetRecommended(movie: movie, response: response))
+                    dispatch(SetRecommended(movie: self.movie, response: response))
                 case .failure(_):
                     break
                 }
@@ -104,13 +122,16 @@ struct MoviesActions {
     }
     
     
-    struct FetchSimilar: Action {
-        init(movie: Int) {
-            APIService.shared.GET(endpoint: .similar(movie: movie), params: nil) {
+    struct FetchSimilar: AsyncAction {
+        let movie: Int
+        
+        func execute(state: FluxState?, dispatch: @escaping DispatchFunction) {
+            APIService.shared.GET(endpoint: .similar(movie: movie), params: nil)
+            {
                 (result: Result<PaginatedResponse<Movie>, APIService.APIError>) in
                 switch result {
                 case let .success(response):
-                    store.dispatch(action: SetSimilar(movie: movie, response: response))
+                    dispatch(SetSimilar(movie: self.movie, response: response))
                 case .failure(_):
                     break
                 }
@@ -120,15 +141,19 @@ struct MoviesActions {
     
    
     
-    struct FetchSearch: Action {
-        init(query: String, page: Int) {
-            APIService.shared.GET(endpoint: .searchMovie, params: ["query": query, "page": "\(page)"]) {
+    struct FetchSearch: AsyncAction {
+        let query: String
+        let page: Int
+        
+        func execute(state: FluxState?, dispatch: @escaping DispatchFunction) {
+            APIService.shared.GET(endpoint: .searchMovie, params: ["query": query, "page": "\(page)"])
+            {
                 (result: Result<PaginatedResponse<Movie>, APIService.APIError>) in
                 switch result {
                 case let .success(response):
-                    store.dispatch(action: SetSearch(query: query,
-                                                     page: page,
-                                                     response: response))
+                    dispatch(SetSearch(query: self.query,
+                                       page: self.page,
+                                       response: response))
                 case .failure(_):
                     break
                 }
@@ -136,13 +161,16 @@ struct MoviesActions {
         }
     }
     
-    struct FetchSearchKeyword: Action {
-        init(query: String) {
-            APIService.shared.GET(endpoint: .searchKeyword, params: ["query": query]) {
+    struct FetchSearchKeyword: AsyncAction {
+        let query: String
+        
+        func execute(state: FluxState?, dispatch: @escaping DispatchFunction) {
+            APIService.shared.GET(endpoint: .searchKeyword, params: ["query": query])
+            {
                 (result: Result<PaginatedResponse<Keyword>, APIService.APIError>) in
                 switch result {
                 case let .success(response):
-                    store.dispatch(action: SetSearchKeyword(query: query, response: response))
+                    dispatch(SetSearchKeyword(query: self.query, response: response))
                 case .failure(_):
                     break
                 }
@@ -150,13 +178,15 @@ struct MoviesActions {
         }
     }
     
-    struct FetchMoviesGenre: Action {
-        init(genre: Genre) {
+    struct FetchMoviesGenre: AsyncAction {
+        let genre: Genre
+        
+        func execute(state: FluxState?, dispatch: @escaping DispatchFunction) {
             APIService.shared.GET(endpoint: .discover, params: ["with_genres": "\(genre.id)"])
             { (result: Result<PaginatedResponse<Movie>, APIService.APIError>) in
                 switch result {
                 case let .success(response):
-                    store.dispatch(action: SetMovieForGenre(genre: genre, response: response))
+                    dispatch(SetMovieForGenre(genre: self.genre, response: response))
                 case .failure(_):
                     break
                 }
@@ -164,13 +194,15 @@ struct MoviesActions {
         }
     }
     
-    struct FetchMovieReviews: Action {
-        init(movie: Int) {
+    struct FetchMovieReviews: AsyncAction {
+        let movie: Int
+        
+        func execute(state: FluxState?, dispatch: @escaping DispatchFunction) {
             APIService.shared.GET(endpoint: .review(movie: movie), params: nil) {
                 (result: Result<PaginatedResponse<Review>, APIService.APIError>) in
                 switch result {
                 case let .success(response):
-                    store.dispatch(action: SetMovieReviews(movie: movie, response: response))
+                    dispatch(SetMovieReviews(movie: self.movie, response: response))
                 case .failure(_):
                     break
                 }
@@ -179,13 +211,15 @@ struct MoviesActions {
     }
     
     
-    struct FetchMovieWithCrew: Action {
-        init(crew: Int) {
+    struct FetchMovieWithCrew: AsyncAction {
+        let crew: Int
+        
+        func execute(state: FluxState?, dispatch: @escaping DispatchFunction) {
             APIService.shared.GET(endpoint: .discover, params: ["with_people": "\(crew)"])
             { (result: Result<PaginatedResponse<Movie>, APIService.APIError>) in
                 switch result {
                 case let .success(response):
-                    store.dispatch(action: SetMovieWithCrew(crew: crew, response: response))
+                    dispatch(SetMovieWithCrew(crew: self.crew, response: response))
                 case .failure(_):
                     break
                 }
@@ -195,15 +229,18 @@ struct MoviesActions {
     
     
     
-    struct FetchMovieWithKeywords: Action {
-        init(keyword: Int, page: Int) {
+    struct FetchMovieWithKeywords: AsyncAction {
+        let keyword: Int
+        let page: Int
+        
+        func execute(state: FluxState?, dispatch: @escaping DispatchFunction) {
             APIService.shared.GET(endpoint: .discover, params: ["page": "\(page)", "with_keywords": "\(keyword)"])
             { (result: Result<PaginatedResponse<Movie>, APIService.APIError>) in
                 switch result {
                 case let .success(response):
-                    store.dispatch(action: SetMovieWithKeyword(keyword: keyword,
-                                                               page: page,
-                                                               response: response))
+                    dispatch(SetMovieWithKeyword(keyword: self.keyword,
+                                                 page: self.page,
+                                                 response: response))
                 case .failure(_):
                     break
                 }
@@ -211,9 +248,11 @@ struct MoviesActions {
         }
     }
     
-    struct FetchRandomDiscover: Action {
-        init(filter: DiscoverFilter? = nil) {
-            var filter = filter
+    struct FetchRandomDiscover: AsyncAction {
+        var filter: DiscoverFilter?
+        
+        func execute(state: FluxState?, dispatch: @escaping DispatchFunction) {
+            var filter = self.filter
             if filter == nil {
                 filter = DiscoverFilter.randomFilter()
             }
@@ -221,7 +260,7 @@ struct MoviesActions {
             { (result: Result<PaginatedResponse<Movie>, APIService.APIError>) in
                 switch result {
                 case let .success(response):
-                    store.dispatch(action: SetRandomDiscover(filter: filter!, response: response))
+                    dispatch(SetRandomDiscover(filter: filter!, response: response))
                 case .failure(_):
                     break
                 }
@@ -233,21 +272,20 @@ struct MoviesActions {
         let genres: [Genre]
     }
     
-    struct FetchGenres: Action {
-        init() {
+    struct FetchGenres: AsyncAction {
+        func execute(state: FluxState?, dispatch: @escaping DispatchFunction) {
             APIService.shared.GET(endpoint: .genres, params: nil)
             { (result: Result<GenresResponse, APIService.APIError>) in
                 switch result {
                 case let .success(response):
-                    store.dispatch(action: SetGenres(genres: response.genres))
+                    dispatch(SetGenres(genres: response.genres))
                 case .failure(_):
                     break
                 }
             }
+
         }
     }
-    
-    // MARK: - Reduced actions
     
     struct SetPopular: Action {
         let page: Int

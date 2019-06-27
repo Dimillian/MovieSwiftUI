@@ -23,6 +23,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         let window = UIWindow(frame: UIScreen.main.bounds)
         #endif
         
+        //TODO: Move that to SwiftUI once implemented
         UINavigationBar.appearance().largeTitleTextAttributes = [
             NSAttributedString.Key.foregroundColor: UIColor(named: "steam_gold")!,
             NSAttributedString.Key.font: UIFont(name: "FjallaOne-Regular", size: 40)!]
@@ -48,7 +49,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 }
 
 
-let store = Store<AppState>(reducer: appStateReducer, state: AppState())
+let store = Store<AppState>(reducer: appStateReducer, state: AppState(), queue: .background)
 
 #if DEBUG
 let sampleCustomList = CustomList(id: 0,
@@ -64,7 +65,8 @@ let sampleStore = Store<AppState>(reducer: appStateReducer,
                                       topRated: [0],
                                       upcoming: [0],
                                       customLists: [0: sampleCustomList]),
-             castsState: CastsState()))
+                                           castsState: CastsState()),
+                           queue: .main)
 #endif
 
 

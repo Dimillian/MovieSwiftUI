@@ -56,7 +56,6 @@
 		697C5C2722B647CF00BAE7B5 /* ReviewRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 697C5C2622B647CF00BAE7B5 /* ReviewRow.swift */; };
 		697E531E22C2627B003A7C01 /* SettingsForm.swift in Sources */ = {isa = PBXBuildFile; fileRef = 697E531D22C2627B003A7C01 /* SettingsForm.swift */; };
 		699F929E22AAD7F000825DC7 /* ImageService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 699F929D22AAD7F000825DC7 /* ImageService.swift */; };
-		69AB6C2222C3858400076871 /* SwiftUIFlux in Frameworks */ = {isa = PBXBuildFile; productRef = 69AB6C2122C3858400076871 /* SwiftUIFlux */; };
 		69B2560522A9BDD5009F4413 /* MovieRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69B2560422A9BDD5009F4413 /* MovieRow.swift */; };
 		69B2560822AAD1C1009F4413 /* Tabbar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69B2560722AAD1C1009F4413 /* Tabbar.swift */; };
 		69B2560C22AAD1D5009F4413 /* PopularList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69B2560B22AAD1D5009F4413 /* PopularList.swift */; };
@@ -72,6 +71,7 @@
 		69FB61E822BA2A2D00CBEEC7 /* CustomListDetail.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69FB61E722BA2A2D00CBEEC7 /* CustomListDetail.swift */; };
 		69FB61EB22BA2E1900CBEEC7 /* DiscoverCoverImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69FB61EA22BA2E1900CBEEC7 /* DiscoverCoverImage.swift */; };
 		69FC640922C3A8620043AB37 /* FjallaOne-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 69FC640822C3A72F0043AB37 /* FjallaOne-Regular.ttf */; };
+		69FC640C22C47A030043AB37 /* SwiftUIFlux in Frameworks */ = {isa = PBXBuildFile; productRef = 69FC640B22C47A030043AB37 /* SwiftUIFlux */; };
 		69FD020C22B55268003E529E /* MoviesGenreList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69FD020B22B55268003E529E /* MoviesGenreList.swift */; };
 		69FFAF8022A99F1100801F3C /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69FFAF7F22A99F1100801F3C /* AppDelegate.swift */; };
 		69FFAF8222A99F1100801F3C /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69FFAF8122A99F1100801F3C /* SceneDelegate.swift */; };
@@ -186,7 +186,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				69AB6C2222C3858400076871 /* SwiftUIFlux in Frameworks */,
+				69FC640C22C47A030043AB37 /* SwiftUIFlux in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -560,7 +560,7 @@
 			);
 			name = MovieSwift;
 			packageProductDependencies = (
-				69AB6C2122C3858400076871 /* SwiftUIFlux */,
+				69FC640B22C47A030043AB37 /* SwiftUIFlux */,
 			);
 			productName = MovieSwift;
 			productReference = 69FFAF7C22A99F1100801F3C /* MovieSwift.app */;
@@ -591,7 +591,7 @@
 			);
 			mainGroup = 69FFAF7322A99F1100801F3C;
 			packageReferences = (
-				69AB6C2022C3858400076871 /* XCRemoteSwiftPackageReference "SwiftUIFlux" */,
+				69FC640A22C47A030043AB37 /* XCRemoteSwiftPackageReference "SwiftUIFlux" */,
 			);
 			productRefGroup = 69FFAF7D22A99F1100801F3C /* Products */;
 			projectDirPath = "";
@@ -908,20 +908,20 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
-		69AB6C2022C3858400076871 /* XCRemoteSwiftPackageReference "SwiftUIFlux" */ = {
+		69FC640A22C47A030043AB37 /* XCRemoteSwiftPackageReference "SwiftUIFlux" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/Dimillian/SwiftUIFlux";
 			requirement = {
-				branch = master;
-				kind = branch;
+				kind = upToNextMajorVersion;
+				minimumVersion = 0.2.0;
 			};
 		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		69AB6C2122C3858400076871 /* SwiftUIFlux */ = {
+		69FC640B22C47A030043AB37 /* SwiftUIFlux */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 69AB6C2022C3858400076871 /* XCRemoteSwiftPackageReference "SwiftUIFlux" */;
+			package = 69FC640A22C47A030043AB37 /* XCRemoteSwiftPackageReference "SwiftUIFlux" */;
 			productName = SwiftUIFlux;
 		};
 /* End XCSwiftPackageProductDependency section */
