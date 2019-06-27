@@ -64,12 +64,12 @@ struct DiscoverView : View {
             }
             store.dispatch(action: MoviesActions.PopRandromDiscover())
             willEndPosition = nil
-            fetchRandomMovies()
+            fetchRandomMovies(force: false, filter: self.filter)
         }
     }
     
-    private func fetchRandomMovies() {
-        if movies.count < 10 {
+    private func fetchRandomMovies(force: Bool, filter: DiscoverFilter?) {
+        if movies.count < 10 || force {
             store.dispatch(action: MoviesActions.FetchRandomDiscover(filter: filter))
         }
     }
@@ -167,7 +167,7 @@ struct DiscoverView : View {
                         self.hapticFeedback.impactOccurred(withIntensity: 0.5)
                         self.previousMovie = self.currentMovie.id
                         self.store.dispatch(action: MoviesActions.PopRandromDiscover())
-                        self.fetchRandomMovies()
+                        self.fetchRandomMovies(force: false, filter: self.filter)
                 }
                 
                 Button(action: {
@@ -182,7 +182,7 @@ struct DiscoverView : View {
                 
                 Button(action: {
                     self.store.dispatch(action: MoviesActions.ResetRandomDiscover())
-                    self.fetchRandomMovies()
+                    self.fetchRandomMovies(force: true, filter: nil)
                 }, label: {
                     Image(systemName: "arrow.swap")
                         .foregroundColor(.steam_blue)
@@ -229,7 +229,7 @@ struct DiscoverView : View {
             .presentation(currentModal)
             .onAppear {
                 self.hapticFeedback.prepare()
-                self.fetchRandomMovies()
+                self.fetchRandomMovies(force: false, filter: self.filter)
         }
     }
 }
