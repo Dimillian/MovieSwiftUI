@@ -54,7 +54,13 @@ struct SplitView: View {
     var contentView: some View {
         return Group {
             if selectedMenu == .popular {
-                NavigationView{ PopularList() }
+                NavigationView{ PopularList()
+                    .navigationBarItems(trailing:
+                        PresentationButton(destination: SettingsForm()) {
+                            Image(systemName: "wrench")
+                        }
+                    )
+                }
             } else if selectedMenu == .topRated {
                 NavigationView{ TopRatedList() }
             } else if selectedMenu == .upcoming {
