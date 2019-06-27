@@ -47,7 +47,7 @@ struct TabbarView: View {
 
 struct SplitView: View {
     enum Menu: Int {
-        case popular, topRated, upcoming, nowPlaying, Discover, wishlist, seenlist, myLists
+        case popular, topRated, upcoming, nowPlaying, discover, wishlist, seenlist, myLists
     }
     
     @State var selectedMenu: Int = Menu.popular.rawValue
@@ -63,8 +63,10 @@ struct SplitView: View {
                 UpcomingList()
             } else if menu == .nowPlaying {
                 NowPlayingList()
-            } else {
-                Spacer()
+            } else if menu == .discover {
+                DiscoverView()
+            } else if menu == .wishlist || menu == .seenlist || menu == .myLists {
+                MyLists()
             }
         }
     }
@@ -73,21 +75,39 @@ struct SplitView: View {
         HStack(spacing: 0) {
             List {
                 Section(header: Text("Movies")) {
-                    Text("Popular")
-                    Text("Top Rated")
-                    Text("Upcoming")
-                    Text("Now playing")
+                    Text("Popular").tapAction {
+                        self.selectedMenu = Menu.popular.rawValue
+                    }
+                    Text("Top Rated").tapAction {
+                        self.selectedMenu = Menu.topRated.rawValue
+                    }
+                    Text("Upcoming").tapAction {
+                        self.selectedMenu = Menu.upcoming.rawValue
+                    }
+                    Text("Now playing").tapAction {
+                        self.selectedMenu = Menu.nowPlaying.rawValue
+                    }
                 }
-                Text("Discover")
+                Text("Discover").tapAction {
+                    self.selectedMenu = Menu.discover.rawValue
+                }
                 Section(header: Text("Movies lists")) {
-                    Text("Wishlist")
-                    Text("Seenlist")
-                    Text("My Lists")
+                    Text("Wishlist").tapAction {
+                        self.selectedMenu = Menu.wishlist.rawValue
+                    }
+                    Text("Seenlist").tapAction {
+                        self.selectedMenu = Menu.seenlist.rawValue
+                    }
+                    Text("My Lists").tapAction {
+                        self.selectedMenu = Menu.myLists.rawValue
+                    }
                 }
                 }
                 .frame(width: 200)
             Spacer().frame(width: 1).foregroundColor(.secondary)
-            TabbarView()
+            NavigationView {
+                contentView
+            }
         }
     }
 }
