@@ -77,9 +77,13 @@ struct SplitView: View {
     
     var body: some View {
         HStack(spacing: 0) {
-            List(OutlineMenu.allCases) { menu in
-                OutlineRow(item: menu, selectedMenu: self.$selectedMenu)
+            ScrollView(isScrollEnabled: true, alwaysBounceVertical: true, showsVerticalIndicator: false) {
+                VStack(alignment: .leading, spacing: 2) {
+                    ForEach(OutlineMenu.allCases) { menu in
+                        OutlineRow(item: menu, selectedMenu: self.$selectedMenu)
+                    }
                 }
+                }.background(Color(.sRGB, white: 0.1, opacity: 1))
                 .frame(width: 250)
             Spacer().frame(width: 1).foregroundColor(.secondary)
             contentView
