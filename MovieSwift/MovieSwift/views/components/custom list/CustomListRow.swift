@@ -21,19 +21,46 @@ struct CustomListRow : View {
     }
     
     var body: some View {
-        ZStack(alignment: .leading) {
-            MovieBackdropImage(imageLoader: ImageLoader(poster: coverMovie?.poster_path,
-                                                        size: .original),
-                               isExpanded: .constant(false),
-                               forceBlur: true,
-                               fill: true).frame(height: 50)
+        HStack {
+            SmallMoviePosterImage(imageLoader: ImageLoader(poster: coverMovie?.poster_path,
+                                                           size: .small))
             VStack(alignment: .leading, spacing: 2) {
                 Text(list.name)
                 Text("\(list.movies.count) movies")
-            }.blendMode(.overlay)
-                .padding()
-        }.listRowInsets(EdgeInsets())
+            }
+            }.listRowInsets(EdgeInsets())
             .frame(height: 50)
+    }
+}
+
+struct SmallMoviePosterImage : View {
+    @State var imageLoader: ImageLoader
+    @State var isImageLoaded = false
+    
+    var body: some View {
+        ZStack {
+            if self.imageLoader.image != nil {
+                Image(uiImage: self.imageLoader.image!)
+                    .resizable()
+                    .renderingMode(.original)
+                    .frame(width: 33, height: 50)
+                    .cornerRadius(3)
+                    .opacity(isImageLoaded ? 1 : 0.1)
+                    .shadow(radius: 2)
+                    .animation(.basic())
+                    .onAppear{
+                        self.isImageLoaded = true
+                }
+            } else {
+                Rectangle()
+                    .foregroundColor(.gray)
+                    .frame(width: 33, height: 50)
+                    .cornerRadius(3)
+                    .opacity(0.3)
+            }
+            }.onAppear {
+                self.imageLoader.loadImage()
+        }
     }
 }
 

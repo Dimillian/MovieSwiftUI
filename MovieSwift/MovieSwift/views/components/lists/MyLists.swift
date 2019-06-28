@@ -10,54 +10,118 @@ import SwiftUI
 import SwiftUIFlux
 
 struct MyLists : View {
-    @State var selectedList: Int = 0
-    @EnvironmentObject var store: Store<AppState>
     
-    var customListsSection: some View {
+    // MARK: - Defs
+    private enum MoviesSort: Int {
+        case byAddedDate, byReleaseDate
+    }
+    
+    // MARK: - Vars
+    @State private var selectedList: Int = 0
+    @State private var selectedMoviesSort = MoviesSort.byAddedDate
+    @State private var showShortActionSheet = false
+    @EnvironmentObject private var store: Store<AppState>
+    
+    // MARK: - Dynamic vars
+    var customLists: [CustomList] {
+        store.state.moviesState.customLists.compactMap{ $0.value }
+    }
+    
+    var wishlist: [Int] {
+        get {
+            let wishlist = store.state.moviesState.wishlist.map{ $0.id }
+            switch selectedMoviesSort {
+            case .byAddedDate:
+                let metas = store.state.moviesState.moviesUserMeta.filter{ wishlist.contains($0.key) }
+                return metas.sorted{ $0.value.dateAddedToWishlist! > $1.value.dateAddedToWishlist! }.compactMap{ $0.key }
+            case .byReleaseDate:
+                let movies = store.state.moviesState.movies.filter{ wishlist.contains($0.key) }
+                return movies.sorted{ $0.value.releaseDate ?? Date() > $1.value.releaseDate ?? Date() }.compactMap{ $0.key }
+            }
+        }
+    }
+    
+    var seenlist: [Int] {
+        get {
+            let seenlist = store.state.moviesState.seenlist.map{ $0.id }
+            switch selectedMoviesSort {
+            case .byAddedDate:
+                let metas = store.state.moviesState.moviesUserMeta.filter{ seenlist.contains($0.key) }
+                return metas.sorted{ $0.value.dateAddedToWishlist! > $1.value.dateAddedToWishlist! }.compactMap{ $0.key }
+            case .byReleaseDate:
+                let movies = store.state.moviesState.movies.filter{ seenlist.contains($0.key) }
+                return movies.sorted{ $0.value.releaseDate ?? Date() > $1.value.releaseDate ?? Date() }.compactMap{ $0.key }
+            }
+        }
+    }
+    
+    // MARK: - Dynamic views
+    private var sortActionSheet: ActionSheet {
+        get {
+            let byAddedDate: Alert.Button = .default(Text("Sort by added date")) {
+                self.selectedMoviesSort = .byAddedDate
+                self.showShortActionSheet = false
+            }
+            let byReleaseDate: Alert.Button = .default(Text("Sort by release date")) {
+                self.selectedMoviesSort = .byReleaseDate
+                self.showShortActionSheet = false
+            }
+            
+            return ActionSheet(title: Text("Sort movies by"),
+                               message: nil,
+                               buttons: [byAddedDate, byReleaseDate, Alert.Button.cancel({
+                self.showShortActionSheet = false
+            })])
+        }
+    }
+    
+    private var customListsSection: some View {
         Section(header: Text("Custom Lists")) {
             PresentationButton(destination: CustomListForm().environmentObject(store)) {
                 Text("Create custom list").color(.steam_blue)
             }
-            ForEach(store.state.moviesState.customLists.compactMap{ $0.value} ) { list in
+            ForEach(customLists) { list in
                 NavigationButton(destination: CustomListDetail(listId: list.id)) {
                     CustomListRow(list: list)
                 }
             }
             .onDelete { (index) in
-                let list = self.store.state.moviesState.customLists.compactMap{ $0.value }[index.first!]
+                let list = self.customLists[index.first!]
                 self.store.dispatch(action: MoviesActions.RemoveCustomList(list: list.id))
             }
         }
     }
     
-    var wishlistSection: some View {
+    private var wishlistSection: some View {
         Section(header: Text("Wishlist")) {
-            ForEach(store.state.moviesState.wishlist.map{ $0.id }) {id in
+            ForEach(wishlist) {id in
                 NavigationButton(destination: MovieDetail(movieId: id)) {
                     MovieRow(movieId: id)
                 }
                 }
                 .onDelete { (index) in
-                    let movie = self.store.state.moviesState.wishlist.map{ $0.id }[index.first!]
+                    let movie = self.wishlist[index.first!]
                     self.store.dispatch(action: MoviesActions.RemoveFromWishlist(movie: movie))
                     
             }
         }
     }
     
-    var seenSection: some View {
+    private var seenSection: some View {
         Section(header: Text("Seen")) {
-            ForEach(store.state.moviesState.seenlist.map{ $0.id }) {id in
+            ForEach(seenlist) {id in
                 NavigationButton(destination: MovieDetail(movieId: id)) {
                     MovieRow(movieId: id)
                 }
                 }
                 .onDelete { (index) in
-                    let movie = self.store.state.moviesState.seenlist.map{ $0.id }[index.first!]
+                    let movie = self.seenlist[index.first!]
                     self.store.dispatch(action: MoviesActions.RemoveFromSeenList(movie: movie))
             }
         }
     }
+    
+    // MARK: - Body
     var body: some View {
         NavigationView {
             List {
@@ -72,7 +136,15 @@ struct MyLists : View {
                     seenSection
                 }
             }
+            .presentation(showShortActionSheet ? sortActionSheet : nil)
             .navigationBarTitle(Text("My Lists"))
+            .navigationBarItems(trailing: Button(action: {
+                    self.showShortActionSheet.toggle()
+            }, label: {
+                Image(systemName: "line.horizontal.3.decrease.circle")
+                    .resizable()
+                    .frame(width: 25, height: 25)
+            }))
         }
     }
 }
@@ -80,7 +152,7 @@ struct MyLists : View {
 #if DEBUG
 struct MyLists_Previews : PreviewProvider {
     static var previews: some View {
-        MyLists(selectedList: 0).environmentObject(sampleStore)
+        MyLists().environmentObject(sampleStore)
     }
 }
 #endif

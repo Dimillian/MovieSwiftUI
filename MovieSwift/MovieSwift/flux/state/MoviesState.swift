@@ -20,6 +20,8 @@ struct MoviesState: FluxState, Codable {
     var search: [String: [Int]] = [:]
     var searchKeywords: [String: [Keyword]] = [:]
     
+    var moviesUserMeta: [Int: MovieUserMeta] = [:]
+    
     var discover: [Int] = []
     var discoverFilter: DiscoverFilter?
     
@@ -36,6 +38,6 @@ struct MoviesState: FluxState, Codable {
     var genres: [Genre] = []
     
     enum CodingKeys: String, CodingKey {
-        case movies, wishlist, seenlist, customLists
+        case movies, wishlist, seenlist, customLists, moviesUserMeta
     }
 }

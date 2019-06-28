@@ -27,10 +27,14 @@ struct Movie: Codable, Identifiable {
     
     let release_date: String
     var releaseDate: Date? {
-        let formatter = DateFormatter()
-        formatter.dateFormat = "YYYY-DD-MM"
-        return formatter.date(from: release_date)
+        return Movie.dateFormatter.date(from: release_date)
     }
+    
+    static let dateFormatter: DateFormatter = {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "yyy-MM-dd"
+        return formatter
+    }()
     
     let genres: [Genre]?
     let runtime: Int?
