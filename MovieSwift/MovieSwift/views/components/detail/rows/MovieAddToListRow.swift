@@ -12,11 +12,11 @@ import SwiftUIFlux
 struct MovieAddToListRow : View {
     @EnvironmentObject var store: Store<AppState>
     
-    @State var addedToWishlist: Bool {
+    var addedToWishlist: Bool {
         return store.state.moviesState.wishlist.contains(movieId)
     }
     
-    @State var addedToSeenlist: Bool {
+    var addedToSeenlist: Bool {
         return store.state.moviesState.seenlist.contains(movieId)
     }
     
@@ -47,9 +47,7 @@ struct MovieAddToListRow : View {
 #if DEBUG
 struct MovieAddToList_Previews : PreviewProvider {
     static var previews: some View {
-        MovieAddToListRow(addedToWishlist: true,
-                       addedToSeenlist: false,
-                       movieId: 0).environmentObject(sampleStore)
+        MovieAddToListRow(movieId: 0).environmentObject(sampleStore)
     }
 }
 #endif

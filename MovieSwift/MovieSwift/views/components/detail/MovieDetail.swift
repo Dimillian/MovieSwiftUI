@@ -119,9 +119,7 @@ struct MovieDetail : View {
             List {
                 MovieBackdrop(movieId: movie.id)
                 MovieRatingRow(movie: movie)
-                MovieAddToListRow(addedToWishlist: false,
-                               addedToSeenlist: false,
-                               movieId: movie.id)
+                MovieAddToListRow(movieId: movie.id)
                 MovieOverview(movie: movie)
                 Group {
                     if movie.keywords?.keywords != nil && movie.keywords?.keywords?.isEmpty == false {
