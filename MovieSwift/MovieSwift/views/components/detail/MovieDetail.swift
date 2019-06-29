@@ -154,6 +154,8 @@ struct MovieDetail : View {
                 .edgesIgnoringSafeArea(.top)
                 .navigationBarItems(trailing: Button(action: onAddButton) {
                     Image(systemName: "text.badge.plus")
+                        .resizable()
+                        .frame(width: 22, height: 20)
                 })
                 .onAppear {
                     self.fetchMovieDetails()
@@ -161,8 +163,9 @@ struct MovieDetail : View {
                 .presentation(self.addSheetShown ? addActionSheet : nil)
                 .blur(radius: selectedPoster != nil ? 50 : 0)
             
-            NotificationBadge(text: "Added successfully", color: .blue, show: $showSavedBadge)
-                .padding(.bottom, 10)
+            NotificationBadge(text: "Added successfully",
+                              color: .blue,
+                              show: $showSavedBadge).padding(.bottom, 10)
             if selectedPoster != nil && movie.images?.posters != nil {
                 MoviePostersCarouselView(posters: movie.images!.posters!, selectedPoster: $selectedPoster)
             }
