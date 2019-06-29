@@ -61,6 +61,7 @@ struct DraggableCover : View {
     // MARK: - Internal vars
     @State private var viewState = CGSize.zero
     @State private var predictedEndLocation: CGPoint? = nil
+    @State private var hasMoved = false
     @EnvironmentObject private var store: Store<AppState>
     @GestureState private var dragState = DragState.inactive
     private let hapticFeedback = UISelectionFeedbackGenerator()
@@ -73,6 +74,7 @@ struct DraggableCover : View {
     // MARK: - Constructor vars
     let movieId: Int
     @Binding var gestureViewState: DragState
+    let onTapGesture: () -> Void
     let willEndGesture: (CGSize) -> Void
     let endGestureHandler: (EndState) -> Void
     
@@ -128,8 +130,10 @@ struct DraggableCover : View {
                 }
             }.onChanged { value in
                 if self.dragState.translation.width == 0.0 {
+                    self.hasMoved = false
                     self.gestureViewState = .pressing
                 } else {
+                    self.hasMoved = true
                     self.gestureViewState = .dragging(translation: self.dragState.translation,
                                                       predictedLocation: self.dragState.predictedLocation)
                 }
@@ -167,6 +171,11 @@ struct DraggableCover : View {
                     y: dragState.isActive ? shadowSize : 0)
             .animation(coverSpringAnimation)
             .gesture(longPressDrag)
+            .simultaneousGesture(TapGesture(count: 1).onEnded({ _ in
+                if !self.hasMoved {
+                    self.onTapGesture()
+                }
+            }))
             .onAppear{
                 self.hapticFeedback.prepare()
         }
@@ -179,6 +188,9 @@ struct DraggableCover_Previews : PreviewProvider {
     static var previews: some View {
         DraggableCover(movieId: 0,
                        gestureViewState: .constant(.inactive),
+                       onTapGesture: {
+                        
+        },
                        willEndGesture: { _ in
                         
         },

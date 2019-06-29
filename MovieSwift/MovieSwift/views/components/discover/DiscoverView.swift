@@ -96,10 +96,8 @@ struct DiscoverView : View {
     }
     
     private var movieDetailModal: Modal {
-        Modal(NavigationView{
-            MovieDetail(movieId: currentMovie!.id).environmentObject(store)
-            
-        }) {
+        let content = NavigationView{ MovieDetail(movieId: currentMovie!.id).environmentObject(store) }
+        return Modal(content) {
             self.movieDetailPresented = false
         }
     }
@@ -149,10 +147,6 @@ struct DiscoverView : View {
                     .opacity(self.draggedViewState.isDragging ? 0.0 : 1.0)
                     .offset(x: 0, y: -15)
                     .animation(.basic())
-                    .tapAction {
-                        self.movieDetailPresented = true
-                }
-                
                 
                 Circle()
                     .strokeBorder(Color.pink, lineWidth: 1)
@@ -191,7 +185,7 @@ struct DiscoverView : View {
                 }, label: {
                     Image(systemName: "gobackward").foregroundColor(.steam_blue)
                 }) .frame(width: 50, height: 50)
-                    .offset(x: -50, y: 30)
+                    .offset(x: -60, y: 30)
                     .opacity(self.previousMovie != nil && !self.draggedViewState.isActive ? 1 : 0)
                     .animation(.fluidSpring())
                 
@@ -203,7 +197,7 @@ struct DiscoverView : View {
                         .foregroundColor(.steam_blue)
                 })
                     .frame(width: 50, height: 50)
-                    .offset(x: 50, y: 30)
+                    .offset(x: 60, y: 30)
                     .opacity(self.draggedViewState.isDragging ? 0.0 : 1.0)
                     .animation(.fluidSpring())
             }
@@ -221,6 +215,9 @@ struct DiscoverView : View {
                 if self.movies.reversed().firstIndex(of: id) == 0 {
                     DraggableCover(movieId: id,
                                    gestureViewState: self.$draggedViewState,
+                                   onTapGesture: {
+                                    self.movieDetailPresented = true
+                    },
                                    willEndGesture: { position in
                                     self.willEndPosition = position
                     },
