@@ -51,30 +51,6 @@ struct TabbarView: View {
 struct SplitView: View {
     @State var selectedMenu: OutlineMenu = .popular
     
-    var contentView: some View {
-        return Group {
-            if selectedMenu == .popular {
-                NavigationView{ PopularList()
-                    .navigationBarItems(trailing:
-                        PresentationButton(destination: SettingsForm()) {
-                            Image(systemName: "wrench")
-                        }
-                    )
-                }
-            } else if selectedMenu == .topRated {
-                NavigationView{ TopRatedList() }
-            } else if selectedMenu == .upcoming {
-                NavigationView{ UpcomingList() }
-            } else if selectedMenu == .nowPlaying {
-                NavigationView{ NowPlayingList() }
-            } else if selectedMenu == .discover {
-                DiscoverView()
-            } else if selectedMenu == .wishlist || selectedMenu == .seenlist || selectedMenu  == .myLists {
-                MyLists()
-            }
-        }
-    }
-    
     var body: some View {
         HStack(spacing: 0) {
             ScrollView(isScrollEnabled: true, alwaysBounceVertical: true, showsVerticalIndicator: false) {
@@ -86,7 +62,7 @@ struct SplitView: View {
                 }.background(Color(.sRGB, white: 0.1, opacity: 1))
                 .frame(width: 250)
             Spacer().frame(width: 1).foregroundColor(.secondary)
-            contentView
+            selectedMenu.contentView
         }
     }
 }

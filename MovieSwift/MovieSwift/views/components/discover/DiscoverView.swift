@@ -22,6 +22,12 @@ struct DiscoverView : View {
     @State private var willEndPosition: CGSize? = nil
     private let hapticFeedback = UIImpactFeedbackGenerator(style: .soft)
     
+    #if targetEnvironment(UIKitForMac)
+    private let bottomSafeInsetFix: Length = 50
+    #else
+    private let bottomSafeInsetFix: Length = 20
+    #endif
+    
     // MARK: - Computed properties
     
     private var movies: [Int] {
@@ -208,7 +214,7 @@ struct DiscoverView : View {
         ZStack(alignment: .center) {
             GeometryReader { reader in
                     self.filterView
-                        .position(x: reader.frame(in: .global).midX, y: 30)
+                        .position(x: reader.frame(in: .local).midX, y: 30)
                         .frame(height: 50)
             }
             ForEach(movies) {id in
@@ -231,8 +237,8 @@ struct DiscoverView : View {
             }
             GeometryReader { reader in
                 self.actionsButtons
-                    .position(x: reader.frame(in: .global).midX,
-                              y: reader.frame(in: .local).maxY - reader.safeAreaInsets.bottom - 20)
+                    .position(x: reader.frame(in: .local).midX,
+                              y: reader.frame(in: .local).maxY - reader.safeAreaInsets.bottom - self.bottomSafeInsetFix)
             }
             }
             .presentation(currentModal)

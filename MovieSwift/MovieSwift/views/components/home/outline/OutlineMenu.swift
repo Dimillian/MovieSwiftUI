@@ -16,45 +16,51 @@ enum OutlineMenu: Int, CaseIterable, Identifiable {
     
     case popular, topRated, upcoming, nowPlaying, discover, wishlist, seenlist, myLists
     
-    func title() -> String {
+    var title: String {
         switch self {
-        case .popular:
-            return "Popular"
-        case .topRated:
-            return "Top rated"
-        case .upcoming:
-            return "Upcoming"
-        case .nowPlaying:
-            return "Now Playing"
-        case .discover:
-            return "Discover"
-        case .wishlist:
-            return "Wishlist"
-        case .seenlist:
-            return "Seenlist"
-        case .myLists:
-            return "MyLists"
+        case .popular:    return "Popular"
+        case .topRated:   return "Top rated"
+        case .upcoming:   return "Upcoming"
+        case .nowPlaying: return "Now Playing"
+        case .discover:   return "Discover"
+        case .wishlist:   return "Wishlist"
+        case .seenlist:   return "Seenlist"
+        case .myLists:    return "MyLists"
         }
     }
     
-    func systemImageName() -> String {
+    var image: String {
+        switch self {
+        case .popular:    return "film.fill"
+        case .topRated:   return "star.fill"
+        case .upcoming:   return "clock.fill"
+        case .nowPlaying: return "play.circle.fill"
+        case .discover:   return "square.stack.fill"
+        case .wishlist:   return "heart.fill"
+        case .seenlist:   return "eye.fill"
+        case .myLists:    return "text.badge.plus"
+        }
+    }
+    
+    var contentView: AnyView {
         switch self {
         case .popular:
-            return "film.fill"
-        case .topRated:
-            return "star.fill"
-        case .upcoming:
-            return "clock.fill"
-        case .nowPlaying:
-            return "play.circle.fill"
-        case .discover:
-            return "square.stack.fill"
-        case .wishlist:
-            return "heart.fill"
-        case .seenlist:
-            return "eye.fill"
-        case .myLists:
-            return "text.badge.plus"
+            return AnyView (
+                NavigationView{ PopularList()
+                    .navigationBarItems(trailing:
+                        PresentationButton(destination: SettingsForm()) {
+                            Image(systemName: "wrench")
+                        }
+                    )
+                }
+            )
+        case .topRated:   return AnyView( NavigationView{ TopRatedList() })
+        case .upcoming:   return AnyView( NavigationView{ UpcomingList() })
+        case .nowPlaying: return AnyView( NavigationView{ NowPlayingList() })
+        case .discover:   return AnyView( DiscoverView() )
+        case .wishlist:   return AnyView( MyLists() )
+        case .seenlist:   return AnyView( MyLists() )
+        case .myLists:    return AnyView( MyLists() )
         }
     }
 }

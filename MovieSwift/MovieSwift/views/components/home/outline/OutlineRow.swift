@@ -18,13 +18,13 @@ struct OutlineRow : View {
     
     var body: some View {
         HStack {
-            Image(systemName: item.systemImageName())
+            Image(systemName: item.image)
                 .resizable()
                 .frame(width: 30, height: 30)
                 .aspectRatio(contentMode: .fit)
                 .foregroundColor(isSelected ? .steam_gold : .white)
                 .padding(.trailing, 16)
-            Text(item.title())
+            Text(item.title)
                 .font(.FjallaOne(size: 24))
                 .color(isSelected ? .steam_gold : .white)
             }

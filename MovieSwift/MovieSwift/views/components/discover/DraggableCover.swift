@@ -103,8 +103,8 @@ struct DraggableCover : View {
     }
     
     private var coverSpringAnimation: Animation {
-        .fluidSpring(stiffness: 80,
-                     dampingFraction: 0.7,
+        .fluidSpring(stiffness: 200,
+                     dampingFraction: 0.6,
                      blendDuration: 0,
                      timestep: 1.0 / 300,
                      idleThreshold: 0.5)

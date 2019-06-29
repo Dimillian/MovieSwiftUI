@@ -11,12 +11,11 @@ import SwiftUI
 struct MovieBackdropInfo : View {
     let movie: Movie
     
-    var transition: AnyTransition {
-        return AnyTransition.move(edge: .leading)
-            .combined(with: .opacity)
+    var asyncTextTransition: AnyTransition {
+        return .scale()
     }
     
-    var animation: Animation {
+    var asyncTextAnimation: Animation {
         Animation.spring(initialVelocity: 2)
             .speed(2)
             .delay(0.5)
@@ -38,15 +37,15 @@ struct MovieBackdropInfo : View {
                         Text("• \(movie.runtime!) minutes")
                             .font(.subheadline)
                             .color(.white)
-                            .transition(transition)
-                            .animation(animation)
+                            .transition(asyncTextTransition)
+                            .animation(asyncTextAnimation)
                     }
                     if movie.status != nil {
                         Text("• \(movie.status!)")
                             .font(.subheadline)
                             .color(.white)
-                            .transition(transition)
-                            .animation(animation)
+                            .transition(asyncTextTransition)
+                            .animation(asyncTextAnimation)
                     }
                 }.padding(.leading)
                 if movie.production_countries?.isEmpty == false {
