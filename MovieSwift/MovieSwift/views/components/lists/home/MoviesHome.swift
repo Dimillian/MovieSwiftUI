@@ -15,31 +15,34 @@ struct MoviesHome : View {
     
     @State var selectedIndex: Categories = Categories.popular
     
+    var segmentedView: some View {
+        SegmentedControl(selection: $selectedIndex) {
+            Text("Popular").tag(Categories.popular)
+            Text("Top Rated").tag(Categories.topRated)
+            Text("Upcoming").tag(Categories.upcoming)
+            Text("Now Playing").tag(Categories.nowPlaying)
+            }
+    }
+    
     var body: some View {
         NavigationView {
-            SegmentedControl(selection: $selectedIndex) {
-                Text("Popular").tag(Categories.popular)
-                Text("Top Rated").tag(Categories.topRated)
-                Text("Upcoming").tag(Categories.upcoming)
-                Text("Now Playing").tag(Categories.nowPlaying)
+            Group {
+                if selectedIndex == .popular {
+                    PopularList(headerView: AnyView(segmentedView))
+                } else if selectedIndex == .topRated {
+                    TopRatedList(headerView: AnyView(segmentedView))
+                } else if selectedIndex == .upcoming {
+                    UpcomingList(headerView: AnyView(segmentedView))
+                } else if selectedIndex == .nowPlaying {
+                    NowPlayingList(headerView: AnyView(segmentedView))
                 }
-                .navigationBarItems(trailing:
-                    PresentationButton(destination: SettingsForm()) {
-                        Image(systemName: "wrench")
-                    }
-                )
-                .navigationBarHidden(false)
-                .padding(.leading)
-                .padding(.trailing)
-            if selectedIndex == .popular {
-                PopularList()
-            } else if selectedIndex == .topRated {
-                TopRatedList()
-            } else if selectedIndex == .upcoming {
-                UpcomingList()
-            } else if selectedIndex == .nowPlaying {
-                NowPlayingList()
             }
+            .navigationBarItems(trailing:
+                PresentationButton(destination: SettingsForm()) {
+                        Image(systemName: "wrench")
+                }
+            )
+            .navigationBarHidden(false)
         }
     }
 }

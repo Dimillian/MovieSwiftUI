@@ -39,6 +39,7 @@ struct MoviesList : View {
     let displaySearch: Bool
     var pageListener: PageListener?
     var deleteHandler: ((Int) -> Void)? = nil
+    var headerView: AnyView?
     
     var isSearching: Bool {
         return !searchtext.isEmpty
@@ -86,6 +87,9 @@ struct MoviesList : View {
     
     var body: some View {
         List {
+            if headerView != nil {
+                headerView!
+            }
             if displaySearch {
                 searchField
             }

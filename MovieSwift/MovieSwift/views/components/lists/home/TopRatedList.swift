@@ -18,9 +18,10 @@ final class TopRatedListPageListener: PageListener {
 struct TopRatedList : View {
     @EnvironmentObject var store: Store<AppState>
     @State var pageListener = TopRatedListPageListener()
+    var headerView: AnyView?
     
     var body: some View {
-        MoviesList(movies: store.state.moviesState.topRated, displaySearch: true, pageListener: pageListener)
+        MoviesList(movies: store.state.moviesState.topRated, displaySearch: true, pageListener: pageListener, headerView: headerView)
             .navigationBarTitle(Text("Top Rated"))
             .onAppear {
                 self.pageListener.loadPage()

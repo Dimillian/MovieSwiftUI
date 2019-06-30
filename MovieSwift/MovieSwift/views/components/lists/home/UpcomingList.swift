@@ -19,9 +19,10 @@ final class UpcomingPageListener: PageListener {
 struct UpcomingList : View {
     @EnvironmentObject var store: Store<AppState>
     @State var pageListener = UpcomingPageListener()
+    var headerView: AnyView?
     
     var body: some View {
-        MoviesList(movies: store.state.moviesState.upcoming, displaySearch: true, pageListener: pageListener)
+        MoviesList(movies: store.state.moviesState.upcoming, displaySearch: true, pageListener: pageListener, headerView: headerView)
             .navigationBarTitle(Text("Upcoming"))
             .onAppear {
                 self.pageListener.loadPage()

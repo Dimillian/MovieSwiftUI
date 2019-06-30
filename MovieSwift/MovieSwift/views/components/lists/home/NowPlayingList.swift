@@ -19,9 +19,10 @@ final class NowPlayingPageListener: PageListener {
 struct NowPlayingList : View {
     @EnvironmentObject var store: Store<AppState>
     @State var pageListener = NowPlayingPageListener()
+    var headerView: AnyView?
     
     var body: some View {
-        MoviesList(movies: store.state.moviesState.nowPlaying, displaySearch: true, pageListener: pageListener)
+        MoviesList(movies: store.state.moviesState.nowPlaying, displaySearch: true, pageListener: pageListener, headerView: headerView)
             .navigationBarTitle(Text("Now Playing"))
             .onAppear {
                 self.pageListener.loadPage()
