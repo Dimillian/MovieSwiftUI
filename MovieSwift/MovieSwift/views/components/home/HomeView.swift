@@ -39,9 +39,18 @@ struct TabbarView: View {
     
     var body: some View {
         TabbedView(selection: $selectedTab) {
-            MoviesHome().tabItemLabel(tabbarItem(text: "Movies", image: "icon-movies")).tag(Tab.movies)
-            DiscoverView().tabItemLabel(tabbarItem(text: "Discover", image: "icon-discover")).tag(Tab.discover)
-            MyLists().tabItemLabel(tabbarItem(text: "My lists", image: "icon-my-lists")).tag(Tab.myLists)
+            MoviesHome().tabItem{
+                Image(systemName: "film")
+                Text("Movies")
+            }.tag(Tab.movies)
+            DiscoverView().tabItem{
+                Image(systemName: "square.stack")
+                Text("Discover")
+            }.tag(Tab.discover)
+            MyLists().tabItem{
+                Image(systemName: "heart.circle")
+                Text("My Lists")
+            }.tag(Tab.myLists)
             }
             .edgesIgnoringSafeArea(.top)
     }
@@ -53,7 +62,7 @@ struct SplitView: View {
     
     var body: some View {
         HStack(spacing: 0) {
-            ScrollView(isScrollEnabled: true, alwaysBounceVertical: true, showsVerticalIndicator: false) {
+            ScrollView(showsIndicators: false) {
                 VStack(alignment: .leading, spacing: 2) {
                     ForEach(OutlineMenu.allCases) { menu in
                         OutlineRow(item: menu, selectedMenu: self.$selectedMenu)

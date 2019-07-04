@@ -18,7 +18,7 @@ struct UserDefault<T> {
         self.defaultValue = defaultValue
     }
     
-    var value: T {
+    var wrappedValue: T {
         get {
             return UserDefaults.standard.object(forKey: key) as? T ?? defaultValue
         }

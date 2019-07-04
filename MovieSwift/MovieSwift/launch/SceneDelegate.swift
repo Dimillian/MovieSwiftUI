@@ -16,12 +16,8 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
 
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
-        #if targetEnvironment(UIKitForMac)
         let windowScene = UIWindowScene(session: session, connectionOptions: connectionOptions)
         let window = UIWindow(windowScene: windowScene)
-        #else
-        let window = UIWindow(frame: UIScreen.main.bounds)
-        #endif
         
         //TODO: Move that to SwiftUI once implemented
         UINavigationBar.appearance().largeTitleTextAttributes = [

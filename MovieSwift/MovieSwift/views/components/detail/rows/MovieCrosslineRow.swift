@@ -7,6 +7,7 @@
 //
 
 import SwiftUI
+import SwiftUIFlux
 
 struct MovieCrosslineRow : View {
     let title: String
@@ -17,7 +18,7 @@ struct MovieCrosslineRow : View {
             Text(title)
                 .font(.FjallaOne(size: 20))
                 .padding(.leading)
-            ScrollView(showsHorizontalIndicator: false) {
+            ScrollView(showsIndicators: false) {
                 HStack(spacing: 32) {
                     ForEach(self.movies) { movie in
                         MovieDetailRowItem(movie: movie)
@@ -32,11 +33,12 @@ struct MovieCrosslineRow : View {
 }
 
 struct MovieDetailRowItem: View {
+    @EnvironmentObject var store: Store<AppState>
     let movie: Movie
     
     var body: some View {
             VStack(alignment: .center) {
-                NavigationButton(destination: MovieDetail(movieId: movie.id)) {
+                NavigationLink(destination: MovieDetail(movieId: movie.id).environmentObject(store)) {
                     MoviePosterImage(imageLoader: ImageLoader(poster: movie.poster_path, size: .medium))
                     Text(movie.userTitle)
                         .font(.body)

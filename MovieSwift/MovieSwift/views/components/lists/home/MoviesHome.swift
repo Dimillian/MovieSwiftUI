@@ -38,7 +38,7 @@ struct MoviesHome : View {
                 }
             }
             .navigationBarItems(trailing:
-                PresentationButton(destination: SettingsForm()) {
+                PresentationLink(destination: SettingsForm()) {
                         Image(systemName: "wrench")
                 }
             )

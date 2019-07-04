@@ -7,12 +7,14 @@
 //
 
 import SwiftUI
+import SwiftUIFlux
 
 struct GenreBadge : View {
+    @EnvironmentObject var store: Store<AppState>
     let genre: Genre
     
     var body: some View {
-        NavigationButton(destination: MoviesGenreList(genre: genre)) {
+        NavigationLink(destination: MoviesGenreList(genre: genre).environmentObject(store)) {
             RoundedBadge(text: genre.name)
         }
     }

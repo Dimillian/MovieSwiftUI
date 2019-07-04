@@ -27,7 +27,7 @@ struct MoviePostersCarouselView : View {
     var body: some View {
         GeometryReader { reader in
             ZStack(alignment: .center) {
-                ScrollView(showsHorizontalIndicator: false) {
+                ScrollView(showsIndicators: false) {
                     HStack(spacing: 200) {
                         ForEach(self.posters) { poster in
                             GeometryReader { reader2 in

@@ -56,7 +56,7 @@ struct MoviesList : View {
     var movieSection: some View {
         Section {
             ForEach(isSearching ? searchedMovies : movies) {id in
-                NavigationButton(destination: MovieDetail(movieId: id)) {
+                NavigationLink(destination: MovieDetail(movieId: id).environmentObject(self.store)) {
                     MovieRow(movieId: id)
                 }
             }
@@ -66,7 +66,7 @@ struct MoviesList : View {
     var searchSection: some View {
         Section {
             ForEach(keywords!) {keyword in
-                NavigationButton(destination: MovieKeywordList(keyword: keyword)) {
+                NavigationLink(destination: MovieKeywordList(keyword: keyword).environmentObject(self.store)) {
                     Text(keyword.name)
                 }
             }

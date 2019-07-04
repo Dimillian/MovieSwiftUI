@@ -48,7 +48,7 @@ enum OutlineMenu: Int, CaseIterable, Identifiable {
             return AnyView (
                 NavigationView{ PopularList()
                     .navigationBarItems(trailing:
-                        PresentationButton(destination: SettingsForm()) {
+                        PresentationLink(destination: SettingsForm()) {
                             Image(systemName: "wrench")
                         }
                     )

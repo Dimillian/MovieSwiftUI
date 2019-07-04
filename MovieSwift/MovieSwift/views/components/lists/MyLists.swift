@@ -56,8 +56,11 @@ struct MyLists : View {
     }
     
     // MARK: - Dynamic views
-    private var sortActionSheet: ActionSheet {
+    private var sortActionSheet: ActionSheet? {
         get {
+            guard showShortActionSheet else {
+                return nil
+            }
             let byAddedDate: Alert.Button = .default(Text("Sort by added date")) {
                 self.selectedMoviesSort = .byAddedDate
                 self.showShortActionSheet = false
@@ -77,11 +80,11 @@ struct MyLists : View {
     
     private var customListsSection: some View {
         Section(header: Text("Custom Lists")) {
-            PresentationButton(destination: CustomListForm().environmentObject(store)) {
+            PresentationLink(destination: CustomListForm().environmentObject(store)) {
                 Text("Create custom list").color(.steam_blue)
             }
             ForEach(customLists) { list in
-                NavigationButton(destination: CustomListDetail(listId: list.id)) {
+                NavigationLink(destination: CustomListDetail(listId: list.id).environmentObject(self.store)) {
                     CustomListRow(list: list)
                 }
             }
@@ -95,7 +98,7 @@ struct MyLists : View {
     private var wishlistSection: some View {
         Section(header: Text("Wishlist")) {
             ForEach(wishlist) {id in
-                NavigationButton(destination: MovieDetail(movieId: id)) {
+                NavigationLink(destination: MovieDetail(movieId: id).environmentObject(self.store)) {
                     MovieRow(movieId: id)
                 }
                 }
@@ -110,7 +113,7 @@ struct MyLists : View {
     private var seenSection: some View {
         Section(header: Text("Seen")) {
             ForEach(seenlist) {id in
-                NavigationButton(destination: MovieDetail(movieId: id)) {
+                NavigationLink(destination: MovieDetail(movieId: id).environmentObject(self.store)) {
                     MovieRow(movieId: id)
                 }
                 }
@@ -136,7 +139,7 @@ struct MyLists : View {
                     seenSection
                 }
             }
-            .presentation(showShortActionSheet ? sortActionSheet : nil)
+            .presentation(sortActionSheet)
             .navigationBarTitle(Text("My Lists"))
             .navigationBarItems(trailing: Button(action: {
                     self.showShortActionSheet.toggle()

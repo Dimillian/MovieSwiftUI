@@ -7,6 +7,7 @@
 //
 
 import SwiftUI
+import SwiftUIFlux
 
 struct MovieCrosslinePeopleRow : View {
     let title: String
@@ -17,7 +18,7 @@ struct MovieCrosslinePeopleRow : View {
             Text(title)
                 .font(.FjallaOne(size: 20))
                 .padding(.leading)
-            ScrollView(showsHorizontalIndicator: false) {
+            ScrollView(showsIndicators: false) {
                 HStack {
                     ForEach(self.casts) { cast in
                         CastRowItem(cast: cast)
@@ -31,11 +32,12 @@ struct MovieCrosslinePeopleRow : View {
 }
 
 struct CastRowItem: View {
+    @EnvironmentObject var store: Store<AppState>
     let cast: Cast
     
     var body: some View {
         VStack(alignment: .center) {
-            NavigationButton(destination: MoviesCrewList(crew: cast)) {
+            NavigationLink(destination: MoviesCrewList(crew: cast).environmentObject(store)) {
                 CastImage(imageLoader: ImageLoader(poster: cast.profile_path,
                                                    size: .cast))
                 Text(cast.name).font(.body).color(.primary)

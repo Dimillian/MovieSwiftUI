@@ -7,12 +7,14 @@
 //
 
 import SwiftUI
+import SwiftUIFlux
 
 struct KeywordBadge : View {
+    @EnvironmentObject var store: Store<AppState>
     let keyword: Keyword
     
     var body: some View {
-        NavigationButton(destination: MovieKeywordList(keyword: keyword)) {
+        NavigationLink(destination: MovieKeywordList(keyword: keyword).environmentObject(store)) {
             RoundedBadge(text: keyword.name)
         }
     }
