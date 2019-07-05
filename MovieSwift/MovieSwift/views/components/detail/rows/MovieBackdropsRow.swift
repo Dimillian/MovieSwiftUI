@@ -18,7 +18,7 @@ struct MovieBackdropsRow : View {
                 .font(.FjallaOne(size: 20))
                 .fontWeight(.bold)
                 .padding(.leading)
-            ScrollView(showsIndicators: false) {
+            ScrollView(.horizontal, showsIndicators: false) {
                 HStack(spacing: 16) {
                     ForEach(self.backdrops) { backdrop in
                         MovieBackdropImage(imageLoader: ImageLoader(poster: backdrop.file_path,

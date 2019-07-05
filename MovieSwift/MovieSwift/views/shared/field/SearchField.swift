@@ -20,8 +20,8 @@ struct SearchField : View {
     var body: some View {
         HStack(alignment: .center, spacing: -10) {
             Image(systemName: "magnifyingglass")
-            TextField($searchText,
-                      placeholder: Text("Search any movies"))
+            TextField("Search any movies",
+                      text: $searchText)
                 .onReceive(NotificationCenter.default.publisher(for: UITextField.textDidChangeNotification)
                     .debounce(for: 0.5,
                               scheduler: DispatchQueue.main),

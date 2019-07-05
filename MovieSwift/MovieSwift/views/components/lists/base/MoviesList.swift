@@ -87,11 +87,13 @@ struct MoviesList : View {
     
     var body: some View {
         List {
-            if headerView != nil {
-                headerView!
-            }
-            if displaySearch {
-                searchField
+            Section {
+                if headerView != nil {
+                    headerView!
+                }
+                if displaySearch {
+                    searchField
+                }
             }
             if isSearching && keywords != nil {
                 searchSection

@@ -40,15 +40,15 @@ struct TabbarView: View {
     var body: some View {
         TabbedView(selection: $selectedTab) {
             MoviesHome().tabItem{
-                Image(systemName: "film")
+                Image(systemName: "film").imageScale(.large)
                 Text("Movies")
             }.tag(Tab.movies)
             DiscoverView().tabItem{
-                Image(systemName: "square.stack")
+                Image(systemName: "square.stack").imageScale(.large)
                 Text("Discover")
             }.tag(Tab.discover)
             MyLists().tabItem{
-                Image(systemName: "heart.circle")
+                Image(systemName: "heart.circle").imageScale(.large)
                 Text("My Lists")
             }.tag(Tab.myLists)
             }

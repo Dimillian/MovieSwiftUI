@@ -40,7 +40,7 @@ struct TopSection: View {
                 content: {
                     HStack {
                         Text("Name:")
-                        TextField($listName, placeholder: Text("Name your list"))
+                        TextField("Name your list", text: $listName)
                     }
                     if listMovieCover == nil {
                         SearchField(searchText: $movieSearch,

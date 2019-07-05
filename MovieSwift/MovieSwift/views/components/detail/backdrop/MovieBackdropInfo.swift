@@ -55,7 +55,7 @@ struct MovieBackdropInfo : View {
                         .padding(.leading)
                         .padding(.bottom, 4)
                 }
-                ScrollView(showsIndicators: false) {
+                ScrollView(.horizontal, showsIndicators: false) {
                     HStack {
                         ForEach(movie.genres ?? []) { genre in
                             GenreBadge(genre: genre)

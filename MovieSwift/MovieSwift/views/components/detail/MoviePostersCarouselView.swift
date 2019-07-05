@@ -27,7 +27,7 @@ struct MoviePostersCarouselView : View {
     var body: some View {
         GeometryReader { reader in
             ZStack(alignment: .center) {
-                ScrollView(showsIndicators: false) {
+                ScrollView(.horizontal, showsIndicators: false) {
                     HStack(spacing: 200) {
                         ForEach(self.posters) { poster in
                             GeometryReader { reader2 in
@@ -36,6 +36,7 @@ struct MoviePostersCarouselView : View {
                                     .scaleEffect(self.computeCarouselPosterScale(width: reader.frame(in: .global).width,
                                                                                  itemX: reader2.frame(in: .global).midX),
                                                  anchor: .center)
+                                    .zIndex(1)
                                     .tapAction {
                                         self.selectedPoster = nil
                                 }
@@ -44,7 +45,7 @@ struct MoviePostersCarouselView : View {
                     }
                     }
                     .position(x: reader.frame(in: .global).midX,
-                              y: reader.frame(in: .global).midY)
+                              y: reader.frame(in: .local).midY)
                     .tapAction {
                         self.selectedPoster = nil
                 }

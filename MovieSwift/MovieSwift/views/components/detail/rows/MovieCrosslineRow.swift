@@ -18,7 +18,7 @@ struct MovieCrosslineRow : View {
             Text(title)
                 .font(.FjallaOne(size: 20))
                 .padding(.leading)
-            ScrollView(showsIndicators: false) {
+            ScrollView(.horizontal, showsIndicators: false) {
                 HStack(spacing: 32) {
                     ForEach(self.movies) { movie in
                         MovieDetailRowItem(movie: movie)

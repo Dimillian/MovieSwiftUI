@@ -16,7 +16,7 @@ struct MovieKeywords : View {
             Text("Keywords")
                 .font(.FjallaOne(size: 20))
                 .padding(.leading)
-            ScrollView(showsIndicators: false) {
+            ScrollView(.horizontal, showsIndicators: false) {
                 HStack {
                     ForEach(keywords) {keyword in
                         KeywordBadge(keyword: keyword)

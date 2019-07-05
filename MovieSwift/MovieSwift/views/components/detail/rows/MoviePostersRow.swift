@@ -18,7 +18,7 @@ struct MoviePostersRow : View {
                 .font(.FjallaOne(size: 20))
                 .fontWeight(.bold)
                 .padding(.leading)
-            ScrollView(showsIndicators: false) {
+            ScrollView(.horizontal, showsIndicators: false) {
                 HStack(spacing: 16) {
                     ForEach(self.posters) { poster in
                         MoviePosterImage(imageLoader: ImageLoader(poster: poster.file_path,

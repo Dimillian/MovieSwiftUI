@@ -62,6 +62,7 @@ struct DraggableCover : View {
     @State private var viewState = CGSize.zero
     @State private var predictedEndLocation: CGPoint? = nil
     @State private var hasMoved = false
+    @State private var delayedIsActive = false
     @EnvironmentObject private var store: Store<AppState>
     @GestureState private var dragState = DragState.inactive
     private let hapticFeedback = UISelectionFeedbackGenerator()
@@ -129,6 +130,7 @@ struct DraggableCover : View {
                     state = .inactive
                 }
             }.onChanged { value in
+                self.delayedIsActive = true
                 if self.dragState.translation.width == 0.0 {
                     self.hasMoved = false
                     self.gestureViewState = .pressing
@@ -161,7 +163,7 @@ struct DraggableCover : View {
         return DiscoverCoverImage(imageLoader: ImageLoader(poster: movie.poster_path,
                                                          size: .small))
             .offset(computedOffset())
-            .animation(dragState.isActive ? coverSpringAnimation : nil)
+            .animation(delayedIsActive ? coverSpringAnimation : nil)
             .opacity(predictedEndLocation != nil ? 0 : 1)
             .rotationEffect(computeAngle())
             .scaleEffect(dragState.isActive ? 1.03: 1)

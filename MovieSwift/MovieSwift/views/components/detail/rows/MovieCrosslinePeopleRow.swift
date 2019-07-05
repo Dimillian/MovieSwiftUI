@@ -18,7 +18,7 @@ struct MovieCrosslinePeopleRow : View {
             Text(title)
                 .font(.FjallaOne(size: 20))
                 .padding(.leading)
-            ScrollView(showsIndicators: false) {
+            ScrollView(.horizontal, showsIndicators: false) {
                 HStack {
                     ForEach(self.casts) { cast in
                         CastRowItem(cast: cast)
