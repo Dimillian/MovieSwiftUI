@@ -61,7 +61,7 @@ struct MovieBackdropInfo : View {
                             GenreBadge(genre: genre)
                         }
                     }.padding(.leading)
-                    }.frame(height: 30)
+                    }
             }
             }
             .listRowInsets(EdgeInsets())
