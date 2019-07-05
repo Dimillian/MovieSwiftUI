@@ -33,6 +33,7 @@
 		692C57E722B8B06B00128DD3 /* BorderedButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 692C57E622B8B06B00128DD3 /* BorderedButton.swift */; };
 		693C9D6822C263E60076BDAB /* UserDefaults.swift in Sources */ = {isa = PBXBuildFile; fileRef = 693C9D6722C263E60076BDAB /* UserDefaults.swift */; };
 		693CB0C122BB944E002D4C89 /* SearchField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 693CB0C022BB944E002D4C89 /* SearchField.swift */; };
+		694219FA22CF3D3B008004A2 /* BottomMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = 694219F922CF3D3B008004A2 /* BottomMenu.swift */; };
 		694AA21D22B63B0F00F69725 /* PopularityBadge.swift in Sources */ = {isa = PBXBuildFile; fileRef = 694AA21C22B63B0F00F69725 /* PopularityBadge.swift */; };
 		695882B122ACFB5800AFABA9 /* ImageLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 695882B022ACFB5800AFABA9 /* ImageLoader.swift */; };
 		695882B522AD008600AFABA9 /* TopRatedList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 695882B422AD008600AFABA9 /* TopRatedList.swift */; };
@@ -63,6 +64,7 @@
 		69B2560522A9BDD5009F4413 /* MovieRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69B2560422A9BDD5009F4413 /* MovieRow.swift */; };
 		69B2560C22AAD1D5009F4413 /* PopularList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69B2560B22AAD1D5009F4413 /* PopularList.swift */; };
 		69D1D76D22BE57390084C692 /* MoviesHome.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69D1D76C22BE57390084C692 /* MoviesHome.swift */; };
+		69D8A91B22CF35040077A392 /* SwiftUIFlux in Frameworks */ = {isa = PBXBuildFile; productRef = 69D8A91A22CF35040077A392 /* SwiftUIFlux */; };
 		69DEA9A622B9027200DFF551 /* CustomListForm.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69DEA9A522B9027200DFF551 /* CustomListForm.swift */; };
 		69DEA9A822B904CB00DFF551 /* CustomList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69DEA9A722B904CB00DFF551 /* CustomList.swift */; };
 		69EE5F1722B638CA0053A84A /* MovieBackdropImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69EE5F1622B638CA0053A84A /* MovieBackdropImage.swift */; };
@@ -74,7 +76,6 @@
 		69FB61E822BA2A2D00CBEEC7 /* CustomListDetail.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69FB61E722BA2A2D00CBEEC7 /* CustomListDetail.swift */; };
 		69FB61EB22BA2E1900CBEEC7 /* DiscoverCoverImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69FB61EA22BA2E1900CBEEC7 /* DiscoverCoverImage.swift */; };
 		69FC640922C3A8620043AB37 /* FjallaOne-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 69FC640822C3A72F0043AB37 /* FjallaOne-Regular.ttf */; };
-		69FC640C22C47A030043AB37 /* SwiftUIFlux in Frameworks */ = {isa = PBXBuildFile; productRef = 69FC640B22C47A030043AB37 /* SwiftUIFlux */; };
 		69FD020C22B55268003E529E /* MoviesGenreList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69FD020B22B55268003E529E /* MoviesGenreList.swift */; };
 		69FFAF8022A99F1100801F3C /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69FFAF7F22A99F1100801F3C /* AppDelegate.swift */; };
 		69FFAF8222A99F1100801F3C /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69FFAF8122A99F1100801F3C /* SceneDelegate.swift */; };
@@ -129,6 +130,7 @@
 		692C57E622B8B06B00128DD3 /* BorderedButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BorderedButton.swift; sourceTree = "<group>"; };
 		693C9D6722C263E60076BDAB /* UserDefaults.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaults.swift; sourceTree = "<group>"; };
 		693CB0C022BB944E002D4C89 /* SearchField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchField.swift; sourceTree = "<group>"; };
+		694219F922CF3D3B008004A2 /* BottomMenu.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BottomMenu.swift; sourceTree = "<group>"; };
 		694AA21C22B63B0F00F69725 /* PopularityBadge.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopularityBadge.swift; sourceTree = "<group>"; };
 		695882B022ACFB5800AFABA9 /* ImageLoader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageLoader.swift; sourceTree = "<group>"; };
 		695882B422AD008600AFABA9 /* TopRatedList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopRatedList.swift; sourceTree = "<group>"; };
@@ -192,7 +194,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				69FC640C22C47A030043AB37 /* SwiftUIFlux in Frameworks */,
+				69D8A91B22CF35040077A392 /* SwiftUIFlux in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -224,6 +226,14 @@
 				693C9D6722C263E60076BDAB /* UserDefaults.swift */,
 			);
 			path = preferences;
+			sourceTree = "<group>";
+		};
+		694219F822CF3D29008004A2 /* bottomMenu */ = {
+			isa = PBXGroup;
+			children = (
+				694219F922CF3D3B008004A2 /* BottomMenu.swift */,
+			);
+			path = bottomMenu;
 			sourceTree = "<group>";
 		};
 		695882B222ACFBED00AFABA9 /* binding */ = {
@@ -339,6 +349,7 @@
 		69B2560922AAD1C5009F4413 /* components */ = {
 			isa = PBXGroup;
 			children = (
+				694219F822CF3D29008004A2 /* bottomMenu */,
 				692AA63022AD3FEF0054DA84 /* home */,
 				697E531C22C2626D003A7C01 /* settings */,
 				69FB61E222BA216D00CBEEC7 /* discover */,
@@ -577,7 +588,7 @@
 			);
 			name = MovieSwift;
 			packageProductDependencies = (
-				69FC640B22C47A030043AB37 /* SwiftUIFlux */,
+				69D8A91A22CF35040077A392 /* SwiftUIFlux */,
 			);
 			productName = MovieSwift;
 			productReference = 69FFAF7C22A99F1100801F3C /* MovieSwift.app */;
@@ -608,7 +619,7 @@
 			);
 			mainGroup = 69FFAF7322A99F1100801F3C;
 			packageReferences = (
-				69FC640A22C47A030043AB37 /* XCRemoteSwiftPackageReference "SwiftUIFlux" */,
+				69D8A91922CF35040077A392 /* XCRemoteSwiftPackageReference "SwiftUIFlux" */,
 			);
 			productRefGroup = 69FFAF7D22A99F1100801F3C /* Products */;
 			projectDirPath = "";
@@ -663,6 +674,7 @@
 				695882CD22AD2F3000AFABA9 /* MovieCrosslinePeopleRow.swift in Sources */,
 				69FFAF9822A9A12800801F3C /* APIService.swift in Sources */,
 				6924393C22BF43D300C796CB /* MoviePostersCarouselView.swift in Sources */,
+				694219FA22CF3D3B008004A2 /* BottomMenu.swift in Sources */,
 				69FB61E822BA2A2D00CBEEC7 /* CustomListDetail.swift in Sources */,
 				6902647922B6D04B00459C2E /* RoundedBadge.swift in Sources */,
 				695882CB22AD2C4700AFABA9 /* MovieOverview.swift in Sources */,
@@ -854,7 +866,7 @@
 				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1245;
-				DERIVE_UIKITFORMAC_PRODUCT_BUNDLE_IDENTIFIER = NO;
+				DERIVE_UIKITFORMAC_PRODUCT_BUNDLE_IDENTIFIER = YES;
 				DEVELOPMENT_ASSET_PATHS = "MovieSwift/Preview\\ Content";
 				DEVELOPMENT_TEAM = Z6P74P6T99;
 				ENABLE_PREVIEWS = YES;
@@ -885,7 +897,7 @@
 				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1245;
-				DERIVE_UIKITFORMAC_PRODUCT_BUNDLE_IDENTIFIER = NO;
+				DERIVE_UIKITFORMAC_PRODUCT_BUNDLE_IDENTIFIER = YES;
 				DEVELOPMENT_ASSET_PATHS = "MovieSwift/Preview\\ Content";
 				DEVELOPMENT_TEAM = Z6P74P6T99;
 				ENABLE_PREVIEWS = YES;
@@ -930,7 +942,7 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
-		69FC640A22C47A030043AB37 /* XCRemoteSwiftPackageReference "SwiftUIFlux" */ = {
+		69D8A91922CF35040077A392 /* XCRemoteSwiftPackageReference "SwiftUIFlux" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/Dimillian/SwiftUIFlux";
 			requirement = {
@@ -941,9 +953,9 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		69FC640B22C47A030043AB37 /* SwiftUIFlux */ = {
+		69D8A91A22CF35040077A392 /* SwiftUIFlux */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 69FC640A22C47A030043AB37 /* XCRemoteSwiftPackageReference "SwiftUIFlux" */;
+			package = 69D8A91922CF35040077A392 /* XCRemoteSwiftPackageReference "SwiftUIFlux" */;
 			productName = SwiftUIFlux;
 		};
 /* End XCSwiftPackageProductDependency section */

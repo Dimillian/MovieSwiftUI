@@ -13,6 +13,7 @@ import Combine
 struct MovieDetail : View {
     @EnvironmentObject var store: Store<AppState>
     @State var addSheetShown = false
+    @State var showBottomMenu = false
     @State var showSavedBadge = false
     @State var selectedPoster: MovieImage?
     
@@ -157,8 +158,11 @@ struct MovieDetail : View {
                 .onAppear {
                     self.fetchMovieDetails()
                 }
-                .presentation(self.addSheetShown ? addActionSheet : nil)
-                .blur(radius: selectedPoster != nil ? 50 : 0)
+                .presentation(addSheetShown ? addActionSheet : nil)
+                .disabled(selectedPoster != nil || showBottomMenu)
+                .animation(nil)
+                .blur(radius: selectedPoster != nil || showBottomMenu ? 30 : 0)
+                .animation(.basic())
             
             NotificationBadge(text: "Added successfully",
                               color: .blue,

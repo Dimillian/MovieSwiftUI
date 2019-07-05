@@ -49,6 +49,10 @@ extension Color {
     public static var steam_green: Color {
         Color("steam_green", bundle: nil)
     }
+    
+    public static var steam_background: Color {
+        Color("steam_background", bundle: nil)
+    }
 }
 
 
