@@ -13,7 +13,7 @@ import Combine
 struct MovieDetail : View {
     @EnvironmentObject var store: Store<AppState>
     @State var addSheetShown = false
-    @State var showBottomMenu = false
+    @State var showCreateListForm = false
     @State var showSavedBadge = false
     @State var selectedPoster: MovieImage?
     
@@ -97,6 +97,11 @@ struct MovieDetail : View {
                 }
                 buttons.append(button)
             }
+            let createListButton: Alert.Button = .default(Text("Create list")) {
+                self.addSheetShown = false
+                self.showCreateListForm = true
+            }
+            buttons.append(createListButton)
             let cancelButton = Alert.Button.cancel {
                 self.addSheetShown = false
             }
@@ -121,7 +126,9 @@ struct MovieDetail : View {
             List {
                 MovieBackdrop(movieId: movie.id)
                 MovieRatingRow(movie: movie)
-                MovieAddToListRow(movieId: movie.id)
+                MovieAddToListRow(movieId: movie.id).tapAction {
+                    self.addSheetShown = true
+                }
                 MovieOverview(movie: movie)
                 Group {
                     if movie.keywords?.keywords != nil && movie.keywords?.keywords?.isEmpty == false {
@@ -159,9 +166,16 @@ struct MovieDetail : View {
                     self.fetchMovieDetails()
                 }
                 .presentation(addSheetShown ? addActionSheet : nil)
-                .disabled(selectedPoster != nil || showBottomMenu)
+                .presentation(showCreateListForm ?
+                    Modal(CustomListForm(shouldDismiss: {
+                        self.showCreateListForm = false
+                    }).environmentObject(store),
+                          onDismiss: {
+                    self.showCreateListForm = false
+                    }) : nil)
+                .disabled(selectedPoster != nil)
                 .animation(nil)
-                .blur(radius: selectedPoster != nil || showBottomMenu ? 30 : 0)
+                .blur(radius: selectedPoster != nil ? 30 : 0)
                 .animation(.basic())
             
             NotificationBadge(text: "Added successfully",

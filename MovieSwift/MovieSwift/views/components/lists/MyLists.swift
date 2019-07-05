@@ -80,7 +80,9 @@ struct MyLists : View {
     
     private var customListsSection: some View {
         Section(header: Text("Custom Lists")) {
-            PresentationLink(destination: CustomListForm().environmentObject(store)) {
+            PresentationLink(destination: CustomListForm(shouldDismiss: {
+                
+            }).environmentObject(store)) {
                 Text("Create custom list").color(.steam_blue)
             }
             ForEach(customLists) { list in

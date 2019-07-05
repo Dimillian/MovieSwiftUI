@@ -16,12 +16,14 @@ struct CustomListForm : View {
     @State var movieSearch: String = ""
     @State var listMovieCover: Int?
     
+    let shouldDismiss: (() -> Void)?
+    
     var body: some View {
         NavigationView {
             Form {
                 TopSection(listMovieCover: $listMovieCover, movieSearch: $movieSearch, listName: $listName)
                 MovieSearchSection(movieSearch: $movieSearch, listMovieCover: $listMovieCover)
-                SaveCancelSection(listName: $listName, listMovieCover: $listMovieCover)
+                SaveCancelSection(listName: $listName, listMovieCover: $listMovieCover, shouldDismiss: shouldDismiss)
             }
             .navigationBarTitle(Text("New list"))
         }
@@ -92,6 +94,8 @@ struct SaveCancelSection: View {
     @Binding var listName: String
     @Binding var listMovieCover: Int?
     
+    let shouldDismiss: (() -> Void)?
+    
     var body: some View {
         Section {
             Button(action: {
@@ -101,12 +105,14 @@ struct SaveCancelSection: View {
                                          movies: [])
                 self.store.dispatch(action: MoviesActions.AddCustomList(list: newList))
                 self.isPresented?.value = false
+                self.shouldDismiss?()
                 
             }, label: {
                 Text("Create").color(.blue)
             })
             Button(action: {
                 self.isPresented?.value = false
+                self.shouldDismiss?()
             }, label: {
                 Text("Cancel").color(.red)
             })
@@ -117,7 +123,9 @@ struct SaveCancelSection: View {
 #if DEBUG
 struct CustomListForm_Previews : PreviewProvider {
     static var previews: some View {
-        CustomListForm().environmentObject(sampleStore)
+        CustomListForm(shouldDismiss: {
+            
+        }).environmentObject(sampleStore)
     }
 }
 #endif

@@ -29,7 +29,7 @@ struct MovieAddToListRow : View {
                            color: .pink,
                            isOn: addedToWishlist,
                            action: {
-                self.store.dispatch(action: MoviesActions.AddToWishlist(movie: self.movieId))
+
             })
 
             BorderedButton(text: addedToSeenlist ? "Seen" : "Mark as seen",
@@ -37,7 +37,7 @@ struct MovieAddToListRow : View {
                            color: .green,
                            isOn: addedToSeenlist,
                            action: {
-                self.store.dispatch(action: MoviesActions.AddToSeenList(movie: self.movieId))
+            
             })
         }.padding(.top, 8)
             .padding(.bottom, 8)

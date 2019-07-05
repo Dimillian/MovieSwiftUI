@@ -64,7 +64,7 @@
 		69B2560522A9BDD5009F4413 /* MovieRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69B2560422A9BDD5009F4413 /* MovieRow.swift */; };
 		69B2560C22AAD1D5009F4413 /* PopularList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69B2560B22AAD1D5009F4413 /* PopularList.swift */; };
 		69D1D76D22BE57390084C692 /* MoviesHome.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69D1D76C22BE57390084C692 /* MoviesHome.swift */; };
-		69D8A91B22CF35040077A392 /* SwiftUIFlux in Frameworks */ = {isa = PBXBuildFile; productRef = 69D8A91A22CF35040077A392 /* SwiftUIFlux */; };
+		69D8A91B22CF35040077A392 /* SwiftUIFlux in Frameworks */ = {isa = PBXBuildFile; productRef = 69D8A91A22CF35040077A392 /* SwiftUIFlux */; settings = {ATTRIBUTES = (Required, ); }; };
 		69DEA9A622B9027200DFF551 /* CustomListForm.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69DEA9A522B9027200DFF551 /* CustomListForm.swift */; };
 		69DEA9A822B904CB00DFF551 /* CustomList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69DEA9A722B904CB00DFF551 /* CustomList.swift */; };
 		69EE5F1722B638CA0053A84A /* MovieBackdropImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69EE5F1622B638CA0053A84A /* MovieBackdropImage.swift */; };
@@ -218,6 +218,13 @@
 				6904D46522C53E2700EB3FBA /* HomeView.swift */,
 			);
 			path = home;
+			sourceTree = "<group>";
+		};
+		69305F6322CFBF9900C4FE07 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 		693C9D6622C263D40076BDAB /* preferences */ = {
@@ -446,6 +453,7 @@
 			children = (
 				69FFAF7E22A99F1100801F3C /* MovieSwift */,
 				69FFAF7D22A99F1100801F3C /* Products */,
+				69305F6322CFBF9900C4FE07 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
