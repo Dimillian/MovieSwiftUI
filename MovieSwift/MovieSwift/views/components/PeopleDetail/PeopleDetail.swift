@@ -21,7 +21,10 @@ struct PeopleDetail : View {
         List {
             PeopleDetailHeaderRow(peopleId: peopleId)
             if people.biography != nil {
-                PeopleDetailBiography(biography: people.biography!)
+                PeopleDetailBiographyRow(biography: people.biography!)
+            }
+            if people.images != nil {
+                PeopleDetailImagesRow(images: people.images!)
             }
         }
         .navigationBarTitle(people.name)

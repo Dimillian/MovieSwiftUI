@@ -9,7 +9,7 @@
 import SwiftUI
 import SwiftUIFlux
 
-struct PeopleDetailBiography : View {
+struct PeopleDetailBiographyRow : View {
     let biography: String
     @State private var isExpanded = false
     
@@ -34,7 +34,7 @@ struct PeopleDetailBiography : View {
 #if DEBUG
 struct PeopleDetailBiography_Previews : PreviewProvider {
     static var previews: some View {
-        PeopleDetailBiography(biography: "Super bio")
+        PeopleDetailBiographyRow(biography: "Super bio")
     }
 }
 #endif
