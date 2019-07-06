@@ -22,10 +22,10 @@ struct PeopleDetailHeaderRow : View {
             BigPeopleImage(imageLoader: ImageLoader(path: people.profile_path,
                                                     size: .original))
             VStack(alignment: .leading, spacing: 4) {
-                Text("Biography")
+                Text("Known for:")
                     .font(.FjallaOne(size: 16))
                     .fontWeight(.bold)
-                Text(people.biography ?? "For now nothing much... or missing data")
+                Text(people.knownForText ?? "For now nothing much... or missing data")
                     .color(.secondary)
                     .font(.body)
                     .lineLimit(nil)

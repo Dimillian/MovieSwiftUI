@@ -20,6 +20,9 @@ struct PeopleDetail : View {
     var body: some View {
         List {
             PeopleDetailHeaderRow(peopleId: peopleId)
+            if people.biography != nil {
+                PeopleDetailBiography(biography: people.biography!)
+            }
         }
         .navigationBarTitle(people.name)
         .onAppear {
