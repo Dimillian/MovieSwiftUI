@@ -145,8 +145,9 @@ struct MoviesList : View {
                 movieSection
             }
             
-            /// The pagination is done by spawining a invisible rectancle at the bottom of the list, and trigerining the next page load as it appear.
+            /// The pagination is done by appending a invisible rectancle at the bottom of the list, and trigerining the next page load as it appear.
             /// Hacky way for now, hope it'll be possible to find a better solution in a future version of SwiftUI.
+            /// Could be possible to do with GeometryReader.
             if !movies.isEmpty || !searchedMovies.isEmpty {
                 Rectangle()
                     .foregroundColor(.clear)
