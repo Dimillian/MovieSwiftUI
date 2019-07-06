@@ -25,6 +25,9 @@ struct PeopleDetailHeaderRow : View {
                 Text("Known for:")
                     .font(.FjallaOne(size: 16))
                     .fontWeight(.bold)
+                if people.known_for_department != nil{
+                    Text(people.known_for_department!)
+                }
                 Text(people.knownForText ?? "For now nothing much... or missing data")
                     .color(.secondary)
                     .font(.body)

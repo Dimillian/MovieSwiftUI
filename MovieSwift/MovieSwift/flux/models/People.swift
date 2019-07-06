@@ -16,6 +16,7 @@ struct People: Codable, Identifiable {
     let department: String?
     let profile_path: String?
     
+    let known_for_department: String?
     var known_for: [KnownFor]?
     let also_known_as: [String]?
     

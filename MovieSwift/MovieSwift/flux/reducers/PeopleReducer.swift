@@ -32,6 +32,7 @@ func peoplesStateReducer(state: PeoplesState, action: Action) -> PeoplesState {
         if let current = state.peoples[action.person.id] {
             var new = action.person
             new.known_for = current.known_for
+            new.images = current.images
             state.peoples[action.person.id] = new
         } else {
             state.peoples[action.person.id] = action.person
