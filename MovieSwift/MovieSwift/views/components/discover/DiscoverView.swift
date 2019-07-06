@@ -225,7 +225,7 @@ struct DiscoverView : View {
                                     self.draggableCoverEndGestureHandler(handler: handler)
                     })
                 } else {
-                    DiscoverCoverImage(imageLoader: ImageLoader(poster: self.store.state.moviesState.movies[id]!.poster_path,
+                    DiscoverCoverImage(imageLoader: ImageLoader(path: self.store.state.moviesState.movies[id]!.poster_path,
                                                                 size: .small))
                         .scaleEffect(1.0 - Length(self.movies.reversed().firstIndex(of: id)!) * 0.03 + Length(self.scaleResistance()))
                         .padding(.bottom, Length(self.movies.reversed().firstIndex(of: id)! * 16) - self.dragResistance())

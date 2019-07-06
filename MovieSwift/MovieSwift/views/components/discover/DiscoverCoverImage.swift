@@ -28,7 +28,7 @@ struct DiscoverCoverImage : View {
     @State var imageLoader: ImageLoader
     
     var cachedImage: UIImage? {
-        if let poster = imageLoader.poster {
+        if let poster = imageLoader.path {
             return ImageService.shared.syncImageFromCache(poster: poster, size: imageLoader.size)
         }
         return nil

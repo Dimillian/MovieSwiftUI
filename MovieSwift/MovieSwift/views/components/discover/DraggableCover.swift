@@ -160,7 +160,7 @@ struct DraggableCover : View {
             }
         
         // MARK: - View return
-        return DiscoverCoverImage(imageLoader: ImageLoader(poster: movie.poster_path,
+        return DiscoverCoverImage(imageLoader: ImageLoader(path: movie.poster_path,
                                                          size: .small))
             .offset(computedOffset())
             .animation(delayedIsActive ? coverSpringAnimation : nil)

@@ -31,7 +31,7 @@ struct MoviePostersCarouselView : View {
                     HStack(spacing: 200) {
                         ForEach(self.posters) { poster in
                             GeometryReader { reader2 in
-                                BigMoviePosterImage(imageLoader: ImageLoader(poster: poster.file_path,
+                                BigMoviePosterImage(imageLoader: ImageLoader(path: poster.file_path,
                                                                              size: .medium))
                                     .scaleEffect(self.computeCarouselPosterScale(width: reader.frame(in: .global).width,
                                                                                  itemX: reader2.frame(in: .global).midX),

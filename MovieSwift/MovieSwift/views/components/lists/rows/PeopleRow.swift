@@ -27,7 +27,7 @@ struct PeopleRow : View {
     
     var body: some View {
         HStack {
-            PeopleImage(imageLoader: ImageLoader(poster: people.profile_path, size: .cast))
+            PeopleImage(imageLoader: ImageLoader(path: people.profile_path, size: .cast))
             VStack(alignment: .leading) {
                 Text(people.name)
                     .font(.headline)

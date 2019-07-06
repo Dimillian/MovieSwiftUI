@@ -13,7 +13,7 @@ import Combine
 final class ImageLoader: BindableObject {
     let didChange = PassthroughSubject<UIImage?, Never>()
     
-    let poster: String?
+    let path: String?
     let size: ImageService.Size
     
     var image: UIImage? = nil {
@@ -32,13 +32,13 @@ final class ImageLoader: BindableObject {
         }
     }
     
-    init(poster: String?, size: ImageService.Size) {
+    init(path: String?, size: ImageService.Size) {
         self.size = size
-        self.poster = poster
+        self.path = path
     }
     
     func loadImage() {
-        guard let poster = poster else {
+        guard let poster = path else {
             missing = true
             return
         }

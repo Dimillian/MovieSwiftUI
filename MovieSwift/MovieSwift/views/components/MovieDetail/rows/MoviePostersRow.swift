@@ -21,7 +21,7 @@ struct MoviePostersRow : View {
             ScrollView(.horizontal, showsIndicators: false) {
                 HStack(spacing: 16) {
                     ForEach(self.posters) { poster in
-                        MoviePosterImage(imageLoader: ImageLoader(poster: poster.file_path,
+                        MoviePosterImage(imageLoader: ImageLoader(path: poster.file_path,
                                                                   size: .small)).tapAction {
                                                                     withAnimation {
                                                                         self.selectedPoster = poster

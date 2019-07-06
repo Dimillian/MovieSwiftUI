@@ -22,7 +22,7 @@ struct CustomListRow : View {
     
     var body: some View {
         HStack {
-            SmallMoviePosterImage(imageLoader: ImageLoader(poster: coverMovie?.poster_path,
+            SmallMoviePosterImage(imageLoader: ImageLoader(path: coverMovie?.poster_path,
                                                            size: .small))
             VStack(alignment: .leading, spacing: 2) {
                 Text(list.name)
