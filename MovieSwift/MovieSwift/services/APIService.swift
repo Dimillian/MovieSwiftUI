@@ -24,7 +24,7 @@ struct APIService {
         case popular, toRated, upcoming, nowPlaying
         case detail(movie: Int), recommended(movie: Int), similar(movie: Int)
         case credits(movie: Int), review(movie: Int)
-        case searchMovie, searchKeyword
+        case searchMovie, searchKeyword, searchPerson
         case genres
         case discover
         
@@ -52,6 +52,8 @@ struct APIService {
                 return "search/movie"
             case .searchKeyword:
                 return "search/keyword"
+            case .searchPerson:
+                return "search/person"
             case .genres:
                 return "genre/movie/list"
             case .discover:

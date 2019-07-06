@@ -27,20 +27,20 @@ struct MovieDetail : View {
     
     var characters: [People]? {
         get {
-            guard let ids = store.state.castsState.castsMovie[movie.id] else {
+            guard let ids = store.state.peoplesState.peoplesMovies[movie.id] else {
                 return nil
             }
-            let cast = store.state.castsState.casts.filter{ $0.value.character != nil }
+            let cast = store.state.peoplesState.peoples.filter{ $0.value.character != nil }
             return ids.filter{ cast[$0] != nil }.map{ cast[$0]! }
         }
     }
     
     var credits: [People]? {
         get {
-            guard let ids = store.state.castsState.castsMovie[movie.id] else {
+            guard let ids = store.state.peoplesState.peoplesMovies[movie.id] else {
                 return nil
             }
-            let cast = store.state.castsState.casts.filter{ $0.value.department != nil }
+            let cast = store.state.peoplesState.peoples.filter{ $0.value.department != nil }
             return ids.filter{ cast[$0] != nil }.map{ cast[$0]! }
         }
     }
@@ -68,7 +68,7 @@ struct MovieDetail : View {
     // MARK: - Actions
     func fetchMovieDetails() {
         store.dispatch(action: MoviesActions.FetchDetail(movie: movie.id))
-        store.dispatch(action: CastsActions.FetchMovieCasts(movie: movie.id))
+        store.dispatch(action: PeopleActions.FetchMovieCasts(movie: movie.id))
         store.dispatch(action: MoviesActions.FetchRecommended(movie: movie.id))
         store.dispatch(action: MoviesActions.FetchSimilar(movie: movie.id))
     }
@@ -136,11 +136,11 @@ struct MovieDetail : View {
                     }
                     if characters != nil && characters?.isEmpty == false {
                         MovieCrosslinePeopleRow(title: "Characters",
-                                 casts: characters ?? [])
+                                 peoples: characters ?? [])
                     }
                     if credits != nil && credits?.isEmpty == false {
                         MovieCrosslinePeopleRow(title: "Crew",
-                                 casts: credits ?? [])
+                                 peoples: credits ?? [])
                     }
                     if similar != nil && similar?.isEmpty == false {
                         MovieCrosslineRow(title: "Similar Movies", movies: similar ?? [])

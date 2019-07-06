@@ -63,7 +63,9 @@ let sampleStore = Store<AppState>(reducer: appStateReducer,
                                       topRated: [0],
                                       upcoming: [0],
                                       customLists: [0: sampleCustomList]),
-                                           castsState: CastsState()),
+                                           peoplesState: PeoplesState(peoples: [0: sampleCasts.first!, 1: sampleCasts[1]],
+                                                                      peoplesMovies: [:],
+                                                                      search: [:])),
                            queue: .main)
 #endif
 

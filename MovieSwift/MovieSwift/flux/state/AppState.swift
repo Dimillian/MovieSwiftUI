@@ -15,7 +15,7 @@ fileprivate let decoder = JSONDecoder()
 
 struct AppState: FluxState {
     var moviesState: MoviesState
-    var castsState: CastsState
+    var peoplesState: PeoplesState
     
     
     init() {
@@ -35,7 +35,7 @@ struct AppState: FluxState {
         } else {
             self.moviesState = MoviesState()
         }
-        self.castsState = CastsState()
+        self.peoplesState = PeoplesState()
     }
     
     func archiveState() {
@@ -46,9 +46,9 @@ struct AppState: FluxState {
     }
     
     #if DEBUG
-    init(moviesState: MoviesState, castsState: CastsState) {
+    init(moviesState: MoviesState, peoplesState: PeoplesState) {
         self.moviesState = moviesState
-        self.castsState = castsState
+        self.peoplesState = peoplesState
     }
     #endif
 }

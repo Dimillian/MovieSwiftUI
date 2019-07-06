@@ -14,5 +14,10 @@ struct CastResponse: Codable {
     let crew: [People]
 }
 
-let sampleCasts = [People(id: 0, name: "Cast 1", character: "Character 1", department: nil, profile_path: nil),
-                   People(id: 1, name: "Cast 2", character: nil, department: "Director 1", profile_path: nil)]
+let sampleCasts = [People(id: 0,
+                          name: "Cast 1",
+                          character: "Character 1",
+                          department: nil,
+                          profile_path: "/2daC5DeXqwkFND0xxutbnSVKN6c.jpg",
+                          known_for: [People.KnownFor(id: sampleMovie.id, original_title: sampleMovie.original_title, poster_path: sampleMovie.poster_path)]),
+                   People(id: 1, name: "Cast 2", character: nil, department: "Director 1", profile_path: "/2daC5DeXqwkFND0xxutbnSVKN6c.jpg", known_for: nil)]

@@ -9,7 +9,8 @@
 import Foundation
 import SwiftUIFlux
 
-struct CastsState: FluxState {
-    var casts: [Int: People] = [:]
-    var castsMovie: [Int: [Int]] = [:]
+struct PeoplesState: FluxState {
+    var peoples: [Int: People] = [:]
+    var peoplesMovies: [Int: [Int]] = [:]
+    var search: [String: [Int]] = [:]
 }
