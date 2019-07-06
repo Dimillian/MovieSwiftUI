@@ -25,7 +25,7 @@ struct MovieDetail : View {
         return store.state.moviesState.movies[movieId]!
     }
     
-    var characters: [Cast]? {
+    var characters: [People]? {
         get {
             guard let ids = store.state.castsState.castsMovie[movie.id] else {
                 return nil
@@ -35,7 +35,7 @@ struct MovieDetail : View {
         }
     }
     
-    var credits: [Cast]? {
+    var credits: [People]? {
         get {
             guard let ids = store.state.castsState.castsMovie[movie.id] else {
                 return nil

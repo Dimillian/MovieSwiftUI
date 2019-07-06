@@ -11,7 +11,7 @@ import SwiftUIFlux
 
 struct MoviesCrewList : View {
     @EnvironmentObject var store: Store<AppState>
-    let crew: Cast
+    let crew: People
 
     var body: some View {
         MoviesList(movies: store.state.moviesState.withCrew[crew.id] ?? [], displaySearch: false)

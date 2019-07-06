@@ -11,7 +11,7 @@ import SwiftUIFlux
 
 struct MovieCrosslinePeopleRow : View {
     let title: String
-    let casts: [Cast]
+    let casts: [People]
     
     var body: some View {
         VStack(alignment: .leading) {
@@ -33,7 +33,7 @@ struct MovieCrosslinePeopleRow : View {
 
 struct CastRowItem: View {
     @EnvironmentObject var store: Store<AppState>
-    let cast: Cast
+    let cast: People
     
     var body: some View {
         VStack(alignment: .center) {

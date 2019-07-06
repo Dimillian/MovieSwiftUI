@@ -9,7 +9,7 @@
 import Foundation
 import SwiftUI
 
-struct Cast: Codable, Identifiable {
+struct People: Codable, Identifiable {
     let id: Int
     let name: String
     let character: String?
