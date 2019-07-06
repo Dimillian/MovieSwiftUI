@@ -22,6 +22,6 @@ let sampleCasts = [People(id: 0,
                           known_for: [People.KnownFor(id: sampleMovie.id,
                                                       original_title: sampleMovie.original_title,
                                                       poster_path: sampleMovie.poster_path)],
-                          also_known_as: nil, birthDay: nil, deathDay: nil, biography: nil, popularity: nil),
+                          also_known_as: nil, birthDay: nil, deathDay: nil, biography: nil, popularity: nil, images: nil),
                    People(id: 1, name: "Cast 2", character: nil, department: "Director 1", profile_path: "/2daC5DeXqwkFND0xxutbnSVKN6c.jpg", known_for: nil,
-                          also_known_as: nil, birthDay: nil, deathDay: nil, biography: nil, popularity: nil)]
+                          also_known_as: nil, birthDay: nil, deathDay: nil, biography: nil, popularity: nil, images: nil)]

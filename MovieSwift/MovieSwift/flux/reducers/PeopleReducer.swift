@@ -28,6 +28,12 @@ func peoplesStateReducer(state: PeoplesState, action: Action) -> PeoplesState {
         }
         state = mergePeople(peoples: action.response.results, state: state)
         
+    case let action as PeopleActions.SetDetail:
+        state.peoples[action.person.id] = action.person
+        
+    case let action as PeopleActions.SetImages:
+        state.peoples[action.people]?.images = action.images
+        
     default:
         break
     }

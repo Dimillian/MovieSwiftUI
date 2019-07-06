@@ -23,7 +23,9 @@ struct People: Codable, Identifiable {
     let deathDay: String?
     
     let biography: String?
-    let popularity: String?
+    let popularity: Double?
+    
+    var images: [ImageData]?
     
     struct KnownFor: Codable, Identifiable {
         let id: Int

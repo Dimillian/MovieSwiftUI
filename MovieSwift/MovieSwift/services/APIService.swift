@@ -107,6 +107,9 @@ struct APIService {
                 }
             } catch let error {
                 DispatchQueue.main.async {
+                    #if DEBUG
+                    print("JSON Decoding Error: \(error)")
+                    #endif
                     completionHandler(.failure(.jsonDecodingError(error: error)))
                 }
             }

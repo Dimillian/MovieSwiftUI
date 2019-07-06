@@ -10,6 +10,43 @@ import Foundation
 import SwiftUIFlux
 
 struct PeopleActions {
+    struct FetchDetail: AsyncAction {
+        let people: Int
+        
+        func execute(state: FluxState?, dispatch: @escaping DispatchFunction) {
+            APIService.shared.GET(endpoint: .personDetail(person: people), params: nil)
+            { (result: Result<People, APIService.APIError>) in
+                switch result {
+                case let .success(response):
+                   dispatch(SetDetail(person: response))
+                case .failure(_):
+                    break
+                }
+            }
+        }
+    }
+    
+    struct ImagesResponse: Codable {
+        let id: Int
+        let profiles: [ImageData]
+    }
+    
+    struct FetchImages: AsyncAction {
+        let people: Int
+        
+        func execute(state: FluxState?, dispatch: @escaping DispatchFunction) {
+            APIService.shared.GET(endpoint: .personImages(person: people), params: nil)
+            { (result: Result<ImagesResponse, APIService.APIError>) in
+                switch result {
+                case let .success(response):
+                    dispatch(SetImages(people: self.people, images: response.profiles))
+                case .failure(_):
+                    break
+                }
+            }
+        }
+    }
+    
     struct FetchMovieCasts: Action {
         init(movie: Int) {
             APIService.shared.GET(endpoint: .credits(movie: movie), params: nil) {
@@ -44,6 +81,14 @@ struct PeopleActions {
         }
     }
     
+    struct SetDetail: Action {
+        let person: People
+    }
+    
+    struct SetImages: Action {
+        let people: Int
+        let images: [ImageData]
+    }
     
     struct SetMovieCasts: Action {
         let movie: Int
