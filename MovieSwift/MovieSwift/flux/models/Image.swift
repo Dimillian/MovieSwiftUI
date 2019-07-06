@@ -9,7 +9,7 @@
 import Foundation
 import SwiftUI
 
-struct MovieImage: Codable, Identifiable {
+struct ImageData: Codable, Identifiable {
     let id = UUID()
     let aspect_ratio: Float
     let file_path: String

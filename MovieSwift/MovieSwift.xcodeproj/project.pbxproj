@@ -18,7 +18,7 @@
 		6912B51322BE1DB4005E51D4 /* MovieBackdropsRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6912B51222BE1DB4005E51D4 /* MovieBackdropsRow.swift */; };
 		6915D63922AD42A900DF0C5F /* MovieCrosslineRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6915D63822AD42A900DF0C5F /* MovieCrosslineRow.swift */; };
 		6915D63B22AD80EC00DF0C5F /* MyLists.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6915D63A22AD80EC00DF0C5F /* MyLists.swift */; };
-		6918454522BD7CB20011E742 /* MovieImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6918454422BD7CB20011E742 /* MovieImage.swift */; };
+		6918454522BD7CB20011E742 /* Image.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6918454422BD7CB20011E742 /* Image.swift */; };
 		6918454922BDF2980011E742 /* MoviePostersRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6918454822BDF2980011E742 /* MoviePostersRow.swift */; };
 		6918810122C2949800E2E253 /* American Captain.otf in Resources */ = {isa = PBXBuildFile; fileRef = 6918810022C2949800E2E253 /* American Captain.otf */; };
 		691A788022C62D6C00BBB62E /* MovieUserMeta.swift in Sources */ = {isa = PBXBuildFile; fileRef = 691A787F22C62D6C00BBB62E /* MovieUserMeta.swift */; };
@@ -118,7 +118,7 @@
 		6912B51222BE1DB4005E51D4 /* MovieBackdropsRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieBackdropsRow.swift; sourceTree = "<group>"; };
 		6915D63822AD42A900DF0C5F /* MovieCrosslineRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieCrosslineRow.swift; sourceTree = "<group>"; };
 		6915D63A22AD80EC00DF0C5F /* MyLists.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyLists.swift; sourceTree = "<group>"; };
-		6918454422BD7CB20011E742 /* MovieImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieImage.swift; sourceTree = "<group>"; };
+		6918454422BD7CB20011E742 /* Image.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Image.swift; sourceTree = "<group>"; };
 		6918454822BDF2980011E742 /* MoviePostersRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoviePostersRow.swift; sourceTree = "<group>"; };
 		6918810022C2949800E2E253 /* American Captain.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "American Captain.otf"; sourceTree = "<group>"; };
 		691A787F22C62D6C00BBB62E /* MovieUserMeta.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieUserMeta.swift; sourceTree = "<group>"; };
@@ -560,7 +560,7 @@
 				697C5C2122B6428E00BAE7B5 /* Review.swift */,
 				6902647222B6CE3200459C2E /* Keyword.swift */,
 				69DEA9A722B904CB00DFF551 /* CustomList.swift */,
-				6918454422BD7CB20011E742 /* MovieImage.swift */,
+				6918454422BD7CB20011E742 /* Image.swift */,
 				696B43E622BF9E3D008B3D56 /* DiscoverFilter.swift */,
 			);
 			path = models;
@@ -722,7 +722,7 @@
 				69FB61EB22BA2E1900CBEEC7 /* DiscoverCoverImage.swift in Sources */,
 				695882BD22AD140E00AFABA9 /* UpcomingList.swift in Sources */,
 				691E82D222B54BCF00170CEA /* GenreBadge.swift in Sources */,
-				6918454522BD7CB20011E742 /* MovieImage.swift in Sources */,
+				6918454522BD7CB20011E742 /* Image.swift in Sources */,
 				695882B822AD01C500AFABA9 /* MovieDetail.swift in Sources */,
 				695DA7D122C558B1003096B9 /* OutlineRow.swift in Sources */,
 				692AA62F22AD3DFA0054DA84 /* MoviesList.swift in Sources */,

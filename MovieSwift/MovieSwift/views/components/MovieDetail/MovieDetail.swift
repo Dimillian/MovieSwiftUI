@@ -15,7 +15,7 @@ struct MovieDetail : View {
     @State var addSheetShown = false
     @State var showCreateListForm = false
     @State var showSavedBadge = false
-    @State var selectedPoster: MovieImage?
+    @State var selectedPoster: ImageData?
     
     let movieId: Int
     

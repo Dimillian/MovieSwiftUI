@@ -9,8 +9,8 @@
 import SwiftUI
 
 struct MoviePostersRow : View {
-    let posters: [MovieImage]
-    @Binding var selectedPoster: MovieImage?
+    let posters: [ImageData]
+    @Binding var selectedPoster: ImageData?
     
     var body: some View {
         VStack(alignment: .leading) {
@@ -40,7 +40,7 @@ struct MoviePostersRow : View {
 #if DEBUG
 struct MoviePostersRow_Previews : PreviewProvider {
     static var previews: some View {
-        MoviePostersRow(posters: [MovieImage(aspect_ratio: 0.666666666666667,
+        MoviePostersRow(posters: [ImageData(aspect_ratio: 0.666666666666667,
                                              file_path: "/fpemzjF623QVTe98pCVlwwtFC5N.jpg",
                                              height: 720,
                                              width: 1280)],

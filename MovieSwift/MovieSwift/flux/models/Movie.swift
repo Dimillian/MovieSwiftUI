@@ -41,7 +41,7 @@ struct Movie: Codable, Identifiable {
     let status: String?
     
     var keywords: Keywords?
-    var images: Images?
+    var images: MovieImages?
     
     var production_countries: [productionCountry]?
     
@@ -49,9 +49,9 @@ struct Movie: Codable, Identifiable {
         let keywords: [Keyword]?
     }
     
-    struct Images: Codable {
-        let posters: [MovieImage]?
-        let backdrops: [MovieImage]?
+    struct MovieImages: Codable {
+        let posters: [ImageData]?
+        let backdrops: [ImageData]?
     }
     
     struct productionCountry: Codable, Identifiable {

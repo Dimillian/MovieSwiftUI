@@ -88,7 +88,7 @@ struct MoviesActions {
         let movie: Int
         
         func execute(state: FluxState?, dispatch: @escaping DispatchFunction) {
-            APIService.shared.GET(endpoint: .detail(movie: movie),
+            APIService.shared.GET(endpoint: .movieDetail(movie: movie),
                                   params: ["append_to_response": "keywords,images",
                                            "language": "en-US",
                                            "include_image_language": "en"])

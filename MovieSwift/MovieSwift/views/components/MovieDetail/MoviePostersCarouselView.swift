@@ -9,8 +9,8 @@
 import SwiftUI
 
 struct MoviePostersCarouselView : View {
-    let posters: [MovieImage]
-    @Binding var selectedPoster: MovieImage?
+    let posters: [ImageData]
+    @Binding var selectedPoster: ImageData?
     
     func computeCarouselPosterScale(width: Length, itemX: Length) -> Length {
         let trueX = itemX - (width/2 - 250/3)
@@ -57,19 +57,19 @@ struct MoviePostersCarouselView : View {
 #if DEBUG
 struct MoviePostersCarouselView_Previews : PreviewProvider {
     static var previews: some View {
-        MoviePostersCarouselView(posters: [MovieImage(aspect_ratio: 0.666666666666667,
+        MoviePostersCarouselView(posters: [ImageData(aspect_ratio: 0.666666666666667,
                                                       file_path: "/fpemzjF623QVTe98pCVlwwtFC5N.jpg",
                                                       height: 720,
                                                       width: 1280),
-                                           MovieImage(aspect_ratio: 0.666666666666667,
+                                           ImageData(aspect_ratio: 0.666666666666667,
                                                       file_path: "/fpemzjF623QVTe98pCVlwwtFC5N.jpg",
                                                       height: 720,
                                                       width: 1280),
-                                           MovieImage(aspect_ratio: 0.666666666666667,
+                                           ImageData(aspect_ratio: 0.666666666666667,
                                                       file_path: "/fpemzjF623QVTe98pCVlwwtFC5N.jpg",
                                                       height: 720,
                                                       width: 1280),
-                                           MovieImage(aspect_ratio: 0.666666666666667,
+                                           ImageData(aspect_ratio: 0.666666666666667,
                                                       file_path: "/fpemzjF623QVTe98pCVlwwtFC5N.jpg",
                                                       height: 720,
                                                       width: 1280)],

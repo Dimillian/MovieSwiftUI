@@ -15,7 +15,15 @@ struct People: Codable, Identifiable {
     let character: String?
     let department: String?
     let profile_path: String?
+    
     let known_for: [KnownFor]?
+    let also_known_as: [String]?
+    
+    let birthDay: String?
+    let deathDay: String?
+    
+    let biography: String?
+    let popularity: String?
     
     struct KnownFor: Codable, Identifiable {
         let id: Int
