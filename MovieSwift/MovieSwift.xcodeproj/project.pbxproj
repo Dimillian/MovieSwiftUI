@@ -255,7 +255,7 @@
 			path = binding;
 			sourceTree = "<group>";
 		};
-		695882B622AD01B600AFABA9 /* detail */ = {
+		695882B622AD01B600AFABA9 /* MovieDetail */ = {
 			isa = PBXGroup;
 			children = (
 				697C5C2322B6433C00BAE7B5 /* reviews */,
@@ -264,7 +264,7 @@
 				695882B722AD01C500AFABA9 /* MovieDetail.swift */,
 				6924393B22BF43D300C796CB /* MoviePostersCarouselView.swift */,
 			);
-			path = detail;
+			path = MovieDetail;
 			sourceTree = "<group>";
 		};
 		695882BB22AD10B300AFABA9 /* lists */ = {
@@ -367,7 +367,7 @@
 				69FB61E222BA216D00CBEEC7 /* discover */,
 				69DEA9A422B9026600DFF551 /* custom list */,
 				695882BB22AD10B300AFABA9 /* lists */,
-				695882B622AD01B600AFABA9 /* detail */,
+				695882B622AD01B600AFABA9 /* MovieDetail */,
 			);
 			path = components;
 			sourceTree = "<group>";
