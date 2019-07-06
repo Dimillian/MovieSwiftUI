@@ -20,7 +20,7 @@ struct PeopleDetail : View {
     var body: some View {
         List {
             PeopleDetailHeaderRow(peopleId: peopleId)
-            if people.biography != nil {
+            if people.biography != nil && people.biography?.isEmpty == false {
                 PeopleDetailBiographyRow(biography: people.biography!)
             }
             if people.images != nil {
