@@ -31,6 +31,7 @@ struct PeopleDetail : View {
         .onAppear {
             self.store.dispatch(action: PeopleActions.FetchDetail(people: self.peopleId))
             self.store.dispatch(action: PeopleActions.FetchImages(people: self.peopleId))
+            self.store.dispatch(action: PeopleActions.FetchPeopleCredits(people: self.peopleId))
         }
     }
 }

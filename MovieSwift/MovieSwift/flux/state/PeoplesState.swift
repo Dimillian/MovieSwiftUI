@@ -13,4 +13,9 @@ struct PeoplesState: FluxState {
     var peoples: [Int: People] = [:]
     var peoplesMovies: [Int: [Int]] = [:]
     var search: [String: [Int]] = [:]
+    
+    /// [PeopleId: [MovieId:  Character]]
+    var casts: [Int: [Int: String]] = [:]
+    /// [PeopleId: [MovieId:  Character]]
+    var crews: [Int: [Int: String]] = [:]
 }

@@ -47,6 +47,26 @@ struct PeopleActions {
         }
     }
     
+    struct PeopleCreditsResponse: Codable {
+        let cast: [Movie]?
+        let crew: [Movie]?
+    }
+    struct FetchPeopleCredits: AsyncAction {
+        let people: Int
+        
+        func execute(state: FluxState?, dispatch: @escaping DispatchFunction) {
+            APIService.shared.GET(endpoint: .personMovieCredits(person: people), params: nil) {
+                (result: Result<PeopleCreditsResponse, APIService.APIError>) in
+                switch result {
+                case let .success(response):
+                    dispatch(SetPeopleCredits(people: self.people, response: response))
+                case .failure(_):
+                    break
+                }
+            }
+        }
+    }
+    
     struct FetchMovieCasts: Action {
         init(movie: Int) {
             APIService.shared.GET(endpoint: .credits(movie: movie), params: nil) {
@@ -99,6 +119,11 @@ struct PeopleActions {
         let query: String
         let page: Int
         let response: PaginatedResponse<People>
+    }
+    
+    struct SetPeopleCredits: Action {
+        let people: Int
+        let response: PeopleCreditsResponse
     }
     
 }

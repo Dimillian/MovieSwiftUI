@@ -43,7 +43,7 @@ struct MovieDetailRowItem: View {
                     Text(movie.userTitle)
                         .font(.body)
                         .color(.primary)
-                    Text(movie.release_date.prefix(4))
+                    Text(movie.release_date != nil ? movie.release_date!.prefix(4) : "")
                         .font(.subheadline)
                         .color(.secondary)
                 }

@@ -20,6 +20,7 @@ func peoplesStateReducer(state: PeoplesState, action: Action) -> PeoplesState {
             state.peoples[cast.id] = cast
         }
         state.peoplesMovies[action.movie] = action.response.cast.map{ $0.id } + action.response.crew.map{ $0.id }
+        
     case let action as PeopleActions.SetSearch:
         if action.page == 1 {
             state.search[action.query] = action.response.results.map{ $0.id }
@@ -36,6 +37,25 @@ func peoplesStateReducer(state: PeoplesState, action: Action) -> PeoplesState {
             state.peoples[action.person.id] = new
         } else {
             state.peoples[action.person.id] = action.person
+        }
+        
+    case let action as PeopleActions.SetPeopleCredits:
+        if let cast = action.response.cast {
+            if state.casts[action.people] == nil {
+                state.casts[action.people] = [:]
+            }
+            for meta in cast {
+                state.casts[action.people]![meta.id] = meta.character!
+            }
+        }
+        
+        if let crew = action.response.crew {
+            if state.crews[action.people] == nil {
+                state.crews[action.people] = [:]
+            }
+            for meta in crew {
+                state.crews[action.people]![meta.id] = meta.department!
+            }
         }
         
     case let action as PeopleActions.SetImages:

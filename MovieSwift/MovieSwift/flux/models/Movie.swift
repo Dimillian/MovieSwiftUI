@@ -25,9 +25,9 @@ struct Movie: Codable, Identifiable {
     let vote_average: Float
     let vote_count: Int
     
-    let release_date: String
+    let release_date: String?
     var releaseDate: Date? {
-        return Movie.dateFormatter.date(from: release_date)
+        return release_date != nil ? Movie.dateFormatter.date(from: release_date!) : Date()
     }
     
     static let dateFormatter: DateFormatter = {
@@ -44,6 +44,9 @@ struct Movie: Codable, Identifiable {
     var images: MovieImages?
     
     var production_countries: [productionCountry]?
+    
+    var character: String?
+    var department: String?
     
     struct Keywords: Codable {
         let keywords: [Keyword]?

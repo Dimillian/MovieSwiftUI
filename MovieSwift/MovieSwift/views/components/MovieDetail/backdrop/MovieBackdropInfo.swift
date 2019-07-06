@@ -30,7 +30,7 @@ struct MovieBackdropInfo : View {
                     .lineLimit(nil)
                     .padding(.leading)
                 HStack {
-                    Text(movie.release_date.prefix(4))
+                    Text(movie.release_date != nil ? movie.release_date!.prefix(4) : "")
                         .font(.subheadline)
                         .color(.white)
                     if movie.runtime != nil {

@@ -138,9 +138,22 @@ func moviesStateReducer(state: MoviesState, action: Action) -> MoviesState {
         state.discoverFilter = nil
         state.discover = []
         
-    case let action as  MoviesActions.SetGenres:
+    case let action as MoviesActions.SetGenres:
         state.genres = action.genres
         state.genres.insert(Genre(id: -1, name: "Random"), at: 0)
+        
+    case let action as PeopleActions.SetPeopleCredits:
+        if let crews = action.response.crew {
+            for movie in crews {
+                state.movies[movie.id] = movie
+            }
+        }
+        
+        if let casts = action.response.cast {
+            for movie in casts {
+                state.movies[movie.id] = movie
+            }
+        }
         
     default:
         break
