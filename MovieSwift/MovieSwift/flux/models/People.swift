@@ -16,7 +16,7 @@ struct People: Codable, Identifiable {
     let department: String?
     let profile_path: String?
     
-    let known_for: [KnownFor]?
+    var known_for: [KnownFor]?
     let also_known_as: [String]?
     
     let birthDay: String?
@@ -31,5 +31,15 @@ struct People: Codable, Identifiable {
         let id: Int
         let original_title: String?
         let poster_path: String?
+    }
+}
+
+extension People {
+    var knownForText: String? {
+        guard let knownFor = known_for else {
+            return nil
+        }
+        let names = knownFor.filter{ $0.original_title != nil}.map{ $0.original_title! }
+        return names.joined(separator: ", ")
     }
 }

@@ -84,7 +84,7 @@ struct MoviesList : View {
     private var peoplesSection: some View {
         Section {
             ForEach(searchPeoples) { id in
-                NavigationLink(destination: PeopleDetail().environmentObject(self.store)) {
+                NavigationLink(destination: PeopleDetail(peopleId: id).environmentObject(self.store)) {
                     PeopleRow(peopleId: id)
                 }
             }

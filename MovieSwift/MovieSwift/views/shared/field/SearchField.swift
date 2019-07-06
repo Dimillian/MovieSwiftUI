@@ -33,7 +33,7 @@ struct SearchField : View {
                 Button(action: {
                     self.searchText = ""
                 }, label: {
-                    Text("cancel").color(.blue)
+                    Text("cancel").color(.steam_blue)
                 }).animation(.basic())
             }
         }

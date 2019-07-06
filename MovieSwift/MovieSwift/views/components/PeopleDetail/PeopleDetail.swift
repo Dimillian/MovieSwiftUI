@@ -7,17 +7,34 @@
 //
 
 import SwiftUI
+import SwiftUIFlux
 
 struct PeopleDetail : View {
+    @EnvironmentObject private var store: Store<AppState>
+    let peopleId: Int
+    
+    var people: People {
+        store.state.peoplesState.peoples[peopleId]!
+    }
+    
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello World!"/*@END_MENU_TOKEN@*/)
+        List {
+            PeopleDetailHeaderRow(peopleId: peopleId)
+        }
+        .navigationBarTitle(people.name)
+        .onAppear {
+            self.store.dispatch(action: PeopleActions.FetchDetail(people: self.peopleId))
+            self.store.dispatch(action: PeopleActions.FetchImages(people: self.peopleId))
+        }
     }
 }
 
 #if DEBUG
 struct PeopleDetail_Previews : PreviewProvider {
     static var previews: some View {
-        PeopleDetail()
+        NavigationView {
+            PeopleDetail(peopleId: sampleCasts.first!.id).environmentObject(sampleStore)
+        }
     }
 }
 #endif

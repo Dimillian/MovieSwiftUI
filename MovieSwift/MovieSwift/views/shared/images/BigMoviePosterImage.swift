@@ -18,11 +18,8 @@ struct BigMoviePosterImage : View {
                 Image(uiImage: self.imageLoader.image!)
                     .resizable()
                     .renderingMode(.original)
-                    .frame(width: 250, height: 375)
-                    .cornerRadius(5)
+                    .posterStyle(loaded: true, size: .big)
                     .scaleEffect(self.isImageLoaded ? 1 : 0.6)
-                    .opacity(self.isImageLoaded ? 1 : 0.1)
-                    .shadow(radius: 8)
                     .animation(.spring())
                     .onAppear{
                         self.isImageLoaded = true
@@ -30,10 +27,7 @@ struct BigMoviePosterImage : View {
             } else {
                 Rectangle()
                     .foregroundColor(.gray)
-                    .frame(width: 200, height: 300)
-                    .cornerRadius(5)
-                    .shadow(radius: 8)
-                    .opacity(0.1)
+                    .posterStyle(loaded: false, size: .big)
             }
             }.onAppear {
                 self.imageLoader.loadImage()
