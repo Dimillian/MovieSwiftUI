@@ -22,6 +22,7 @@ struct People: Codable, Identifiable {
     
     let birthDay: String?
     let deathDay: String?
+    let place_of_birth: String?
     
     let biography: String?
     let popularity: Double?

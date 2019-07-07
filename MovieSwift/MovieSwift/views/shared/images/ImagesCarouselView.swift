@@ -8,7 +8,7 @@
 
 import SwiftUI
 
-struct MoviePostersCarouselView : View {
+struct ImagesCarouselView : View {
     let posters: [ImageData]
     @Binding var selectedPoster: ImageData?
     
@@ -33,12 +33,16 @@ struct MoviePostersCarouselView : View {
                             GeometryReader { reader2 in
                                 BigMoviePosterImage(imageLoader: ImageLoader(path: poster.file_path,
                                                                              size: .medium))
-                                    .scaleEffect(self.computeCarouselPosterScale(width: reader.frame(in: .global).width,
-                                                                                 itemX: reader2.frame(in: .global).midX),
+                                    .scaleEffect(self.selectedPoster == nil ?
+                                        .zero :
+                                        self.computeCarouselPosterScale(width: reader.frame(in: .global).width,
+                                                                        itemX: reader2.frame(in: .global).midX),
                                                  anchor: .center)
                                     .zIndex(1)
                                     .tapAction {
-                                        self.selectedPoster = nil
+                                        withAnimation {
+                                            self.selectedPoster = nil
+                                        }
                                 }
                             }
                         }
@@ -57,7 +61,7 @@ struct MoviePostersCarouselView : View {
 #if DEBUG
 struct MoviePostersCarouselView_Previews : PreviewProvider {
     static var previews: some View {
-        MoviePostersCarouselView(posters: [ImageData(aspect_ratio: 0.666666666666667,
+        ImagesCarouselView(posters: [ImageData(aspect_ratio: 0.666666666666667,
                                                       file_path: "/fpemzjF623QVTe98pCVlwwtFC5N.jpg",
                                                       height: 720,
                                                       width: 1280),

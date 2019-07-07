@@ -10,6 +10,8 @@ import SwiftUI
 
 struct PeopleDetailImagesRow : View {
     let images: [ImageData]
+    @Binding var selectedPoster: ImageData?
+    
     var body: some View {
         VStack(alignment: .leading, spacing: 6) {
             Text("Images:")
@@ -20,6 +22,11 @@ struct PeopleDetailImagesRow : View {
                 HStack(alignment: .center, spacing: 16) {
                     ForEach(images) { image in
                         PeopleImage(imageLoader: ImageLoader(path: image.file_path, size: .cast))
+                            .tapAction {
+                                withAnimation{
+                                    self.selectedPoster = image
+                                }
+                        }
                     }
                 }
                 .padding(.leading)
@@ -34,7 +41,7 @@ struct PeopleDetailImagesRow : View {
 #if DEBUG
 struct PeopleDetailImagesRow_Previews : PreviewProvider {
     static var previews: some View {
-        PeopleDetailImagesRow(images: sampleCasts.first!.images ?? [])
+        PeopleDetailImagesRow(images: sampleCasts.first!.images ?? [], selectedPoster: .constant(nil))
     }
 }
 #endif

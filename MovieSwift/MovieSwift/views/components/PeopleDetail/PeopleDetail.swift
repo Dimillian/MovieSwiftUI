@@ -12,6 +12,7 @@ import SwiftUIFlux
 struct PeopleDetail : View {
     @EnvironmentObject private var store: Store<AppState>
     let peopleId: Int
+    @State var selectedPoster: ImageData?
     
     private var people: People {
         store.state.peoplesState.peoples[peopleId]!
@@ -65,16 +66,24 @@ struct PeopleDetail : View {
     }
     
     var body: some View {
-        List {
-            PeopleDetailHeaderRow(peopleId: peopleId)
-            if people.biography != nil && people.biography?.isEmpty == false {
-                PeopleDetailBiographyRow(biography: people.biography!)
+        ZStack(alignment: .bottom) {
+            List {
+                PeopleDetailHeaderRow(peopleId: peopleId)
+                PeopleDetailBiographyRow(biography: people.biography,
+                                         birthDate: people.birthDay,
+                                         deathDate: people.deathDay,
+                                         placeOfBirth: people.place_of_birth)
+                if people.images != nil {
+                    PeopleDetailImagesRow(images: people.images!, selectedPoster: $selectedPoster)
+                }
+                ForEach(sortedYears.identified(by: \.self)) {
+                    self.moviesSection(year: $0)
+                }
             }
-            if people.images != nil {
-                PeopleDetailImagesRow(images: people.images!)
-            }
-            ForEach(sortedYears.identified(by: \.self)) {
-               self.moviesSection(year: $0)
+            .blur(radius: selectedPoster != nil ? 30 : 0)
+            if selectedPoster != nil && people.images != nil {
+                ImagesCarouselView(posters: people.images!,
+                                   selectedPoster: $selectedPoster)
             }
         }
         .navigationBarTitle(people.name)

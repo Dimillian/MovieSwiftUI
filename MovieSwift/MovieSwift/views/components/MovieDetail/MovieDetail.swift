@@ -182,7 +182,7 @@ struct MovieDetail : View {
                               color: .blue,
                               show: $showSavedBadge).padding(.bottom, 10)
             if selectedPoster != nil && movie.images?.posters != nil {
-                MoviePostersCarouselView(posters: movie.images!.posters!, selectedPoster: $selectedPoster)
+                ImagesCarouselView(posters: movie.images!.posters!, selectedPoster: $selectedPoster)
             }
         }
     }

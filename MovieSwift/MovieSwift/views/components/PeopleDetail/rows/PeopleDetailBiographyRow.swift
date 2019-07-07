@@ -10,22 +10,51 @@ import SwiftUI
 import SwiftUIFlux
 
 struct PeopleDetailBiographyRow : View {
-    let biography: String
+    let biography: String?
+    let birthDate: String?
+    let deathDate: String?
+    let placeOfBirth: String?
     @State private var isExpanded = false
     
     var body: some View {
         VStack(alignment: .leading, spacing: 6) {
-            Text("Biography:")
-                .font(.FjallaOne(size: 16))
-                .fontWeight(.bold)
-            Text(biography)
-                .color(.secondary)
-                .font(.body)
-                .lineLimit(isExpanded ? nil : 4)
+            if biography != nil {
+                Text("Biography:")
+                    .font(.FjallaOne(size: 16))
+                    .fontWeight(.bold)
+                Text(biography!)
+                    .color(.secondary)
+                    .font(.body)
+                    .lineLimit(isExpanded ? nil : 4)
+            }
             Button(action: {
                 self.isExpanded.toggle()
             }) {
                 Text(isExpanded ? "Less": "Read more").color(.steam_blue)
+            }
+            if birthDate != nil {
+                Text("Birthday:")
+                    .font(.FjallaOne(size: 16))
+                    .fontWeight(.bold)
+                Text(birthDate!)
+                    .color(.secondary)
+                    .font(.body)
+            }
+            if placeOfBirth != nil {
+                Text("Place of birth:")
+                    .font(.FjallaOne(size: 16))
+                    .fontWeight(.bold)
+                Text(placeOfBirth!)
+                    .color(.secondary)
+                    .font(.body)
+            }
+            if deathDate != nil {
+                Text("Day of deah:")
+                    .font(.FjallaOne(size: 16))
+                    .fontWeight(.bold)
+                Text(deathDate!)
+                    .color(.secondary)
+                    .font(.body)
             }
         }
     }
@@ -34,7 +63,10 @@ struct PeopleDetailBiographyRow : View {
 #if DEBUG
 struct PeopleDetailBiography_Previews : PreviewProvider {
     static var previews: some View {
-        PeopleDetailBiographyRow(biography: "Super bio")
+        PeopleDetailBiographyRow(biography: "Super bio",
+                                 birthDate: "1985-02-03",
+                                 deathDate: "2005-02-05",
+                                 placeOfBirth: "USA")
     }
 }
 #endif
