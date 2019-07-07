@@ -37,7 +37,7 @@ struct PeopleRowItem: View {
     
     var body: some View {
         VStack(alignment: .center) {
-            NavigationLink(destination: MoviesCrewList(crew: people).environmentObject(store)) {
+            NavigationLink(destination: PeopleDetail(peopleId: people.id).environmentObject(store)) {
                 PeopleImage(imageLoader: ImageLoader(path: people.profile_path,
                                                    size: .cast))
                 Text(people.name).font(.body).color(.primary)
