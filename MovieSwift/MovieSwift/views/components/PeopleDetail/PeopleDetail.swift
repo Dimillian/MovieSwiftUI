@@ -37,13 +37,19 @@ struct PeopleDetail : View {
     
     private func computeYears(roles: [Int: String], years: inout [String: [MovieRole]]) {
         for (_, value) in roles.enumerated() {
-            if let movie = store.state.moviesState.movies[value.key],
-                movie.release_date != nil {
-                let year = String(movie.release_date!.prefix(4))
-                if years[year] == nil {
-                    years[year] = []
+            if let movie = store.state.moviesState.movies[value.key] {
+                if movie.release_date != nil {
+                    let year = String(movie.release_date!.prefix(4))
+                    if years[year] == nil {
+                        years[year] = []
+                    }
+                    years[year]?.append(MovieRole(id: value.key, role: value.value))
+                } else {
+                    if years["Upcoming"] == nil {
+                        years["Upcoming"] = []
+                    }
+                    years["Upcoming"]?.append(MovieRole(id: value.key, role: value.value))
                 }
-                years[year]?.append(MovieRole(id: value.key, role: value.value))
             }
         }
     }
