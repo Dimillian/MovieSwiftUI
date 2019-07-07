@@ -40,7 +40,7 @@ func peoplesStateReducer(state: PeoplesState, action: Action) -> PeoplesState {
             if state.casts[action.people] == nil {
                 state.casts[action.people] = [:]
             }
-            for meta in cast {
+            for meta in cast where meta.character != nil {
                 state.casts[action.people]![meta.id] = meta.character!
             }
         }
@@ -49,7 +49,7 @@ func peoplesStateReducer(state: PeoplesState, action: Action) -> PeoplesState {
             if state.crews[action.people] == nil {
                 state.crews[action.people] = [:]
             }
-            for meta in crew {
+            for meta in crew where meta.department != nil {
                 state.crews[action.people]![meta.id] = meta.department!
             }
         }
