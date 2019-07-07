@@ -13,8 +13,49 @@ struct PeopleDetail : View {
     @EnvironmentObject private var store: Store<AppState>
     let peopleId: Int
     
-    var people: People {
+    private var people: People {
         store.state.peoplesState.peoples[peopleId]!
+    }
+    
+    private struct MovieRole: Identifiable {
+        let id: Int
+        let role: String
+    }
+    
+    private var moviesByYears: [String: [MovieRole]] {
+        get {
+            var years: [String: [MovieRole]] = [:]
+            computeYears(roles: store.state.peoplesState.crews[peopleId] ?? [:], years: &years)
+            computeYears(roles: store.state.peoplesState.casts[peopleId] ?? [:], years: &years)
+            return years
+        }
+    }
+    
+    private var sortedYears: [String] {
+        moviesByYears.compactMap{ $0.key }.sorted(by: { $0 > $1 })
+    }
+    
+    private func computeYears(roles: [Int: String], years: inout [String: [MovieRole]]) {
+        for (_, value) in roles.enumerated() {
+            if let movie = store.state.moviesState.movies[value.key],
+                movie.release_date != nil {
+                let year = String(movie.release_date!.prefix(4))
+                if years[year] == nil {
+                    years[year] = []
+                }
+                years[year]?.append(MovieRole(id: value.key, role: value.value))
+            }
+        }
+    }
+    
+    func moviesSection(year: String) -> some View {
+        Section(header: Text(year)) {
+            ForEach(self.moviesByYears[year]!) { meta in
+                NavigationLink(destination: MovieDetail(movieId: meta.id).environmentObject(self.store)) {
+                    PeopleDetailMovieRow(movieId: meta.id, role: meta.role)
+                }
+            }
+        }
     }
     
     var body: some View {
@@ -25,6 +66,9 @@ struct PeopleDetail : View {
             }
             if people.images != nil {
                 PeopleDetailImagesRow(images: people.images!)
+            }
+            ForEach(sortedYears.identified(by: \.self)) {
+               self.moviesSection(year: $0)
             }
         }
         .navigationBarTitle(people.name)

@@ -14,14 +14,14 @@ struct PosterStyle: ViewModifier {
         
         func width() -> Length {
             switch self {
-            case .small: return 100
+            case .small: return 53
             case .medium: return 100
             case .big: return 250
             }
         }
         func height() -> Length {
             switch self {
-            case .small: return 150
+            case .small: return 80
             case .medium: return 150
             case .big: return 375
             }

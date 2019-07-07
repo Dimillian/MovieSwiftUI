@@ -39,7 +39,7 @@ struct MovieDetailRowItem: View {
     var body: some View {
             VStack(alignment: .center) {
                 NavigationLink(destination: MovieDetail(movieId: movie.id).environmentObject(store)) {
-                    MoviePosterImage(imageLoader: ImageLoader(path: movie.poster_path, size: .medium))
+                    MoviePosterImage(imageLoader: ImageLoader(path: movie.poster_path, size: .medium), posterSize: .medium)
                     Text(movie.userTitle)
                         .font(.body)
                         .color(.primary)

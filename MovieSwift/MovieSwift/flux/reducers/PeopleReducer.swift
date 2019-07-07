@@ -13,12 +13,8 @@ func peoplesStateReducer(state: PeoplesState, action: Action) -> PeoplesState {
     var state = state
     switch action {
     case let action as PeopleActions.SetMovieCasts:
-        for cast in action.response.cast {
-            state.peoples[cast.id] = cast
-        }
-        for cast in action.response.crew {
-            state.peoples[cast.id] = cast
-        }
+        state = mergePeople(peoples: action.response.cast, state: state)
+        state = mergePeople(peoples: action.response.crew, state: state)
         state.peoplesMovies[action.movie] = action.response.cast.map{ $0.id } + action.response.crew.map{ $0.id }
         
     case let action as PeopleActions.SetSearch:

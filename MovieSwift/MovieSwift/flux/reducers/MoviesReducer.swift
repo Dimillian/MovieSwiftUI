@@ -144,15 +144,11 @@ func moviesStateReducer(state: MoviesState, action: Action) -> MoviesState {
         
     case let action as PeopleActions.SetPeopleCredits:
         if let crews = action.response.crew {
-            for movie in crews {
-                state.movies[movie.id] = movie
-            }
+            state = mergeMovies(movies: crews, state: state)
         }
         
         if let casts = action.response.cast {
-            for movie in casts {
-                state.movies[movie.id] = movie
-            }
+            state = mergeMovies(movies: casts, state: state)
         }
         
     default:

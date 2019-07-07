@@ -11,6 +11,7 @@ import SwiftUI
 struct MoviePosterImage : View {
     @State var imageLoader: ImageLoader
     @State var isImageLoaded = false
+    let posterSize: PosterStyle.Size
     
     var body: some View {
         ZStack {
@@ -18,7 +19,7 @@ struct MoviePosterImage : View {
                 Image(uiImage: self.imageLoader.image!)
                     .resizable()
                     .renderingMode(.original)
-                    .posterStyle(loaded: true, size: .medium)
+                    .posterStyle(loaded: true, size: posterSize)
                     .animation(.basic())
                     .onAppear{
                         self.isImageLoaded = true
@@ -26,7 +27,7 @@ struct MoviePosterImage : View {
             } else {
                 Rectangle()
                     .foregroundColor(.gray)
-                    .posterStyle(loaded: false, size: .medium)
+                    .posterStyle(loaded: false, size: posterSize)
             }
             }.onAppear {
                 self.imageLoader.loadImage()

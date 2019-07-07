@@ -27,7 +27,7 @@ struct MovieRow : View {
         
     var body: some View {
         HStack {
-            MoviePosterImage(imageLoader: ImageLoader(path: movie.poster_path, size: .small))
+            MoviePosterImage(imageLoader: ImageLoader(path: movie.poster_path, size: .small), posterSize: .medium)
             VStack(alignment: .leading, spacing: 8) {
                 Text(movie.userTitle)
                     .font(.FjallaOne(size: 20))
