@@ -19,8 +19,9 @@ struct CustomListDetail : View {
     
     var body: some View {
         MoviesList(movies: list.movies,
-                   displaySearch: false)
-            .navigationBarTitle(Text(list.name))
+                   displaySearch: false,
+                   headerView: AnyView(CustomListHeaderRow(listId: listId)))
+            .edgesIgnoringSafeArea(.top)
     }
 }
 

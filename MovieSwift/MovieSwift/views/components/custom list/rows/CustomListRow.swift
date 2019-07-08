@@ -14,7 +14,7 @@ struct CustomListRow : View {
     
     let list: CustomList
     var coverMovie: Movie? {
-        guard let id = list.cover else {
+        guard let id = list.movies.first else {
             return nil
         }
         return store.state.moviesState.movies[id]

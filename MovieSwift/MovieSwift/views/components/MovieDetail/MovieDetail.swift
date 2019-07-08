@@ -153,8 +153,7 @@ struct MovieDetail : View {
                                         selectedPoster: $selectedPoster)
                     }
                     if movie.images?.backdrops != nil && movie.images?.backdrops?.isEmpty == false {
-                        MovieBackdropsRow(backdrops: movie.images!.backdrops!,
-                                          selectedBackdrop: $selectedPoster)
+                        MovieBackdropsRow(backdrops: movie.images!.backdrops!)
                     }
                 }
                 }

@@ -22,7 +22,7 @@ struct MovieBackdrop: View {
     
     var body: some View {
         ZStack(alignment: .bottomLeading) {
-            MovieBackdropImage(imageLoader: ImageLoader(path: movie.backdrop_path ?? movie.poster_path,
+            MovieTopBackdropImage(imageLoader: ImageLoader(path: movie.backdrop_path ?? movie.poster_path,
                                                       size: .original),
                              isExpanded: $seeImage)
                 .tapAction {

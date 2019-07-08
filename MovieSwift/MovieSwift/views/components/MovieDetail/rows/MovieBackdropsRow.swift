@@ -10,7 +10,6 @@ import SwiftUI
 
 struct MovieBackdropsRow : View {
     let backdrops: [ImageData]
-    @Binding var selectedBackdrop: ImageData?
     
     var body: some View {
         VStack(alignment: .leading) {
@@ -22,14 +21,7 @@ struct MovieBackdropsRow : View {
                 HStack(spacing: 16) {
                     ForEach(self.backdrops) { backdrop in
                         MovieBackdropImage(imageLoader: ImageLoader(path: backdrop.file_path,
-                                                                    size: .original),
-                                           isExpanded: .constant(true))
-                            .frame(height: 200)
-                            .tapAction {
-                                withAnimation {
-                                    self.selectedBackdrop = backdrop
-                                }
-                        }
+                                                                    size: .original))
                     }
                     }.padding(.leading)
             }
@@ -46,8 +38,7 @@ struct MovieBackdropsRow_Previews : PreviewProvider {
         MovieBackdropsRow(backdrops: [ImageData(aspect_ratio: 1.7,
                                              file_path: "/fCayJrkfRaCRCTh8GqN30f8oyQF.jpg",
                                              height: 1200,
-                                             width: 1800)],
-                        selectedBackdrop: .constant(nil))
+                                             width: 1800)])
     }
 }
 #endif

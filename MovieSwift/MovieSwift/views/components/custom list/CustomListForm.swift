@@ -54,7 +54,7 @@ struct TopSection: View {
                         }).disabled(listMovieCover != nil)
                     }
                     if listMovieCover != nil {
-                        MovieRow(movieId: listMovieCover!)
+                        CustomListCoverRow(movieId: listMovieCover!)
                         Button(action: {
                             self.listMovieCover = nil
                         }, label: {
@@ -78,7 +78,7 @@ struct MovieSearchSection: View {
     var body: some View {
         Section() {
             ForEach(searchedMovies) { movieId in
-                MovieRow(movieId: movieId).tapAction {
+                CustomListCoverRow(movieId: movieId).tapAction {
                     self.listMovieCover = movieId
                     self.movieSearch = ""
                 }
