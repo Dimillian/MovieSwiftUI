@@ -23,7 +23,7 @@ struct SearchField : View {
             TextField("Search any movies",
                       text: $searchText)
                 .onReceive(NotificationCenter.default.publisher(for: UITextField.textDidChangeNotification)
-                    .debounce(for: 0.5,
+                    .debounce(for: .milliseconds(200),
                               scheduler: DispatchQueue.main),
                            perform: onKeyStroke)
                 .textFieldStyle(.roundedBorder)
