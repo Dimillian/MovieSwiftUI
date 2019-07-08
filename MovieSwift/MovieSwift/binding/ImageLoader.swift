@@ -42,8 +42,8 @@ final class ImageLoader: BindableObject {
             missing = true
             return
         }
-        ImageService.shared.image(poster: poster, size: .medium) { (result) in
-            do { self.image = try result.get() } catch { }
+        ImageService.shared.image(poster: poster, size: .medium) { [weak self] (result) in
+            do { self?.image = try result.get() } catch { }
         }
     }
 }
