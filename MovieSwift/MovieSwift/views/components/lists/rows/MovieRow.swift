@@ -9,25 +9,67 @@
 import SwiftUI
 import SwiftUIFlux
 
-fileprivate let placeholder = UIImage(named: "poster-placeholder")!
+fileprivate let formatter: DateFormatter = {
+    let formatter = DateFormatter()
+    formatter.dateStyle = .medium
+    return formatter
+}()
 
 struct MovieRow : View {
     @EnvironmentObject var store: Store<AppState>
     
     let movieId: Int
+    
     private var movie: Movie! {
         return store.state.moviesState.movies[movieId]
     }
+    @State private var isPressing = false
+    @State private var addSheetShown = false
     
-    private static let formatter: DateFormatter = {
-        let formatter = DateFormatter()
-        formatter.dateStyle = .medium
-        return formatter
-    }()
+    var addActionSheet: ActionSheet {
+        get {
+            var buttons: [Alert.Button] = []
+            let wishlistButton: Alert.Button = .default(Text("Add to wishlist")) {
+                self.addSheetShown = false
+                self.store.dispatch(action: MoviesActions.AddToWishlist(movie: self.movieId))
+            }
+            let seenButton: Alert.Button = .default(Text("Add to seenlist")) {
+                self.addSheetShown = false
+                self.store.dispatch(action: MoviesActions.AddToSeenList(movie: self.movieId))
+            }
+            buttons.append(wishlistButton)
+            buttons.append(seenButton)
+            for list in store.state.moviesState.customLists.compactMap({ $0.value }) {
+                let button: Alert.Button = .default(Text("Add to \(list.name)")) {
+                    self.addSheetShown = false
+                    self.store.dispatch(action: MoviesActions.AddMovieToCustomList(list: list.id,
+                                                                                   movie: self.movieId))
+                }
+                buttons.append(button)
+            }
+            let cancelButton = Alert.Button.cancel {
+                self.addSheetShown = false
+            }
+            buttons.append(cancelButton)
+            let sheet = ActionSheet(title: Text("Add to"),
+                                    message: Text("Add this movie to your list"),
+                                    buttons: buttons)
+            return sheet
+        }
+    }
         
     var body: some View {
         HStack {
-            MoviePosterImage(imageLoader: ImageLoader(path: movie.poster_path, size: .small), posterSize: .medium)
+            MoviePosterImage(imageLoader: ImageLoader(path: movie.poster_path,
+                                                      size: .small),
+                             posterSize: .medium)
+                .scaleEffect(isPressing ? 1.05 : 1.0)
+                .animation(isPressing ?.spring() : nil)
+                .longPressAction(minimumDuration: 0.5, maximumDistance: 10, {
+                    self.addSheetShown = true
+                }) { ended in
+                    self.isPressing = ended
+                }
             VStack(alignment: .leading, spacing: 8) {
                 Text(movie.userTitle)
                     .font(.FjallaOne(size: 20))
@@ -35,7 +77,7 @@ struct MovieRow : View {
                     .lineLimit(2)
                 HStack {
                     PopularityBadge(score: Int(movie.vote_average * 10))
-                    Text(MovieRow.formatter.string(from: movie.releaseDate ?? Date()))
+                    Text(formatter.string(from: movie.releaseDate ?? Date()))
                         .font(.subheadline)
                         .color(.secondary)
                         .lineLimit(1)
@@ -45,7 +87,9 @@ struct MovieRow : View {
                     .lineLimit(3)
                     .truncationMode(.tail)
             }.padding(.leading, 8)
-        }.padding(8)
+        }
+        .padding(8)
+        .presentation(addSheetShown ? addActionSheet : nil)
     }
 }
 
