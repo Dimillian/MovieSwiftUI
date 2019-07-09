@@ -10,46 +10,6 @@ import SwiftUI
 import SwiftUIFlux
 import Combine
 
-// MARK: - PageListener
-class PageListener {
-    var currentPage: Int = 1 {
-        didSet {
-            loadPage()
-        }
-    }
-    
-    func loadPage() {
-        
-    }
-}
-
-
-final class SearchPageListener: PageListener {
-    var text: String?
-    
-    override func loadPage() {
-        if let text = text {
-            store.dispatch(action: MoviesActions.FetchSearch(query: text, page: currentPage))
-            store.dispatch(action: PeopleActions.FetchSearch(query: text, page: currentPage))
-        }
-    }
-}
-
-
-final class SearchMoviesWrapper: SearchTextWrapper {
-    var searchPageListener = SearchPageListener()
-    
-    override func onUpdateText(text: String) {
-        store.dispatch(action: MoviesActions.FetchSearchKeyword(query: text))
-    }
-    
-    override func onUpdateTextDebounced(text: String) {
-        self.searchPageListener.text = text
-        self.searchPageListener.currentPage = 1
-    }
-}
-
-
 // MARK: - Movies List
 struct MoviesList : View {
     
@@ -65,7 +25,7 @@ struct MoviesList : View {
     // MARK: - Public var
     let movies: [Int]
     let displaySearch: Bool
-    var pageListener: PageListener?
+    var pageListener: MoviesPagesListener?
     var deleteHandler: ((Int) -> Void)? = nil
     var headerView: AnyView?
     

@@ -9,7 +9,7 @@
 import SwiftUI
 import SwiftUIFlux
 
-final class UpcomingPageListener: PageListener {
+final class UpcomingPageListener: MoviesPagesListener {
     override func loadPage() {
         store.dispatch(action: MoviesActions.FetchUpcoming(page: currentPage))
     }

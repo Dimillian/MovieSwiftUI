@@ -10,7 +10,7 @@ import SwiftUI
 import Combine
 import SwiftUIFlux
 
-final class PopularPageListener: PageListener {
+final class PopularPageListener: MoviesPagesListener {
     override func loadPage() {
         store.dispatch(action: MoviesActions.FetchPopular(page: currentPage))
     }

@@ -9,7 +9,7 @@
 import SwiftUI
 import SwiftUIFlux
 
-final class KeywordPageListener: PageListener {
+final class KeywordPageListener: MoviesPagesListener {
     var keyword: Int!
     
     override func loadPage() {

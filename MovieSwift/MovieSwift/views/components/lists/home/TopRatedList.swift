@@ -9,7 +9,7 @@
 import SwiftUI
 import SwiftUIFlux
 
-final class TopRatedListPageListener: PageListener {
+final class TopRatedListPageListener: MoviesPagesListener {
     override func loadPage() {
         store.dispatch(action: MoviesActions.FetchTopRated(page: currentPage))
     }
