@@ -28,31 +28,13 @@ struct MyLists : View {
     }
     
     var wishlist: [Int] {
-        get {
-            let wishlist = store.state.moviesState.wishlist.map{ $0.id }
-            switch selectedMoviesSort {
-            case .byAddedDate:
-                let metas = store.state.moviesState.moviesUserMeta.filter{ wishlist.contains($0.key) }
-                return metas.sorted{ $0.value.dateAddedToWishlist! > $1.value.dateAddedToWishlist! }.compactMap{ $0.key }
-            case .byReleaseDate:
-                let movies = store.state.moviesState.movies.filter{ wishlist.contains($0.key) }
-                return movies.sorted{ $0.value.releaseDate ?? Date() > $1.value.releaseDate ?? Date() }.compactMap{ $0.key }
-            }
-        }
+        store.state.moviesState.wishlist.map{ $0.id }.sortedMoviesIds(by: selectedMoviesSort == .byReleaseDate ? .byReleaseDate : .byAdded(to: .wishlist),
+                                                                      state: store.state)
     }
     
     var seenlist: [Int] {
-        get {
-            let seenlist = store.state.moviesState.seenlist.map{ $0.id }
-            switch selectedMoviesSort {
-            case .byAddedDate:
-                let metas = store.state.moviesState.moviesUserMeta.filter{ seenlist.contains($0.key) }
-                return metas.sorted{ $0.value.dateAddedToWishlist! > $1.value.dateAddedToWishlist! }.compactMap{ $0.key }
-            case .byReleaseDate:
-                let movies = store.state.moviesState.movies.filter{ seenlist.contains($0.key) }
-                return movies.sorted{ $0.value.releaseDate ?? Date() > $1.value.releaseDate ?? Date() }.compactMap{ $0.key }
-            }
-        }
+        store.state.moviesState.wishlist.map{ $0.id }.sortedMoviesIds(by: selectedMoviesSort == .byReleaseDate ? .byReleaseDate : .byAdded(to: .seenlist),
+                                                                      state: store.state)
     }
     
     // MARK: - Dynamic views
