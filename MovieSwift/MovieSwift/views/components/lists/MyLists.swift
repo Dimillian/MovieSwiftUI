@@ -14,6 +14,15 @@ struct MyLists : View {
     // MARK: - Defs
     private enum MoviesSort: Int {
         case byAddedDate, byReleaseDate
+        
+        func title() -> String {
+            switch self {
+            case .byReleaseDate:
+                return "by release date"
+            case .byAddedDate:
+                return "by added date"
+            }
+        }
     }
     
     // MARK: - Vars
@@ -78,7 +87,7 @@ struct MyLists : View {
     }
     
     private var wishlistSection: some View {
-        Section(header: Text("Wishlist")) {
+        Section(header: Text("Wishlist (\(selectedMoviesSort.title()))")) {
             ForEach(wishlist) {id in
                 NavigationLink(destination: MovieDetail(movieId: id).environmentObject(self.store)) {
                     MovieRow(movieId: id, displayListImage: false)
@@ -93,7 +102,7 @@ struct MyLists : View {
     }
     
     private var seenSection: some View {
-        Section(header: Text("Seen")) {
+        Section(header: Text("Seen (\(selectedMoviesSort.title()))")) {
             ForEach(seenlist) {id in
                 NavigationLink(destination: MovieDetail(movieId: id).environmentObject(self.store)) {
                     MovieRow(movieId: id, displayListImage: false)
