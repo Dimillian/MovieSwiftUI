@@ -17,21 +17,32 @@ struct CustomListDetail : View {
     @State private var isEditing = false
     
     var list: CustomList {
-        return store.state.moviesState.customLists[listId]!
+        store.state.moviesState.customLists[listId]!
+    }
+    
+    var movies: [Int] {
+        list.movies.sortedMoviesIds(by: .byReleaseDate, state: store.state)
     }
     
     var body: some View {
-        MoviesList(movies: list.movies.sortedMoviesIds(by: .byReleaseDate, state: store.state),
-                   displaySearch: false,
-                   headerView: AnyView(CustomListHeaderRow(listId: listId)))
-            .navigationBarItems(trailing: (
-                PresentationLink(destination: CustomListForm(editingListId: listId,
-                                                             shouldDismiss: nil).environmentObject(store),
-                                 label: {
-                    Text("Edit").color(.steam_gold)
-                })
-            ))
-            .edgesIgnoringSafeArea(.top)
+        List {
+            CustomListHeaderRow(listId: listId)
+            ForEach(movies) { movie in
+                NavigationLink(destination: MovieDetail(movieId: movie).environmentObject(self.store)) {
+                    MovieRow(movieId: movie, displayListImage: false)
+                }
+            }.onDelete { (index) in
+               self.store.dispatch(action: MoviesActions.RemoveMovieFromCustomList(list: self.listId, movie: self.movies[index.first!]))
+            }
+        }
+        .navigationBarItems(trailing: (
+            PresentationLink(destination: CustomListForm(editingListId: listId,
+                                                         shouldDismiss: nil).environmentObject(store),
+                             label: {
+                                Text("Edit").color(.steam_gold)
+            })
+        ))
+        .edgesIgnoringSafeArea(.top)
     }
 }
 
