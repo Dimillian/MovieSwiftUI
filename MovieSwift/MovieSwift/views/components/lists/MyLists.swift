@@ -38,11 +38,8 @@ struct MyLists : View {
     }
     
     // MARK: - Dynamic views
-    private var sortActionSheet: ActionSheet? {
+    private var sortActionSheet: ActionSheet {
         get {
-            guard showShortActionSheet else {
-                return nil
-            }
             let byAddedDate: Alert.Button = .default(Text("Sort by added date")) {
                 self.selectedMoviesSort = .byAddedDate
                 self.showShortActionSheet = false
@@ -55,8 +52,8 @@ struct MyLists : View {
             return ActionSheet(title: Text("Sort movies by"),
                                message: nil,
                                buttons: [byAddedDate, byReleaseDate, Alert.Button.cancel({
-                self.showShortActionSheet = false
-            })])
+                                self.showShortActionSheet = false
+                               })])
         }
     }
     
@@ -123,7 +120,7 @@ struct MyLists : View {
                     seenSection
                 }
             }
-            .presentation(sortActionSheet)
+            .presentation($showShortActionSheet) { sortActionSheet }
             .navigationBarTitle(Text("My Lists"))
             .navigationBarItems(trailing: Button(action: {
                     self.showShortActionSheet.toggle()

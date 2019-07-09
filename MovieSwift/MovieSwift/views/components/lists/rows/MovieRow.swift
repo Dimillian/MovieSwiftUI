@@ -84,7 +84,7 @@ struct MovieRow : View {
             }.padding(.leading, 8)
         }
         .padding(8)
-        .presentation(addSheetShown ? addActionSheet : nil)
+        .presentation($addSheetShown) { addActionSheet }
     }
 }
 

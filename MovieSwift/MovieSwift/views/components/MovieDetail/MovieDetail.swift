@@ -155,7 +155,7 @@ struct MovieDetail : View {
                 .onAppear {
                     self.fetchMovieDetails()
                 }
-                .presentation(addSheetShown ? addActionSheet : nil)
+                .presentation($addSheetShown) { addActionSheet }
                 .presentation(showCreateListForm ?
                     Modal(CustomListForm(shouldDismiss: {
                         self.showCreateListForm = false
