@@ -11,16 +11,26 @@ import SwiftUIFlux
 
 struct CustomListDetail : View {
     @EnvironmentObject var store: Store<AppState>
+    
     let listId: Int
+    
+    @State private var isEditing = false
     
     var list: CustomList {
         return store.state.moviesState.customLists[listId]!
     }
     
     var body: some View {
-        MoviesList(movies: list.movies,
+        MoviesList(movies: list.movies.sortedMoviesIds(by: .byReleaseDate, state: store.state),
                    displaySearch: false,
                    headerView: AnyView(CustomListHeaderRow(listId: listId)))
+            .navigationBarItems(trailing: (
+                PresentationLink(destination: CustomListForm(editingListId: listId,
+                                                             shouldDismiss: nil).environmentObject(store),
+                                 label: {
+                    Text("Edit").color(.steam_gold)
+                })
+            ))
             .edgesIgnoringSafeArea(.top)
     }
 }

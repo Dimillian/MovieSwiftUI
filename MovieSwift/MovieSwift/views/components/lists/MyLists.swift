@@ -33,7 +33,7 @@ struct MyLists : View {
     }
     
     var seenlist: [Int] {
-        store.state.moviesState.wishlist.map{ $0.id }.sortedMoviesIds(by: selectedMoviesSort == .byReleaseDate ? .byReleaseDate : .byAdded(to: .seenlist),
+        store.state.moviesState.seenlist.map{ $0.id }.sortedMoviesIds(by: selectedMoviesSort == .byReleaseDate ? .byReleaseDate : .byAdded(to: .seenlist),
                                                                       state: store.state)
     }
     
@@ -59,7 +59,8 @@ struct MyLists : View {
     
     private var customListsSection: some View {
         Section(header: Text("Custom Lists")) {
-            PresentationLink(destination: CustomListForm(shouldDismiss: {
+            PresentationLink(destination: CustomListForm(editingListId: nil,
+                                                         shouldDismiss: {
                 
             }).environmentObject(store)) {
                 Text("Create custom list").color(.steam_blue)
@@ -80,7 +81,7 @@ struct MyLists : View {
         Section(header: Text("Wishlist")) {
             ForEach(wishlist) {id in
                 NavigationLink(destination: MovieDetail(movieId: id).environmentObject(self.store)) {
-                    MovieRow(movieId: id)
+                    MovieRow(movieId: id, displayListImage: false)
                 }
                 }
                 .onDelete { (index) in
@@ -95,7 +96,7 @@ struct MyLists : View {
         Section(header: Text("Seen")) {
             ForEach(seenlist) {id in
                 NavigationLink(destination: MovieDetail(movieId: id).environmentObject(self.store)) {
-                    MovieRow(movieId: id)
+                    MovieRow(movieId: id, displayListImage: false)
                 }
                 }
                 .onDelete { (index) in

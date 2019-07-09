@@ -20,34 +20,20 @@ final class CustomListFormSearchWrapper: SearchTextWrapper {
 
 struct CustomListForm : View {
     @EnvironmentObject var store: Store<AppState>
+    @Environment(\.isPresented) private var isPresented
     
     @State private var searchTextWrapper = CustomListFormSearchWrapper()
-    
     @State var listName: String = ""
     @State var listMovieCover: Int?
     
+    let editingListId: Int?
     let shouldDismiss: (() -> Void)?
     
-    var body: some View {
-        NavigationView {
-            Form {
-                TopSection(searchTextWrapper: searchTextWrapper, listMovieCover: $listMovieCover, listName: $listName)
-                MovieSearchSection(searchTextWrapper: searchTextWrapper, listMovieCover: $listMovieCover)
-                SaveCancelSection(listName: $listName, listMovieCover: $listMovieCover, shouldDismiss: shouldDismiss)
-            }
-            .navigationBarTitle(Text("New list"))
-        }
+    private var searchedMovies: [Int] {
+        return store.state.moviesState.search[searchTextWrapper.searchText]?.prefix(2).map{ $0 } ?? []
     }
-}
-
-struct TopSection: View {
-    @EnvironmentObject var store: Store<AppState>
     
-    @ObjectBinding var searchTextWrapper: CustomListFormSearchWrapper
-    @Binding var listMovieCover: Int?
-    @Binding var listName: String
-    
-    var body: some View {
+    private var topSection: some View {
         Section(header: Text("List information"),
                 content: {
                     HStack {
@@ -56,7 +42,7 @@ struct TopSection: View {
                     }
                     if listMovieCover == nil {
                         SearchField(searchTextWrapper: searchTextWrapper,
-                                    placeholder: Text("Search and add a movie as your cover"))
+                                    placeholder: "Search and add a movie as your cover")
                             .disabled(listMovieCover != nil)
                     }
                     if listMovieCover != nil {
@@ -69,19 +55,8 @@ struct TopSection: View {
                     }
         })
     }
-}
-
-struct MovieSearchSection: View {
-    @EnvironmentObject var store: Store<AppState>
     
-    @ObjectBinding var searchTextWrapper: CustomListFormSearchWrapper
-    @Binding var listMovieCover: Int?
-    
-    var searchedMovies: [Int] {
-        return store.state.moviesState.search[searchTextWrapper.searchText]?.prefix(2).map{ $0 } ?? []
-    }
-    
-    var body: some View {
+    private var movieSearchSection: some View {
         Section() {
             ForEach(searchedMovies) { movieId in
                 CustomListCoverRow(movieId: movieId).tapAction {
@@ -91,30 +66,26 @@ struct MovieSearchSection: View {
             }
         }
     }
-}
-
-struct SaveCancelSection: View {
-    @EnvironmentObject var store: Store<AppState>
-    @Environment(\.isPresented) var isPresented
     
-    @Binding var listName: String
-    @Binding var listMovieCover: Int?
-    
-    let shouldDismiss: (() -> Void)?
-    
-    var body: some View {
+    private var buttonsSection: some View {
         Section {
             Button(action: {
                 let newList = CustomList(id: Int.random(in: self.store.state.moviesState.customLists.count ..< 1000^3),
                                          name: self.listName,
                                          cover: self.listMovieCover,
                                          movies: [])
-                self.store.dispatch(action: MoviesActions.AddCustomList(list: newList))
+                if let id = self.editingListId {
+                    self.store.dispatch(action: MoviesActions.EditCustomList(list: id,
+                                                                             title: self.listName,
+                                                                             cover: self.listMovieCover))
+                } else {
+                    self.store.dispatch(action: MoviesActions.AddCustomList(list: newList))
+                }
                 self.isPresented?.value = false
                 self.shouldDismiss?()
                 
             }, label: {
-                Text("Create").color(.blue)
+                Text(self.editingListId != nil ? "Save changes" : "Create").color(.blue)
             })
             Button(action: {
                 self.isPresented?.value = false
@@ -124,12 +95,29 @@ struct SaveCancelSection: View {
             })
         }
     }
+    
+    var body: some View {
+        NavigationView {
+            Form {
+                topSection
+                movieSearchSection
+                buttonsSection
+            }
+            .navigationBarTitle(Text("New list"))
+        }.onAppear() {
+            if let id = self.editingListId,
+                let list = self.store.state.moviesState.customLists[id] {
+                self.listMovieCover = list.cover
+                self.listName = list.name
+            }
+        }
+    }
 }
 
 #if DEBUG
 struct CustomListForm_Previews : PreviewProvider {
     static var previews: some View {
-        CustomListForm(shouldDismiss: {
+        CustomListForm(editingListId: nil, shouldDismiss: {
             
         }).environmentObject(sampleStore)
     }

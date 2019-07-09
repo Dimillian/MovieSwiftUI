@@ -78,12 +78,15 @@ struct MovieDetail : View {
             var buttons: [Alert.Button] = []
             let wishlistButton = ActionSheet.wishlistButton(store: store, movie: movieId) {
                 self.addSheetShown = false
+                self.displaySavedBadge()
             }
             let seenButton = ActionSheet.seenListButton(store: store, movie: movieId) {
                 self.addSheetShown = false
+                self.displaySavedBadge()
             }
             let customListButtons = ActionSheet.customListsButttons(store: store, movie: movieId) {
                 self.addSheetShown = false
+                self.displaySavedBadge()
             }
             let createListButton: Alert.Button = .default(Text("Create list")) {
                 self.addSheetShown = false
@@ -97,8 +100,8 @@ struct MovieDetail : View {
             buttons.append(contentsOf: customListButtons)
             buttons.append(createListButton)
             buttons.append(cancelButton)
-            let sheet = ActionSheet(title: Text("Add to"),
-                                    message: Text("Add this movie to your list"),
+            let sheet = ActionSheet(title: Text("Add or remove \(movie.userTitle) from your lists"),
+                                    message: nil,
                                     buttons: buttons)
             return sheet
         }
@@ -157,7 +160,8 @@ struct MovieDetail : View {
                 }
                 .presentation($addSheetShown) { addActionSheet }
                 .presentation(showCreateListForm ?
-                    Modal(CustomListForm(shouldDismiss: {
+                    Modal(CustomListForm(editingListId: nil,
+                                         shouldDismiss: {
                         self.showCreateListForm = false
                     }).environmentObject(store),
                           onDismiss: {

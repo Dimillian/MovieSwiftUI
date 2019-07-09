@@ -16,15 +16,37 @@ fileprivate let formatter: DateFormatter = {
 }()
 
 struct MovieRow : View {
+    // MARK: - Store
     @EnvironmentObject var store: Store<AppState>
     
+    // MARK: - Init
     let movieId: Int
+    var displayListImage = true
     
-    private var movie: Movie! {
-        return store.state.moviesState.movies[movieId]
-    }
+    // MARK: - Private state
     @State private var isPressing = false
     @State private var addSheetShown = false
+    
+    // MARK: - Private computed vars
+    private var movie: Movie! {
+        store.state.moviesState.movies[movieId]
+    }
+    
+    private var listImage: String? {
+        guard displayListImage else {
+            return nil
+        }
+        if store.state.moviesState.wishlist.contains(movieId) {
+            return "heart.fill"
+        } else if   store.state.moviesState.seenlist.contains(movieId) {
+            return "eye.fill"
+        } else if store.state.moviesState.customLists.contains(where: { (_, value) -> Bool in
+            value.movies.contains(self.movieId)
+        }) {
+            return "pin.fill"
+        }
+        return nil
+    }
     
     var addActionSheet: ActionSheet {
         get {
@@ -46,25 +68,39 @@ struct MovieRow : View {
             buttons.append(seenButton)
             buttons.append(contentsOf: customListButtons)
             buttons.append(cancelButton)
-            let sheet = ActionSheet(title: Text("Add to"),
-                                    message: Text("Add this movie to your list"),
+            let sheet = ActionSheet(title: Text("Add or remove \(movie.userTitle) from your lists"),
+                                    message: nil,
                                     buttons: buttons)
             return sheet
         }
     }
-        
+    
+    // MARK: - Body
     var body: some View {
         HStack {
-            MoviePosterImage(imageLoader: ImageLoader(path: movie.poster_path,
-                                                      size: .small),
-                             posterSize: .medium)
-                .scaleEffect(isPressing ? 1.05 : 1.0)
+            ZStack(alignment: .topLeading) {
+                MoviePosterImage(imageLoader: ImageLoader(path: movie.poster_path,
+                                                          size: .small),
+                                 posterSize: .medium)
+                if listImage != nil {
+                    Image(systemName: listImage!)
+                        .imageScale(.small)
+                        .foregroundColor(.white)
+                        .position(x: 13, y: 15)
+                        .transition(AnyTransition.scale()
+                            .combined(with: .opacity))
+                        .animation(.spring())
+                    
+                }
+            }
+            .scaleEffect(isPressing ? 1.05 : 1.0)
                 .animation(isPressing ?.spring() : nil)
-                .longPressAction(minimumDuration: 0.5, maximumDistance: 1, {
+                .longPressAction(minimumDuration: 0.5, {
                     self.addSheetShown = true
                 }) { ended in
                     self.isPressing = ended
-                }
+            }
+            .fixedSize()
             VStack(alignment: .leading, spacing: 8) {
                 Text(movie.userTitle)
                     .font(.FjallaOne(size: 20))

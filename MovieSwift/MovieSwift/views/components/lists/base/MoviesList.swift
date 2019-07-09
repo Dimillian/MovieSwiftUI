@@ -79,7 +79,7 @@ struct MoviesList : View {
     
     private var searchField: some View {
         SearchField(searchTextWrapper: searchTextWrapper,
-                    placeholder: Text("Search movies"))
+                    placeholder: "Search any movies or person")
     }
     
     private var searchFilterView: some View {
@@ -119,10 +119,10 @@ struct MoviesList : View {
                 Rectangle()
                     .foregroundColor(.clear)
                     .onAppear {
-                        if self.isSearching && !self.searchedMovies.isEmpty{
+                        if self.isSearching && !self.searchedMovies.isEmpty {
                             self.searchTextWrapper.searchPageListener.currentPage += 1
-                        } else if self.pageListener != nil {
-                            self.searchTextWrapper.searchPageListener.currentPage += 1
+                        } else if self.pageListener != nil && !self.isSearching {
+                            self.pageListener?.currentPage += 1
                         }
                 }
             }
