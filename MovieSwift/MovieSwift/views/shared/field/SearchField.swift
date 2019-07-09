@@ -9,29 +9,21 @@
 import SwiftUI
 
 struct SearchField : View {
-    @Binding var searchText: String
-    let placeholder: Text
-    let onUpdateSearchText: (String) -> Void
+    @ObjectBinding var searchTextWrapper: SearchTextWrapper
     
-    func onKeyStroke() {
-        onUpdateSearchText(searchText)
-    }
+    let placeholder: Text
     
     var body: some View {
-        HStack(alignment: .center, spacing: -10) {
+        return HStack(alignment: .center, spacing: -10) {
             Image(systemName: "magnifyingglass")
             TextField("Search any movies",
-                      text: $searchText)
-                .onReceive(NotificationCenter.default.publisher(for: UITextField.textDidChangeNotification)
-                    .debounce(for: .milliseconds(200),
-                              scheduler: DispatchQueue.main),
-                           perform: onKeyStroke)
+                      text: $searchTextWrapper.searchText)
                 .textFieldStyle(.roundedBorder)
                 .listRowInsets(EdgeInsets())
                 .padding()
-            if !searchText.isEmpty {
+            if !searchTextWrapper.searchText.isEmpty {
                 Button(action: {
-                    self.searchText = ""
+                    self.searchTextWrapper.searchText = ""
                 }, label: {
                     Text("cancel").color(.steam_blue)
                 }).animation(.basic())
@@ -43,11 +35,8 @@ struct SearchField : View {
 #if DEBUG
 struct SearchField_Previews : PreviewProvider {
     static var previews: some View {
-        SearchField(searchText: .constant("Searched text"),
-                    placeholder: Text("Search anything"),
-                    onUpdateSearchText: {text in
-            
-        })
+        SearchField(searchTextWrapper: SearchTextWrapper(),
+                    placeholder: Text("Search anything"))
     }
 }
 #endif

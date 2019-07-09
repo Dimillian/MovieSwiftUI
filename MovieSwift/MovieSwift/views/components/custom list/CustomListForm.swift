@@ -9,11 +9,21 @@
 import SwiftUI
 import SwiftUIFlux
 
+final class CustomListFormSearchWrapper: SearchTextWrapper {
+
+    override func onUpdateTextDebounced(text: String) {
+        if !text.isEmpty {
+            store.dispatch(action: MoviesActions.FetchSearch(query: text, page: 1))
+        }
+    }
+}
+
 struct CustomListForm : View {
     @EnvironmentObject var store: Store<AppState>
-
+    
+    @State private var searchTextWrapper = CustomListFormSearchWrapper()
+    
     @State var listName: String = ""
-    @State var movieSearch: String = ""
     @State var listMovieCover: Int?
     
     let shouldDismiss: (() -> Void)?
@@ -21,8 +31,8 @@ struct CustomListForm : View {
     var body: some View {
         NavigationView {
             Form {
-                TopSection(listMovieCover: $listMovieCover, movieSearch: $movieSearch, listName: $listName)
-                MovieSearchSection(movieSearch: $movieSearch, listMovieCover: $listMovieCover)
+                TopSection(searchTextWrapper: searchTextWrapper, listMovieCover: $listMovieCover, listName: $listName)
+                MovieSearchSection(searchTextWrapper: searchTextWrapper, listMovieCover: $listMovieCover)
                 SaveCancelSection(listName: $listName, listMovieCover: $listMovieCover, shouldDismiss: shouldDismiss)
             }
             .navigationBarTitle(Text("New list"))
@@ -33,8 +43,8 @@ struct CustomListForm : View {
 struct TopSection: View {
     @EnvironmentObject var store: Store<AppState>
     
+    @ObjectBinding var searchTextWrapper: CustomListFormSearchWrapper
     @Binding var listMovieCover: Int?
-    @Binding var movieSearch: String
     @Binding var listName: String
     
     var body: some View {
@@ -45,13 +55,9 @@ struct TopSection: View {
                         TextField("Name your list", text: $listName)
                     }
                     if listMovieCover == nil {
-                        SearchField(searchText: $movieSearch,
-                                    placeholder: Text("Search and add a movie as your cover"),
-                                    onUpdateSearchText: {text in
-                                        if !text.isEmpty {
-                                            self.store.dispatch(action: MoviesActions.FetchSearch(query: text, page: 1))
-                                        }
-                        }).disabled(listMovieCover != nil)
+                        SearchField(searchTextWrapper: searchTextWrapper,
+                                    placeholder: Text("Search and add a movie as your cover"))
+                            .disabled(listMovieCover != nil)
                     }
                     if listMovieCover != nil {
                         CustomListCoverRow(movieId: listMovieCover!)
@@ -68,11 +74,11 @@ struct TopSection: View {
 struct MovieSearchSection: View {
     @EnvironmentObject var store: Store<AppState>
     
-    @Binding var movieSearch: String
+    @ObjectBinding var searchTextWrapper: CustomListFormSearchWrapper
     @Binding var listMovieCover: Int?
     
     var searchedMovies: [Int] {
-        return store.state.moviesState.search[movieSearch]?.prefix(2).map{ $0 } ?? []
+        return store.state.moviesState.search[searchTextWrapper.searchText]?.prefix(2).map{ $0 } ?? []
     }
     
     var body: some View {
@@ -80,7 +86,7 @@ struct MovieSearchSection: View {
             ForEach(searchedMovies) { movieId in
                 CustomListCoverRow(movieId: movieId).tapAction {
                     self.listMovieCover = movieId
-                    self.movieSearch = ""
+                    self.searchTextWrapper.searchText = ""
                 }
             }
         }

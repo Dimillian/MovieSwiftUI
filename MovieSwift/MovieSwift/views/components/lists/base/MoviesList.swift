@@ -8,6 +8,7 @@
 
 import SwiftUI
 import SwiftUIFlux
+import Combine
 
 // MARK: - PageListener
 class PageListener {
@@ -24,14 +25,30 @@ class PageListener {
 
 
 final class SearchPageListener: PageListener {
-    var text: String!
-    var filter: MoviesList.SearchFilter!
+    var text: String?
     
     override func loadPage() {
-        store.dispatch(action: MoviesActions.FetchSearch(query: text, page: currentPage))
-        store.dispatch(action: PeopleActions.FetchSearch(query: text, page: currentPage))
+        if let text = text {
+            store.dispatch(action: MoviesActions.FetchSearch(query: text, page: currentPage))
+            store.dispatch(action: PeopleActions.FetchSearch(query: text, page: currentPage))
+        }
     }
 }
+
+
+final class SearchMoviesWrapper: SearchTextWrapper {
+    var searchPageListener = SearchPageListener()
+    
+    override func onUpdateText(text: String) {
+        store.dispatch(action: MoviesActions.FetchSearchKeyword(query: text))
+    }
+    
+    override func onUpdateTextDebounced(text: String) {
+        self.searchPageListener.text = text
+        self.searchPageListener.currentPage = 1
+    }
+}
+
 
 // MARK: - Movies List
 struct MoviesList : View {
@@ -42,9 +59,8 @@ struct MoviesList : View {
     
     // MARK: - State and binding
     @EnvironmentObject private var store: Store<AppState>
-    @State private var searchtext: String = ""
-    @State private var searchPageListener = SearchPageListener()
     @State private var searchFilter: Int = SearchFilter.movies.rawValue
+    @State private var searchTextWrapper = SearchMoviesWrapper()
     
     // MARK: - Public var
     let movies: [Int]
@@ -55,19 +71,19 @@ struct MoviesList : View {
     
     // MARK: - Computed properties
     private var isSearching: Bool {
-        return !searchtext.isEmpty
+        return !searchTextWrapper.searchText.isEmpty
     }
     
     private var searchedMovies: [Int] {
-        return store.state.moviesState.search[searchtext] ?? []
+        return store.state.moviesState.search[searchTextWrapper.searchText] ?? []
     }
     
     private var searchPeoples: [Int] {
-        return store.state.peoplesState.search[searchtext] ?? []
+        return store.state.peoplesState.search[searchTextWrapper.searchText] ?? []
     }
     
     private var keywords: [Keyword]? {
-        return store.state.moviesState.searchKeywords[searchtext]?.prefix(5).map{ $0 }
+        return store.state.moviesState.searchKeywords[searchTextWrapper.searchText]?.prefix(5).map{ $0 }
     }
     
     // Mark: - Computed views
@@ -102,19 +118,8 @@ struct MoviesList : View {
     }
     
     private var searchField: some View {
-        SearchField(searchText: $searchtext,
-                    placeholder: Text("Search movies"),
-                    onUpdateSearchText: {text in
-                        if !text.isEmpty {
-                            let currentSearchFilter = SearchFilter(rawValue: self.searchFilter)!
-                            self.searchPageListener.text = text
-                            self.searchPageListener.filter = currentSearchFilter
-                            self.searchPageListener.currentPage = 1
-                            if currentSearchFilter == .movies {
-                                self.store.dispatch(action: MoviesActions.FetchSearchKeyword(query: text))
-                            }
-                        }
-        })
+        SearchField(searchTextWrapper: searchTextWrapper,
+                    placeholder: Text("Search movies"))
     }
     
     private var searchFilterView: some View {
@@ -155,9 +160,9 @@ struct MoviesList : View {
                     .foregroundColor(.clear)
                     .onAppear {
                         if self.isSearching && !self.searchedMovies.isEmpty{
-                            self.searchPageListener.currentPage += 1
+                            self.searchTextWrapper.searchPageListener.currentPage += 1
                         } else if self.pageListener != nil {
-                            self.pageListener!.currentPage += 1
+                            self.searchTextWrapper.searchPageListener.currentPage += 1
                         }
                 }
             }
