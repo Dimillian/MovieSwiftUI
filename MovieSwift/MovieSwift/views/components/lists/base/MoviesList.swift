@@ -20,7 +20,7 @@ struct MoviesList : View {
     // MARK: - State and binding
     @EnvironmentObject private var store: Store<AppState>
     @State private var searchFilter: Int = SearchFilter.movies.rawValue
-    @State private var searchTextWrapper = SearchMoviesWrapper()
+    @State private var searchTextWrapper = MoviesSearchTextWrapper()
     
     // MARK: - Public var
     let movies: [Int]

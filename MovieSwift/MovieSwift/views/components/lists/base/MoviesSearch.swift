@@ -8,7 +8,7 @@
 
 import Foundation
 
-final class SearchPageListener: MoviesPagesListener {
+final class MoviesSearchPageListener: MoviesPagesListener {
     var text: String?
     
     override func loadPage() {
@@ -19,9 +19,8 @@ final class SearchPageListener: MoviesPagesListener {
     }
 }
 
-
-final class SearchMoviesWrapper: SearchTextWrapper {
-    var searchPageListener = SearchPageListener()
+final class MoviesSearchTextWrapper: SearchTextWrapper {
+    var searchPageListener = MoviesSearchPageListener()
     
     override func onUpdateText(text: String) {
         store.dispatch(action: MoviesActions.FetchSearchKeyword(query: text))
