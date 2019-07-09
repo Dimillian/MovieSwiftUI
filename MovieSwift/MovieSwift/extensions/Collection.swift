@@ -17,9 +17,9 @@ enum MoviesSort {
 
 extension Sequence where Iterator.Element == Int {
     func sortedMoviesIds(by: MoviesSort, state: AppState) -> [Int] {
-        let metas = state.moviesState.moviesUserMeta.filter{ self.contains($0.key) }
         switch by {
         case let .byAdded(to):
+            let metas = state.moviesState.moviesUserMeta.filter{ self.contains($0.key) }
             switch to {
             case .wishlist:
                 return metas.sorted{ $0.value.dateAddedToWishlist! > $1.value.dateAddedToWishlist! }.compactMap{ $0.key }
