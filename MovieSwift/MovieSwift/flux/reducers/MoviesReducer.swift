@@ -126,6 +126,17 @@ func moviesStateReducer(state: MoviesState, action: Action) -> MoviesState {
     case let action as MoviesActions.AddCustomList:
         state.customLists[action.list.id] = action.list
         
+    case let action as MoviesActions.EditCustomList:
+        if var list = state.customLists[action.list] {
+            if let cover = action.cover {
+                list.cover = cover
+            }
+            if let title = action.title {
+                list.name = title
+            }
+            state.customLists[action.list] = list
+        }
+        
     case let action as MoviesActions.RemoveCustomList:
         state.customLists[action.list] = nil
         

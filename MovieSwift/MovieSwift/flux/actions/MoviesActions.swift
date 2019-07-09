@@ -398,7 +398,7 @@ struct MoviesActions {
     
     struct EditCustomList: Action {
         let list: Int
-        let name: String?
+        let title: String?
         let cover: Int?
     }
     
