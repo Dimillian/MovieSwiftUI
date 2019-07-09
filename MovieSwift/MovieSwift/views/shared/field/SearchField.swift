@@ -11,12 +11,12 @@ import SwiftUI
 struct SearchField : View {
     @ObjectBinding var searchTextWrapper: SearchTextWrapper
     
-    let placeholder: Text
+    let placeholder: String
     
     var body: some View {
         return HStack(alignment: .center, spacing: -10) {
             Image(systemName: "magnifyingglass")
-            TextField("Search any movies",
+            TextField(placeholder,
                       text: $searchTextWrapper.searchText)
                 .textFieldStyle(.roundedBorder)
                 .listRowInsets(EdgeInsets())
@@ -36,7 +36,7 @@ struct SearchField : View {
 struct SearchField_Previews : PreviewProvider {
     static var previews: some View {
         SearchField(searchTextWrapper: SearchTextWrapper(),
-                    placeholder: Text("Search anything"))
+                    placeholder: "Search anything")
     }
 }
 #endif
