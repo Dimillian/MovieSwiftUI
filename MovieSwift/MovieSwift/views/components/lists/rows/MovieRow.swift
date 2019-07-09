@@ -29,27 +29,22 @@ struct MovieRow : View {
     var addActionSheet: ActionSheet {
         get {
             var buttons: [Alert.Button] = []
-            let wishlistButton: Alert.Button = .default(Text("Add to wishlist")) {
+            let wishlistButton = ActionSheet.wishlistButton(store: store, movie: movieId) {
                 self.addSheetShown = false
-                self.store.dispatch(action: MoviesActions.AddToWishlist(movie: self.movieId))
             }
-            let seenButton: Alert.Button = .default(Text("Add to seenlist")) {
+            let seenButton = ActionSheet.seenListButton(store: store, movie: movieId) {
                 self.addSheetShown = false
-                self.store.dispatch(action: MoviesActions.AddToSeenList(movie: self.movieId))
             }
-            buttons.append(wishlistButton)
-            buttons.append(seenButton)
-            for list in store.state.moviesState.customLists.compactMap({ $0.value }) {
-                let button: Alert.Button = .default(Text("Add to \(list.name)")) {
-                    self.addSheetShown = false
-                    self.store.dispatch(action: MoviesActions.AddMovieToCustomList(list: list.id,
-                                                                                   movie: self.movieId))
-                }
-                buttons.append(button)
+            let customListButtons = ActionSheet.customListsButttons(store: store, movie: movieId) {
+                self.addSheetShown = false
             }
             let cancelButton = Alert.Button.cancel {
                 self.addSheetShown = false
             }
+            
+            buttons.append(wishlistButton)
+            buttons.append(seenButton)
+            buttons.append(contentsOf: customListButtons)
             buttons.append(cancelButton)
             let sheet = ActionSheet(title: Text("Add to"),
                                     message: Text("Add this movie to your list"),
@@ -65,7 +60,7 @@ struct MovieRow : View {
                              posterSize: .medium)
                 .scaleEffect(isPressing ? 1.05 : 1.0)
                 .animation(isPressing ?.spring() : nil)
-                .longPressAction(minimumDuration: 0.5, maximumDistance: 10, {
+                .longPressAction(minimumDuration: 0.5, maximumDistance: 1, {
                     self.addSheetShown = true
                 }) { ended in
                     self.isPressing = ended
