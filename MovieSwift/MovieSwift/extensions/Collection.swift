@@ -22,9 +22,9 @@ extension Sequence where Iterator.Element == Int {
             let metas = state.moviesState.moviesUserMeta.filter{ self.contains($0.key) }
             switch to {
             case .wishlist:
-                return metas.sorted{ $0.value.dateAddedToWishlist! > $1.value.dateAddedToWishlist! }.compactMap{ $0.key }
+                return metas.sorted{ $0.value.dateAddedToWishlist ?? Date() > $1.value.dateAddedToWishlist ?? Date() }.compactMap{ $0.key }
             case .seenlist:
-                return metas.sorted{ $0.value.dateAddedToSeenList! > $1.value.dateAddedToSeenList! }.compactMap{ $0.key }
+                return metas.sorted{ $0.value.dateAddedToSeenList ?? Date() > $1.value.dateAddedToSeenList ?? Date() }.compactMap{ $0.key }
             }
         case .byReleaseDate:
             let movies = state.moviesState.movies.filter{ self.contains($0.key) }
