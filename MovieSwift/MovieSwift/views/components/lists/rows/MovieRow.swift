@@ -110,7 +110,7 @@ struct MovieRow : View {
                     PopularityBadge(score: Int(movie.vote_average * 10))
                     Text(formatter.string(from: movie.releaseDate ?? Date()))
                         .font(.subheadline)
-                        .color(.secondary)
+                        .color(.primary)
                         .lineLimit(1)
                 }
                 Text(movie.overview)

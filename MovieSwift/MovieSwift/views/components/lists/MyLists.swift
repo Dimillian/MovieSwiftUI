@@ -87,7 +87,7 @@ struct MyLists : View {
     }
     
     private var wishlistSection: some View {
-        Section(header: Text("Wishlist (\(selectedMoviesSort.title()))")) {
+        Section(header: Text("\(wishlist.count) movies in wishlist (\(selectedMoviesSort.title()))")) {
             ForEach(wishlist) {id in
                 NavigationLink(destination: MovieDetail(movieId: id).environmentObject(self.store)) {
                     MovieRow(movieId: id, displayListImage: false)
@@ -102,7 +102,7 @@ struct MyLists : View {
     }
     
     private var seenSection: some View {
-        Section(header: Text("Seen (\(selectedMoviesSort.title()))")) {
+        Section(header: Text("\(seenlist.count) movies in seenlist (\(selectedMoviesSort.title()))")) {
             ForEach(seenlist) {id in
                 NavigationLink(destination: MovieDetail(movieId: id).environmentObject(self.store)) {
                     MovieRow(movieId: id, displayListImage: false)
@@ -122,7 +122,7 @@ struct MyLists : View {
                 customListsSection
                 SegmentedControl(selection: $selectedList) {
                     Text("Wishlist").tag(0)
-                    Text("Seen").tag(1)
+                    Text("Seenlist").tag(1)
                 }
                 if selectedList == 0 {
                     wishlistSection

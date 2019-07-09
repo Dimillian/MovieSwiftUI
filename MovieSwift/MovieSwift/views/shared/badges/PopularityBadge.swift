@@ -30,8 +30,11 @@ struct PopularityBadge : View {
                 .foregroundColor(.clear)
                 .frame(width: 40)
                 .overlay((Circle().stroke(scoreColor, lineWidth: 2))
-                    .shadow(color: scoreColor, radius: 3))
-            Text("\(score)%").font(Font.system(size: 10)).fontWeight(.light)
+                    .shadow(color: scoreColor, radius: 4))
+            Text("\(score)%")
+                .font(Font.system(size: 10))
+                .fontWeight(.bold)
+                .color(.primary)
             }
             .frame(width: 40, height: 40)
     }

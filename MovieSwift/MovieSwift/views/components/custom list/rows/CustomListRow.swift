@@ -25,8 +25,8 @@ struct CustomListRow : View {
             SmallMoviePosterImage(imageLoader: ImageLoader(path: coverMovie?.poster_path,
                                                            size: .small))
             VStack(alignment: .leading, spacing: 2) {
-                Text(list.name)
-                Text("\(list.movies.count) movies")
+                Text(list.name).font(.headline).fontWeight(.bold)
+                Text("\(list.movies.count) movies").font(.subheadline).color(.secondary)
             }
             }.listRowInsets(EdgeInsets())
             .frame(height: 50)
