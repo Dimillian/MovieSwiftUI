@@ -90,8 +90,7 @@ struct MoviesActions {
         func execute(state: FluxState?, dispatch: @escaping DispatchFunction) {
             APIService.shared.GET(endpoint: .movieDetail(movie: movie),
                                   params: ["append_to_response": "keywords,images",
-                                           "language": "en-US",
-                                           "include_image_language": "en"])
+                                           "include_image_language": "\(Locale.current.languageCode ?? "en"),en,null"])
             {
                 (result: Result<Movie, APIService.APIError>) in
                 switch result {
@@ -198,7 +197,7 @@ struct MoviesActions {
         let movie: Int
         
         func execute(state: FluxState?, dispatch: @escaping DispatchFunction) {
-            APIService.shared.GET(endpoint: .review(movie: movie), params: nil) {
+            APIService.shared.GET(endpoint: .review(movie: movie), params: ["language": "en-US"]) {
                 (result: Result<PaginatedResponse<Review>, APIService.APIError>) in
                 switch result {
                 case let .success(response):
