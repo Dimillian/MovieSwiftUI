@@ -26,6 +26,14 @@ struct SettingsForm : View {
         }
     }
     
+    func debugInfoView(title: String, info: String) -> some View {
+        HStack {
+            Text(title)
+            Spacer()
+            Text(info).font(.body).color(.secondary)
+        }
+    }
+    
     var body: some View {
         NavigationView {
             Form {
@@ -51,16 +59,27 @@ struct SettingsForm : View {
                 })
                 
                 Section(header: Text("Debug info")) {
-                    Text("Image in memory cache: \(ImageService.shared.memCache.count)")
-                    Text("Movies in state: \(store.state.moviesState.movies.count)")
-                    Text("Archived state size: \(store.state.sizeOfArchivedState())")
+                    debugInfoView(title: "Image in memory cache",
+                                  info: "\(ImageService.shared.memCache.count)")
+                    debugInfoView(title: "Movies in state",
+                                  info: "\(store.state.moviesState.movies.count)")
+                    debugInfoView(title: "Archived state size",
+                                  info: "\(store.state.sizeOfArchivedState())")
+
                 }
-                }.onAppear{
+                }
+            .onAppear{
                     if let index = NSLocale.isoCountryCodes.firstIndex(of: AppUserDefaults.region) {
                         self.selectedRegion = index
                     }
                     self.alwaysOriginalTitle = AppUserDefaults.alwaysOriginalTitle
-                }.navigationBarItems(trailing: Button(action: {
+            }.navigationBarItems(
+                leading: Button(action: {
+                    self.isPresented?.value = false
+                }, label: {
+                    Text("Cancel").color(.red)
+                }),
+                trailing: Button(action: {
                     AppUserDefaults.region = NSLocale.isoCountryCodes[self.selectedRegion]
                     AppUserDefaults.alwaysOriginalTitle = self.alwaysOriginalTitle
                     self.isPresented?.value = false
