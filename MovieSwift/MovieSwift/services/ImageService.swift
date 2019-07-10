@@ -16,7 +16,7 @@ class ImageService {
                                      qos: DispatchQoS.userInitiated)
     
     //TODO: Build disk cache too.
-    private var memCache: [String: UIImage] = [:]
+    var memCache: [String: UIImage] = [:]
     
     enum Size: String {
         case small = "https://image.tmdb.org/t/p/w154/"

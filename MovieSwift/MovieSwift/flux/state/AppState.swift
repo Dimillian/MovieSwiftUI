@@ -39,10 +39,32 @@ struct AppState: FluxState {
     }
     
     func archiveState() {
-        guard let data = try? encoder.encode(moviesState) else {
+        let movies = moviesState.movies.filter { (arg) -> Bool in
+            let (key, _) = arg
+            return moviesState.seenlist.contains(key) ||
+                moviesState.wishlist.contains(key) ||
+                moviesState.customLists.contains(where: { (_, value) -> Bool in
+                    value.movies.contains(key)
+                })
+        }
+        var savingState = moviesState
+        savingState.movies = movies
+        guard let data = try? encoder.encode(savingState) else {
             return
         }
         try? data.write(to: savePath)
+    }
+    
+    func sizeOfArchivedState() -> String {
+        do {
+            let resources = try savePath.resourceValues(forKeys:[.fileSizeKey])
+            let formatter = ByteCountFormatter()
+            formatter.allowedUnits = .useKB
+            formatter.countStyle = .file
+            return formatter.string(fromByteCount: Int64(resources.fileSize ?? 0))
+        } catch {
+            return "0"
+        }
     }
     
     #if DEBUG

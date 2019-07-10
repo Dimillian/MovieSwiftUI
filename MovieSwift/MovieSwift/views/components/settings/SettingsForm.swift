@@ -7,6 +7,7 @@
 //
 
 import SwiftUI
+import Foundation
 
 struct SettingsForm : View {
     @State var selectedRegion: Int = 0
@@ -48,6 +49,12 @@ struct SettingsForm : View {
                     Text("Restore from iCloud")
                     Text("Reset application data").color(.red)
                 })
+                
+                Section(header: Text("Debug info")) {
+                    Text("Image in memory cache: \(ImageService.shared.memCache.count)")
+                    Text("Movies in state: \(store.state.moviesState.movies.count)")
+                    Text("Archived state size: \(store.state.sizeOfArchivedState())")
+                }
                 }.onAppear{
                     if let index = NSLocale.isoCountryCodes.firstIndex(of: AppUserDefaults.region) {
                         self.selectedRegion = index
