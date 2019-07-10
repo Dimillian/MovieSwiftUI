@@ -39,7 +39,9 @@ struct MoviesHome : View {
             }
             .navigationBarItems(trailing:
                 PresentationLink(destination: SettingsForm()) {
-                        Image(systemName: "wrench")
+                    HStack {
+                        Image(systemName: "wrench").imageScale(.medium)
+                    }.frame(width: 30, height: 30)
                 }
             )
         }
