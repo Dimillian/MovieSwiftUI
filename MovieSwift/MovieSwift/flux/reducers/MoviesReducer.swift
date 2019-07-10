@@ -162,6 +162,12 @@ func moviesStateReducer(state: MoviesState, action: Action) -> MoviesState {
             state = mergeMovies(movies: casts, state: state)
         }
         
+    case let action as MoviesActions.SaveDiscoverFilter:
+        state.savedDiscoverFilters.append(action.filter)
+        
+    case _ as MoviesActions.ClearSavedDiscoverFilters:
+        state.savedDiscoverFilters = []
+        
     default:
         break
     }

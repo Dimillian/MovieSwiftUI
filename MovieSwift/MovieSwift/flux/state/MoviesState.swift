@@ -24,6 +24,7 @@ struct MoviesState: FluxState, Codable {
     
     var discover: [Int] = []
     var discoverFilter: DiscoverFilter?
+    var savedDiscoverFilters: [DiscoverFilter] = []
     
     var wishlist: Set<Int> = Set()
     var seenlist: Set<Int> = Set()
@@ -38,6 +39,6 @@ struct MoviesState: FluxState, Codable {
     var genres: [Genre] = []
     
     enum CodingKeys: String, CodingKey {
-        case movies, wishlist, seenlist, customLists, moviesUserMeta
+        case movies, wishlist, seenlist, customLists, moviesUserMeta, savedDiscoverFilters
     }
 }

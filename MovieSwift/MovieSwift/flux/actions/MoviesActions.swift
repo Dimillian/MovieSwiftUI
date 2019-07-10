@@ -414,4 +414,10 @@ struct MoviesActions {
     struct RemoveCustomList: Action {
         let list: Int
     }
+    
+    struct SaveDiscoverFilter: Action {
+        let filter: DiscoverFilter
+    }
+    
+    struct ClearSavedDiscoverFilters: Action { }
 }

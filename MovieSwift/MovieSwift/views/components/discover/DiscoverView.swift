@@ -113,22 +113,7 @@ struct DiscoverView : View {
     
     // MARK: Body views
     private var filterView: some View {
-        var text = String("")
-        if let startYear = filter?.startYear, let endYear = filter?.endYear {
-            text = text + "\(startYear)-\(endYear)"
-        } else {
-            text = text + "\(filter?.year != nil ? String(filter!.year) : "Loading") · Random"
-        }
-        if let genre = filter?.genre,
-            let stateGenre = store.state.moviesState.genres.first(where: { (realGenre) -> Bool in
-            realGenre.id == genre
-        }) {
-            text = text + " · \(stateGenre.name)"
-        }
-        if let region = filter?.region {
-            text = text + " · \(region)"
-        }
-        return BorderedButton(text: text,
+        return BorderedButton(text: filter?.toText(state: store.state) ?? "Loading...",
                               systemImageName: "line.horizontal.3.decrease",
                               color: .steam_blue,
                               isOn: false) {

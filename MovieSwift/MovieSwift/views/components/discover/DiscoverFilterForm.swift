@@ -62,6 +62,10 @@ struct DiscoverFilterForm : View {
         return store.state.moviesState.genres
     }
     
+    var savedFilters: [DiscoverFilter] {
+        return store.state.moviesState.savedDiscoverFilters
+    }
+    
     var countries: [String] {
         get {
             var countries: [String] = ["Random"]
@@ -108,6 +112,9 @@ struct DiscoverFilterForm : View {
                 Section {
                     Button(action: {
                         self.isPresented = false
+                        if let toSave = self.formFilter {
+                            self.store.dispatch(action: MoviesActions.SaveDiscoverFilter(filter: toSave))
+                        }
                         let filter = self.formFilter ?? DiscoverFilter.randomFilter()
                         self.store.dispatch(action: MoviesActions.ResetRandomDiscover())
                         self.store.dispatch(action: MoviesActions.FetchRandomDiscover(filter: filter))
@@ -132,6 +139,23 @@ struct DiscoverFilterForm : View {
                         self.store.dispatch(action: MoviesActions.FetchRandomDiscover())
                     }, label: {
                         Text("Reset random").color(.blue)
+                    })
+                }
+                if !savedFilters.isEmpty {
+                    Section(header: Text("Saved filters"), content: {
+                        ForEach(0 ..< self.savedFilters.count) { index in
+                            Text(self.savedFilters[index].toText(state: self.store.state))
+                                .tapAction {
+                                    self.isPresented = false
+                                    self.store.dispatch(action: MoviesActions.ResetRandomDiscover())
+                                    self.store.dispatch(action: MoviesActions.FetchRandomDiscover(filter: self.savedFilters[index]))
+                            }
+                        }
+                        Text("Delete saved filters")
+                            .color(.red)
+                            .tapAction {
+                                self.store.dispatch(action: MoviesActions.ClearSavedDiscoverFilters())
+                        }
                     })
                 }
                 }

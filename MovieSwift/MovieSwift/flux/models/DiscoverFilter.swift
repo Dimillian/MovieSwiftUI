@@ -62,4 +62,23 @@ struct DiscoverFilter: Codable {
         params["language"] = "en-US"
         return params
     }
+    
+    func toText(state: AppState) -> String {
+        var text = String("")
+        if let startYear = startYear, let endYear = endYear {
+            text = text + "\(startYear)-\(endYear)"
+        } else {
+            text = text + " · Random"
+        }
+        if let genre = genre,
+            let stateGenre = state.moviesState.genres.first(where: { (realGenre) -> Bool in
+                realGenre.id == genre
+            }) {
+            text = text + " · \(stateGenre.name)"
+        }
+        if let region = region {
+            text = text + " · \(region)"
+        }
+        return text
+    }
 }
