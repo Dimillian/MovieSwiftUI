@@ -104,7 +104,9 @@ struct CustomListForm : View {
         NavigationView {
             Form {
                 topSection
-                movieSearchSection
+                if !searchTextWrapper.searchText.isEmpty {
+                    movieSearchSection
+                }
                 buttonsSection
             }
             .navigationBarTitle(Text("New list"))
