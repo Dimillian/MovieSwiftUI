@@ -15,13 +15,11 @@ struct SearchField : View {
     var dismissButtonCallback: (() -> Void)?
     
     var body: some View {
-        return HStack(alignment: .center, spacing: -10) {
+        return HStack(alignment: .center, spacing: 16) {
             Image(systemName: "magnifyingglass")
             TextField(placeholder,
                       text: $searchTextWrapper.searchText)
-                .textFieldStyle(.roundedBorder)
-                .listRowInsets(EdgeInsets())
-                .padding()
+            .textFieldStyle(.roundedBorder)
             if !searchTextWrapper.searchText.isEmpty {
                 Button(action: {
                     self.searchTextWrapper.searchText = ""
@@ -30,15 +28,44 @@ struct SearchField : View {
                     Text(dismissButtonTitle).color(.steam_blue)
                 }).animation(.basic())
             }
-        }
+        }.padding(4)
     }
 }
 
 #if DEBUG
 struct SearchField_Previews : PreviewProvider {
     static var previews: some View {
-        SearchField(searchTextWrapper: SearchTextWrapper(),
-                    placeholder: "Search anything")
+        let withText = SearchTextWrapper()
+        withText.searchText = "Test"
+        
+        return VStack {
+            SearchField(searchTextWrapper: SearchTextWrapper(),
+                        placeholder: "Search anything")
+            SearchField(searchTextWrapper: withText,
+                        placeholder: "Search anything")
+            
+            List {
+                SearchField(searchTextWrapper: withText,
+                            placeholder: "Search anything")
+                Section(header: SearchField(searchTextWrapper: withText,
+                                            placeholder: "Search anything"))
+                {
+                    SearchField(searchTextWrapper: withText,
+                                placeholder: "Search anything")
+                }
+            }
+            
+            List {
+                SearchField(searchTextWrapper: withText,
+                            placeholder: "Search anything")
+                Section(header: SearchField(searchTextWrapper: withText,
+                                            placeholder: "Search anything"))
+                {
+                    SearchField(searchTextWrapper: withText,
+                                placeholder: "Search anything")
+                }
+            }.listStyle(.grouped)
+        }
     }
 }
 #endif

@@ -44,7 +44,7 @@ struct CustomListDetail : View {
             CustomListHeaderRow(listId: listId)
             SearchField(searchTextWrapper: searchTextWrapper,
                         placeholder: "Search movies to add to your list",
-                        dismissButtonTitle: "Done",
+                        dismissButtonTitle: "Add movies",
                         dismissButtonCallback: {
                             self.store.dispatch(action: MoviesActions.AddMoviesToCustomList(list: self.listId,
                                                                                        movies: self.selectedMovies.map{ $0 }))
