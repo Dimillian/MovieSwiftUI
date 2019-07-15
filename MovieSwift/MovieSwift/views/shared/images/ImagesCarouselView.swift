@@ -28,6 +28,45 @@ struct ImagesCarouselView : View {
         GeometryReader { reader in
             ZStack(alignment: .center) {
                 Group {
+                    ScrollView(.horizontal, showsIndicators: false) {
+                        HStack(spacing: 200) {
+                            ForEach(self.posters) { poster in
+                                GeometryReader { reader2 in
+                                    BigMoviePosterImage(imageLoader: ImageLoader(path: poster.file_path,
+                                                                                 size: .medium))
+                                        .scaleEffect(self.selectedPoster == nil ?
+                                            .zero :
+                                            self.computeCarouselPosterScale(width: reader.frame(in: .global).width,
+                                                                            itemX: reader2.frame(in: .global).midX),
+                                                     anchor: .center)
+                                        .zIndex(1)
+                                        .tapAction {
+                                            withAnimation {
+                                                self.innerSelectedPoster = poster
+                                            }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    .disabled(self.innerSelectedPoster != nil)
+                    .scaleEffect(self.innerSelectedPoster != nil ? 0 : 1)
+                    .position(x: reader.frame(in: .global).midX,
+                              y: reader.frame(in: .local).midY)
+                    
+                    Button(action: {
+                        self.selectedPoster = nil
+                    }) {
+                        Circle()
+                            .strokeBorder(Color.red, lineWidth: 1)
+                            .background(Image(systemName: "xmark").foregroundColor(.red))
+                            .frame(width: 50, height: 50)
+                        
+                    }
+                    .scaleEffect(self.innerSelectedPoster != nil ? 0 : 1)
+                    .position(x: reader.frame(in: .local).midX,
+                              y: reader.frame(in: .local).maxY - 80)
+                    
                     if self.innerSelectedPoster != nil {
                         BigMoviePosterImage(imageLoader: ImageLoader(path: self.innerSelectedPoster!.file_path,
                                                                      size: .medium))
@@ -39,43 +78,6 @@ struct ImagesCarouselView : View {
                                     self.innerSelectedPoster = nil
                                 }
                         }
-                    } else {
-                        ScrollView(.horizontal, showsIndicators: false) {
-                            HStack(spacing: 200) {
-                                ForEach(self.posters) { poster in
-                                    GeometryReader { reader2 in
-                                        BigMoviePosterImage(imageLoader: ImageLoader(path: poster.file_path,
-                                                                                     size: .medium))
-                                            .scaleEffect(self.selectedPoster == nil ?
-                                                .zero :
-                                                self.computeCarouselPosterScale(width: reader.frame(in: .global).width,
-                                                                                itemX: reader2.frame(in: .global).midX),
-                                                         anchor: .center)
-                                            .zIndex(1)
-                                            .tapAction {
-                                                withAnimation {
-                                                    self.innerSelectedPoster = poster
-                                                }
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                        .position(x: reader.frame(in: .global).midX,
-                                  y: reader.frame(in: .local).midY)
-                        
-                        Button(action: {
-                            self.selectedPoster = nil
-                        }) {
-                            Circle()
-                                .strokeBorder(Color.red, lineWidth: 1)
-                                .background(Image(systemName: "xmark").foregroundColor(.red))
-                                .frame(width: 50, height: 50)
-                            
-                        }
-                        .position(x: reader.frame(in: .local).midX,
-                                  y: reader.frame(in: .local).maxY - 80)
-                       
                     }
                 }
             }
