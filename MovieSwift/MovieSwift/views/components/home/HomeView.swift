@@ -33,6 +33,7 @@ struct TabbarView: View {
     func tabbarItem(text: String, image: String) -> some View {
         VStack {
             Image(systemName: image)
+            .imageScale(.large)
             Text(text)
         }
     }
