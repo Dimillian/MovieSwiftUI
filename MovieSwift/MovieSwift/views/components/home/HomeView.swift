@@ -32,7 +32,8 @@ struct TabbarView: View {
     
     func tabbarItem(text: String, image: String) -> some View {
         VStack {
-            Image(image)
+            Image(systemName: image)
+                .imageScale(.large)
             Text(text)
         }
     }
@@ -40,16 +41,13 @@ struct TabbarView: View {
     var body: some View {
         TabbedView(selection: $selectedTab) {
             MoviesHome().tabItem{
-                Image(systemName: "film").imageScale(.large)
-                Text("Movies")
+                self.tabbarItem(text: "Movies", image: "film")
             }.tag(Tab.movies)
             DiscoverView().tabItem{
-                Image(systemName: "square.stack").imageScale(.large)
-                Text("Discover")
+                self.tabbarItem(text: "Discover", image: "square.stack")
             }.tag(Tab.discover)
             MyLists().tabItem{
-                Image(systemName: "heart.circle").imageScale(.large)
-                Text("My Lists")
+                self.tabbarItem(text: "My Lists", image: "heart.circle")
             }.tag(Tab.myLists)
             }
             .edgesIgnoringSafeArea(.top)
