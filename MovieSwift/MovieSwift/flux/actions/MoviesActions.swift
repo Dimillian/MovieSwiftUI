@@ -406,6 +406,11 @@ struct MoviesActions {
         let movie: Int
     }
     
+    struct AddMoviesToCustomList: Action {
+        let list: Int
+        let movies: [Int]
+    }
+    
     struct RemoveMovieFromCustomList: Action {
         let list: Int
         let movie: Int

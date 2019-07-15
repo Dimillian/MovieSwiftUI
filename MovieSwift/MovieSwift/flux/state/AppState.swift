@@ -44,7 +44,8 @@ struct AppState: FluxState {
             return moviesState.seenlist.contains(key) ||
                 moviesState.wishlist.contains(key) ||
                 moviesState.customLists.contains(where: { (_, value) -> Bool in
-                    value.movies.contains(key)
+                    value.movies.contains(key) ||
+                    value.cover == key
                 })
         }
         var savingState = moviesState

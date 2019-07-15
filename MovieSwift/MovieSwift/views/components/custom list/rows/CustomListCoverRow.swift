@@ -18,9 +18,7 @@ struct CustomListCoverRow : View {
     }
     
     var body: some View {
-        HStack(alignment: .center, spacing: 0) {
-            MovieBackdropImage(imageLoader: ImageLoader(path: movie.backdrop_path ?? movie.poster_path, size: .medium))
-        }.listRowInsets(EdgeInsets())
+        MovieBackdropImage(imageLoader: ImageLoader(path: movie.backdrop_path ?? movie.poster_path, size: .medium))
     }
 }
 

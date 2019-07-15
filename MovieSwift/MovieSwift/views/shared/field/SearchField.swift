@@ -10,8 +10,9 @@ import SwiftUI
 
 struct SearchField : View {
     @ObjectBinding var searchTextWrapper: SearchTextWrapper
-    
     let placeholder: String
+    var dismissButtonTitle = "Cancel"
+    var dismissButtonCallback: (() -> Void)?
     
     var body: some View {
         return HStack(alignment: .center, spacing: -10) {
@@ -24,8 +25,9 @@ struct SearchField : View {
             if !searchTextWrapper.searchText.isEmpty {
                 Button(action: {
                     self.searchTextWrapper.searchText = ""
+                    self.dismissButtonCallback?()
                 }, label: {
-                    Text("cancel").color(.steam_blue)
+                    Text(dismissButtonTitle).color(.steam_blue)
                 }).animation(.basic())
             }
         }

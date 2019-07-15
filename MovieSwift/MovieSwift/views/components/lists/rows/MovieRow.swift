@@ -22,6 +22,7 @@ struct MovieRow : View {
     // MARK: - Init
     let movieId: Int
     var displayListImage = true
+    var isSelected = false
     
     // MARK: - Private state
     @State private var isPressing = false
@@ -33,6 +34,9 @@ struct MovieRow : View {
     }
     
     private var listImage: String? {
+        if isSelected {
+            return "checkmark.circle.fill"
+        }
         guard displayListImage else {
             return nil
         }
@@ -82,6 +86,7 @@ struct MovieRow : View {
                 MoviePosterImage(imageLoader: ImageLoader(path: movie.poster_path,
                                                           size: .small),
                                  posterSize: .medium)
+                    .overlay(isSelected ? Color.blue.opacity(0.5) : nil)
                 if listImage != nil {
                     Image(systemName: listImage!)
                         .imageScale(.small)

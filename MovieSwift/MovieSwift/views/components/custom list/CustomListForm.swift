@@ -30,7 +30,7 @@ struct CustomListForm : View {
     let shouldDismiss: (() -> Void)?
     
     private var searchedMovies: [Int] {
-        return store.state.moviesState.search[searchTextWrapper.searchText]?.prefix(2).map{ $0 } ?? []
+        return store.state.moviesState.search[searchTextWrapper.searchText]?.map{ $0 } ?? []
     }
     
     private var topSection: some View {
@@ -58,12 +58,16 @@ struct CustomListForm : View {
     
     private var movieSearchSection: some View {
         Section() {
-            ForEach(searchedMovies) { movieId in
-                CustomListCoverRow(movieId: movieId).tapAction {
-                    self.listMovieCover = movieId
-                    self.searchTextWrapper.searchText = ""
-                }
-            }
+            ScrollView(.horizontal) {
+                HStack(spacing: 16) {
+                    ForEach(searchedMovies) { movieId in
+                        CustomListCoverRow(movieId: movieId).tapAction {
+                            self.listMovieCover = movieId
+                            self.searchTextWrapper.searchText = ""
+                        }.frame(height: 200)
+                    }
+                }.padding(.leading, 16)
+            }.listRowInsets(EdgeInsets())
         }
     }
     

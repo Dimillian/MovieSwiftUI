@@ -35,8 +35,10 @@ struct CustomListHeaderRow : View {
                     .color(.steam_gold)
                 Text("\(list.movies.count) movies")
                     .font(.subheadline)
+                    .color(.white)
             }.padding()
-        }.listRowInsets(EdgeInsets())
+        }
+        .listRowInsets(EdgeInsets())
     }
 }
 
