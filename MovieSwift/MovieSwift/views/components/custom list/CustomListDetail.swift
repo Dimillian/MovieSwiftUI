@@ -65,25 +65,22 @@ struct CustomListDetail : View {
             if !isSearching {
                 CustomListHeaderRow(listId: listId)
             }
-            Section(header:
-                SearchField(searchTextWrapper: searchTextWrapper,
-                            placeholder: "Search movies to add to your list")
-                    .listRowInsets(EdgeInsets())
-                    .padding(4)
-            ) {
-                    if isSearching {
-                        ForEach(searchedMovies) { movie in
-                            MovieRow(movieId: movie, displayListImage: false)
-                        }
-                    } else {
-                        ForEach(movies) { movie in
-                            NavigationLink(destination: MovieDetail(movieId: movie).environmentObject(self.store)) {
-                                MovieRow(movieId: movie, displayListImage: false)
-                            }
-                        }.onDelete { (index) in
-                            self.store.dispatch(action: MoviesActions.RemoveMovieFromCustomList(list: self.listId, movie: self.movies[index.first!]))
-                        }
+            SearchField(searchTextWrapper: searchTextWrapper,
+                        placeholder: "Search movies to add to your list")
+                .listRowInsets(EdgeInsets())
+                .padding(4)
+            if isSearching {
+                ForEach(searchedMovies) { movie in
+                    MovieRow(movieId: movie, displayListImage: false)
+                }
+            } else {
+                ForEach(movies) { movie in
+                    NavigationLink(destination: MovieDetail(movieId: movie).environmentObject(self.store)) {
+                        MovieRow(movieId: movie, displayListImage: false)
                     }
+                }.onDelete { (index) in
+                    self.store.dispatch(action: MoviesActions.RemoveMovieFromCustomList(list: self.listId, movie: self.movies[index.first!]))
+                }
             }
             
         }
