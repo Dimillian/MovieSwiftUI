@@ -14,8 +14,10 @@ class SearchTextWrapper: BindableObject {
     
     @Published var searchText = "" {
         didSet {
-            self.onUpdateText(text: searchText)
-            didChange.send(self)
+            DispatchQueue.main.async {
+                self.onUpdateText(text: self.searchText)
+                self.didChange.send(self)
+            }
         }
     }
     
@@ -38,7 +40,9 @@ class SearchTextWrapper: BindableObject {
             .removeDuplicates()
             .filter { !$0.isEmpty }
             .sink(receiveValue: { (searchText) in
-                self.onUpdateTextDebounced(text: searchText)
+                DispatchQueue.main.async {
+                    self.onUpdateTextDebounced(text: searchText)
+                }
             })
     }
     
