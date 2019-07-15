@@ -32,55 +32,66 @@ struct CustomListDetail : View {
     }
     
     private var isSearching: Bool {
-        return !searchTextWrapper.searchText.isEmpty
+        !searchTextWrapper.searchText.isEmpty
     }
     
     private var searchedMovies: [Int] {
         return store.state.moviesState.search[searchTextWrapper.searchText] ?? []
     }
     
-    var body: some View {
-        List {
-            CustomListHeaderRow(listId: listId)
-            SearchField(searchTextWrapper: searchTextWrapper,
-                        placeholder: "Search movies to add to your list",
-                        dismissButtonTitle: "Add movies",
-                        dismissButtonCallback: {
-                            self.store.dispatch(action: MoviesActions.AddMoviesToCustomList(list: self.listId,
-                                                                                       movies: self.selectedMovies.map{ $0 }))
-                            self.selectedMovies = Set<Int>()
-            })
+    private var navbarButton: some View {
+        Group {
             if isSearching {
-                ForEach(searchedMovies) { movie in
-                    MovieRow(movieId: movie,
-                             displayListImage: false,
-                             isSelected: self.selectedMovies.contains(movie))
-                        .tapAction {
-                        if self.selectedMovies.contains(movie) {
-                            self.selectedMovies.remove(movie)
-                        } else {
-                            self.selectedMovies.insert(movie)
-                        }
-                    }
+                Button(action: {
+                    self.searchTextWrapper.searchText = ""
+                    self.store.dispatch(action: MoviesActions.AddMoviesToCustomList(list: self.listId,
+                                                                                    movies: self.selectedMovies.map{ $0 }))
+                    self.selectedMovies = Set<Int>()
+                }) {
+                    Text("Add movies (\(selectedMovies.count))")
                 }
             } else {
-                ForEach(movies) { movie in
-                    NavigationLink(destination: MovieDetail(movieId: movie).environmentObject(self.store)) {
-                        MovieRow(movieId: movie, displayListImage: false)
-                    }
-                }.onDelete { (index) in
-                    self.store.dispatch(action: MoviesActions.RemoveMovieFromCustomList(list: self.listId, movie: self.movies[index.first!]))
-                }
+                PresentationLink(destination: CustomListForm(editingListId: listId,
+                                                             shouldDismiss: nil).environmentObject(store),
+                                 label: {
+                                    Text("Edit").color(.steam_gold)
+                })
             }
         }
-        .navigationBarItems(trailing: (
-            PresentationLink(destination: CustomListForm(editingListId: listId,
-                                                         shouldDismiss: nil).environmentObject(store),
-                             label: {
-                                Text("Edit").color(.steam_gold)
-            })
-        ))
-        .edgesIgnoringSafeArea(.top)
+    }
+    
+    var body: some View {
+        List(selection: $selectedMovies) {
+            if !isSearching {
+                CustomListHeaderRow(listId: listId)
+            }
+            Section(header:
+                SearchField(searchTextWrapper: searchTextWrapper,
+                            placeholder: "Search movies to add to your list")
+                    .listRowInsets(EdgeInsets())
+                    .padding(4)
+            ) {
+                    if isSearching {
+                        ForEach(searchedMovies) { movie in
+                            MovieRow(movieId: movie, displayListImage: false)
+                        }
+                    } else {
+                        ForEach(movies) { movie in
+                            NavigationLink(destination: MovieDetail(movieId: movie).environmentObject(self.store)) {
+                                MovieRow(movieId: movie, displayListImage: false)
+                            }
+                        }.onDelete { (index) in
+                            self.store.dispatch(action: MoviesActions.RemoveMovieFromCustomList(list: self.listId, movie: self.movies[index.first!]))
+                        }
+                    }
+            }
+            
+        }
+        .environment(\.editMode, .constant(isSearching ? .active : .inactive))
+        .navigationBarTitle(Text(""),
+                            displayMode: isSearching ? .inline : .automatic)
+        .navigationBarItems(trailing: navbarButton)
+        .edgesIgnoringSafeArea(isSearching ? .leading : .top)
     }
 }
 

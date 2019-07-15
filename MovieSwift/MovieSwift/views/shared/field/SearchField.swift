@@ -15,11 +15,13 @@ struct SearchField : View {
     var dismissButtonCallback: (() -> Void)?
     
     var body: some View {
-        return HStack(alignment: .center, spacing: 16) {
+        return HStack(alignment: .center, spacing: 0) {
             Image(systemName: "magnifyingglass")
             TextField(placeholder,
                       text: $searchTextWrapper.searchText)
             .textFieldStyle(.roundedBorder)
+            .padding(.trailing)
+            .padding(.leading)
             if !searchTextWrapper.searchText.isEmpty {
                 Button(action: {
                     self.searchTextWrapper.searchText = ""
