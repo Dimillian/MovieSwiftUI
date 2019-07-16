@@ -12,14 +12,13 @@ import SwiftUIFlux
 final class CustomListSearchMovieTextWrapper: SearchTextWrapper {
     override func onUpdateTextDebounced(text: String) {
         store.dispatch(action: MoviesActions.FetchSearch(query: text, page: 1))
-        store.dispatch(action: PeopleActions.FetchSearch(query: text, page: 1))
     }
 }
 
 struct CustomListDetail : View {
-    @EnvironmentObject var store: Store<AppState>
+    @EnvironmentObject private var store: Store<AppState>
     @State private var searchTextWrapper = CustomListSearchMovieTextWrapper()
-    @State var selectedMovies = Set<Int>()
+    @State private var selectedMovies = Set<Int>()
     
     let listId: Int
         
@@ -69,6 +68,9 @@ struct CustomListDetail : View {
                         placeholder: "Search movies to add to your list")
                 .listRowInsets(EdgeInsets())
                 .padding(4)
+                .tapAction {
+                    self.searchTextWrapper.searchText = ""
+            }
             if isSearching {
                 ForEach(searchedMovies) { movie in
                     MovieRow(movieId: movie, displayListImage: false)
