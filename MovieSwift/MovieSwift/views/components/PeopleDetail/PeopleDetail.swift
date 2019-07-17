@@ -76,9 +76,9 @@ struct PeopleDetail : View {
                 if people.images != nil {
                     PeopleDetailImagesRow(images: people.images!, selectedPoster: $selectedPoster)
                 }
-                ForEach(sortedYears.identified(by: \.self)) {
-                    self.moviesSection(year: $0)
-                }
+                ForEach(sortedYears, id: \.self, content: { year in
+                    self.moviesSection(year: year)
+                })
             }
             .blur(radius: selectedPoster != nil ? 30 : 0)
             if selectedPoster != nil && people.images != nil {

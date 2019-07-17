@@ -10,13 +10,17 @@ import SwiftUI
 import Combine
 
 class SearchTextWrapper: BindableObject {
-    var didChange = PassthroughSubject<SearchTextWrapper, Never>()
+    var willChange = PassthroughSubject<SearchTextWrapper, Never>()
     
     @Published var searchText = "" {
+        willSet {
+            DispatchQueue.main.async {
+                self.willChange.send(self)
+            }
+        }
         didSet {
             DispatchQueue.main.async {
                 self.onUpdateText(text: self.searchText)
-                self.didChange.send(self)
             }
         }
     }
@@ -32,9 +36,9 @@ class SearchTextWrapper: BindableObject {
     }
     
     init() {
-        searchCancellable = didChange.eraseToAnyPublisher()
+        searchCancellable = willChange.eraseToAnyPublisher()
             .map {
-                $0.$$searchText.value
+                $0.searchText
         }
         .debounce(for: .milliseconds(500), scheduler: DispatchQueue.main)
             .removeDuplicates()

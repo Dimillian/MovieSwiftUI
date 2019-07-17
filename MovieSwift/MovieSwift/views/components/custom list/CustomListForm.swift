@@ -50,7 +50,7 @@ struct CustomListForm : View {
                         Button(action: {
                             self.listMovieCover = nil
                         }, label: {
-                            Text("Remove cover").color(.red)
+                            Text("Remove cover").foregroundColor(.red)
                         })
                     }
         })
@@ -89,13 +89,13 @@ struct CustomListForm : View {
                 self.shouldDismiss?()
                 
             }, label: {
-                Text(self.editingListId != nil ? "Save changes" : "Create").color(.blue)
+                Text(self.editingListId != nil ? "Save changes" : "Create").foregroundColor(.blue)
             })
             Button(action: {
                 self.isPresented?.value = false
                 self.shouldDismiss?()
             }, label: {
-                Text("Cancel").color(.red)
+                Text("Cancel").foregroundColor(.red)
             })
         }
     }

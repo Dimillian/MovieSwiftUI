@@ -26,7 +26,7 @@ struct CustomListRow : View {
                                                            size: .small))
             VStack(alignment: .leading, spacing: 2) {
                 Text(list.name).font(.headline).fontWeight(.bold)
-                Text("\(list.movies.count) movies").font(.subheadline).color(.secondary)
+                Text("\(list.movies.count) movies").font(.subheadline).foregroundColor(.secondary)
             }
             }.listRowInsets(EdgeInsets())
             .frame(height: 50)
@@ -47,7 +47,7 @@ struct SmallMoviePosterImage : View {
                     .cornerRadius(3)
                     .opacity(isImageLoaded ? 1 : 0.1)
                     .shadow(radius: 2)
-                    .animation(.basic())
+                    .animation(.easeInOut)
                     .onAppear{
                         self.isImageLoaded = true
                 }

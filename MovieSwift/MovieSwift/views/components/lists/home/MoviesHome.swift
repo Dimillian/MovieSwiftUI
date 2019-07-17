@@ -14,6 +14,7 @@ struct MoviesHome : View {
     }
     
     @State var selectedIndex: Categories = Categories.popular
+    @State var isSettingPresented = false
     
     var segmentedView: some View {
         SegmentedControl(selection: $selectedIndex) {
@@ -38,12 +39,16 @@ struct MoviesHome : View {
                 }
             }
             .navigationBarItems(trailing:
-                PresentationLink(destination: SettingsForm()) {
+                Button(action: {
+                    self.isSettingPresented = true
+                }) {
                     HStack {
                         Image(systemName: "wrench").imageScale(.medium)
                     }.frame(width: 30, height: 30)
                 }
-            )
+            ).sheet(isPresented: $isSettingPresented,
+                    onDismiss: { self.isSettingPresented = false },
+                    content: { SettingsForm() })
         }
     }
 }

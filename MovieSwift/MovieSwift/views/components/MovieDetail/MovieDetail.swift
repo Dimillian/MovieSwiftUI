@@ -158,19 +158,17 @@ struct MovieDetail : View {
                 .onAppear {
                     self.fetchMovieDetails()
                 }
-                .presentation($addSheetShown) { addActionSheet }
-                .presentation(showCreateListForm ?
-                    Modal(CustomListForm(editingListId: nil,
-                                         shouldDismiss: {
-                        self.showCreateListForm = false
-                    }).environmentObject(store),
-                          onDismiss: {
-                    self.showCreateListForm = false
-                    }) : nil)
+                .actionSheet(isPresented: $addSheetShown, content: { addActionSheet })
+                .sheet(isPresented: $showCreateListForm,
+                       onDismiss: { self.showCreateListForm = false},
+                       content: { CustomListForm(editingListId: nil,
+                                                             shouldDismiss: {
+                                            self.showCreateListForm = false
+                       }).environmentObject(self.store) })
                 .disabled(selectedPoster != nil)
                 .animation(nil)
                 .blur(radius: selectedPoster != nil ? 30 : 0)
-                .animation(.basic())
+                .animation(.easeInOut)
             
             NotificationBadge(text: "Added successfully",
                               color: .blue,

@@ -21,7 +21,7 @@ struct BorderedButton : View {
         }, label: {
             HStack(alignment: .center, spacing: 4) {
                 Image(systemName: systemImageName).foregroundColor(isOn ? .white : color)
-                Text(text).color(isOn ? .white : color)
+                Text(text).foregroundColor(isOn ? .white : color)
             }
         })
             .padding(6)

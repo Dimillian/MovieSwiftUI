@@ -11,7 +11,7 @@ import SwiftUIFlux
 
 struct DiscoverFilterForm : View {
     @EnvironmentObject private var store: Store<AppState>
-    @Binding var isPresented: Bool
+    @Environment(\.isPresented) var isPresented
     
     let datesText = ["Random",
                      "1950-1960",
@@ -111,7 +111,7 @@ struct DiscoverFilterForm : View {
                 
                 Section {
                     Button(action: {
-                        self.isPresented = false
+                        self.isPresented?.value = false
                         if let toSave = self.formFilter {
                             self.store.dispatch(action: MoviesActions.SaveDiscoverFilter(filter: toSave))
                         }
@@ -119,11 +119,11 @@ struct DiscoverFilterForm : View {
                         self.store.dispatch(action: MoviesActions.ResetRandomDiscover())
                         self.store.dispatch(action: MoviesActions.FetchRandomDiscover(filter: filter))
                     }, label: {
-                        Text("Save and filter movies").color(.green)
+                        Text("Save and filter movies").foregroundColor(.green)
                     })
                     
                     Button(action: {
-                        self.isPresented = false
+                        self.isPresented?.value = false
                     }, label: {
                         Text("Cancel").color(.red)
                     })
@@ -134,7 +134,7 @@ struct DiscoverFilterForm : View {
                         self.selectedCountry = 0
                         self.selectedDate = 0
                         self.selectedGenre = 0
-                        self.isPresented = false
+                        self.isPresented?.value = false
                         self.store.dispatch(action: MoviesActions.ResetRandomDiscover())
                         self.store.dispatch(action: MoviesActions.FetchRandomDiscover())
                     }, label: {
@@ -146,7 +146,7 @@ struct DiscoverFilterForm : View {
                         ForEach(0 ..< self.savedFilters.count) { index in
                             Text(self.savedFilters[index].toText(state: self.store.state))
                                 .tapAction {
-                                    self.isPresented = false
+                                    self.isPresented?.value = false
                                     self.store.dispatch(action: MoviesActions.ResetRandomDiscover())
                                     self.store.dispatch(action: MoviesActions.FetchRandomDiscover(filter: self.savedFilters[index]))
                             }
@@ -180,7 +180,7 @@ struct DiscoverFilterForm : View {
 #if DEBUG
 struct DiscoverFilterForm_Previews : PreviewProvider {
     static var previews: some View {
-        DiscoverFilterForm(isPresented: .constant(false)).environmentObject(store)
+        DiscoverFilterForm().environmentObject(store)
     }
 }
 #endif

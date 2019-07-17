@@ -23,10 +23,10 @@ struct PeopleRow : View {
             VStack(alignment: .leading) {
                 Text(people.name)
                     .font(.FjallaOne(size: 20))
-                    .color(.steam_gold)
+                    .foregroundColor(.steam_gold)
                     .lineLimit(1)
                 Text(people.knownForText ?? "")
-                    .color(.secondary)
+                    .foregroundColor(.secondary)
                     .font(.subheadline)
                     .lineLimit(3)
                     .truncationMode(.tail)

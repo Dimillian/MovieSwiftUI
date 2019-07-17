@@ -11,23 +11,23 @@ import UIKit
 import Combine
 
 final class ImageLoader: BindableObject {
-    let didChange = PassthroughSubject<UIImage?, Never>()
+    let willChange = PassthroughSubject<UIImage?, Never>()
     
     let path: String?
     let size: ImageService.Size
     
     var image: UIImage? = nil {
-        didSet {
+        willSet {
             DispatchQueue.main.async {
-                self.didChange.send(self.image)
+                self.willChange.send(newValue)
             }
         }
     }
     
     var missing: Bool = false {
-        didSet {
+        willSet {
             DispatchQueue.main.async {
-                self.didChange.send(nil)
+                self.willChange.send(nil)
             }
         }
     }

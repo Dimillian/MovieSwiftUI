@@ -42,10 +42,10 @@ struct MovieDetailRowItem: View {
                     MoviePosterImage(imageLoader: ImageLoader(path: movie.poster_path, size: .medium), posterSize: .medium)
                     Text(movie.userTitle)
                         .font(.body)
-                        .color(.primary)
+                        .foregroundColor(.primary)
                     Text(movie.release_date != nil ? movie.release_date!.prefix(4) : "")
                         .font(.subheadline)
-                        .color(.secondary)
+                        .foregroundColor(.secondary)
                 }
                 }.frame(width: 120)
     }

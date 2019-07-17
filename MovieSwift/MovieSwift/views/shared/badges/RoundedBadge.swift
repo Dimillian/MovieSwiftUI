@@ -15,7 +15,7 @@ struct RoundedBadge : View {
             Text(text.capitalized)
                 .font(.footnote)
                 .fontWeight(.bold)
-                .color(.primary)
+                .foregroundColor(.primary)
                 .padding(.leading, 10)
                 .padding(.top, 5)
                 .padding(.bottom, 5)
