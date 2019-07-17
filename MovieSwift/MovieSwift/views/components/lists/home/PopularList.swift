@@ -22,7 +22,10 @@ struct PopularList : View {
     var headerView: AnyView?
     
     var body: some View {
-        MoviesList(movies: store.state.moviesState.popular, displaySearch: true, pageListener: pageListener, headerView: headerView)
+        MoviesList(movies: store.state.moviesState.popular,
+                   displaySearch: true,
+                   pageListener: pageListener,
+                   headerView: headerView)
             .navigationBarTitle(Text("Popular"))
             .onAppear {
                 self.pageListener.loadPage()

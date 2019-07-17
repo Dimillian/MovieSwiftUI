@@ -59,7 +59,6 @@ struct DraggableCover : View {
     }
     
     // MARK: - Internal vars
-    @State private var viewState = CGSize.zero
     @State private var predictedEndLocation: CGPoint? = nil
     @State private var hasMoved = false
     @State private var delayedIsActive = false
@@ -88,12 +87,12 @@ struct DraggableCover : View {
     
     private func computedOffset() -> CGSize {
         if let location = predictedEndLocation {
-            return CGSize(width: viewState.width + location.x,
+            return CGSize(width: location.x,
                           height: 0)
         }
         
         return CGSize(
-            width: dragState.isActive ? viewState.width +  dragState.translation.width : 0,
+            width: dragState.isActive ? dragState.translation.width : 0,
             height: 0
         )
     }

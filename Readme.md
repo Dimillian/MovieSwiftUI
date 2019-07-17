@@ -14,12 +14,12 @@ SwiftUI does all aspects of diffing on the render pass when your state changes. 
 
 ## SwiftUI
 
-MovieDBSwiftUI is in pure Swift UI, the goal is to see how far SwiftUI can go in its current implementation without using anything from UIKit (basically no UIView/UIViewController representable).
+MovieSwiftUI is in pure Swift UI, the goal is to see how far SwiftUI can go in its current implementation without using anything from UIKit (basically no UIView/UIViewController representable).
 
 It'll evolve with SwiftUI, every time Apple edits existing or adds new features to the framework.
 
 ## Platforms
 
-Currently MovieDBSwiftUI runs on iPhone, iPad, and macOS. 
+Currently MovieSwiftUI runs on iPhone, iPad, and macOS. 
 
 Follow me on [Twitter](https://twitter.com/dimillian) to get the latest update about features, code and SwiftUI tips and tricks! 
