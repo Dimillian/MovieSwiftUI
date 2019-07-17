@@ -18,7 +18,6 @@ struct DiscoverView : View {
     @State private var draggedViewState = DraggableCover.DragState.inactive
     @State private var previousMovie: Int? = nil
     @State private var isFilterFormPresented = false
-    @State private var isMovieDetailPresented = false
     @State private var presentedMovieId: Int? = nil
     @State private var willEndPosition: CGSize? = nil
     private let hapticFeedback = UIImpactFeedbackGenerator(style: .soft)
@@ -85,31 +84,6 @@ struct DiscoverView : View {
         if movies.count < 10 || force {
             store.dispatch(action: MoviesActions.FetchRandomDiscover(filter: filter))
         }
-    }
-    
-    // MARK: - Modals
-    
-    private var filterFormModal: Modal {
-        Modal(DiscoverFilterForm(isPresented: $isFilterFormPresented).environmentObject(store),
-              onDismiss: {
-            self.isFilterFormPresented = false
-        })
-    }
-    
-    private var movieDetailModal: Modal {
-        let content = NavigationView{ MovieDetail(movieId: currentMovie!.id).environmentObject(store) }
-        return Modal(content) {
-            self.isMovieDetailPresented = false
-        }
-    }
-    
-    private var currentModal: Modal? {
-        if isFilterFormPresented {
-            return filterFormModal
-        } else if isMovieDetailPresented {
-            return movieDetailModal
-        }
-        return nil
     }
     
     // MARK: Body views
@@ -227,8 +201,11 @@ struct DiscoverView : View {
         .sheet(item: $presentedMovieId,
                onDismiss: { self.presentedMovieId = nil },
                content: { movie in
-            MovieDetail(movieId: movie).environmentObject(self.store)
+            NavigationView{ MovieDetail(movieId: movie) }.environmentObject(self.store)
         })
+        .sheet(isPresented: $isFilterFormPresented,
+               onDismiss: { self.isFilterFormPresented = false},
+               content: { DiscoverFilterForm().environmentObject(self.store) })
         .onAppear {
             self.hapticFeedback.prepare()
             self.fetchRandomMovies(force: false, filter: self.filter)

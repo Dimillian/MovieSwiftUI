@@ -11,25 +11,31 @@ import SwiftUI
 struct MovieRatingRow : View {
     let movie: Movie
     
+    @State private var isReviewsPresented = false
+    
     var body: some View {
         VStack(alignment: .leading, spacing: 8) {
             HStack {
                 PopularityBadge(score: Int(movie.vote_average * 10))
                 Text("\(movie.vote_count) ratings")
-                PresentationLink(destination: MovieReviews(movie: movie.id).environmentObject(store),
-                                   label: {
-                                    HStack {
-                                        Text("Reviews").color(.steam_blue)
-                                        Image(systemName: "chevron.right")
-                                            .resizable()
-                                            .frame(width: 5, height: 10)
-                                            .foregroundColor(.steam_blue)
-                                    }
-                })
+                Button(action: {
+                    self.isReviewsPresented = true
+                }) {
+                    HStack {
+                        Text("Reviews").foregroundColor(.steam_blue)
+                        Image(systemName: "chevron.right")
+                            .resizable()
+                            .frame(width: 5, height: 10)
+                            .foregroundColor(.steam_blue)
+                    }
+                }
             }
             }
             .padding(.top, 8)
             .padding(.bottom, 8)
+            .sheet(isPresented: $isReviewsPresented,
+                   onDismiss: { self.isReviewsPresented = false },
+                   content: { MovieReviews(movie: self.movie.id).environmentObject(store) })
     }
 }
 

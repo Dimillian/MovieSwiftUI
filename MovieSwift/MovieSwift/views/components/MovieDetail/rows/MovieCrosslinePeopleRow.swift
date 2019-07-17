@@ -40,10 +40,10 @@ struct PeopleRowItem: View {
             NavigationLink(destination: PeopleDetail(peopleId: people.id).environmentObject(store)) {
                 PeopleImage(imageLoader: ImageLoader(path: people.profile_path,
                                                    size: .cast))
-                Text(people.name).font(.body).color(.primary)
+                Text(people.name).font(.body).foregroundColor(.primary)
                 Text(people.character ?? people.department ?? "")
                     .font(.subheadline)
-                    .color(.secondary)
+                    .foregroundColor(.secondary)
                 }.frame(width: 100)
             }
     }

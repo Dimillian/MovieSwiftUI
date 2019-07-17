@@ -49,8 +49,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
 let store = Store<AppState>(reducer: appStateReducer,
                             middleware: [loggingMiddleware],
-                            state: AppState(),
-                            queue: .main)
+                            state: AppState())
 
 #if DEBUG
 let sampleCustomList = CustomList(id: 0,
@@ -68,8 +67,7 @@ let sampleStore = Store<AppState>(reducer: appStateReducer,
                                       customLists: [0: sampleCustomList]),
                                            peoplesState: PeoplesState(peoples: [0: sampleCasts.first!, 1: sampleCasts[1]],
                                                                       peoplesMovies: [:],
-                                                                      search: [:])),
-                           queue: .main)
+                                                                      search: [:])))
 #endif
 
 

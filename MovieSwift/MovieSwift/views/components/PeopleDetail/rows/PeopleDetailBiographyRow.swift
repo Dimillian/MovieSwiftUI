@@ -23,21 +23,21 @@ struct PeopleDetailBiographyRow : View {
                     .font(.FjallaOne(size: 16))
                     .fontWeight(.bold)
                 Text(biography!)
-                    .color(.secondary)
+                    .foregroundColor(.secondary)
                     .font(.body)
                     .lineLimit(isExpanded ? nil : 4)
             }
             Button(action: {
                 self.isExpanded.toggle()
             }) {
-                Text(isExpanded ? "Less": "Read more").color(.steam_blue)
+                Text(isExpanded ? "Less": "Read more").foregroundColor(.steam_blue)
             }
             if birthDate != nil {
                 Text("Birthday:")
                     .font(.FjallaOne(size: 16))
                     .fontWeight(.bold)
                 Text(birthDate!)
-                    .color(.secondary)
+                    .foregroundColor(.secondary)
                     .font(.body)
             }
             if placeOfBirth != nil {
@@ -45,7 +45,7 @@ struct PeopleDetailBiographyRow : View {
                     .font(.FjallaOne(size: 16))
                     .fontWeight(.bold)
                 Text(placeOfBirth!)
-                    .color(.secondary)
+                    .foregroundColor(.secondary)
                     .font(.body)
             }
             if deathDate != nil {
@@ -53,7 +53,7 @@ struct PeopleDetailBiographyRow : View {
                     .font(.FjallaOne(size: 16))
                     .fontWeight(.bold)
                 Text(deathDate!)
-                    .color(.secondary)
+                    .foregroundColor(.secondary)
                     .font(.body)
             }
         }

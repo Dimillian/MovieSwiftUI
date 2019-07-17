@@ -16,7 +16,11 @@ class SearchTextWrapper: BindableObject {
         willSet {
             DispatchQueue.main.async {
                 self.willChange.send(self)
-                self.onUpdateText(text: newValue)
+            }
+        }
+        didSet {
+            DispatchQueue.main.async {
+                self.onUpdateText(text: self.searchText)
             }
         }
     }

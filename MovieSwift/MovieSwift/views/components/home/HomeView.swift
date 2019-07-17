@@ -11,7 +11,7 @@ import SwiftUIFlux
 
 // MARK:- Shared View
 struct HomeView: View {
-    #if targetEnvironment(UIKitForMac)
+    #if targetEnvironment(macCatalyst)
     var body: some View {
         SplitView()
     }
