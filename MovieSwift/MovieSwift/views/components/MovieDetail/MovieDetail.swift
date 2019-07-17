@@ -159,14 +159,12 @@ struct MovieDetail : View {
                     self.fetchMovieDetails()
                 }
                 .actionSheet(isPresented: $addSheetShown, content: { addActionSheet })
-                .presentation(showCreateListForm ?
-                    Modal(CustomListForm(editingListId: nil,
-                                         shouldDismiss: {
-                        self.showCreateListForm = false
-                    }).environmentObject(store),
-                          onDismiss: {
-                    self.showCreateListForm = false
-                    }) : nil)
+                .sheet(isPresented: $showCreateListForm,
+                       onDismiss: { self.showCreateListForm = false},
+                       content: { CustomListForm(editingListId: nil,
+                                                             shouldDismiss: {
+                                            self.showCreateListForm = false
+                       }).environmentObject(self.store) })
                 .disabled(selectedPoster != nil)
                 .animation(nil)
                 .blur(radius: selectedPoster != nil ? 30 : 0)

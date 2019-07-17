@@ -34,7 +34,7 @@ struct PopularityBadge : View {
             Text("\(score)%")
                 .font(Font.system(size: 10))
                 .fontWeight(.bold)
-                .color(.primary)
+                .foregroundColor(.primary)
             }
             .frame(width: 40, height: 40)
     }
