@@ -29,6 +29,7 @@ struct MyLists : View {
     @State private var selectedList: Int = 0
     @State private var selectedMoviesSort = MoviesSort.byAddedDate
     @State private var showShortActionSheet = false
+    @State private var isEditingFormPresented = false
     @EnvironmentObject private var store: Store<AppState>
     
     // MARK: - Dynamic vars
@@ -68,10 +69,9 @@ struct MyLists : View {
     
     private var customListsSection: some View {
         Section(header: Text("Custom Lists")) {
-            PresentationLink(destination: CustomListForm(editingListId: nil,
-                                                         shouldDismiss: {
-                
-            }).environmentObject(store)) {
+            Button(action: {
+                self.isEditingFormPresented = true
+            }) {
                 Text("Create custom list").color(.steam_blue)
             }
             ForEach(customLists) { list in
@@ -83,6 +83,8 @@ struct MyLists : View {
                 let list = self.customLists[index.first!]
                 self.store.dispatch(action: MoviesActions.RemoveCustomList(list: list.id))
             }
+        }.sheet(isPresented: $isEditingFormPresented) {
+            CustomListForm(editingListId: nil, shouldDismiss: nil)
         }
     }
     
@@ -130,7 +132,7 @@ struct MyLists : View {
                     seenSection
                 }
             }
-            .presentation($showShortActionSheet) { sortActionSheet }
+            .actionSheet(isPresented: $showShortActionSheet, content: { sortActionSheet })
             .navigationBarTitle(Text("My Lists"))
             .navigationBarItems(trailing: Button(action: {
                     self.showShortActionSheet.toggle()

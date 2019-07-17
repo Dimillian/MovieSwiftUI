@@ -14,6 +14,7 @@ enum OutlineMenu: Int, CaseIterable, Identifiable {
         return self.rawValue
     }
     
+    
     case popular, topRated, upcoming, nowPlaying, discover, wishlist, seenlist, myLists
     
     var title: String {
@@ -44,16 +45,7 @@ enum OutlineMenu: Int, CaseIterable, Identifiable {
     
     var contentView: AnyView {
         switch self {
-        case .popular:
-            return AnyView (
-                NavigationView{ PopularList()
-                    .navigationBarItems(trailing:
-                        PresentationLink(destination: SettingsForm()) {
-                            Image(systemName: "wrench")
-                        }
-                    )
-                }
-            )
+        case .popular:    return AnyView( NavigationView{ PopularList() })
         case .topRated:   return AnyView( NavigationView{ TopRatedList() })
         case .upcoming:   return AnyView( NavigationView{ UpcomingList() })
         case .nowPlaying: return AnyView( NavigationView{ NowPlayingList() })

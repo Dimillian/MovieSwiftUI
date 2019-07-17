@@ -17,7 +17,7 @@ struct MovieOverview : View {
             Text("Overview:").font(.FjallaOne(size: 20))
             Text(movie.overview)
                 .font(.subheadline)
-                .color(.secondary)
+                .foregroundColor(.secondary)
                 .lineLimit(self.isOverviewExpanded ? nil : 4)
                 .tapAction {
                     withAnimation {
@@ -30,7 +30,7 @@ struct MovieOverview : View {
                 }
             }, label: {
                 Text(self.isOverviewExpanded ? "Less" : "Read more")
-                    .color(.steam_blue)
+                    .foregroundColor(.steam_blue)
             })
         }
     }

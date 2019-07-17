@@ -158,7 +158,7 @@ struct MovieDetail : View {
                 .onAppear {
                     self.fetchMovieDetails()
                 }
-                .presentation($addSheetShown) { addActionSheet }
+                .actionSheet(isPresented: $addSheetShown, content: { addActionSheet })
                 .presentation(showCreateListForm ?
                     Modal(CustomListForm(editingListId: nil,
                                          shouldDismiss: {
@@ -170,7 +170,7 @@ struct MovieDetail : View {
                 .disabled(selectedPoster != nil)
                 .animation(nil)
                 .blur(radius: selectedPoster != nil ? 30 : 0)
-                .animation(.basic())
+                .animation(.easeInOut)
             
             NotificationBadge(text: "Added successfully",
                               color: .blue,

@@ -15,13 +15,13 @@ struct NotificationBadge : View {
     
     var animation: Animation {
         Animation
-            .spring(initialVelocity: 5)
+            .spring()
             .speed(2)
     }
     
     var body: some View {
         Text(text)
-            .color(.white)
+            .foregroundColor(.white)
             .padding()
             .background(color)
             .cornerRadius(8)

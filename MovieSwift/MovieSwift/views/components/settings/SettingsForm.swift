@@ -30,7 +30,7 @@ struct SettingsForm : View {
         HStack {
             Text(title)
             Spacer()
-            Text(info).font(.body).color(.secondary)
+            Text(info).font(.body).foregroundColor(.secondary)
         }
     }
     
@@ -55,7 +55,7 @@ struct SettingsForm : View {
                     Text("Export my data")
                     Text("Backup to iCloud")
                     Text("Restore from iCloud")
-                    Text("Reset application data").color(.red)
+                    Text("Reset application data").foregroundColor(.red)
                 })
                 
                 Section(header: Text("Debug info")) {
@@ -77,7 +77,7 @@ struct SettingsForm : View {
                 leading: Button(action: {
                     self.isPresented?.value = false
                 }, label: {
-                    Text("Cancel").color(.red)
+                    Text("Cancel").foregroundColor(.red)
                 }),
                 trailing: Button(action: {
                     AppUserDefaults.region = NSLocale.isoCountryCodes[self.selectedRegion]

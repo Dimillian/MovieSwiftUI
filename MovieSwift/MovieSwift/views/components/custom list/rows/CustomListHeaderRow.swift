@@ -32,10 +32,10 @@ struct CustomListHeaderRow : View {
             VStack(alignment: .leading, spacing: 8) {
                 Text(list.name)
                     .font(.FjallaOne(size: 40))
-                    .color(.steam_gold)
+                    .foregroundColor(.steam_gold)
                 Text("\(list.movies.count) movies")
                     .font(.subheadline)
-                    .color(.white)
+                    .foregroundColor(.white)
             }.padding()
         }
         .listRowInsets(EdgeInsets())

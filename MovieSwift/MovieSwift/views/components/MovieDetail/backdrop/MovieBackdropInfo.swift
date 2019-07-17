@@ -12,11 +12,11 @@ struct MovieBackdropInfo : View {
     let movie: Movie
     
     var asyncTextTransition: AnyTransition {
-        return .scale()
+        return .scale
     }
     
     var asyncTextAnimation: Animation {
-        Animation.spring(initialVelocity: 2)
+        Animation.spring()
             .speed(2)
             .delay(0.5)
     }
@@ -33,7 +33,7 @@ struct MovieBackdropInfo : View {
                 HStack {
                     Text(movie.release_date != nil ? movie.release_date!.prefix(4) : "")
                         .font(.subheadline)
-                        .color(.white)
+                        .foregroundColor(.white)
                     if movie.runtime != nil {
                         Text("• \(movie.runtime!) minutes")
                             .font(.subheadline)

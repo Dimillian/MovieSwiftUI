@@ -43,7 +43,7 @@ struct MovieTopBackdropImage : View {
                             .blur(radius: self.forceBlur ? 50 : self.blurFor(minY: geometry.frame(in: .global).minY),
                                   opaque: self.fill ? false : true)
                             .opacity(self.isImageLoaded ? 1 : 0)
-                            .animation(.basic())
+                            .animation(.easeInOut)
                             .onAppear{
                                 self.isImageLoaded = true
                             }.tapAction {

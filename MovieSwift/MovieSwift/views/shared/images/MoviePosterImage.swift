@@ -20,7 +20,7 @@ struct MoviePosterImage : View {
                     .resizable()
                     .renderingMode(.original)
                     .posterStyle(loaded: true, size: posterSize)
-                    .animation(.basic())
+                    .animation(.easeInOut)
                     .onAppear{
                         self.isImageLoaded = true
                 }
