@@ -55,7 +55,7 @@ struct MyLists : View {
                 self.showShortActionSheet = false
             }
             let byReleaseDate: Alert.Button = .default(Text("Sort by release date")) {
-                self.selectedMoviesSort = .byReleaseDate
+                self.selectedMoviesSort = .byReleaseDate 
                 self.showShortActionSheet = false
             }
             
@@ -140,8 +140,12 @@ struct MyLists : View {
                     .frame(width: 25, height: 25)
             }))
         }
-        .sheet(isPresented: $isEditingFormPresented) {
-            CustomListForm(editingListId: nil, shouldDismiss: nil).environmentObject(self.store)
+        .sheet(isPresented: $isEditingFormPresented,
+               onDismiss: { self.isEditingFormPresented = false }) {
+                CustomListForm(editingListId: nil,
+                               shouldDismiss: {
+                    self.isEditingFormPresented = false
+                }).environmentObject(self.store)
         }
     }
 }

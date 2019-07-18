@@ -110,7 +110,9 @@ struct CustomListForm : View {
                 buttonsSection
             }
             .navigationBarTitle(Text("New list"))
-        }.onAppear() {
+        }
+        .navigationViewStyle(.stack)
+        .onAppear() {
             if let id = self.editingListId,
                 let list = self.store.state.moviesState.customLists[id] {
                 self.listMovieCover = list.cover

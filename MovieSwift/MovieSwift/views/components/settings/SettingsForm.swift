@@ -73,7 +73,8 @@ struct SettingsForm : View {
                         self.selectedRegion = index
                     }
                     self.alwaysOriginalTitle = AppUserDefaults.alwaysOriginalTitle
-            }.navigationBarItems(
+            }
+            .navigationBarItems(
                 leading: Button(action: {
                     self.isPresented?.value = false
                 }, label: {

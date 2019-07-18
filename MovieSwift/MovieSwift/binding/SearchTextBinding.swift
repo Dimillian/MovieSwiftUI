@@ -14,8 +14,8 @@ class SearchTextWrapper: BindableObject {
     
     @Published var searchText = "" {
         didSet {
-            self.willChange.send(self)
-            self.onUpdateText(text: searchText)
+            willChange.send(self)
+            onUpdateText(text: searchText)
         }
     }
     

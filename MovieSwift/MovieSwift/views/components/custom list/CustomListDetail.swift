@@ -35,8 +35,8 @@ struct CustomListDetail : View {
         !searchTextWrapper.searchText.isEmpty
     }
     
-    private var searchedMovies: [Int] {
-        return store.state.moviesState.search[searchTextWrapper.searchText] ?? []
+    private var searchedMovies: [Int]? {
+        return store.state.moviesState.search[searchTextWrapper.searchText]
     }
     
     private var navbarButton: some View {
@@ -73,8 +73,14 @@ struct CustomListDetail : View {
                     self.searchTextWrapper.searchText = ""
             }
             if isSearching {
-                ForEach(searchedMovies) { movie in
-                    MovieRow(movieId: movie, displayListImage: false)
+                if searchedMovies?.isEmpty == true {
+                    Text("No result")
+                } else if searchedMovies == nil {
+                    Text("Loading")
+                } else {
+                    ForEach(searchedMovies!) { movie in
+                        MovieRow(movieId: movie, displayListImage: false)
+                    }
                 }
             } else {
                 ForEach(movies) { movie in
@@ -87,7 +93,7 @@ struct CustomListDetail : View {
             }
             
         }
-        .environment(\.editMode, .constant(isSearching ? .active : .inactive))
+        .environment(\.editMode, .constant(searchedMovies != nil && searchedMovies?.isEmpty == false ? .active : .inactive))
         .navigationBarTitle(Text(""),
                             displayMode: isSearching ? .inline : .automatic)
         .navigationBarItems(trailing: navbarButton)
