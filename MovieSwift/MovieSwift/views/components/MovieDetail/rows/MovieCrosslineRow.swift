@@ -37,17 +37,21 @@ struct MovieDetailRowItem: View {
     let movie: Movie
     
     var body: some View {
-            VStack(alignment: .center) {
-                NavigationLink(destination: MovieDetail(movieId: movie.id).environmentObject(store)) {
-                    MoviePosterImage(imageLoader: ImageLoader(path: movie.poster_path, size: .medium), posterSize: .medium)
-                    Text(movie.userTitle)
-                        .font(.body)
-                        .foregroundColor(.primary)
-                    Text(movie.release_date != nil ? movie.release_date!.prefix(4) : "")
-                        .font(.subheadline)
-                        .foregroundColor(.secondary)
-                }
-                }.frame(width: 120)
+        VStack(alignment: .center) {
+            NavigationLink(destination: MovieDetail(movieId: movie.id).environmentObject(store)) {
+                MoviePosterImage(imageLoader: ImageLoader(path: movie.poster_path,
+                                                          size: .medium),
+                                 posterSize: .medium)
+                .contextMenu{ MovieContextMenu(movieId: movie.id) }
+                Text(movie.userTitle)
+                    .font(.body)
+                    .foregroundColor(.primary)
+                Text(movie.release_date != nil ? movie.release_date!.prefix(4) : "")
+                    .font(.subheadline)
+                    .foregroundColor(.secondary)
+            }
+            }
+        .frame(width: 120)
     }
 }
 
