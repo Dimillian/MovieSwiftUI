@@ -198,13 +198,11 @@ struct DiscoverView : View {
                               y: reader.frame(in: .local).maxY - reader.safeAreaInsets.bottom - self.bottomSafeInsetFix)
             }
             }
-        /*
         .sheet(item: $presentedMovieId,
                onDismiss: { self.presentedMovieId = nil },
                content: { movie in
             NavigationView{ MovieDetail(movieId: movie) }.environmentObject(self.store)
         })
-             */
         .sheet(isPresented: $isFilterFormPresented,
                onDismiss: { self.isFilterFormPresented = false},
                content: { DiscoverFilterForm().environmentObject(self.store) })

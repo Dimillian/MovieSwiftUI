@@ -57,13 +57,7 @@ struct CustomListDetail : View {
                     Text("Edit").foregroundColor(.steam_gold)
                 }
             }
-        }.sheet(isPresented: $isEditingFormPresented,
-                onDismiss: { self.isEditingFormPresented = false },
-                content: { CustomListForm(editingListId: self.listId,
-                                          shouldDismiss: {
-                                            self.isEditingFormPresented = false
-                }).environmentObject(self.store)
-            })
+        }
     }
     
     var body: some View {
@@ -98,6 +92,13 @@ struct CustomListDetail : View {
                             displayMode: isSearching ? .inline : .automatic)
         .navigationBarItems(trailing: navbarButton)
         .edgesIgnoringSafeArea(isSearching ? .leading : .top)
+        .sheet(isPresented: $isEditingFormPresented,
+                        onDismiss: { self.isEditingFormPresented = false },
+                        content: { CustomListForm(editingListId: self.listId,
+                                                  shouldDismiss: {
+                                                    self.isEditingFormPresented = false
+                        }).environmentObject(self.store)
+                    })
     }
 }
 
