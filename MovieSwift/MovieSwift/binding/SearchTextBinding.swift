@@ -13,15 +13,9 @@ class SearchTextWrapper: BindableObject {
     var willChange = PassthroughSubject<SearchTextWrapper, Never>()
     
     @Published var searchText = "" {
-        willSet {
-            DispatchQueue.main.async {
-                self.willChange.send(self)
-            }
-        }
         didSet {
-            DispatchQueue.main.async {
-                self.onUpdateText(text: self.searchText)
-            }
+            self.willChange.send(self)
+            self.onUpdateText(text: searchText)
         }
     }
     

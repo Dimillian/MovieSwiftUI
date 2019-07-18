@@ -66,9 +66,9 @@ struct SplitView: View {
                         OutlineRow(item: menu, selectedMenu: self.$selectedMenu)
                     }
                 }
-                }.background(Color(.sRGB, white: 0.1, opacity: 1))
-                .frame(width: 250)
-            Spacer().frame(width: 1).foregroundColor(.secondary)
+            }
+            .frame(width: 230)
+            .background(Color(.sRGB, white: 0.1, opacity: 1))
             selectedMenu.contentView
         }
     }

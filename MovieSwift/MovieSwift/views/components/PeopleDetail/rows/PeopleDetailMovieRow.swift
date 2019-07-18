@@ -25,7 +25,7 @@ struct PeopleDetailMovieRow : View {
                 Text(movie.title)
                     .font(.headline)
                 Text(role)
-                    .color(.secondary)
+                    .foregroundColor(.secondary)
                     .font(.subheadline)
             }
         }

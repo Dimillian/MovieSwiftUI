@@ -72,7 +72,7 @@ struct MyLists : View {
             Button(action: {
                 self.isEditingFormPresented = true
             }) {
-                Text("Create custom list").color(.steam_blue)
+                Text("Create custom list").foregroundColor(.steam_blue)
             }
             ForEach(customLists) { list in
                 NavigationLink(destination: CustomListDetail(listId: list.id).environmentObject(self.store)) {

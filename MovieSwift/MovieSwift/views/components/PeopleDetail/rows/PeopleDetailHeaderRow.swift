@@ -29,7 +29,7 @@ struct PeopleDetailHeaderRow : View {
                     Text(people.known_for_department!)
                 }
                 Text(people.knownForText ?? "For now nothing much... or missing data")
-                    .color(.secondary)
+                    .foregroundColor(.secondary)
                     .font(.body)
                     .lineLimit(nil)
             }

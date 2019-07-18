@@ -189,7 +189,7 @@ struct DiscoverView : View {
                                                                 size: .small))
                         .scaleEffect(1.0 - Length(self.movies.reversed().firstIndex(of: id)!) * 0.03 + Length(self.scaleResistance()))
                         .padding(.bottom, Length(self.movies.reversed().firstIndex(of: id)! * 16) - self.dragResistance())
-                        .animation(.spring())
+                        .animation(.spring(response: 0.5, dampingFraction: 0.5, blendDuration: 0))
                 }
             }
             GeometryReader { reader in

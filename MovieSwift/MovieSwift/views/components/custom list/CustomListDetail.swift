@@ -19,6 +19,7 @@ struct CustomListDetail : View {
     @EnvironmentObject private var store: Store<AppState>
     @State private var searchTextWrapper = CustomListSearchMovieTextWrapper()
     @State private var selectedMovies = Set<Int>()
+    @State private var isEditingFormPresented = false
     
     let listId: Int
         
@@ -50,13 +51,19 @@ struct CustomListDetail : View {
                     Text("Add movies (\(selectedMovies.count))")
                 }
             } else {
-                PresentationLink(destination: CustomListForm(editingListId: listId,
-                                                             shouldDismiss: nil).environmentObject(store),
-                                 label: {
-                                    Text("Edit").color(.steam_gold)
-                })
+                Button(action: {
+                    self.isEditingFormPresented = true
+                }) {
+                    Text("Edit").foregroundColor(.steam_gold)
+                }
             }
-        }
+        }.sheet(isPresented: $isEditingFormPresented,
+                onDismiss: { self.isEditingFormPresented = false },
+                content: { CustomListForm(editingListId: self.listId,
+                                          shouldDismiss: {
+                                            self.isEditingFormPresented = false
+                }).environmentObject(self.store)
+            })
     }
     
     var body: some View {

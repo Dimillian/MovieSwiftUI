@@ -24,11 +24,10 @@ final class MoviesSearchTextWrapper: SearchTextWrapper {
     
     override func onUpdateText(text: String) {
         store.dispatch(action: MoviesActions.FetchSearchKeyword(query: text))
-        searchPageListener.text = text
-        searchPageListener.currentPage = 1
     }
     
     override func onUpdateTextDebounced(text: String) {
-
+        searchPageListener.text = text
+        searchPageListener.currentPage = 1
     }
 }

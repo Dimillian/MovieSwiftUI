@@ -27,8 +27,8 @@ struct SearchField : View {
                     self.searchTextWrapper.searchText = ""
                     self.dismissButtonCallback?()
                 }, label: {
-                    Text(dismissButtonTitle).color(.steam_blue)
-                }).animation(.basic())
+                    Text(dismissButtonTitle).foregroundColor(.steam_blue)
+                }).animation(.easeInOut)
             }
         }.padding(4)
     }
