@@ -159,6 +159,7 @@ struct DiscoverFilterForm : View {
                     })
                 }
                 }
+                .navigationViewStyle(.stack)
                 .navigationBarTitle(Text("Discover filter"))
                 .onAppear {
                     if let startYear = self.currentFilter?.startYear {

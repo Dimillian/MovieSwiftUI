@@ -11,7 +11,7 @@ import SwiftUIFlux
 
 struct MovieReviews : View {
     @EnvironmentObject var store: Store<AppState>
-    @Environment(\.isPresented) var isPresented
+    @Binding var isPresented: Bool
     
     let movie: Int
     
@@ -20,7 +20,7 @@ struct MovieReviews : View {
     }
     
     func onCloseButton() {
-        isPresented?.value = false
+        isPresented = false
     }
     
     var body: some View {
@@ -30,10 +30,12 @@ struct MovieReviews : View {
             }
             .navigationBarTitle(Text("Reviews"))
             .navigationBarItems(trailing: Button(action: onCloseButton) {
-                Image(systemName: "xmark")
+                Image(systemName: "xmark").imageScale(.large)
             })
-            }.onAppear{
+            }
+        .navigationViewStyle(.stack)
+        .onAppear{
                 self.store.dispatch(action: MoviesActions.FetchMovieReviews(movie: self.movie.id))
-        }
+            }
     }
 }

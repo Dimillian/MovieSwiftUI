@@ -15,7 +15,7 @@ enum OutlineMenu: Int, CaseIterable, Identifiable {
     }
     
     
-    case popular, topRated, upcoming, nowPlaying, discover, wishlist, seenlist, myLists
+    case popular, topRated, upcoming, nowPlaying, discover, wishlist, seenlist, myLists, settings
     
     var title: String {
         switch self {
@@ -27,6 +27,7 @@ enum OutlineMenu: Int, CaseIterable, Identifiable {
         case .wishlist:   return "Wishlist"
         case .seenlist:   return "Seenlist"
         case .myLists:    return "MyLists"
+        case .settings:   return "Settings"
         }
     }
     
@@ -40,6 +41,7 @@ enum OutlineMenu: Int, CaseIterable, Identifiable {
         case .wishlist:   return "heart.fill"
         case .seenlist:   return "eye.fill"
         case .myLists:    return "text.badge.plus"
+        case .settings:   return "wrench"
         }
     }
     
@@ -53,6 +55,7 @@ enum OutlineMenu: Int, CaseIterable, Identifiable {
         case .wishlist:   return AnyView( MyLists() )
         case .seenlist:   return AnyView( MyLists() )
         case .myLists:    return AnyView( MyLists() )
+        case .settings:   return AnyView( SettingsForm() )
         }
     }
 }

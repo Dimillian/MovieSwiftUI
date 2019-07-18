@@ -83,8 +83,6 @@ struct MyLists : View {
                 let list = self.customLists[index.first!]
                 self.store.dispatch(action: MoviesActions.RemoveCustomList(list: list.id))
             }
-        }.sheet(isPresented: $isEditingFormPresented) {
-            CustomListForm(editingListId: nil, shouldDismiss: nil)
         }
     }
     
@@ -141,6 +139,9 @@ struct MyLists : View {
                     .resizable()
                     .frame(width: 25, height: 25)
             }))
+        }
+        .sheet(isPresented: $isEditingFormPresented) {
+            CustomListForm(editingListId: nil, shouldDismiss: nil).environmentObject(self.store)
         }
     }
 }

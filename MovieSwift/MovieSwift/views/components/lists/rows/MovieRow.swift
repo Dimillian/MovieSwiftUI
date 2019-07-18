@@ -23,10 +23,6 @@ struct MovieRow : View {
     let movieId: Int
     var displayListImage = true
     
-    // MARK: - Private state
-    @State private var isPressing = false
-    @State private var addSheetShown = false
-    
     // MARK: - Private computed vars
     private var movie: Movie! {
         store.state.moviesState.movies[movieId]
@@ -48,32 +44,6 @@ struct MovieRow : View {
         return nil
     }
     
-    var addActionSheet: ActionSheet {
-        get {
-            var buttons: [Alert.Button] = []
-            let wishlistButton = ActionSheet.wishlistButton(store: store, movie: movieId) {
-                self.addSheetShown = false
-            }
-            let seenButton = ActionSheet.seenListButton(store: store, movie: movieId) {
-                self.addSheetShown = false
-            }
-            let customListButtons = ActionSheet.customListsButttons(store: store, movie: movieId) {
-                self.addSheetShown = false
-            }
-            let cancelButton = Alert.Button.cancel {
-                self.addSheetShown = false
-            }
-            
-            buttons.append(wishlistButton)
-            buttons.append(seenButton)
-            buttons.append(contentsOf: customListButtons)
-            buttons.append(cancelButton)
-            let sheet = ActionSheet(title: Text("Add or remove \(movie.userTitle) from your lists"),
-                                    message: nil,
-                                    buttons: buttons)
-            return sheet
-        }
-    }
     
     // MARK: - Body
     var body: some View {
@@ -90,15 +60,7 @@ struct MovieRow : View {
                         .transition(AnyTransition.scale
                             .combined(with: .opacity))
                         .animation(.spring())
-                    
                 }
-            }
-            .scaleEffect(isPressing ? 1.05 : 1.0)
-                .animation(isPressing ?.spring() : nil)
-                .longPressAction(minimumDuration: 0.5, {
-                    self.addSheetShown = true
-                }) { ended in
-                    self.isPressing = ended
             }
             .fixedSize()
             VStack(alignment: .leading, spacing: 8) {
@@ -121,7 +83,7 @@ struct MovieRow : View {
         }
         .padding(.top, 8)
         .padding(.bottom, 8)
-        .actionSheet(isPresented: $addSheetShown, content: { addActionSheet })
+        .contextMenu{ MovieContextMenu(movieId: self.movieId) }
     }
 }
 

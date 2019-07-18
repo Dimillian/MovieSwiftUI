@@ -13,8 +13,12 @@ struct ReviewRow : View {
     let review: Review
     var body: some View {
         VStack(alignment: .leading, spacing: 8) {
-            Text("Review writtent by \(review.author)").font(.subheadline).fontWeight(.bold)
-            Text(review.content).font(.body).lineLimit(0)
+            Text("Review writtent by \(review.author)")
+                .font(.subheadline)
+                .fontWeight(.bold)
+            Text(review.content)
+                .font(.body)
+                .lineLimit(nil)
         }
             .padding(.top)
             .padding(.bottom)
