@@ -22,9 +22,8 @@ struct OutlineRow : View {
                 Image(systemName: item.image)
                     .imageScale(.large)
                     .foregroundColor(isSelected ? .steam_gold : .white)
-                    .padding(.trailing, 16)
             }
-            .frame(width: 50)
+            .frame(width: 40)
             Text(item.title)
                 .font(.FjallaOne(size: 24))
                 .foregroundColor(isSelected ? .steam_gold : .white)
