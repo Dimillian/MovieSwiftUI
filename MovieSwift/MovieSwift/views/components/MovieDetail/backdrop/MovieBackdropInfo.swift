@@ -82,9 +82,7 @@ struct MovieBackdropInfo : View {
                 productionCountry
                 genresBadges
             }
-        }
-        .listRowInsets(EdgeInsets())
-            .padding(.bottom)
+        }.padding(.bottom)
     }
 }
 

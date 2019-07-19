@@ -64,8 +64,8 @@ struct Movie: Codable, Identifiable {
 }
 
 let sampleMovie = Movie(id: 0,
-                        original_title: "Test movie",
-                        title: "Test movie",
+                        original_title: "Test movie Test movie Test movie Test movie Test movie Test movie Test movie ",
+                        title: "Test movie Test movie Test movie Test movie Test movie Test movie Test movie  Test movie Test movie Test movie",
                         overview: "Test desc",
                         poster_path: "/uC6TTUhPpQCmgldGyYveKRAu8JN.jpg",
                         backdrop_path: "/nl79FQ8xWZkhL3rDr1v2RFFR6J0.jpg",

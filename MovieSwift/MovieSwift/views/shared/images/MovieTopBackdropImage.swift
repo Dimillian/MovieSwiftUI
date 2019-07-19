@@ -52,11 +52,9 @@ struct MovieTopBackdropImage : View {
                     }
                     }
                     .frame(maxHeight: fill ? 50 : height)
-                    .aspectRatio(500/300, contentMode: fill || !isExpanded ? .fill : .fit)
             } else {
                 Rectangle()
                     .frame(maxHeight: fill ? 50 : height)
-                    .aspectRatio(500/300, contentMode: fill || !isExpanded ? .fill : .fit)
                     .foregroundColor(.gray)
                     .opacity(0.1)
             }
