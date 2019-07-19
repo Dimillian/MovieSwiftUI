@@ -14,10 +14,12 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
     var window: UIWindow?
 
-
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
         if let windowScene = scene as? UIWindowScene {
             let window = UIWindow(windowScene: windowScene)
+            #if targetEnvironment(macCatalyst)
+                windowScene.titlebar?.titleVisibility = .hidden
+            #endif
             
             //TODO: Move that to SwiftUI once implemented
             UINavigationBar.appearance().largeTitleTextAttributes = [

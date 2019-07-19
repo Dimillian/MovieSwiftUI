@@ -167,9 +167,9 @@ struct DiscoverView : View {
     var body: some View {
         ZStack(alignment: .center) {
             GeometryReader { reader in
-                    self.filterView
-                        .position(x: reader.frame(in: .local).midX, y: 30)
-                        .frame(height: 50)
+                self.filterView
+                    .position(x: reader.frame(in: .local).midX, y: 30)
+                    .frame(height: 50)
             }
             ForEach(movies) {id in
                 if self.movies.reversed().firstIndex(of: id) == 0 {
@@ -197,18 +197,18 @@ struct DiscoverView : View {
                     .position(x: reader.frame(in: .local).midX,
                               y: reader.frame(in: .local).maxY - reader.safeAreaInsets.bottom - self.bottomSafeInsetFix)
             }
-            }
+        }
         .sheet(item: $presentedMovieId,
                onDismiss: { self.presentedMovieId = nil },
                content: { movie in
-            NavigationView{ MovieDetail(movieId: movie) }.environmentObject(self.store)
+                NavigationView{ MovieDetail(movieId: movie) }.environmentObject(self.store)
         })
-        .sheet(isPresented: $isFilterFormPresented,
-               onDismiss: { self.isFilterFormPresented = false},
-               content: { DiscoverFilterForm().environmentObject(self.store) })
-        .onAppear {
-            self.hapticFeedback.prepare()
-            self.fetchRandomMovies(force: false, filter: self.filter)
+            .sheet(isPresented: $isFilterFormPresented,
+                   onDismiss: { self.isFilterFormPresented = false},
+                   content: { DiscoverFilterForm().environmentObject(self.store) })
+            .onAppear {
+                self.hapticFeedback.prepare()
+                self.fetchRandomMovies(force: false, filter: self.filter)
         }
     }
 }

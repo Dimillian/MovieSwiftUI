@@ -41,7 +41,7 @@ struct MovieTopBackdropImage : View {
                         Image(uiImage: self.imageLoader.image!)
                             .resizable()
                             .blur(radius: self.forceBlur ? 50 : self.blurFor(minY: geometry.frame(in: .global).minY),
-                                  opaque: self.fill ? false : true)
+                                  opaque: false)
                             .opacity(self.isImageLoaded ? 1 : 0)
                             .animation(.easeInOut)
                             .onAppear{

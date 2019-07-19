@@ -63,16 +63,21 @@ struct SplitView: View {
             ScrollView(showsIndicators: false) {
                 VStack(alignment: .leading) {
                     ForEach(OutlineMenu.allCases) { menu in
-                        OutlineRow(item: menu, selectedMenu: self.$selectedMenu)
-                            .frame(height: 50)
+                        ZStack(alignment: .leading) {
+                            OutlineRow(item: menu, selectedMenu: self.$selectedMenu)
+                                .frame(height: 50)
+                            if menu == self.selectedMenu {
+                                Rectangle()
+                                    .foregroundColor(Color.secondary.opacity(0.1))
+                                    .frame(height: 50)
+                            }
+                        }
                     }
                 }
                 .padding(.top, 32)
-                .offset(x: -30, y: 0)
                 .frame(width: 250)
             }
-            .frame(width: 250)
-            .background(Color(.sRGB, white: 0.1, opacity: 1))
+            .background(Color.primary.opacity(0.1))
             selectedMenu.contentView
         }
     }
