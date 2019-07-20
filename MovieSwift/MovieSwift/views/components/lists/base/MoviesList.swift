@@ -104,14 +104,17 @@ struct MoviesList : View {
     // MARK: - Views
     var body: some View {
         List {
-            Section {
-                if displaySearch {
+            
+            if displaySearch {
+                Section {
                     searchField
                 }
             }
             
             if headerView != nil && !isSearching {
-                headerView!
+                Section {
+                    headerView!
+                }
             }
             
             if isSearching {
