@@ -34,12 +34,12 @@ struct MoviesList : View {
         return !searchTextWrapper.searchText.isEmpty
     }
     
-    private var searchedMovies: [Int] {
-        return store.state.moviesState.search[searchTextWrapper.searchText] ?? []
+    private var searchedMovies: [Int]? {
+        return store.state.moviesState.search[searchTextWrapper.searchText]
     }
     
-    private var searchPeoples: [Int] {
-        return store.state.peoplesState.search[searchTextWrapper.searchText] ?? []
+    private var searchPeoples: [Int]? {
+        return store.state.peoplesState.search[searchTextWrapper.searchText]
     }
     
     private var keywords: [Keyword]? {
@@ -48,10 +48,16 @@ struct MoviesList : View {
     
     // Mark: - Computed views
     private var movieSection: some View {
-        Section {
-            ForEach(isSearching ? searchedMovies : movies) { id in
-                NavigationLink(destination: MovieDetail(movieId: id).environmentObject(self.store)) {
-                    MovieRow(movieId: id)
+        Section(header: isSearching ? Text("Results for \(searchTextWrapper.searchText)") : nil) {
+            if isSearching && searchedMovies == nil {
+                Text("Searching movies...")
+            } else if isSearching && searchedMovies?.isEmpty == true {
+                Text("No results")
+            } else {
+                ForEach(isSearching ? searchedMovies! : movies) { id in
+                    NavigationLink(destination: MovieDetail(movieId: id).environmentObject(self.store)) {
+                        MovieRow(movieId: id)
+                    }
                 }
             }
         }
@@ -59,16 +65,22 @@ struct MoviesList : View {
     
     private var peoplesSection: some View {
         Section {
-            ForEach(searchPeoples) { id in
-                NavigationLink(destination: PeopleDetail(peopleId: id).environmentObject(self.store)) {
-                    PeopleRow(peopleId: id)
+            if isSearching && searchPeoples == nil {
+                Text("Searching peoples...")
+            } else if isSearching && searchPeoples?.isEmpty == true {
+                Text("No results")
+            } else {
+                ForEach(searchPeoples!) { id in
+                    NavigationLink(destination: PeopleDetail(peopleId: id).environmentObject(self.store)) {
+                        PeopleRow(peopleId: id)
+                    }
                 }
             }
         }
     }
     
     private var keywordsSection: some View {
-        Section {
+        Section(header: Text("Keywords")) {
             ForEach(keywords!) {keyword in
                 NavigationLink(destination: MovieKeywordList(keyword: keyword).environmentObject(self.store)) {
                     Text(keyword.name)
@@ -92,9 +104,12 @@ struct MoviesList : View {
     // MARK: - Views
     var body: some View {
         List {
-            if displaySearch {
-                searchField
+            Section {
+                if displaySearch {
+                    searchField
+                }
             }
+            
             if headerView != nil && !isSearching {
                 headerView!
             }
@@ -115,11 +130,11 @@ struct MoviesList : View {
             /// The pagination is done by appending a invisible rectancle at the bottom of the list, and trigerining the next page load as it appear.
             /// Hacky way for now, hope it'll be possible to find a better solution in a future version of SwiftUI.
             /// Could be possible to do with GeometryReader.
-            if !movies.isEmpty || !searchedMovies.isEmpty {
+            if !movies.isEmpty || searchedMovies?.isEmpty == false {
                 Rectangle()
                     .foregroundColor(.clear)
                     .onAppear {
-                        if self.isSearching && !self.searchedMovies.isEmpty {
+                        if self.isSearching && self.searchedMovies?.isEmpty == false {
                             self.searchTextWrapper.searchPageListener.currentPage += 1
                         } else if self.pageListener != nil && !self.isSearching {
                             self.pageListener?.currentPage += 1
