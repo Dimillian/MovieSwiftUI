@@ -47,17 +47,30 @@ struct MoviesList : View {
     }
     
     // Mark: - Computed views
+    
+    private var moviesRows: some View {
+        ForEach(isSearching ? searchedMovies! : movies) { id in
+            NavigationLink(destination: MovieDetail(movieId: id).environmentObject(self.store)) {
+                MovieRow(movieId: id)
+            }
+        }
+    }
+    
     private var movieSection: some View {
-        Section(header: isSearching ? Text("Results for \(searchTextWrapper.searchText)") : nil) {
-            if isSearching && searchedMovies == nil {
-                Text("Searching movies...")
-            } else if isSearching && searchedMovies?.isEmpty == true {
-                Text("No results")
-            } else {
-                ForEach(isSearching ? searchedMovies! : movies) { id in
-                    NavigationLink(destination: MovieDetail(movieId: id).environmentObject(self.store)) {
-                        MovieRow(movieId: id)
+        Group {
+            if isSearching {
+                Section(header: Text("Results for \(searchTextWrapper.searchText)")) {
+                    if isSearching && searchedMovies == nil {
+                        Text("Searching movies...")
+                    } else if isSearching && searchedMovies?.isEmpty == true {
+                        Text("No results")
+                    } else {
+                        moviesRows
                     }
+                }
+            } else {
+                Section {
+                    moviesRows
                 }
             }
         }
@@ -104,7 +117,6 @@ struct MoviesList : View {
     // MARK: - Views
     var body: some View {
         List {
-            
             if displaySearch {
                 Section {
                     searchField
