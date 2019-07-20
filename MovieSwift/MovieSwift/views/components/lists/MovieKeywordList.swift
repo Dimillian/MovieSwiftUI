@@ -23,8 +23,12 @@ struct MovieKeywordList : View {
     @State var pageListener = KeywordPageListener()
     let keyword: Keyword
     
+    var movies: [Int] {
+        store.state.moviesState.withKeywords[keyword.id] ?? []
+    }
+    
     var body: some View {
-        MoviesList(movies: store.state.moviesState.withKeywords[keyword.id] ?? [], displaySearch: false, pageListener: pageListener)
+        MoviesList(movies: movies, displaySearch: false, pageListener: pageListener)
             .navigationBarTitle(Text(keyword.name.capitalized))
             .onAppear {
                 self.pageListener.keyword = self.keyword.id

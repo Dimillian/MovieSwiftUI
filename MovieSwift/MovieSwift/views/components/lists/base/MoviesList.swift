@@ -139,7 +139,7 @@ struct MoviesList : View {
                     .onAppear {
                         if self.isSearching && self.searchedMovies?.isEmpty == false {
                             self.searchTextWrapper.searchPageListener.currentPage += 1
-                        } else if self.pageListener != nil && !self.isSearching {
+                        } else if self.pageListener != nil && !self.isSearching && !self.movies.isEmpty {
                             self.pageListener?.currentPage += 1
                         }
                 }
