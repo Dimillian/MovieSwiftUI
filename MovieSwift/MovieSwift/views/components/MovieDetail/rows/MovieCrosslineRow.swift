@@ -33,7 +33,6 @@ struct MovieCrosslineRow : View {
 }
 
 struct MovieDetailRowItem: View {
-    @EnvironmentObject var store: Store<AppState>
     let movie: Movie
     
     var body: some View {

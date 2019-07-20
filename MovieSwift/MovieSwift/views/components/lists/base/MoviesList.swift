@@ -85,7 +85,7 @@ struct MoviesList : View {
             } else {
                 ForEach(searchPeoples!) { id in
                     NavigationLink(destination: PeopleDetail(peopleId: id).environmentObject(self.store)) {
-                        PeopleRow(peopleId: id)
+                        PeopleRow(people: self.store.state.peoplesState.peoples[id]!)
                     }
                 }
             }

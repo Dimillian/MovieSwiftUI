@@ -10,7 +10,6 @@ import SwiftUI
 import SwiftUIFlux
 
 struct KeywordBadge : View {
-    @EnvironmentObject var store: Store<AppState>
     let keyword: Keyword
     
     var body: some View {

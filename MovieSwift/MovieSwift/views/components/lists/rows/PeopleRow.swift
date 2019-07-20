@@ -10,13 +10,8 @@ import SwiftUI
 import SwiftUIFlux
 
 struct PeopleRow : View {
-    @EnvironmentObject var store: Store<AppState>
+    let people: People
     
-    let peopleId: Int
-    private var people: People! {
-        return store.state.peoplesState.peoples[peopleId]
-    }
-        
     var body: some View {
         HStack {
             PeopleImage(imageLoader: ImageLoader(path: people.profile_path, size: .cast))
@@ -39,7 +34,7 @@ struct PeopleRow : View {
 #if DEBUG
 struct PeopleRow_Previews : PreviewProvider {
     static var previews: some View {
-        PeopleRow(peopleId: sampleCasts.first!.id).environmentObject(sampleStore)
+        PeopleRow(people: sampleCasts.first!)
     }
 }
 #endif
