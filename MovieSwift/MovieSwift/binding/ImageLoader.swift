@@ -16,8 +16,16 @@ final class ImageLoader: BindableObject {
     let path: String?
     let size: ImageService.Size
     
-    var image: UIImage? = nil
-    var missing: Bool = false
+    var image: UIImage? = nil {
+        willSet {
+            willChange.send()
+        }
+    }
+    var missing: Bool = false {
+        willSet {
+            willChange.send()
+        }
+    }
     
     init(path: String?, size: ImageService.Size) {
         self.size = size
@@ -26,17 +34,17 @@ final class ImageLoader: BindableObject {
     
     func loadImage() {
         guard let poster = path else {
-            willChange.send()
             missing = true
             return
         }
         ImageService.shared.image(poster: poster, size: .medium) { [weak self] (result) in
             do {
                 let result = try result.get()
-                self?.willChange.send()
                 self?.image = result
             }
-            catch { }
+            catch {
+                self?.missing = true
+            }
         }
     }
 }
