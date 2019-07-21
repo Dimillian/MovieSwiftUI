@@ -38,9 +38,14 @@ struct MovieDetailRowItem: View {
     var body: some View {
         VStack(alignment: .center) {
             NavigationLink(destination: MovieDetail(movieId: movie.id).environmentObject(store)) {
-                MoviePosterImage(imageLoader: ImageLoader(path: movie.poster_path,
-                                                          size: .medium),
-                                 posterSize: .medium)
+                ZStack(alignment: .topLeading) {
+                    MoviePosterImage(imageLoader: ImageLoader(path: movie.poster_path,
+                                                              size: .medium),
+                                     posterSize: .medium)
+                    ListImage(movieId: movie.id)
+                    
+                }
+                .fixedSize()
                 .contextMenu{ MovieContextMenu(movieId: movie.id) }
                 Text(movie.userTitle)
                     .font(.body)

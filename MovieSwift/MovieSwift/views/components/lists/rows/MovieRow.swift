@@ -27,24 +27,7 @@ struct MovieRow : View {
     private var movie: Movie! {
         store.state.moviesState.movies[movieId]
     }
-    
-    private var listImage: String? {
-        guard displayListImage else {
-            return nil
-        }
-        if store.state.moviesState.wishlist.contains(movieId) {
-            return "heart.fill"
-        } else if   store.state.moviesState.seenlist.contains(movieId) {
-            return "eye.fill"
-        } else if store.state.moviesState.customLists.contains(where: { (_, value) -> Bool in
-            value.movies.contains(self.movieId)
-        }) {
-            return "pin.fill"
-        }
-        return nil
-    }
-    
-    
+        
     // MARK: - Body
     var body: some View {
         HStack {
@@ -52,14 +35,8 @@ struct MovieRow : View {
                 MoviePosterImage(imageLoader: ImageLoader(path: movie.poster_path,
                                                           size: .small),
                                  posterSize: .medium)
-                if listImage != nil {
-                    Image(systemName: listImage!)
-                        .imageScale(.small)
-                        .foregroundColor(.white)
-                        .position(x: 13, y: 15)
-                        .transition(AnyTransition.scale
-                            .combined(with: .opacity))
-                        .animation(.spring())
+                if displayListImage {
+                    ListImage(movieId: movieId)
                 }
             }
             .fixedSize()
