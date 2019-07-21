@@ -30,6 +30,7 @@ struct PopularityBadge : View {
               .stroke(Color.secondary, lineWidth: 2)
             Circle()
                 .trim(from: abs(CGFloat(score) / 100 - 1), to: 1)
+                .rotation(.degrees(180))
                 .stroke(scoreColor, lineWidth: 2)
                 .shadow(color: scoreColor, radius: 4)
         }
