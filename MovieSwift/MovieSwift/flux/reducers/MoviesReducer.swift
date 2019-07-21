@@ -18,7 +18,7 @@ func moviesStateReducer(state: MoviesState, action: Action) -> MoviesState {
         } else {
             state.popular.append(contentsOf: action.response.results.map{ $0.id })
         }
-        state = mergeMovies(movies: action.response.results, state: state)
+        state.movies += action.response.results
         
     case let action as MoviesActions.SetTopRated:
         if action.page == 1 {
@@ -26,7 +26,7 @@ func moviesStateReducer(state: MoviesState, action: Action) -> MoviesState {
         } else {
             state.topRated.append(contentsOf: action.response.results.map{ $0.id })
         }
-        state = mergeMovies(movies: action.response.results, state: state)
+        state.movies += action.response.results
         
     case let action as MoviesActions.SetUpcoming:
         if action.page == 1 {
@@ -34,7 +34,7 @@ func moviesStateReducer(state: MoviesState, action: Action) -> MoviesState {
         } else {
             state.upcoming.append(contentsOf: action.response.results.map{ $0.id })
         }
-        state = mergeMovies(movies: action.response.results, state: state)
+        state.movies += action.response.results
         
     case let action as MoviesActions.SetNowPlaying:
         if action.page == 1 {
@@ -42,7 +42,7 @@ func moviesStateReducer(state: MoviesState, action: Action) -> MoviesState {
         } else {
             state.nowPlaying.append(contentsOf: action.response.results.map{ $0.id })
         }
-        state = mergeMovies(movies: action.response.results, state: state)
+        state.movies += action.response.results
         
     case let action as MoviesActions.SetDetail:
         state.movies[action.movie] = action.response
@@ -179,6 +179,12 @@ func moviesStateReducer(state: MoviesState, action: Action) -> MoviesState {
     
     
     return state
+}
+
+func +=(lhs: inout [Int: Movie], rhs: [Movie]) {
+    for movie in rhs {
+        lhs[movie.id] = movie
+    }
 }
 
 private func mergeMovies(movies: [Movie], state: MoviesState) -> MoviesState {
