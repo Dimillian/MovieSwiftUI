@@ -24,13 +24,23 @@ struct PopularityBadge : View {
         }
     }
     
+    var overlay: some View {
+        ZStack {
+            Circle()
+              .stroke(Color.secondary, lineWidth: 2)
+            Circle()
+                .trim(from: abs(CGFloat(score) / 100 - 1), to: 1)
+                .stroke(scoreColor, lineWidth: 2)
+                .shadow(color: scoreColor, radius: 4)
+        }
+    }
+    
     var body: some View {
         ZStack {
             Circle()
                 .foregroundColor(.clear)
                 .frame(width: 40)
-                .overlay((Circle().stroke(scoreColor, lineWidth: 2))
-                    .shadow(color: scoreColor, radius: 4))
+                .overlay(overlay)
             Text("\(score)%")
                 .font(Font.system(size: 10))
                 .fontWeight(.bold)
