@@ -19,6 +19,8 @@ class ImageService {
     //TODO: Build disk cache too.
     var memCache: [String: UIImage] = [:]
     
+    private let lock = NSLock()
+    
     enum Size: String {
         case small = "https://image.tmdb.org/t/p/w154/"
         case medium = "https://image.tmdb.org/t/p/w500/"
@@ -46,18 +48,18 @@ class ImageService {
         if let cached = memCache[poster] {
             return Just(cached).eraseToAnyPublisher()
         }
-        let publisher = URLSession.shared.dataTaskPublisher(for: size.path(poster: poster))
+        return URLSession.shared.dataTaskPublisher(for: size.path(poster: poster))
             .tryMap { (data, response) -> UIImage? in
                 let image = UIImage(data: data)
-                    if image != nil {
-                        self.memCache[poster] = image!
-                    }
+                if let image = image {
+                    self.lock.lock()
+                    self.memCache[poster] = image
+                    self.lock.unlock()
+                }
                 return image
-        }
-        .catch{ error in
+        }.catch { error in
             return Just(nil)
         }
         .eraseToAnyPublisher()
-        return publisher
     }
 }
