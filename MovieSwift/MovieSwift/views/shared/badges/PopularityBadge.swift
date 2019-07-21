@@ -11,6 +11,8 @@ import SwiftUI
 struct PopularityBadge : View {
     let score: Int
     
+    @State var isDisplayed = false
+    
     var scoreColor: Color {
         get {
             if score < 40 {
@@ -29,10 +31,15 @@ struct PopularityBadge : View {
             Circle()
               .stroke(Color.secondary, lineWidth: 2)
             Circle()
-                .trim(from: abs(CGFloat(score) / 100 - 1), to: 1)
-                .rotation(.degrees(180))
+                .trim(from: 0,
+                      to: isDisplayed ? CGFloat(score) / 100 : 0)
                 .stroke(scoreColor, lineWidth: 2)
                 .shadow(color: scoreColor, radius: 4)
+                .animation(Animation.easeInOut(duration: 0.7))
+        }
+        .rotationEffect(.degrees(-90))
+        .onAppear {
+            self.isDisplayed = true
         }
     }
     
