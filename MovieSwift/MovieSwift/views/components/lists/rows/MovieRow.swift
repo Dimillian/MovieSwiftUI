@@ -33,7 +33,7 @@ struct MovieRow : View {
         HStack {
             ZStack(alignment: .topLeading) {
                 MoviePosterImage(imageLoader: ImageLoader(path: movie.poster_path,
-                                                          size: .small),
+                                                          size: .medium),
                                  posterSize: .medium)
                 if displayListImage {
                     ListImage(movieId: movieId)

@@ -22,7 +22,7 @@ struct MoviePostersRow : View {
                 HStack(spacing: 16) {
                     ForEach(self.posters) { poster in
                         MoviePosterImage(imageLoader: ImageLoader(path: poster.file_path,
-                                                                  size: .small),
+                                                                  size: .medium),
                                          posterSize: .medium).tapAction {
                                                                     withAnimation {
                                                                         self.selectedPoster = poster

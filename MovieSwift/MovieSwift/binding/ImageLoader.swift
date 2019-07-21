@@ -35,7 +35,7 @@ final class ImageLoader: BindableObject {
         guard let poster = path else {
             return
         }
-        cancellable = ImageService.shared.fetchImage(poster: poster, size: .medium)
+        cancellable = ImageService.shared.fetchImage(poster: poster, size: size)
             .receive(on: DispatchQueue.main)
             .assign(to: \ImageLoader.image, on: self)
     }

@@ -23,7 +23,7 @@ struct CustomListRow : View {
     var body: some View {
         HStack {
             SmallMoviePosterImage(imageLoader: ImageLoader(path: coverMovie?.poster_path,
-                                                           size: .small))
+                                                           size: .medium))
             VStack(alignment: .leading, spacing: 2) {
                 Text(list.name).font(.headline).fontWeight(.bold)
                 Text("\(list.movies.count) movies").font(.subheadline).foregroundColor(.secondary)
