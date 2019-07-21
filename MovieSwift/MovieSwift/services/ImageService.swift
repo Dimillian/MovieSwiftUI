@@ -8,6 +8,7 @@
 
 import Foundation
 import SwiftUI
+import Combine
 import UIKit
 
 class ImageService {
@@ -41,29 +42,22 @@ class ImageService {
         return memCache[poster]
     }
     
-    // TODO: Prefix memcache with poster size.
-    func image(poster: String, size: Size, completionHandler: @escaping (Result<UIImage, Error>) -> Void) {
-        if let cachedImage = memCache[poster] {
-            completionHandler(.success(cachedImage))
-            return
+    func fetchImage(poster: String, size: Size) -> AnyPublisher<UIImage?, Never> {
+        if let cached = memCache[poster] {
+            return Just(cached).eraseToAnyPublisher()
         }
-        ImageService.queue.async {
-            do {
-                let data = try Data(contentsOf: size.path(poster: poster))
+        let publisher = URLSession.shared.dataTaskPublisher(for: size.path(poster: poster))
+            .tryMap { (data, response) -> UIImage? in
                 let image = UIImage(data: data)
-                DispatchQueue.main.async {
-                    if let image = image {
-                        self.memCache[poster] = image
-                        completionHandler(.success(image))
-                    } else {
-                        completionHandler(.failure(ImageError.decodingError))
+                    if image != nil {
+                        self.memCache[poster] = image!
                     }
-                }
-            } catch let error {
-                DispatchQueue.main.async {
-                    completionHandler(.failure(error))
-                }
-            }
+                return image
         }
+        .catch{ error in
+            return Just(nil)
+        }
+        .eraseToAnyPublisher()
+        return publisher
     }
 }

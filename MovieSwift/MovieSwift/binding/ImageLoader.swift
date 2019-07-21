@@ -18,14 +18,13 @@ final class ImageLoader: BindableObject {
     
     var image: UIImage? = nil {
         willSet {
-            willChange.send()
+            if newValue != nil {
+                willChange.send()
+            }
         }
     }
-    var missing: Bool = false {
-        willSet {
-            willChange.send()
-        }
-    }
+    
+    var cancellable: AnyCancellable?
     
     init(path: String?, size: ImageService.Size) {
         self.size = size
@@ -34,17 +33,14 @@ final class ImageLoader: BindableObject {
     
     func loadImage() {
         guard let poster = path else {
-            missing = true
             return
         }
-        ImageService.shared.image(poster: poster, size: .medium) { [weak self] (result) in
-            do {
-                let result = try result.get()
-                self?.image = result
-            }
-            catch {
-                self?.missing = true
-            }
-        }
+        self.cancellable = ImageService.shared.fetchImage(poster: poster, size: .medium)
+            .receive(on: DispatchQueue.main)
+            .assign(to: \ImageLoader.image, on: self)
+    }
+    
+    deinit {
+        cancellable?.cancel()
     }
 }

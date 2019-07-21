@@ -41,10 +41,6 @@ struct DiscoverCoverImage : View {
                     .resizable()
                     .renderingMode(.original)
                     .discoverPosterStyle()
-            } else if imageLoader.missing == true {
-                Rectangle()
-                    .foregroundColor(.gray)
-                    .discoverPosterStyle()
             } else {
                 Rectangle()
                     .foregroundColor(.clear)
