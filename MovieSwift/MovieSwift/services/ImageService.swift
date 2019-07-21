@@ -13,13 +13,10 @@ import UIKit
 
 class ImageService {
     static let shared = ImageService()
-    private static let queue = DispatchQueue(label: "Image queue",
-                                     qos: DispatchQoS.userInitiated)
+    private static let cacheQueue = DispatchQueue(label: "cacheQueue")
     
     //TODO: Build disk cache too.
     var memCache: [String: UIImage] = [:]
-    
-    private let lock = NSLock()
     
     enum Size: String {
         case small = "https://image.tmdb.org/t/p/w154/"
@@ -52,9 +49,9 @@ class ImageService {
             .tryMap { (data, response) -> UIImage? in
                 let image = UIImage(data: data)
                 if let image = image {
-                    self.lock.lock()
-                    self.memCache[poster] = image
-                    self.lock.unlock()
+                    ImageService.cacheQueue.async {
+                        self.memCache[poster] = image
+                    }
                 }
                 return image
         }.catch { error in
