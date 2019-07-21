@@ -71,24 +71,22 @@ func moviesStateReducer(state: MoviesState, action: Action) -> MoviesState {
         state.seenlist.remove(action.movie)
         
         var meta = state.moviesUserMeta[action.movie] ?? MovieUserMeta()
-        meta.dateAddedToWishlist = Date()
+        meta.addedToList = Date()
         state.moviesUserMeta[action.movie] = meta
         
     case let action as MoviesActions.RemoveFromWishlist:
         state.wishlist.remove(action.movie)
-        state.moviesUserMeta[action.movie]?.dateAddedToWishlist = nil
         
     case let action as MoviesActions.AddToSeenList:
         state.seenlist.insert(action.movie)
         state.wishlist.remove(action.movie)
         
         var meta = state.moviesUserMeta[action.movie] ?? MovieUserMeta()
-        meta.dateAddedToSeenList = Date()
+        meta.addedToList = Date()
         state.moviesUserMeta[action.movie] = meta
         
     case let action as MoviesActions.RemoveFromSeenList:
         state.seenlist.remove(action.movie)
-        state.moviesUserMeta[action.movie]?.dateAddedToSeenList = nil
         
     case let action as MoviesActions.AddMovieToCustomList:
         state.customLists[action.list]?.movies.append(action.movie)

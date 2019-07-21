@@ -9,26 +9,37 @@
 import Foundation
 
 enum MoviesSort {
-    enum AddedTo {
-        case wishlist, seenlist
+    case byReleaseDate, byAddedDate, byScore, byPopularity
+    
+    func title() -> String {
+        switch self {
+        case .byReleaseDate:
+            return "by release date"
+        case .byAddedDate:
+            return "by added date"
+        case .byScore:
+            return "by rating"
+        case .byPopularity:
+            return "by popularity"
+        }
     }
-    case byReleaseDate, byAdded(to: AddedTo)
 }
 
 extension Sequence where Iterator.Element == Int {
     func sortedMoviesIds(by: MoviesSort, state: AppState) -> [Int] {
         switch by {
-        case let .byAdded(to):
+        case .byAddedDate:
             let metas = state.moviesState.moviesUserMeta.filter{ self.contains($0.key) }
-            switch to {
-            case .wishlist:
-                return metas.sorted{ $0.value.dateAddedToWishlist ?? Date() > $1.value.dateAddedToWishlist ?? Date() }.compactMap{ $0.key }
-            case .seenlist:
-                return metas.sorted{ $0.value.dateAddedToSeenList ?? Date() > $1.value.dateAddedToSeenList ?? Date() }.compactMap{ $0.key }
-            }
+            return metas.sorted{ $0.value.addedToList ?? Date() > $1.value.addedToList ?? Date() }.compactMap{ $0.key }
         case .byReleaseDate:
             let movies = state.moviesState.movies.filter{ self.contains($0.key) }
             return movies.sorted{ $0.value.releaseDate ?? Date() > $1.value.releaseDate ?? Date() }.compactMap{ $0.key }
+        case .byPopularity:
+            let movies = state.moviesState.movies.filter{ self.contains($0.key) }
+            return movies.sorted{ $0.value.popularity > $1.value.popularity }.compactMap{ $0.key }
+        case .byScore:
+            let movies = state.moviesState.movies.filter{ self.contains($0.key) }
+            return movies.sorted{ $0.value.vote_average > $1.value.vote_average }.compactMap{ $0.key }
         }
     }
 }

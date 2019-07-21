@@ -9,6 +9,5 @@
 import Foundation
 
 struct MovieUserMeta: Codable {
-    var dateAddedToWishlist: Date?
-    var dateAddedToSeenList: Date?
+    var addedToList: Date?
 }

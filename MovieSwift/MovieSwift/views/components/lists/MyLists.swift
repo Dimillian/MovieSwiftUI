@@ -10,27 +10,13 @@ import SwiftUI
 import SwiftUIFlux
 
 struct MyLists : View {
-    
-    // MARK: - Defs
-    private enum MoviesSort: Int {
-        case byAddedDate, byReleaseDate
+    @EnvironmentObject private var store: Store<AppState>
         
-        func title() -> String {
-            switch self {
-            case .byReleaseDate:
-                return "by release date"
-            case .byAddedDate:
-                return "by added date"
-            }
-        }
-    }
-    
     // MARK: - Vars
     @State private var selectedList: Int = 0
-    @State private var selectedMoviesSort = MoviesSort.byAddedDate
+    @State private var selectedMoviesSort = MoviesSort.byReleaseDate
     @State private var showShortActionSheet = false
     @State private var isEditingFormPresented = false
-    @EnvironmentObject private var store: Store<AppState>
     
     // MARK: - Dynamic vars
     var customLists: [CustomList] {
@@ -38,12 +24,12 @@ struct MyLists : View {
     }
     
     var wishlist: [Int] {
-        store.state.moviesState.wishlist.map{ $0.id }.sortedMoviesIds(by: selectedMoviesSort == .byReleaseDate ? .byReleaseDate : .byAdded(to: .wishlist),
+        store.state.moviesState.wishlist.map{ $0.id }.sortedMoviesIds(by: selectedMoviesSort,
                                                                       state: store.state)
     }
     
     var seenlist: [Int] {
-        store.state.moviesState.seenlist.map{ $0.id }.sortedMoviesIds(by: selectedMoviesSort == .byReleaseDate ? .byReleaseDate : .byAdded(to: .seenlist),
+        store.state.moviesState.seenlist.map{ $0.id }.sortedMoviesIds(by: selectedMoviesSort,
                                                                       state: store.state)
     }
     
@@ -58,10 +44,18 @@ struct MyLists : View {
                 self.selectedMoviesSort = .byReleaseDate 
                 self.showShortActionSheet = false
             }
+            let byScore: Alert.Button = .default(Text("Sort by ratings")) {
+                self.selectedMoviesSort = .byScore
+                self.showShortActionSheet = false
+            }
+            let byPopularity: Alert.Button = .default(Text("Sort by popularity")) {
+                self.selectedMoviesSort = .byPopularity
+                self.showShortActionSheet = false
+            }
             
             return ActionSheet(title: Text("Sort movies by"),
                                message: nil,
-                               buttons: [byAddedDate, byReleaseDate, Alert.Button.cancel({
+                               buttons: [byAddedDate, byReleaseDate, byScore, byPopularity, Alert.Button.cancel({
                                 self.showShortActionSheet = false
                                })])
         }
