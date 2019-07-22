@@ -44,13 +44,13 @@ enum OutlineMenu: Int, CaseIterable, Identifiable {
     var contentView: AnyView {
         switch self {
         case .popular:    return AnyView( NavigationView{ MoviesHomeList(menu: .constant(.popular),
-                                                                         pageListener: MoviesHomeListPageListener(menu: .popular)) })
+                                                                         pageListener: MoviesListPageListener(menu: .popular)) })
         case .topRated:   return AnyView( NavigationView{ MoviesHomeList(menu: .constant(.topRated),
-                                                                         pageListener: MoviesHomeListPageListener(menu: .popular)) })
+                                                                         pageListener: MoviesListPageListener(menu: .popular)) })
         case .upcoming:   return AnyView( NavigationView{ MoviesHomeList(menu: .constant(.upcoming),
-                                                                         pageListener: MoviesHomeListPageListener(menu: .popular)) })
+                                                                         pageListener: MoviesListPageListener(menu: .popular)) })
         case .nowPlaying: return AnyView( NavigationView{ MoviesHomeList(menu: .constant(.nowPlaying),
-                                                                         pageListener: MoviesHomeListPageListener(menu: .popular)) })
+                                                                         pageListener: MoviesListPageListener(menu: .popular)) })
         case .discover:   return AnyView( DiscoverView() )
         case .myLists:    return AnyView( MyLists() )
         case .settings:   return AnyView( SettingsForm() )

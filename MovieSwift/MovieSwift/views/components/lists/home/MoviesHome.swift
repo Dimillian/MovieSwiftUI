@@ -9,59 +9,20 @@
 import SwiftUI
 import Combine
 
-final class MovieHomeSelectionStore: BindableObject {
-    var willChange = PassthroughSubject<Void, Never>()
-    
-    var pageListener: MoviesHomeListPageListener
-    var selectedMenu: MoviesMenu {
-        willSet {
-            willChange.send()
-        }
-        didSet {
-            pageListener.menu = selectedMenu
-        }
-    }
-        
-    init(selectedMenu: MoviesMenu, pageListener: MoviesHomeListPageListener) {
-        self.selectedMenu = selectedMenu
-        self.pageListener = pageListener
-    }
-}
-
-final class MoviesHomeListPageListener: MoviesPagesListener {
-    var menu: MoviesMenu {
-        didSet {
-            currentPage = 1
-        }
-    }
-    
-    override func loadPage() {
-        store.dispatch(action: MoviesActions.FetchMoviesMenuList(list: menu, page: currentPage))
-    }
-    
-    init(menu: MoviesMenu) {
-        self.menu = menu
-        
-        super.init()
-        
-        loadPage()
-    }
-}
-
 struct MoviesHome : View {
-    @ObjectBinding var selectedMenu = MovieHomeSelectionStore(selectedMenu: .popular,
-                                                              pageListener: MoviesHomeListPageListener(menu: .popular))
-    @State var isSettingPresented = false
+    @ObjectBinding private var selectedMenu = MoviesSelectedMenuStore(selectedMenu: .popular,
+                                                                      pageListener: MoviesListPageListener(menu: .popular))
+    @State private var isSettingPresented = false
     
-    var segmentedView: some View {
+    private var segmentedView: some View {
         ScrollableSelector(items: MoviesMenu.allCases.map{ $0.title() },
-                           selection: $selectedMenu.selectedMenu.rawValue)
+                           selection: $selectedMenu.menu.rawValue)
     }
     
     var body: some View {
         NavigationView {
             Group {
-                MoviesHomeList(menu: $selectedMenu.selectedMenu,
+                MoviesHomeList(menu: $selectedMenu.menu,
                                pageListener: selectedMenu.pageListener,
                                headerView: AnyView(segmentedView))
             }
