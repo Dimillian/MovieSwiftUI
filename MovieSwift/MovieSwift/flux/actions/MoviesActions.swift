@@ -13,73 +13,24 @@ struct MoviesActions {
     
     // MARK: - Requests
     
-    struct FetchPopular: AsyncAction {
+    struct FetchMoviesMenuList: AsyncAction {
+        let list: MoviesMenu
         let page: Int
         
         func execute(state: FluxState?, dispatch: @escaping DispatchFunction) {
-            APIService.shared.GET(endpoint: .popular, params: ["page": "\(page)",
-                                                            "region": AppUserDefaults.region])
-            {
-                    (result: Result<PaginatedResponse<Movie>, APIService.APIError>) in
-                    switch result {
-                    case let .success(response):
-                        dispatch(SetPopular(page: self.page, response: response))
-                    case .failure(_):
-                        break
-                    }
-            }
-        }
-    }
-    
-    struct FetchTopRated: AsyncAction {
-        let page: Int
-        
-        func execute(state: FluxState?, dispatch: @escaping DispatchFunction) {
-            APIService.shared.GET(endpoint: .toRated, params: ["page": "\(page)",
-                                                                "region": AppUserDefaults.region])
-            {
-                    (result: Result<PaginatedResponse<Movie>, APIService.APIError>) in
-                    switch result {
-                    case let .success(response):
-                        dispatch(SetTopRated(page: self.page, response: response))
-                    case .failure(_):
-                        break
-                    }
-            }
-        }
-    }
-    
-    struct FetchUpcoming: AsyncAction {
-        let page: Int
-        
-        func execute(state: FluxState?, dispatch: @escaping DispatchFunction) {
-            APIService.shared.GET(endpoint: .upcoming, params: ["page": "\(page)","region": AppUserDefaults.region])
+            APIService.shared.GET(endpoint: list.endpoint(), params: ["page": "\(page)",
+                "region": AppUserDefaults.region])
             {
                 (result: Result<PaginatedResponse<Movie>, APIService.APIError>) in
                 switch result {
                 case let .success(response):
-                    dispatch(SetUpcoming(page: self.page, response: response))
-                case .failure(_):
+                    dispatch(SetMovieMenuList(page: self.page,
+                                        list: self.list,
+                                        response: response))
+                case let .failure(error):
+                    print(error)
                     break
                 }
-            }
-        }
-    }
-    
-    struct FetchNowPlaying: AsyncAction {
-        let page: Int
-        
-        func execute(state: FluxState?, dispatch: @escaping DispatchFunction) {
-            APIService.shared.GET(endpoint: .nowPlaying, params: ["page": "\(page)",
-                "region": AppUserDefaults.region])
-            {
-                    (result: Result<PaginatedResponse<Movie>, APIService.APIError>) in
-                    switch result {
-                    case let .success(response):
-                        dispatch(SetNowPlaying(page: self.page, response: response))
-                    case .failure(_):
-                        break
-                    }
             }
         }
     }
@@ -286,22 +237,9 @@ struct MoviesActions {
         }
     }
     
-    struct SetPopular: Action {
+    struct SetMovieMenuList: Action {
         let page: Int
-        let response: PaginatedResponse<Movie>
-    }
-    struct SetTopRated: Action {
-        let page: Int
-        let response: PaginatedResponse<Movie>
-    }
-    
-    struct SetUpcoming: Action {
-        let page: Int
-        let response: PaginatedResponse<Movie>
-    }
-    
-    struct SetNowPlaying: Action {
-        let page: Int
+        let list: MoviesMenu
         let response: PaginatedResponse<Movie>
     }
     

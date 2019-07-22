@@ -7,36 +7,63 @@
 //
 
 import SwiftUI
+import Combine
 
-struct MoviesHome : View {
-    enum Categories: Int {
-        case popular, topRated, upcoming, nowPlaying
+final class MovieHomeSelectionStore: BindableObject {
+    var willChange = PassthroughSubject<Void, Never>()
+    
+    var pageListener: MoviesHomeListPageListener
+    var selectedMenu: MoviesMenu {
+        willSet {
+            willChange.send()
+        }
+        didSet {
+            pageListener.menu = selectedMenu
+        }
+    }
+        
+    init(selectedMenu: MoviesMenu, pageListener: MoviesHomeListPageListener) {
+        self.selectedMenu = selectedMenu
+        self.pageListener = pageListener
+    }
+}
+
+final class MoviesHomeListPageListener: MoviesPagesListener {
+    var menu: MoviesMenu {
+        didSet {
+            currentPage = 1
+        }
     }
     
-    @State var selectedIndex: Categories = Categories.popular
+    override func loadPage() {
+        store.dispatch(action: MoviesActions.FetchMoviesMenuList(list: menu, page: currentPage))
+    }
+    
+    init(menu: MoviesMenu) {
+        self.menu = menu
+        
+        super.init()
+        
+        loadPage()
+    }
+}
+
+struct MoviesHome : View {
+    @ObjectBinding var selectedMenu = MovieHomeSelectionStore(selectedMenu: .popular,
+                                                              pageListener: MoviesHomeListPageListener(menu: .popular))
     @State var isSettingPresented = false
     
     var segmentedView: some View {
-        SegmentedControl(selection: $selectedIndex) {
-            Text("Popular").tag(Categories.popular)
-            Text("Top Rated").tag(Categories.topRated)
-            Text("Upcoming").tag(Categories.upcoming)
-            Text("Playing").tag(Categories.nowPlaying)
-            }
+        ScrollableSelector(items: MoviesMenu.allCases.map{ $0.title() },
+                           selection: $selectedMenu.selectedMenu.rawValue)
     }
     
     var body: some View {
         NavigationView {
             Group {
-                if selectedIndex == .popular {
-                    PopularList(headerView: AnyView(segmentedView))
-                } else if selectedIndex == .topRated {
-                    TopRatedList(headerView: AnyView(segmentedView))
-                } else if selectedIndex == .upcoming {
-                    UpcomingList(headerView: AnyView(segmentedView))
-                } else if selectedIndex == .nowPlaying {
-                    NowPlayingList(headerView: AnyView(segmentedView))
-                }
+                MoviesHomeList(menu: $selectedMenu.selectedMenu,
+                               pageListener: selectedMenu.pageListener,
+                               headerView: AnyView(segmentedView))
             }
             .navigationBarItems(trailing:
                 Button(action: {

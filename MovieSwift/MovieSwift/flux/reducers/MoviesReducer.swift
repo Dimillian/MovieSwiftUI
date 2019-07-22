@@ -12,38 +12,19 @@ import SwiftUIFlux
 func moviesStateReducer(state: MoviesState, action: Action) -> MoviesState {
     var state = state
     switch action {
-    case let action as MoviesActions.SetPopular:
+    case let action as MoviesActions.SetMovieMenuList:
         if action.page == 1 {
-            state.popular = action.response.results.map{ $0.id }
+            state.moviesList[action.list] = action.response.results.map{ $0.id }
         } else {
-            state.popular.append(contentsOf: action.response.results.map{ $0.id })
+            if var list = state.moviesList[action.list] {
+                list.append(contentsOf: action.response.results.map{ $0.id })
+                state.moviesList[action.list] = list
+            } else {
+                state.moviesList[action.list] = action.response.results.map{ $0.id }
+            }
         }
         state.movies += action.response.results
-        
-    case let action as MoviesActions.SetTopRated:
-        if action.page == 1 {
-            state.topRated = action.response.results.map{ $0.id }
-        } else {
-            state.topRated.append(contentsOf: action.response.results.map{ $0.id })
-        }
-        state.movies += action.response.results
-        
-    case let action as MoviesActions.SetUpcoming:
-        if action.page == 1 {
-            state.upcoming = action.response.results.map{ $0.id }
-        } else {
-            state.upcoming.append(contentsOf: action.response.results.map{ $0.id })
-        }
-        state.movies += action.response.results
-        
-    case let action as MoviesActions.SetNowPlaying:
-        if action.page == 1 {
-            state.nowPlaying = action.response.results.map{ $0.id }
-        } else {
-            state.nowPlaying.append(contentsOf: action.response.results.map{ $0.id })
-        }
-        state.movies += action.response.results
-        
+
     case let action as MoviesActions.SetDetail:
         state.movies[action.movie] = action.response
         
