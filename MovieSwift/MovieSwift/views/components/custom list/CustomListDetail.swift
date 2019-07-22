@@ -20,15 +20,17 @@ struct CustomListDetail : View {
     @State private var searchTextWrapper = CustomListSearchMovieTextWrapper()
     @State private var selectedMovies = Set<Int>()
     @State private var isEditingFormPresented = false
+    @State private var selectedMoviesSort = MoviesSort.byReleaseDate
+    @State private var isSortActionSheetPresented = false
     
     let listId: Int
-        
+    
     private var list: CustomList {
         store.state.moviesState.customLists[listId]!
     }
     
     private var movies: [Int] {
-        list.movies.sortedMoviesIds(by: .byReleaseDate, state: store.state)
+        list.movies.sortedMoviesIds(by: selectedMoviesSort, state: store.state)
     }
     
     private var isSearching: Bool {
@@ -51,11 +53,32 @@ struct CustomListDetail : View {
                     Text("Add movies (\(selectedMovies.count))")
                 }
             } else {
-                Button(action: {
-                    self.isEditingFormPresented = true
-                }) {
-                    Text("Edit").foregroundColor(.steam_gold)
+                HStack(spacing: 16) {
+                    Button(action: {
+                        self.isEditingFormPresented = true
+                    }) {
+                        Image(systemName: "pencil.circle")
+                            .resizable()
+                            .frame(width: 25, height: 25)
+                            .foregroundColor(.steam_gold)
+                    }
+                    Button(action: {
+                        self.isSortActionSheetPresented.toggle()
+                    }, label: {
+                        Image(systemName: "line.horizontal.3.decrease.circle")
+                            .resizable()
+                            .frame(width: 25, height: 25)
+                            .foregroundColor(.steam_gold)
+                    })
                 }
+            }
+        }
+    }
+    
+    private var sortActionSheet: ActionSheet {
+        ActionSheet.sortActionSheet { (sort) in
+            if let sort = sort{
+                self.selectedMoviesSort = sort
             }
         }
     }
@@ -63,7 +86,7 @@ struct CustomListDetail : View {
     var body: some View {
         List(selection: $selectedMovies) {
             if !isSearching {
-                CustomListHeaderRow(listId: listId)
+                CustomListHeaderRow(sorting: $selectedMoviesSort,  listId: listId)
             }
             SearchField(searchTextWrapper: searchTextWrapper,
                         placeholder: "Search movies to add to your list")
@@ -94,17 +117,18 @@ struct CustomListDetail : View {
             
         }
         .environment(\.editMode, .constant(searchedMovies != nil && searchedMovies?.isEmpty == false ? .active : .inactive))
-        .navigationBarTitle(Text(""),
-                            displayMode: isSearching ? .inline : .automatic)
-        .navigationBarItems(trailing: navbarButton)
-        .edgesIgnoringSafeArea(isSearching ? .leading : .top)
-        .sheet(isPresented: $isEditingFormPresented,
-                        onDismiss: { self.isEditingFormPresented = false },
-                        content: { CustomListForm(editingListId: self.listId,
-                                                  shouldDismiss: {
-                                                    self.isEditingFormPresented = false
-                        }).environmentObject(self.store)
-                    })
+            .navigationBarTitle(Text(""),
+                                displayMode: isSearching ? .inline : .automatic)
+            .navigationBarItems(trailing: navbarButton)
+            .edgesIgnoringSafeArea(isSearching ? .leading : .top)
+            .actionSheet(isPresented: $isSortActionSheetPresented, content: { sortActionSheet })
+            .sheet(isPresented: $isEditingFormPresented,
+                   onDismiss: { self.isEditingFormPresented = false },
+                   content: { CustomListForm(editingListId: self.listId,
+                                             shouldDismiss: {
+                                                self.isEditingFormPresented = false
+                   }).environmentObject(self.store)
+            })
     }
 }
 

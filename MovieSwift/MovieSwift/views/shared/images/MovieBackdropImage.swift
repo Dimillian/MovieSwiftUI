@@ -26,7 +26,9 @@ struct MovieBackdropImage : View {
                     .frame(width: 300, height: displayMode == .normal ? 168 : 50)
                     .animation(.easeInOut)
                     .onAppear{
-                        self.isImageLoaded = true
+                        DispatchQueue.main.async {
+                            self.isImageLoaded = true
+                        }
                 }
             } else {
                 Rectangle()

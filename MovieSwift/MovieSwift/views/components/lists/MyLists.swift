@@ -15,7 +15,7 @@ struct MyLists : View {
     // MARK: - Vars
     @State private var selectedList: Int = 0
     @State private var selectedMoviesSort = MoviesSort.byReleaseDate
-    @State private var showShortActionSheet = false
+    @State private var isSortActionSheetPresented = false
     @State private var isEditingFormPresented = false
     
     // MARK: - Dynamic vars
@@ -35,29 +35,10 @@ struct MyLists : View {
     
     // MARK: - Dynamic views
     private var sortActionSheet: ActionSheet {
-        get {
-            let byAddedDate: Alert.Button = .default(Text("Sort by added date")) {
-                self.selectedMoviesSort = .byAddedDate
-                self.showShortActionSheet = false
+        ActionSheet.sortActionSheet { (sort) in
+            if let sort = sort{
+                self.selectedMoviesSort = sort
             }
-            let byReleaseDate: Alert.Button = .default(Text("Sort by release date")) {
-                self.selectedMoviesSort = .byReleaseDate 
-                self.showShortActionSheet = false
-            }
-            let byScore: Alert.Button = .default(Text("Sort by ratings")) {
-                self.selectedMoviesSort = .byScore
-                self.showShortActionSheet = false
-            }
-            let byPopularity: Alert.Button = .default(Text("Sort by popularity")) {
-                self.selectedMoviesSort = .byPopularity
-                self.showShortActionSheet = false
-            }
-            
-            return ActionSheet(title: Text("Sort movies by"),
-                               message: nil,
-                               buttons: [byAddedDate, byReleaseDate, byScore, byPopularity, Alert.Button.cancel({
-                                self.showShortActionSheet = false
-                               })])
         }
     }
     
@@ -124,10 +105,10 @@ struct MyLists : View {
                     seenSection
                 }
             }
-            .actionSheet(isPresented: $showShortActionSheet, content: { sortActionSheet })
+            .actionSheet(isPresented: $isSortActionSheetPresented, content: { sortActionSheet })
             .navigationBarTitle(Text("My Lists"))
             .navigationBarItems(trailing: Button(action: {
-                    self.showShortActionSheet.toggle()
+                    self.isSortActionSheetPresented.toggle()
             }, label: {
                 Image(systemName: "line.horizontal.3.decrease.circle")
                     .resizable()

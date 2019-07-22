@@ -13,7 +13,7 @@ import SwiftUIFlux
 extension ActionSheet {
     static func wishlistButton(store: Store<AppState>, movie: Int, onTrigger: (() -> Void)?) -> Alert.Button {
         if store.state.moviesState.wishlist.contains(movie) {
-            let wishlistButton: Alert.Button = .default(Text("Remove from wishlist")) {
+            let wishlistButton: Alert.Button = .destructive(Text("Remove from wishlist")) {
                 store.dispatch(action: MoviesActions.RemoveFromWishlist(movie: movie))
                 onTrigger?()
             }
@@ -30,7 +30,7 @@ extension ActionSheet {
     
     static func seenListButton(store: Store<AppState>, movie: Int, onTrigger: (() -> Void)?) -> Alert.Button {
         if store.state.moviesState.seenlist.contains(movie) {
-            let wishlistButton: Alert.Button = .default(Text("Remove from seenlist")) {
+            let wishlistButton: Alert.Button = .destructive(Text("Remove from seenlist")) {
                 store.dispatch(action: MoviesActions.RemoveFromSeenList(movie: movie))
                 onTrigger?()
             }
@@ -49,7 +49,7 @@ extension ActionSheet {
         var buttons: [Alert.Button] = []
         for list in store.state.moviesState.customLists.compactMap({ $0.value }) {
             if list.movies.contains(movie) {
-                let button: Alert.Button = .default(Text("Remove from \(list.name)")) {
+                let button: Alert.Button = .destructive(Text("Remove from \(list.name)")) {
                     store.dispatch(action: MoviesActions.RemoveMovieFromCustomList(list: list.id,
                                                                               movie: movie))
                     onTrigger?()
@@ -66,5 +66,26 @@ extension ActionSheet {
             }
         }
         return buttons
+    }
+    
+    static func sortActionSheet(onAction: @escaping ((MoviesSort?) -> Void)) -> ActionSheet {
+        let byAddedDate: Alert.Button = .default(Text("Sort by added date")) {
+            onAction(.byAddedDate)
+        }
+        let byReleaseDate: Alert.Button = .default(Text("Sort by release date")) {
+            onAction(.byReleaseDate)
+        }
+        let byScore: Alert.Button = .default(Text("Sort by ratings")) {
+            onAction(.byScore)
+        }
+        let byPopularity: Alert.Button = .default(Text("Sort by popularity")) {
+            onAction(.byPopularity)
+        }
+        
+        return ActionSheet(title: Text("Sort movies by"),
+                           message: nil,
+                           buttons: [byAddedDate, byReleaseDate, byScore, byPopularity, Alert.Button.cancel({
+                            onAction(nil)
+                           })])
     }
 }

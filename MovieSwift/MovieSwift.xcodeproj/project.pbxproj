@@ -356,7 +356,6 @@
 			isa = PBXGroup;
 			children = (
 				69583B4522E0560100C23048 /* contextMenu */,
-				695F0F8E22D45ECA0066E168 /* sheets */,
 				69FB61E922BA2CF500CBEEC7 /* field */,
 				6961612B22B96A48000002FB /* images */,
 				6961612A22B96A45000002FB /* buttons */,
@@ -382,13 +381,6 @@
 				695DA7D022C558B1003096B9 /* OutlineRow.swift */,
 			);
 			path = outline;
-			sourceTree = "<group>";
-		};
-		695F0F8E22D45ECA0066E168 /* sheets */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = sheets;
 			sourceTree = "<group>";
 		};
 		6961612922B96A41000002FB /* badges */ = {

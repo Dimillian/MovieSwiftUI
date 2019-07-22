@@ -77,23 +77,19 @@ struct MovieDetail : View {
         get {
             var buttons: [Alert.Button] = []
             let wishlistButton = ActionSheet.wishlistButton(store: store, movie: movieId) {
-                self.addSheetShown = false
                 self.displaySavedBadge()
             }
             let seenButton = ActionSheet.seenListButton(store: store, movie: movieId) {
-                self.addSheetShown = false
                 self.displaySavedBadge()
             }
             let customListButtons = ActionSheet.customListsButttons(store: store, movie: movieId) {
-                self.addSheetShown = false
                 self.displaySavedBadge()
             }
             let createListButton: Alert.Button = .default(Text("Create list")) {
-                self.addSheetShown = false
                 self.showCreateListForm = true
             }
             let cancelButton = Alert.Button.cancel {
-                self.addSheetShown = false
+ 
             }
             buttons.append(wishlistButton)
             buttons.append(seenButton)

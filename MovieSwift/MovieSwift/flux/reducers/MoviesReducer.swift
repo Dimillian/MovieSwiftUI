@@ -89,13 +89,18 @@ func moviesStateReducer(state: MoviesState, action: Action) -> MoviesState {
         state.seenlist.remove(action.movie)
         
     case let action as MoviesActions.AddMovieToCustomList:
-        state.customLists[action.list]?.movies.append(action.movie)
+        state.customLists[action.list]?.movies.insert(action.movie)
         
     case let action as MoviesActions.AddMoviesToCustomList:
-        state.customLists[action.list]?.movies.append(contentsOf: action.movies)
+        if var list = state.customLists[action.list] {
+            for movie in action.movies {
+                list.movies.insert(movie)
+            }
+            state.customLists[action.list] = list
+        }
         
     case let action as MoviesActions.RemoveMovieFromCustomList:
-        state.customLists[action.list]?.movies.removeAll{ $0 == action.movie }
+        state.customLists[action.list]?.movies.remove(action.movie)
         
     case let action as MoviesActions.SetMovieForGenre:
         state.withGenre[action.genre.id] = action.response.results.map{ $0.id }
