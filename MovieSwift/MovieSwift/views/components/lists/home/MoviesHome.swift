@@ -7,36 +7,24 @@
 //
 
 import SwiftUI
+import Combine
 
 struct MoviesHome : View {
-    enum Categories: Int {
-        case popular, topRated, upcoming, nowPlaying
-    }
+    @ObjectBinding private var selectedMenu = MoviesSelectedMenuStore(selectedMenu: .popular,
+                                                                      pageListener: MoviesListPageListener(menu: .popular))
+    @State private var isSettingPresented = false
     
-    @State var selectedIndex: Categories = Categories.popular
-    @State var isSettingPresented = false
-    
-    var segmentedView: some View {
-        SegmentedControl(selection: $selectedIndex) {
-            Text("Popular").tag(Categories.popular)
-            Text("Top Rated").tag(Categories.topRated)
-            Text("Upcoming").tag(Categories.upcoming)
-            Text("Playing").tag(Categories.nowPlaying)
-            }
+    private var segmentedView: some View {
+        ScrollableSelector(items: MoviesMenu.allCases.map{ $0.title() },
+                           selection: $selectedMenu.menu.rawValue)
     }
     
     var body: some View {
         NavigationView {
             Group {
-                if selectedIndex == .popular {
-                    PopularList(headerView: AnyView(segmentedView))
-                } else if selectedIndex == .topRated {
-                    TopRatedList(headerView: AnyView(segmentedView))
-                } else if selectedIndex == .upcoming {
-                    UpcomingList(headerView: AnyView(segmentedView))
-                } else if selectedIndex == .nowPlaying {
-                    NowPlayingList(headerView: AnyView(segmentedView))
-                }
+                MoviesHomeList(menu: $selectedMenu.menu,
+                               pageListener: selectedMenu.pageListener,
+                               headerView: AnyView(segmentedView))
             }
             .navigationBarItems(trailing:
                 Button(action: {

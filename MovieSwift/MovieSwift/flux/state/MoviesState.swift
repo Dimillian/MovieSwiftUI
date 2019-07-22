@@ -11,12 +11,11 @@ import SwiftUIFlux
 
 struct MoviesState: FluxState, Codable {
     var movies: [Int: Movie] = [:]
+    var moviesList: [MoviesMenu: [Int]] = [:]
+    
     var recommended: [Int: [Int]] = [:]
     var similar: [Int: [Int ]] = [:]
-    var popular: [Int] = []
-    var topRated: [Int] = []
-    var upcoming: [Int] = []
-    var nowPlaying: [Int] = []
+    
     var search: [String: [Int]] = [:]
     var searchKeywords: [String: [Keyword]] = [:]
     
