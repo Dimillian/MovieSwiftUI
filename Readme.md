@@ -34,3 +34,4 @@ As for Xcode 11 beta 4, the application have quite a lot of issues, that are mai
 * The app will slow down as you navigate into it, for some reason, SwiftUI never release its subscribers from views, so state update will take more and more times as more and more (dead) views will listen and update from it. Present since beta 1 and reported to Apple.
 * The TextField for searching covers in the custom list form is moving the caret on its own, preventing correct typing. New since beta 4. 
 * The animations on the DiscoverView are slow, new since beta 4
+* Once you start dragging a cover in the DiscoverView, you can't change tab anymore. 
