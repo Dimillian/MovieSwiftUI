@@ -26,6 +26,7 @@ struct MoviesHomeList : View {
                    displaySearch: true,
                    pageListener: pageListener,
                    headerView: headerView)
+            .tag(menu.rawValue)
             .navigationBarTitle(menu.title())
     }
 }
