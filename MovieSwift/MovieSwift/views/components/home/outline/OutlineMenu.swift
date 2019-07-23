@@ -15,7 +15,7 @@ enum OutlineMenu: Int, CaseIterable, Identifiable {
     }
     
     
-    case popular, topRated, upcoming, nowPlaying, discover, myLists, settings
+    case popular, topRated, upcoming, nowPlaying, trending, discover, myLists, settings
     
     var title: String {
         switch self {
@@ -23,6 +23,7 @@ enum OutlineMenu: Int, CaseIterable, Identifiable {
         case .topRated:   return "Top rated"
         case .upcoming:   return "Upcoming"
         case .nowPlaying: return "Now Playing"
+        case .trending:   return "Trending"
         case .discover:   return "Discover"
         case .myLists:    return "MyLists"
         case .settings:   return "Settings"
@@ -35,22 +36,25 @@ enum OutlineMenu: Int, CaseIterable, Identifiable {
         case .topRated:   return "star.fill"
         case .upcoming:   return "clock.fill"
         case .nowPlaying: return "play.circle.fill"
+        case .trending :   return "star.fill"
         case .discover:   return "square.stack.fill"
         case .myLists:    return "text.badge.plus"
         case .settings:   return "wrench"
         }
     }
     
+    private func moviesList(menu: MoviesMenu) -> AnyView {
+        AnyView( NavigationView{ MoviesHomeList(menu: .constant(menu),
+                                                pageListener: MoviesListPageListener(menu: menu)) })
+    }
+    
     var contentView: AnyView {
         switch self {
-        case .popular:    return AnyView( NavigationView{ MoviesHomeList(menu: .constant(.popular),
-                                                                         pageListener: MoviesListPageListener(menu: .popular)) })
-        case .topRated:   return AnyView( NavigationView{ MoviesHomeList(menu: .constant(.topRated),
-                                                                         pageListener: MoviesListPageListener(menu: .topRated)) })
-        case .upcoming:   return AnyView( NavigationView{ MoviesHomeList(menu: .constant(.upcoming),
-                                                                         pageListener: MoviesListPageListener(menu: .upcoming)) })
-        case .nowPlaying: return AnyView( NavigationView{ MoviesHomeList(menu: .constant(.nowPlaying),
-                                                                         pageListener: MoviesListPageListener(menu: .nowPlaying)) })
+        case .popular:    return moviesList(menu: .popular)
+        case .topRated:   return moviesList(menu: .topRated)
+        case .upcoming:   return moviesList(menu: .upcoming)
+        case .nowPlaying: return moviesList(menu: .nowPlaying)
+        case .trending:   return moviesList(menu: .trending)
         case .discover:   return AnyView( DiscoverView() )
         case .myLists:    return AnyView( MyLists() )
         case .settings:   return AnyView( SettingsForm() )

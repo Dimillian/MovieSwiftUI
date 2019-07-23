@@ -23,8 +23,8 @@ final class MoviesSelectedMenuStore: BindableObject {
         }
     }
         
-    init(selectedMenu: MoviesMenu, pageListener: MoviesListPageListener) {
+    init(selectedMenu: MoviesMenu) {
         self.menu = selectedMenu
-        self.pageListener = pageListener
+        self.pageListener = MoviesListPageListener(menu: selectedMenu)
     }
 }

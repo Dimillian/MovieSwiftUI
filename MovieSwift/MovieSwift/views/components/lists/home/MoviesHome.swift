@@ -8,10 +8,10 @@
 
 import SwiftUI
 import Combine
+import SwiftUIFlux
 
 struct MoviesHome : View {
-    @ObjectBinding private var selectedMenu = MoviesSelectedMenuStore(selectedMenu: .popular,
-                                                                      pageListener: MoviesListPageListener(menu: .popular))
+    @ObjectBinding private var selectedMenu = MoviesSelectedMenuStore(selectedMenu: .popular)
     @State private var isSettingPresented = false
     
     private var segmentedView: some View {
@@ -44,7 +44,7 @@ struct MoviesHome : View {
 #if DEBUG
 struct MoviesHome_Previews : PreviewProvider {
     static var previews: some View {
-        MoviesHome()
+        MoviesHome().environmentObject(sampleStore)
     }
 }
 #endif

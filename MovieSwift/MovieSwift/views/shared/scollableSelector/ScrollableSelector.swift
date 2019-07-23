@@ -16,24 +16,20 @@ struct ScrollableSelector: View {
     func text(for index: Int) -> some View {
         Group {
             if index == selection {
-                VStack(spacing: 12) {
-                    Text(items[index])
-                        .foregroundColor(.steam_gold)
-                        .font(.headline)
-                        .fontWeight(.heavy)
-                        .padding(.top, 12)
-                        .tapAction {
-                            self.selection = index
-                    }
-                    Rectangle()
-                        .frame(height: 2)
-                        .padding(.leading, -6)
-                        .padding(.trailing, -6)
-                        .foregroundColor(.steam_gold)
+                Text(items[index])
+                    .foregroundColor(.white)
+                    .font(.headline)
+                    .fontWeight(.heavy)
+                    .padding(4)
+                    .background(Color.steam_gold)
+                    .cornerRadius(8)
+                    .tapAction {
+                        self.selection = index
                 }
             } else {
                 Text(items[index])
                     .font(.headline)
+                    .foregroundColor(.primary)
                     .tapAction {
                         self.selection = index
                 }
@@ -48,7 +44,12 @@ struct ScrollableSelector: View {
                     self.text(for: $0)
                 }
             }
-        }.frame(height: 36)
+            .padding(.leading, 4)
+            .padding(.trailing, 4)
+        }
+        .frame(height: 36)
+        .background(Color.steam_background)
+        .cornerRadius(8)
     }
 }
 
