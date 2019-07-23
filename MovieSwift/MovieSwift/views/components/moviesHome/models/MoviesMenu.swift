@@ -9,7 +9,7 @@
 import Foundation
 
 enum MoviesMenu: Int, CaseIterable {
-    case popular, topRated, upcoming, nowPlaying, trending
+    case popular, topRated, upcoming, nowPlaying, trending, genres
     
     func title() -> String {
         switch self {
@@ -18,6 +18,7 @@ enum MoviesMenu: Int, CaseIterable {
         case .upcoming: return "Upcoming"
         case .nowPlaying: return "Now Playing"
         case .trending: return "Trending"
+        case .genres: return "Genres"
         }
     }
     
@@ -28,6 +29,7 @@ enum MoviesMenu: Int, CaseIterable {
         case .upcoming: return APIService.Endpoint.upcoming
         case .nowPlaying: return APIService.Endpoint.nowPlaying
         case .trending: return APIService.Endpoint.trending
+        case .genres: return APIService.Endpoint.genres
         }
     }
 }
