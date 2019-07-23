@@ -11,7 +11,7 @@ import Combine
 import SwiftUIFlux
 
 struct MoviesHomeList : View {
-    @EnvironmentObject var store: Store<AppState>
+    @EnvironmentObject private var store: Store<AppState>
     @Binding var menu: MoviesMenu
     
     let pageListener: MoviesListPageListener
@@ -26,7 +26,6 @@ struct MoviesHomeList : View {
                    displaySearch: true,
                    pageListener: pageListener,
                    headerView: headerView)
-            .tag(menu)
             .navigationBarTitle(menu.title())
     }
 }

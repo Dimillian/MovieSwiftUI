@@ -500,6 +500,7 @@
 		69BFDBC522E662DC00A52CF3 /* models */ = {
 			isa = PBXGroup;
 			children = (
+				6993877122E64DE8007AA4E0 /* MoviesMenu.swift */,
 				69BFDBCA22E663A100A52CF3 /* MoviesListPageListener.swift */,
 				69BFDBCB22E663A100A52CF3 /* MoviesSelectedMenuStore.swift */,
 			);
@@ -528,7 +529,6 @@
 			isa = PBXGroup;
 			children = (
 				69BFDBC522E662DC00A52CF3 /* models */,
-				6993877122E64DE8007AA4E0 /* MoviesMenu.swift */,
 				69D1D76C22BE57390084C692 /* MoviesHome.swift */,
 				69B2560B22AAD1D5009F4413 /* MoviesHomeList.swift */,
 			);

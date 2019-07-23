@@ -11,6 +11,7 @@ import Combine
 import SwiftUIFlux
 
 struct MoviesHome : View {
+    @EnvironmentObject private var store: Store<AppState>
     @ObjectBinding private var selectedMenu = MoviesSelectedMenuStore(selectedMenu: .popular)
     @State private var isSettingPresented = false
     
@@ -21,11 +22,9 @@ struct MoviesHome : View {
     
     var body: some View {
         NavigationView {
-            Group {
-                MoviesHomeList(menu: $selectedMenu.menu,
-                               pageListener: selectedMenu.pageListener,
-                               headerView: AnyView(segmentedView))
-            }
+            MoviesHomeList(menu: $selectedMenu.menu,
+                           pageListener: selectedMenu.pageListener,
+                           headerView: AnyView(segmentedView))
             .navigationBarItems(trailing:
                 Button(action: {
                     self.isSettingPresented = true
