@@ -22,9 +22,15 @@ struct MoviesHome : View {
     
     var body: some View {
         NavigationView {
-            MoviesHomeList(menu: $selectedMenu.menu,
-                           pageListener: selectedMenu.pageListener,
-                           headerView: AnyView(segmentedView))
+            Group {
+                if selectedMenu.menu == .genres {
+                    GenresList(headerView: AnyView(segmentedView))
+                } else {
+                    MoviesHomeList(menu: $selectedMenu.menu,
+                                   pageListener: selectedMenu.pageListener,
+                                   headerView: AnyView(segmentedView))
+                }
+            }
             .navigationBarItems(trailing:
                 Button(action: {
                     self.isSettingPresented = true
