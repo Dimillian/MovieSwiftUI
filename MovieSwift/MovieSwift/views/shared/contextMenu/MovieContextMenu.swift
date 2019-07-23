@@ -9,74 +9,95 @@
 import SwiftUI
 import SwiftUIFlux
 
-struct MovieContextMenu: View {
-    @EnvironmentObject var store: Store<AppState>
+struct MovieContextMenu: ConnectedView {
+    struct Props {
+        let isInWishlist: Bool
+        let isInSeenList: Bool
+        let customLists: [Int: CustomList]
+        let onAddToWishlist: () -> Void
+        let onAddToSeenList: () -> Void
+        let onAddToCustomList: (Int) -> Void
+    }
+    
     let movieId: Int
     
-    private var isInwishlist: Bool {
-        store.state.moviesState.wishlist.contains(movieId)
+    func map(state: AppState, dispatch: @escaping DispatchFunction) -> Props {
+        let isInWishlist = state.moviesState.wishlist.contains(movieId)
+        let isInSeenList = state.moviesState.seenlist.contains(movieId)
+        let lists = state.moviesState.customLists
+        return Props(isInWishlist: isInWishlist,
+                     isInSeenList: isInSeenList,
+                     customLists: lists,
+                     onAddToWishlist: {
+                        self.onAddToWishlist(isIn: isInWishlist, dispatch: dispatch)
+        }, onAddToSeenList: {
+            self.onAddToSeenlist(isIn: isInSeenList, dispatch: dispatch)
+        }, onAddToCustomList: { list in
+            let isIn = lists[list]?.movies.contains(self.movieId) == true
+            self.onAddToCustomList(list: list, isIn: isIn, dispatch: dispatch)
+        })
     }
     
-    private var isInSeenList: Bool {
-        store.state.moviesState.seenlist.contains(movieId)
-    }
+    // Mark: - Actions
     
-    private func onWishlistAction() {
-        if isInwishlist {
-            store.dispatch(action: MoviesActions.RemoveFromWishlist(movie: movieId))
+    private func onAddToWishlist(isIn: Bool, dispatch: DispatchFunction) {
+        if isIn {
+            dispatch(MoviesActions.RemoveFromWishlist(movie: movieId))
         } else {
-            store.dispatch(action: MoviesActions.AddToWishlist(movie: movieId))
+            dispatch(MoviesActions.AddToWishlist(movie: movieId))
         }
     }
     
-    private func onSeenlistAction() {
-        if isInSeenList {
-            store.dispatch(action: MoviesActions.RemoveFromSeenList(movie: movieId))
+    private func onAddToSeenlist(isIn: Bool, dispatch: DispatchFunction) {
+        if isIn {
+            dispatch(MoviesActions.RemoveFromSeenList(movie: movieId))
         } else {
-            store.dispatch(action: MoviesActions.AddToSeenList(movie: movieId))
+            dispatch(MoviesActions.AddToSeenList(movie: movieId))
         }
     }
     
-    private func onCustomLisrAction(list: Int) {
-        if store.state.moviesState.customLists[list]?.movies.contains(movieId) == true {
-            store.dispatch(action: MoviesActions.RemoveMovieFromCustomList(list: list, movie: movieId))
+    private func onAddToCustomList(list: Int, isIn: Bool, dispatch: DispatchFunction) {
+        if isIn {
+            dispatch(MoviesActions.RemoveMovieFromCustomList(list: list, movie: movieId))
         } else {
-            store.dispatch(action: MoviesActions.AddMovieToCustomList(list: list, movie: movieId))
+            dispatch(MoviesActions.AddMovieToCustomList(list: list, movie: movieId))
         }
     }
     
-    private var customLists: some View {
-        ForEach(store.state.moviesState.customLists.compactMap{ $0.value }, id: \.id) { list in
+    // MARK: - Views
+    
+    private func customListsView(props: Props) -> some View {
+        ForEach(props.customLists.compactMap{ $0.value }, id: \.id) { list in
             Button(action: {
-                self.onCustomLisrAction(list: list.id)
+                props.onAddToCustomList(list.id)
             }) {
                 HStack {
                     Text(list.movies.contains(self.movieId) ? "Remove from \(list.name)" : "Add to \(list.name)")
-                    Image(systemName: "text.badge.plus").imageScale(.small)
+                    Image(systemName: list.movies.contains(self.movieId) ? "text.badge.xmark" : "text.badge.plus").imageScale(.small)
                 }
             }
         }
     }
     
-    var body: some View {
+    func body(props: Props) -> some View {
         VStack {
             Button(action: {
-                self.onWishlistAction()
+                props.onAddToWishlist()
             }) {
                 HStack {
-                    Text(isInwishlist ? "Remove from wishlist" : "Add to wishlist")
-                    Image(systemName: "heart").imageScale(.small)
+                    Text(props.isInWishlist ? "Remove from wishlist" : "Add to wishlist")
+                    Image(systemName: props.isInWishlist ? "heart.fill" : "heart").imageScale(.small)
                 }
             }
             Button(action: {
-                self.onSeenlistAction()
+                props.onAddToSeenList()
             }) {
                 HStack {
-                    Text(isInSeenList ? "Remove from seenlist" : "Add to seenlist")
-                    Image(systemName: "eye").imageScale(.small)
+                    Text(props.isInSeenList ? "Remove from seenlist" : "Add to seenlist")
+                    Image(systemName: props.isInSeenList ? "eye.fill" : "eye").imageScale(.small)
                 }
             }
-            customLists
+            customListsView(props: props)
         }
     }
     
