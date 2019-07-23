@@ -45,7 +45,7 @@ enum OutlineMenu: Int, CaseIterable, Identifiable {
     
     private func moviesList(menu: MoviesMenu) -> AnyView {
         AnyView( NavigationView{ MoviesHomeList(menu: .constant(menu),
-                                                pageListener: MoviesListPageListener(menu: menu)) })
+                                                pageListener: MoviesMenuListPageListener(menu: menu)) })
     }
     
     var contentView: AnyView {

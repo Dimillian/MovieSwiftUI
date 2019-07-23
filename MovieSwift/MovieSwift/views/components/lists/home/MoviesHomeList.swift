@@ -14,7 +14,7 @@ struct MoviesHomeList : View {
     @EnvironmentObject private var store: Store<AppState>
     @Binding var menu: MoviesMenu
     
-    let pageListener: MoviesListPageListener
+    let pageListener: MoviesMenuListPageListener
     var headerView: AnyView?
     
     private var movies: [Int] {
@@ -35,7 +35,7 @@ struct MoviesHomeList_Previews : PreviewProvider {
     static var previews: some View {
         NavigationView {
             MoviesHomeList(menu: .constant(.popular),
-                           pageListener: MoviesListPageListener(menu: .popular))
+                           pageListener: MoviesMenuListPageListener(menu: .popular))
                 .environmentObject(sampleStore)
         }
     }

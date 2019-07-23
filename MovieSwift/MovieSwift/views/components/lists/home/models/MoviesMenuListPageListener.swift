@@ -8,7 +8,7 @@
 
 import Foundation
 
-final class MoviesListPageListener: MoviesPagesListener {
+final class MoviesMenuListPageListener: MoviesPagesListener {
     var menu: MoviesMenu {
         didSet {
             currentPage = 1

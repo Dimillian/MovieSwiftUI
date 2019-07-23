@@ -12,7 +12,7 @@ import SwiftUI
 
 final class MoviesSelectedMenuStore: BindableObject {
     var willChange = PassthroughSubject<Void, Never>()
-    let pageListener: MoviesListPageListener
+    let pageListener: MoviesMenuListPageListener
     
     var menu: MoviesMenu {
         willSet {
@@ -25,6 +25,6 @@ final class MoviesSelectedMenuStore: BindableObject {
         
     init(selectedMenu: MoviesMenu) {
         self.menu = selectedMenu
-        self.pageListener = MoviesListPageListener(menu: selectedMenu)
+        self.pageListener = MoviesMenuListPageListener(menu: selectedMenu)
     }
 }
