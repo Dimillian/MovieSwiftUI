@@ -85,7 +85,6 @@
 		69CD111D22D095AC00C5D89D /* PosterStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69CD111C22D095AC00C5D89D /* PosterStyle.swift */; };
 		69CD111F22D09DD900C5D89D /* PeopleDetailHeaderRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69CD111E22D09DD900C5D89D /* PeopleDetailHeaderRow.swift */; };
 		69D1D76D22BE57390084C692 /* MoviesHome.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69D1D76C22BE57390084C692 /* MoviesHome.swift */; };
-		69D8A91B22CF35040077A392 /* SwiftUIFlux in Frameworks */ = {isa = PBXBuildFile; productRef = 69D8A91A22CF35040077A392 /* SwiftUIFlux */; settings = {ATTRIBUTES = (Required, ); }; };
 		69DEA9A622B9027200DFF551 /* CustomListForm.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69DEA9A522B9027200DFF551 /* CustomListForm.swift */; };
 		69DEA9A822B904CB00DFF551 /* CustomList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69DEA9A722B904CB00DFF551 /* CustomList.swift */; };
 		69E3260222D1DE81003749B1 /* PeopleDetailMovieRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69E3260122D1DE81003749B1 /* PeopleDetailMovieRow.swift */; };
@@ -97,6 +96,7 @@
 		69FB61E622BA245100CBEEC7 /* DraggableCover.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69FB61E522BA245100CBEEC7 /* DraggableCover.swift */; };
 		69FB61E822BA2A2D00CBEEC7 /* CustomListDetail.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69FB61E722BA2A2D00CBEEC7 /* CustomListDetail.swift */; };
 		69FB61EB22BA2E1900CBEEC7 /* DiscoverCoverImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69FB61EA22BA2E1900CBEEC7 /* DiscoverCoverImage.swift */; };
+		69FB7D7B22E7957200C55F01 /* SwiftUIFlux in Frameworks */ = {isa = PBXBuildFile; productRef = 69FB7D7A22E7957200C55F01 /* SwiftUIFlux */; };
 		69FC640922C3A8620043AB37 /* FjallaOne-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 69FC640822C3A72F0043AB37 /* FjallaOne-Regular.ttf */; };
 		69FD020C22B55268003E529E /* MoviesGenreList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69FD020B22B55268003E529E /* MoviesGenreList.swift */; };
 		69FFAF8022A99F1100801F3C /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69FFAF7F22A99F1100801F3C /* AppDelegate.swift */; };
@@ -239,7 +239,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				69D8A91B22CF35040077A392 /* SwiftUIFlux in Frameworks */,
+				69FB7D7B22E7957200C55F01 /* SwiftUIFlux in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -760,7 +760,7 @@
 			);
 			name = MovieSwift;
 			packageProductDependencies = (
-				69D8A91A22CF35040077A392 /* SwiftUIFlux */,
+				69FB7D7A22E7957200C55F01 /* SwiftUIFlux */,
 			);
 			productName = MovieSwift;
 			productReference = 69FFAF7C22A99F1100801F3C /* MovieSwift.app */;
@@ -791,7 +791,7 @@
 			);
 			mainGroup = 69FFAF7322A99F1100801F3C;
 			packageReferences = (
-				69D8A91922CF35040077A392 /* XCRemoteSwiftPackageReference "SwiftUIFlux" */,
+				69FB7D7922E7957200C55F01 /* XCRemoteSwiftPackageReference "SwiftUIFlux" */,
 			);
 			productRefGroup = 69FFAF7D22A99F1100801F3C /* Products */;
 			projectDirPath = "";
@@ -1138,20 +1138,20 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
-		69D8A91922CF35040077A392 /* XCRemoteSwiftPackageReference "SwiftUIFlux" */ = {
+		69FB7D7922E7957200C55F01 /* XCRemoteSwiftPackageReference "SwiftUIFlux" */ = {
 			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/Dimillian/SwiftUIFlux";
+			repositoryURL = "https://github.com/Dimillian/SwiftUIFlux.git";
 			requirement = {
 				kind = upToNextMajorVersion;
-				minimumVersion = 0.4.0;
+				minimumVersion = 0.4.2;
 			};
 		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		69D8A91A22CF35040077A392 /* SwiftUIFlux */ = {
+		69FB7D7A22E7957200C55F01 /* SwiftUIFlux */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 69D8A91922CF35040077A392 /* XCRemoteSwiftPackageReference "SwiftUIFlux" */;
+			package = 69FB7D7922E7957200C55F01 /* XCRemoteSwiftPackageReference "SwiftUIFlux" */;
 			productName = SwiftUIFlux;
 		};
 /* End XCSwiftPackageProductDependency section */

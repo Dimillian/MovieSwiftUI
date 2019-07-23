@@ -3,11 +3,11 @@
     "pins": [
       {
         "package": "SwiftUIFlux",
-        "repositoryURL": "https://github.com/Dimillian/SwiftUIFlux",
+        "repositoryURL": "https://github.com/Dimillian/SwiftUIFlux.git",
         "state": {
           "branch": null,
-          "revision": "62e52f233e3e1f8b727f87537c7e6f0ef199d2de",
-          "version": "0.4.1"
+          "revision": "393336b0dd2f0d258f084a4d4ed7b1546d87235f",
+          "version": "0.4.2"
         }
       }
     ]
