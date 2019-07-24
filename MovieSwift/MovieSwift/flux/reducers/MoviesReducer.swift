@@ -84,7 +84,11 @@ func moviesStateReducer(state: MoviesState, action: Action) -> MoviesState {
         state.customLists[action.list]?.movies.remove(action.movie)
         
     case let action as MoviesActions.SetMovieForGenre:
-        state.withGenre[action.genre.id] = action.response.results.map{ $0.id }
+        if action.page == 1 {
+            state.withGenre[action.genre.id] = action.response.results.map{ $0.id }
+        } else {
+            state.withGenre[action.genre.id]?.append(contentsOf: action.response.results.map{ $0.id })
+        }
         state = mergeMovies(movies: action.response.results, state: state)
         
     case let action as MoviesActions.SetRandomDiscover:

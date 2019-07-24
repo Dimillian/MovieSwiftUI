@@ -130,13 +130,18 @@ struct MoviesActions {
     
     struct FetchMoviesGenre: AsyncAction {
         let genre: Genre
+        let page: Int
+        let sortBy: MoviesSort
         
         func execute(state: FluxState?, dispatch: @escaping DispatchFunction) {
-            APIService.shared.GET(endpoint: .discover, params: ["with_genres": "\(genre.id)"])
+            APIService.shared.GET(endpoint: .discover, params:
+                ["with_genres": "\(genre.id)",
+                    "page": "\(page)",
+                    "sort_by": sortBy.sortByAPI()])
             { (result: Result<PaginatedResponse<Movie>, APIService.APIError>) in
                 switch result {
                 case let .success(response):
-                    dispatch(SetMovieForGenre(genre: self.genre, response: response))
+                    dispatch(SetMovieForGenre(genre: self.genre, page: self.page, response: response))
                 case .failure(_):
                     break
                 }
@@ -293,6 +298,7 @@ struct MoviesActions {
     
     struct SetMovieForGenre: Action {
         let genre: Genre
+        let page: Int
         let response: PaginatedResponse<Movie>
     }
     

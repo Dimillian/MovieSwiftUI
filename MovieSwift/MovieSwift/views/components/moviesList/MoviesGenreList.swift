@@ -9,16 +9,76 @@
 import SwiftUI
 import SwiftUIFlux
 
-struct MoviesGenreList : View {
-    @EnvironmentObject var store: Store<AppState>
-    let genre: Genre
+// MARK: - Page listener
+final class MovieGenrePageListener: MoviesPagesListener {
+    var genre: Genre
+    var dispatch: DispatchFunction?
     
-    var body: some View {
-        MoviesList(movies: store.state.moviesState.withGenre[genre.id] ?? [], displaySearch: false)
+    var sort: MoviesSort = .byPopularity {
+        didSet {
+            currentPage = 1
+            loadPage()
+        }
+    }
+    
+    override func loadPage() {
+        dispatch?(MoviesActions.FetchMoviesGenre(genre: genre, page: currentPage, sortBy: sort))
+    }
+    
+    init(genre: Genre) {
+        self.genre = genre
+        super.init()
+    }
+}
+
+// MARK: - View
+struct MoviesGenreList: ConnectedView {
+    struct Props {
+        let movies: [Int]
+        let dispatch: DispatchFunction
+    }
+    
+    let genre: Genre
+    let pageListener: MovieGenrePageListener
+    
+    @State var isSortSheetPresented = false
+    @State var selectedSort: MoviesSort = .byPopularity
+    
+    init(genre: Genre) {
+        self.genre = genre
+        self.pageListener = MovieGenrePageListener(genre: self.genre)
+    }
+    
+    func map(state: AppState, dispatch: @escaping DispatchFunction) -> Props {
+        Props(movies: state.moviesState.withGenre[genre.id] ?? [],
+              dispatch: dispatch)
+    }
+    
+    func body(props: Props) -> some View {
+        MoviesList(movies: props.movies, displaySearch: false, pageListener: pageListener)
+            .navigationBarItems(trailing: (
+                Button(action: {
+                    self.isSortSheetPresented.toggle()
+                }, label: {
+                    Image(systemName: "line.horizontal.3.decrease.circle")
+                        .resizable()
+                        .frame(width: 25, height: 25)
+                        .foregroundColor(.steam_gold)
+                })
+            ))
             .navigationBarTitle(Text(genre.name))
+            .actionSheet(isPresented: $isSortSheetPresented,
+                         content: { ActionSheet.sortActionSheet(onAction: { sort in
+                            if let sort = sort {
+                                self.selectedSort = sort
+                                self.pageListener.sort = sort
+                            }
+                         })
+            })
             .onAppear {
-                self.store.dispatch(action: MoviesActions.FetchMoviesGenre(genre: self.genre))
-            }
+                self.pageListener.dispatch = props.dispatch
+                self.pageListener.loadPage()
+        }
     }
 }
 
