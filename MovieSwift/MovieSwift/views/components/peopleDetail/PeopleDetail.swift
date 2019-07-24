@@ -24,9 +24,9 @@ struct PeopleDetail: ConnectedView {
     }
     
     let peopleId: Int
+    
     @State var selectedPoster: ImageData?
     
-        
     //MARK: - Views
     private func moviesSection(props: Props, year: String) -> some View {
         Section(header: Text(year)) {
@@ -104,6 +104,10 @@ extension PeopleDetail {
                 }
             }
         }
+        for value in years {
+            years[value.key] = value.value.sorted(by: { $0.id > $1.id })
+        }
+        
         let isInFanClub = Binding<Bool>(
             getValue: { state.peoplesState.fanClub.contains(self.peopleId) },
             setValue: { newValue in
