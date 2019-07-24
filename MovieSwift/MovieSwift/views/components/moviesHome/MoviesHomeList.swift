@@ -10,19 +10,22 @@ import SwiftUI
 import Combine
 import SwiftUIFlux
 
-struct MoviesHomeList : View {
-    @EnvironmentObject private var store: Store<AppState>
+struct MoviesHomeList: ConnectedView {
+    struct Props {
+        let movies: [Int]
+    }
+    
     @Binding var menu: MoviesMenu
     
     let pageListener: MoviesMenuListPageListener
     var headerView: AnyView?
-    
-    private var movies: [Int] {
-        store.state.moviesState.moviesList[menu] ?? []
+
+    func map(state: AppState, dispatch: @escaping DispatchFunction) -> Props {
+        return Props(movies: state.moviesState.moviesList[menu] ?? [])
     }
     
-    var body: some View {
-        MoviesList(movies: movies,
+    func body(props: Props) -> some View {
+        MoviesList(movies: props.movies,
                    displaySearch: true,
                    pageListener: pageListener,
                    headerView: headerView)

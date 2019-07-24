@@ -9,6 +9,7 @@
 import SwiftUI
 import SwiftUIFlux
 
+// MARK: View
 struct MovieContextMenu: ConnectedView {
     struct Props {
         let isInWishlist: Bool
@@ -20,51 +21,6 @@ struct MovieContextMenu: ConnectedView {
     }
     
     let movieId: Int
-    
-    func map(state: AppState, dispatch: @escaping DispatchFunction) -> Props {
-        let isInWishlist = state.moviesState.wishlist.contains(movieId)
-        let isInSeenList = state.moviesState.seenlist.contains(movieId)
-        let lists = state.moviesState.customLists
-        return Props(isInWishlist: isInWishlist,
-                     isInSeenList: isInSeenList,
-                     customLists: lists,
-                     onAddToWishlist: {
-                        self.onAddToWishlist(isIn: isInWishlist, dispatch: dispatch)
-        }, onAddToSeenList: {
-            self.onAddToSeenlist(isIn: isInSeenList, dispatch: dispatch)
-        }, onAddToCustomList: { list in
-            let isIn = lists[list]?.movies.contains(self.movieId) == true
-            self.onAddToCustomList(list: list, isIn: isIn, dispatch: dispatch)
-        })
-    }
-    
-    // Mark: - Actions
-    
-    private func onAddToWishlist(isIn: Bool, dispatch: DispatchFunction) {
-        if isIn {
-            dispatch(MoviesActions.RemoveFromWishlist(movie: movieId))
-        } else {
-            dispatch(MoviesActions.AddToWishlist(movie: movieId))
-        }
-    }
-    
-    private func onAddToSeenlist(isIn: Bool, dispatch: DispatchFunction) {
-        if isIn {
-            dispatch(MoviesActions.RemoveFromSeenList(movie: movieId))
-        } else {
-            dispatch(MoviesActions.AddToSeenList(movie: movieId))
-        }
-    }
-    
-    private func onAddToCustomList(list: Int, isIn: Bool, dispatch: DispatchFunction) {
-        if isIn {
-            dispatch(MoviesActions.RemoveMovieFromCustomList(list: list, movie: movieId))
-        } else {
-            dispatch(MoviesActions.AddMovieToCustomList(list: list, movie: movieId))
-        }
-    }
-    
-    // MARK: - Views
     
     private func customListsView(props: Props) -> some View {
         ForEach(props.customLists.compactMap{ $0.value }, id: \.id) { list in
@@ -98,6 +54,55 @@ struct MovieContextMenu: ConnectedView {
                 }
             }
             customListsView(props: props)
+        }
+    }
+    
+}
+
+// MARK: - State to props
+extension MovieContextMenu {
+    func map(state: AppState, dispatch: @escaping DispatchFunction) -> Props {
+        let isInWishlist = state.moviesState.wishlist.contains(movieId)
+        let isInSeenList = state.moviesState.seenlist.contains(movieId)
+        let lists = state.moviesState.customLists
+        return Props(isInWishlist: isInWishlist,
+                     isInSeenList: isInSeenList,
+                     customLists: lists,
+                     onAddToWishlist: {
+                        self.onAddToWishlist(isIn: isInWishlist, dispatch: dispatch)
+        }, onAddToSeenList: {
+            self.onAddToSeenlist(isIn: isInSeenList, dispatch: dispatch)
+        }, onAddToCustomList: { list in
+            let isIn = lists[list]?.movies.contains(self.movieId) == true
+            self.onAddToCustomList(list: list, isIn: isIn, dispatch: dispatch)
+        })
+    }
+    
+}
+
+// MARK: - Actions
+extension MovieContextMenu {
+    private func onAddToWishlist(isIn: Bool, dispatch: DispatchFunction) {
+        if isIn {
+            dispatch(MoviesActions.RemoveFromWishlist(movie: movieId))
+        } else {
+            dispatch(MoviesActions.AddToWishlist(movie: movieId))
+        }
+    }
+    
+    private func onAddToSeenlist(isIn: Bool, dispatch: DispatchFunction) {
+        if isIn {
+            dispatch(MoviesActions.RemoveFromSeenList(movie: movieId))
+        } else {
+            dispatch(MoviesActions.AddToSeenList(movie: movieId))
+        }
+    }
+    
+    private func onAddToCustomList(list: Int, isIn: Bool, dispatch: DispatchFunction) {
+        if isIn {
+            dispatch(MoviesActions.RemoveMovieFromCustomList(list: list, movie: movieId))
+        } else {
+            dispatch(MoviesActions.AddMovieToCustomList(list: list, movie: movieId))
         }
     }
     

@@ -9,18 +9,26 @@
 import SwiftUI
 import SwiftUIFlux
 
-struct PeopleRow : View {
-    let people: People
+struct PeopleRow : ConnectedView {
+    struct Props {
+        let people: People
+    }
     
-    var body: some View {
+    let peopleId: Int
+    
+    func map(state: AppState, dispatch: @escaping DispatchFunction) -> Props {
+        Props(people: state.peoplesState.peoples[peopleId]!)
+    }
+    
+    func body(props: Props) -> some View {
         HStack {
-            PeopleImage(imageLoader: ImageLoader(path: people.profile_path, size: .cast))
+            PeopleImage(imageLoader: ImageLoader(path: props.people.profile_path, size: .cast))
             VStack(alignment: .leading) {
-                Text(people.name)
+                Text(props.people.name)
                     .font(.FjallaOne(size: 20))
                     .foregroundColor(.steam_gold)
                     .lineLimit(1)
-                Text(people.knownForText ?? "")
+                Text(props.people.knownForText ?? "")
                     .foregroundColor(.secondary)
                     .font(.subheadline)
                     .lineLimit(3)
@@ -34,7 +42,7 @@ struct PeopleRow : View {
 #if DEBUG
 struct PeopleRow_Previews : PreviewProvider {
     static var previews: some View {
-        PeopleRow(people: sampleCasts.first!)
+        PeopleRow(peopleId: sampleCasts.first!.id).environmentObject(sampleStore)
     }
 }
 #endif

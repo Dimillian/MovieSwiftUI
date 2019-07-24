@@ -11,14 +11,19 @@ import SwiftUIFlux
 import Combine
 
 // MARK: - Movies List
-struct MoviesList : View {
+struct MoviesList: ConnectedView {
+    struct Props {
+        let searchedMovies: [Int]?
+        let searchedKeywords: [Keyword]?
+        let searcherdPeoples: [Int]?
+    }
     
     enum SearchFilter: Int {
         case movies, peoples
     }
     
-    // MARK: - State and binding
-    @EnvironmentObject private var store: Store<AppState>
+    
+    // MARK: - binding
     @State private var searchFilter: Int = SearchFilter.movies.rawValue
     @State private var searchTextWrapper = MoviesSearchTextWrapper()
     
@@ -29,73 +34,70 @@ struct MoviesList : View {
     var deleteHandler: ((Int) -> Void)? = nil
     var headerView: AnyView?
     
+    // MARK: - Computed Props
+    func map(state: AppState, dispatch: @escaping DispatchFunction) -> Props {
+        if isSearching {
+            return Props(searchedMovies: state.moviesState.search[searchTextWrapper.searchText],
+                         searchedKeywords: state.moviesState.searchKeywords[searchTextWrapper.searchText]?.prefix(5).map{ $0 },
+                         searcherdPeoples: state.peoplesState.search[searchTextWrapper.searchText])
+        }
+        return Props(searchedMovies: nil, searchedKeywords: nil, searcherdPeoples: nil)
+    }
+    
     // MARK: - Computed properties
     private var isSearching: Bool {
         return !searchTextWrapper.searchText.isEmpty
     }
     
-    private var searchedMovies: [Int]? {
-        return store.state.moviesState.search[searchTextWrapper.searchText]
-    }
-    
-    private var searchPeoples: [Int]? {
-        return store.state.peoplesState.search[searchTextWrapper.searchText]
-    }
-    
-    private var keywords: [Keyword]? {
-        return store.state.moviesState.searchKeywords[searchTextWrapper.searchText]?.prefix(5).map{ $0 }
-    }
-    
-    // Mark: - Computed views
-    
-    private var moviesRows: some View {
-        ForEach(isSearching ? searchedMovies! : movies) { id in
-            NavigationLink(destination: MovieDetail(movieId: id).environmentObject(self.store)) {
+    // MARK: - Computed views
+    private func moviesRows(props: Props) -> some View {
+        ForEach(isSearching ? props.searchedMovies ?? [] : movies) { id in
+            NavigationLink(destination: MovieDetail(movieId: id)) {
                 MovieRow(movieId: id)
             }
         }
     }
     
-    private var movieSection: some View {
+    private func movieSection(props: Props) -> some View {
         Group {
             if isSearching {
                 Section(header: Text("Results for \(searchTextWrapper.searchText)")) {
-                    if isSearching && searchedMovies == nil {
+                    if isSearching && props.searchedMovies == nil {
                         Text("Searching movies...")
-                    } else if isSearching && searchedMovies?.isEmpty == true {
+                    } else if isSearching && props.searchedMovies?.isEmpty == true {
                         Text("No results")
                     } else {
-                        moviesRows
+                        moviesRows(props: props)
                     }
                 }
             } else {
                 Section {
-                    moviesRows
+                    moviesRows(props: props)
                 }
             }
         }
     }
     
-    private var peoplesSection: some View {
+    private func peoplesSection(props: Props) -> some View {
         Section {
-            if isSearching && searchPeoples == nil {
+            if isSearching && props.searcherdPeoples == nil {
                 Text("Searching peoples...")
-            } else if isSearching && searchPeoples?.isEmpty == true {
+            } else if isSearching && props.searcherdPeoples?.isEmpty == true {
                 Text("No results")
             } else {
-                ForEach(searchPeoples!) { id in
-                    NavigationLink(destination: PeopleDetail(peopleId: id).environmentObject(self.store)) {
-                        PeopleRow(people: self.store.state.peoplesState.peoples[id]!)
+                ForEach(props.searcherdPeoples ?? []) { id in
+                    NavigationLink(destination: PeopleDetail(peopleId: id)) {
+                        PeopleRow(peopleId: id)
                     }
                 }
             }
         }
     }
     
-    private var keywordsSection: some View {
+    private func keywordsSection(props: Props) -> some View {
         Section(header: Text("Keywords")) {
-            ForEach(keywords!) {keyword in
-                NavigationLink(destination: MovieKeywordList(keyword: keyword).environmentObject(self.store)) {
+            ForEach(props.searchedKeywords ?? []) {keyword in
+                NavigationLink(destination: MovieKeywordList(keyword: keyword)) {
                     Text(keyword.name)
                 }
             }
@@ -114,8 +116,8 @@ struct MoviesList : View {
         }
     }
     
-    // MARK: - Views
-    var body: some View {
+    // MARK: - Body
+    func body(props: Props) -> some View {
         List {
             if displaySearch {
                 Section {
@@ -131,25 +133,25 @@ struct MoviesList : View {
             
             if isSearching {
                 searchFilterView
-                if keywords != nil && searchFilter == SearchFilter.movies.rawValue {
-                    keywordsSection
+                if props.searchedKeywords != nil && searchFilter == SearchFilter.movies.rawValue {
+                    keywordsSection(props: props)
                 }
             }
             
             if isSearching && searchFilter == SearchFilter.peoples.rawValue {
-                peoplesSection
+                peoplesSection(props: props)
             } else {
-                movieSection
+                movieSection(props: props)
             }
             
             /// The pagination is done by appending a invisible rectancle at the bottom of the list, and trigerining the next page load as it appear.
             /// Hacky way for now, hope it'll be possible to find a better solution in a future version of SwiftUI.
             /// Could be possible to do with GeometryReader.
-            if !movies.isEmpty || searchedMovies?.isEmpty == false {
+            if !movies.isEmpty || props.searchedMovies?.isEmpty == false {
                 Rectangle()
                     .foregroundColor(.clear)
                     .onAppear {
-                        if self.isSearching && self.searchedMovies?.isEmpty == false {
+                        if self.isSearching && props.searchedMovies?.isEmpty == false {
                             self.searchTextWrapper.searchPageListener.currentPage += 1
                         } else if self.pageListener != nil && !self.isSearching && !self.movies.isEmpty {
                             self.pageListener?.currentPage += 1
