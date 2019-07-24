@@ -9,33 +9,44 @@
 import SwiftUI
 import SwiftUIFlux
 
-struct ListImage: View {
-    @EnvironmentObject var store: Store<AppState>
+struct ListImage: ConnectedView {
+    struct Props {
+        let isInwishlist: Bool
+        let isInSeenlist: Bool
+        let isInCustomList: Bool
+    }
+    
     let movieId: Int
     
-    private var icon: String? {
-        if store.state.moviesState.wishlist.contains(movieId) {
+    func map(state: AppState, dispatch: @escaping DispatchFunction) -> Props {
+        Props(isInwishlist: state.moviesState.wishlist.contains(movieId),
+              isInSeenlist: state.moviesState.seenlist.contains(movieId),
+              isInCustomList: state.moviesState.customLists.contains(where: { (_, value) -> Bool in
+                value.movies.contains(self.movieId)
+              }))
+    }
+    
+    private func icon(props: Props) -> String? {
+        if props.isInwishlist {
             return "heart.fill"
-        } else if   store.state.moviesState.seenlist.contains(movieId) {
+        } else if props.isInSeenlist {
             return "eye.fill"
-        } else if store.state.moviesState.customLists.contains(where: { (_, value) -> Bool in
-            value.movies.contains(self.movieId)
-        }) {
+        } else if props.isInCustomList {
             return "pin.fill"
         }
         return nil
     }
     
-    var body: some View {
+    func body(props: Props) -> some View {
         Group {
-            if icon != nil {
-                Image(systemName: icon!)
+            if icon(props: props) != nil {
+                Image(systemName: icon(props: props)!)
                     .imageScale(.small)
                     .foregroundColor(.white)
                     .position(x: 13, y: 15)
                     .transition(AnyTransition.scale
                         .combined(with: .opacity))
-                    .animation(.spring())
+                    .animation(.interpolatingSpring(stiffness: 80, damping: 10))
             }
         }
     }
