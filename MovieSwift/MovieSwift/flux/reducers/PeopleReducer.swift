@@ -57,6 +57,12 @@ func peoplesStateReducer(state: PeoplesState, action: Action) -> PeoplesState {
     case let action as PeopleActions.SetImages:
         state.peoples[action.people]?.images = action.images
         
+    case let action as PeopleActions.AddToFanClub:
+        state.fanClub.insert(action.people)
+        
+    case let action as PeopleActions.RemoveFromFanClub:
+        state.fanClub.remove(action.people)
+        
     default:
         break
     }

@@ -9,7 +9,7 @@
 import Foundation
 import SwiftUIFlux
 
-struct PeoplesState: FluxState {
+struct PeoplesState: FluxState, Codable {
     var peoples: [Int: People] = [:]
     var peoplesMovies: [Int: [Int]] = [:]
     var search: [String: [Int]] = [:]
@@ -18,4 +18,10 @@ struct PeoplesState: FluxState {
     var casts: [Int: [Int: String]] = [:]
     /// [PeopleId: [MovieId:  Character]]
     var crews: [Int: [Int: String]] = [:]
+    
+    var fanClub: Set<Int> = Set()
+    
+    enum CodingKeys: String, CodingKey {
+        case peoples, fanClub
+    }
 }

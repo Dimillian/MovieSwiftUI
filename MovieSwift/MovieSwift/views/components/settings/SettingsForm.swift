@@ -59,8 +59,6 @@ struct SettingsForm : View {
                 })
                 
                 Section(header: Text("Debug info")) {
-                    debugInfoView(title: "Image in memory cache",
-                                  info: "\(ImageService.shared.memCache.count)")
                     debugInfoView(title: "Movies in state",
                                   info: "\(store.state.moviesState.movies.count)")
                     debugInfoView(title: "Archived state size",

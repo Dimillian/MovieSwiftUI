@@ -126,4 +126,11 @@ struct PeopleActions {
         let response: PeopleCreditsResponse
     }
     
+    struct AddToFanClub: Action {
+        let people: Int
+    }
+    
+    struct RemoveFromFanClub: Action {
+        let people: Int
+    }
 }

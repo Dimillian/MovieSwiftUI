@@ -13,7 +13,7 @@ fileprivate var savePath: URL!
 fileprivate let encoder = JSONEncoder()
 fileprivate let decoder = JSONDecoder()
 
-struct AppState: FluxState {
+struct AppState: FluxState, Codable {
     var moviesState: MoviesState
     var peoplesState: PeoplesState
     
@@ -30,12 +30,13 @@ struct AppState: FluxState {
         }
         
         if let data = try? Data(contentsOf: savePath),
-            let moviesState = try? decoder.decode(MoviesState.self, from: data) {
-            self.moviesState = moviesState
+            let savedState = try? decoder.decode(AppState.self, from: data) {
+            self.moviesState = savedState.moviesState
+            self.peoplesState = savedState.peoplesState
         } else {
             self.moviesState = MoviesState()
+            self.peoplesState = PeoplesState()
         }
-        self.peoplesState = PeoplesState()
     }
     
     func archiveState() {
@@ -48,8 +49,10 @@ struct AppState: FluxState {
                     value.cover == key
                 })
         }
-        var savingState = moviesState
-        savingState.movies = movies
+        let people = peoplesState.peoples.filter{ peoplesState.fanClub.contains($0.key) }
+        var savingState = self
+        savingState.moviesState.movies = movies
+        savingState.peoplesState.peoples = people
         guard let data = try? encoder.encode(savingState) else {
             return
         }
