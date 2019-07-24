@@ -13,6 +13,8 @@ struct DiscoverFilterForm : View {
     @EnvironmentObject private var store: Store<AppState>
     @Environment(\.isPresented) var isPresented
     
+    let ondismiss: () -> Void
+    
     let datesText = ["Random",
                      "1950-1960",
                      "1960-1970",
@@ -113,6 +115,7 @@ struct DiscoverFilterForm : View {
             Section {
                 Button(action: {
                     self.isPresented?.value = false
+                    self.ondismiss()
                     if let toSave = self.formFilter {
                         self.store.dispatch(action: MoviesActions.SaveDiscoverFilter(filter: toSave))
                     }
@@ -125,6 +128,7 @@ struct DiscoverFilterForm : View {
                 
                 Button(action: {
                     self.isPresented?.value = false
+                    self.ondismiss()
                 }, label: {
                     Text("Cancel").foregroundColor(.red)
                 })
@@ -136,6 +140,7 @@ struct DiscoverFilterForm : View {
                     self.selectedDate = 0
                     self.selectedGenre = 0
                     self.isPresented?.value = false
+                    self.ondismiss()
                     self.store.dispatch(action: MoviesActions.ResetRandomDiscover())
                     self.store.dispatch(action: MoviesActions.FetchRandomDiscover())
                 }, label: {
@@ -153,6 +158,7 @@ struct DiscoverFilterForm : View {
                         Text(self.savedFilters[index].toText(state: self.store.state))
                             .tapAction {
                                 self.isPresented?.value = false
+                                self.ondismiss()
                                 self.store.dispatch(action: MoviesActions.ResetRandomDiscover())
                                 self.store.dispatch(action: MoviesActions.FetchRandomDiscover(filter: self.savedFilters[index]))
                         }
@@ -196,7 +202,9 @@ struct DiscoverFilterForm : View {
 #if DEBUG
 struct DiscoverFilterForm_Previews : PreviewProvider {
     static var previews: some View {
-        DiscoverFilterForm().environmentObject(store)
+        DiscoverFilterForm(ondismiss: {
+            
+        }).environmentObject(store)
     }
 }
 #endif

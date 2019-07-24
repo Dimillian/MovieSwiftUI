@@ -23,7 +23,7 @@ struct DiscoverView : View {
     private let hapticFeedback = UIImpactFeedbackGenerator(style: .soft)
     
     #if targetEnvironment(macCatalyst)
-    private let bottomSafeInsetFix: Length = 50
+    private let bottomSafeInsetFix: Length = 100
     #else
     private let bottomSafeInsetFix: Length = 20
     #endif
@@ -205,7 +205,9 @@ struct DiscoverView : View {
         })
             .sheet(isPresented: $isFilterFormPresented,
                    onDismiss: { self.isFilterFormPresented = false},
-                   content: { DiscoverFilterForm().environmentObject(self.store) })
+                   content: { DiscoverFilterForm(ondismiss: {
+                    self.isFilterFormPresented = false
+                   }).environmentObject(self.store) })
             .onAppear {
                 self.hapticFeedback.prepare()
                 self.fetchRandomMovies(force: false, filter: self.filter)
