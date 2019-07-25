@@ -16,7 +16,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
     
     func applicationDidReceiveMemoryWarning(_ application: UIApplication) {
-        ImageService.shared.purgeCache()
+
     }
     
     // MARK: UISceneSession Lifecycle

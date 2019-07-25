@@ -33,9 +33,6 @@ class ImageService {
         case decodingError
     }
     
-    func purgeCache() {
-        memCache.removeAllObjects()
-    }
     
     func syncImageFromCache(poster: String, size: Size) -> UIImage? {
         return memCache.object(forKey: poster as NSString)

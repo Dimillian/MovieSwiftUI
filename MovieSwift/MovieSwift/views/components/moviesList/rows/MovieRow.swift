@@ -58,8 +58,8 @@ struct MovieRow: ConnectedView {
             }.padding(.leading, 8)
         }
         .padding(.top, 8)
-            .padding(.bottom, 8)
-            .contextMenu{ MovieContextMenu(movieId: self.movieId) }
+        .padding(.bottom, 8)
+        .contextMenu{ MovieContextMenu(movieId: self.movieId) }
     }
 }
 
