@@ -16,6 +16,7 @@ struct PeopleDetail: ConnectedView {
         let people: People
         let movieByYears: [String: [MovieRole]]
         let isInFanClub: Binding<Bool>
+        let movieScore: Int?
     }
     
     struct MovieRole: Identifiable {
@@ -38,16 +39,36 @@ struct PeopleDetail: ConnectedView {
         }
     }
     
+    private func barbuttons(props: Props) -> some View {
+        HStack {
+            if props.isInFanClub.value {
+                PopularityBadge(score: props.movieScore ?? 0)
+            }
+            Button(action: {
+                props.isInFanClub.value.toggle()
+            }, label: {
+                Image(systemName: props.isInFanClub.value ? "star.circle.fill" : "star.circle")
+                    .resizable()
+                    .foregroundColor(props.isInFanClub.value ? .steam_gold : .primary)
+                    .scaleEffect(props.isInFanClub.value ? 1.2 : 1.0)
+                    .frame(width: 25, height: 25)
+                    .animation(.spring())
+            })
+        }
+    }
+    
     func body(props: Props) -> some View {
         ZStack(alignment: .bottom) {
             List {
-                PeopleDetailHeaderRow(peopleId: peopleId)
-                PeopleDetailBiographyRow(biography: props.people.biography,
-                                         birthDate: props.people.birthDay,
-                                         deathDate: props.people.deathDay,
-                                         placeOfBirth: props.people.place_of_birth)
-                if props.people.images != nil {
-                    PeopleDetailImagesRow(images: props.people.images!, selectedPoster: $selectedPoster)
+                Section {
+                    PeopleDetailHeaderRow(peopleId: peopleId)
+                    PeopleDetailBiographyRow(biography: props.people.biography,
+                                             birthDate: props.people.birthDay,
+                                             deathDate: props.people.deathDay,
+                                             placeOfBirth: props.people.place_of_birth)
+                    if props.people.images != nil {
+                        PeopleDetailImagesRow(images: props.people.images!, selectedPoster: $selectedPoster)
+                    }
                 }
                 ForEach(sortedYears(props: props), id: \.self, content: { year in
                     self.moviesSection(props: props, year: year)
@@ -59,16 +80,7 @@ struct PeopleDetail: ConnectedView {
                                    selectedPoster: $selectedPoster)
             }
         }
-        .navigationBarItems(trailing: Button(action: {
-            props.isInFanClub.value.toggle()
-        }, label: {
-            Image(systemName: props.isInFanClub.value ? "star.circle.fill" : "star.circle")
-                .resizable()
-                .foregroundColor(props.isInFanClub.value ? .steam_gold : .primary)
-                .scaleEffect(props.isInFanClub.value ? 1.2 : 1.0)
-                .frame(width: 25, height: 25)
-                .animation(.spring())
-        }))
+        .navigationBarItems(trailing: barbuttons(props: props))
            .navigationBarTitle(props.people.name)
             .onAppear {
                 props.dispatch(PeopleActions.FetchDetail(people: self.peopleId))
@@ -118,10 +130,24 @@ extension PeopleDetail {
                 }
         }
         )
+        
+        var movieScore: Int = 0
+        if isInFanClub.value {
+            let roles = years.map{ $0.value }.flatMap{ $0 }.map{ $0.id }
+            let rolesCount = roles.count
+            let userMovies = roles.filter { movie -> Bool in
+                            state.moviesState.seenlist.contains(movie) ||
+                            state.moviesState.wishlist.contains(movie) ||
+                                state.moviesState.customLists.contains{ $1.movies.contains(movie) }
+                        }
+            movieScore = userMovies.count > 0 ? Int((Float(userMovies.count) / Float(rolesCount)) * 100) : 0
+        }
+        
         return Props(dispatch: dispatch,
                      people: state.peoplesState.peoples[peopleId]!,
                      movieByYears: years,
-                     isInFanClub: isInFanClub)
+                     isInFanClub: isInFanClub,
+                     movieScore: movieScore)
         
     }
     

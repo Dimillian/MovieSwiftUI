@@ -15,7 +15,7 @@ enum OutlineMenu: Int, CaseIterable, Identifiable {
     }
     
     
-    case popular, topRated, upcoming, nowPlaying, trending, genres, discover, myLists, settings
+    case popular, topRated, upcoming, nowPlaying, trending, genres, fanClub, discover, myLists, settings
     
     var title: String {
         switch self {
@@ -25,6 +25,7 @@ enum OutlineMenu: Int, CaseIterable, Identifiable {
         case .nowPlaying: return "Now Playing"
         case .trending:   return "Trending"
         case .genres:     return "Genres"
+        case .fanClub:    return "Fan Club"
         case .discover:   return "Discover"
         case .myLists:    return "MyLists"
         case .settings:   return "Settings"
@@ -39,6 +40,7 @@ enum OutlineMenu: Int, CaseIterable, Identifiable {
         case .nowPlaying: return "play.circle.fill"
         case .trending:   return "chart.bar.fill"
         case .genres:     return "tag.fill"
+        case .fanClub:    return "star.circle.fill"
         case .discover:   return "square.stack.fill"
         case .myLists:    return "text.badge.plus"
         case .settings:   return "wrench"
@@ -58,6 +60,7 @@ enum OutlineMenu: Int, CaseIterable, Identifiable {
         case .nowPlaying: return moviesList(menu: .nowPlaying)
         case .trending:   return moviesList(menu: .trending)
         case .genres:     return AnyView( NavigationView { GenresList() })
+        case .fanClub:    return AnyView( FanClubHome() )
         case .discover:   return AnyView( DiscoverView() )
         case .myLists:    return AnyView( MyLists() )
         case .settings:   return AnyView( SettingsForm() )
