@@ -9,28 +9,26 @@
 import SwiftUI
 import SwiftUIFlux
 
-struct MyLists : View {
-    @EnvironmentObject private var store: Store<AppState>
-        
+struct MyLists : ConnectedView {
+    struct Props {
+        let customLists: [CustomList]
+        let wishlist: [Int]
+        let seenlist: [Int]
+    }
+    
     // MARK: - Vars
+    @EnvironmentObject private var store: Store<AppState>
     @State private var selectedList: Int = 0
     @State private var selectedMoviesSort = MoviesSort.byReleaseDate
     @State private var isSortActionSheetPresented = false
     @State private var isEditingFormPresented = false
     
-    // MARK: - Dynamic vars
-    var customLists: [CustomList] {
-        store.state.moviesState.customLists.compactMap{ $0.value }
-    }
-    
-    var wishlist: [Int] {
-        store.state.moviesState.wishlist.map{ $0.id }.sortedMoviesIds(by: selectedMoviesSort,
-                                                                      state: store.state)
-    }
-    
-    var seenlist: [Int] {
-        store.state.moviesState.seenlist.map{ $0.id }.sortedMoviesIds(by: selectedMoviesSort,
-                                                                      state: store.state)
+    func map(state: AppState, dispatch: @escaping DispatchFunction) -> Props {
+        Props(customLists: state.moviesState.customLists.compactMap{ $0.value },
+              wishlist: state.moviesState.wishlist.map{ $0.id }.sortedMoviesIds(by: selectedMoviesSort,
+                                                                                state: store.state),
+              seenlist: state.moviesState.seenlist.map{ $0.id }.sortedMoviesIds(by: selectedMoviesSort,
+                                                                                state: store.state))
     }
     
     // MARK: - Dynamic views
@@ -42,84 +40,83 @@ struct MyLists : View {
         }
     }
     
-    private var customListsSection: some View {
+    private func customListsSection(props: Props) -> some View {
         Section(header: Text("Custom Lists")) {
             Button(action: {
                 self.isEditingFormPresented = true
             }) {
                 Text("Create custom list").foregroundColor(.steam_blue)
             }
-            ForEach(customLists) { list in
-                NavigationLink(destination: CustomListDetail(listId: list.id).environmentObject(self.store)) {
+            ForEach(props.customLists) { list in
+                NavigationLink(destination: CustomListDetail(listId: list.id)) {
                     CustomListRow(list: list)
                 }
             }
             .onDelete { (index) in
-                let list = self.customLists[index.first!]
+                let list = props.customLists[index.first!]
                 self.store.dispatch(action: MoviesActions.RemoveCustomList(list: list.id))
             }
         }
     }
     
-    private var wishlistSection: some View {
-        Section(header: Text("\(wishlist.count) movies in wishlist (\(selectedMoviesSort.title()))")) {
-            ForEach(wishlist) {id in
-                NavigationLink(destination: MovieDetail(movieId: id).environmentObject(self.store)) {
+    private func wishlistSection(props: Props) -> some View {
+        Section(header: Text("\(props.wishlist.count) movies in wishlist (\(selectedMoviesSort.title()))")) {
+            ForEach(props.wishlist) {id in
+                NavigationLink(destination: MovieDetail(movieId: id)) {
                     MovieRow(movieId: id, displayListImage: false)
                 }
-                }
-                .onDelete { (index) in
-                    let movie = self.wishlist[index.first!]
-                    self.store.dispatch(action: MoviesActions.RemoveFromWishlist(movie: movie))
-                    
+            }
+            .onDelete { (index) in
+                let movie = props.wishlist[index.first!]
+                self.store.dispatch(action: MoviesActions.RemoveFromWishlist(movie: movie))
+                
             }
         }
     }
     
-    private var seenSection: some View {
-        Section(header: Text("\(seenlist.count) movies in seenlist (\(selectedMoviesSort.title()))")) {
-            ForEach(seenlist) {id in
-                NavigationLink(destination: MovieDetail(movieId: id).environmentObject(self.store)) {
+    private func seenSection(props: Props) -> some View {
+        Section(header: Text("\(props.seenlist.count) movies in seenlist (\(selectedMoviesSort.title()))")) {
+            ForEach(props.seenlist) {id in
+                NavigationLink(destination: MovieDetail(movieId: id)) {
                     MovieRow(movieId: id, displayListImage: false)
                 }
-                }
-                .onDelete { (index) in
-                    let movie = self.seenlist[index.first!]
-                    self.store.dispatch(action: MoviesActions.RemoveFromSeenList(movie: movie))
+            }
+            .onDelete { (index) in
+                let movie = props.seenlist[index.first!]
+                self.store.dispatch(action: MoviesActions.RemoveFromSeenList(movie: movie))
             }
         }
     }
     
-    // MARK: - Body
-    var body: some View {
+    func body(props: Props) -> some View {
         NavigationView {
             List {
-                customListsSection
+                customListsSection(props: props)
                 SegmentedControl(selection: $selectedList) {
                     Text("Wishlist").tag(0)
                     Text("Seenlist").tag(1)
                 }
                 if selectedList == 0 {
-                    wishlistSection
+                    wishlistSection(props: props)
                 } else if selectedList == 1 {
-                    seenSection
+                    seenSection(props: props)
                 }
             }
             .actionSheet(isPresented: $isSortActionSheetPresented, content: { sortActionSheet })
-            .navigationBarTitle(Text("My Lists"))
-            .navigationBarItems(trailing: Button(action: {
+                .navigationBarTitle(Text("My Lists"))
+                .navigationBarItems(trailing: Button(action: {
                     self.isSortActionSheetPresented.toggle()
-            }, label: {
-                Image(systemName: "line.horizontal.3.decrease.circle")
-                    .resizable()
-                    .frame(width: 25, height: 25)
-            }))
+                }, label: {
+                    Image(systemName: "line.horizontal.3.decrease.circle")
+                        .resizable()
+                        .frame(width: 25, height: 25)
+                }))
         }
         .sheet(isPresented: $isEditingFormPresented,
                onDismiss: { self.isEditingFormPresented = false }) {
                 CustomListForm(editingListId: nil,
                                shouldDismiss: {
-                    self.isEditingFormPresented = false
+                                self.isEditingFormPresented = false
                 }).environmentObject(self.store)
         }
     }
