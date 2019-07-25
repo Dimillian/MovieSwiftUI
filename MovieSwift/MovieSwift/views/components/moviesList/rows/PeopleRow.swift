@@ -35,7 +35,8 @@ struct PeopleRow : ConnectedView {
                     .truncationMode(.tail)
             }.padding(.leading, 8)
         }.padding(.top)
-            .padding(.bottom)
+        .padding(.bottom)
+        .contextMenu{ PeopleContextMenu(people: peopleId) }
     }
 }
 

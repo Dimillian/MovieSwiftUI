@@ -28,7 +28,7 @@ struct PeopleDetailMovieRow : View {
                     .foregroundColor(.secondary)
                     .font(.subheadline)
             }
-        }
+        }.contextMenu{ MovieContextMenu(movieId: movieId) }
     }
 }
 
