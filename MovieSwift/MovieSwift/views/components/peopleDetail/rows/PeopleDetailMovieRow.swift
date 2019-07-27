@@ -20,7 +20,12 @@ struct PeopleDetailMovieRow : View {
     
     var body: some View {
         HStack {
-            MoviePosterImage(imageLoader: ImageLoader(path: movie.poster_path, size: .small), posterSize: .small)
+            ZStack {
+                MoviePosterImage(imageLoader: ImageLoader(path: movie.poster_path,
+                                                          size: .small),
+                                 posterSize: .small)
+                ListImage(movieId: movieId)
+            }.fixedSize()
             VStack(alignment: .leading, spacing: 6) {
                 Text(movie.title)
                     .font(.headline)
