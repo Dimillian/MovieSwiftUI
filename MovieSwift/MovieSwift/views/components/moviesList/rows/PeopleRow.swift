@@ -35,7 +35,7 @@ struct PeopleRow : ConnectedView {
         HStack {
             PeopleImage(imageLoader: ImageLoader(path: props.people.profile_path, size: .cast))
             VStack(alignment: .leading) {
-                HStack(alignment: .firstTextBaseline, spacing: 4) {
+                HStack {
                     if props.isInFanClub {
                         fanClubIcon
                     }
