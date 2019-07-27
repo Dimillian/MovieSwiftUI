@@ -22,10 +22,13 @@ struct MovieContextMenu: ConnectedView {
     
     let movieId: Int
     
+    var onAction: (() -> Void)?
+    
     private func customListsView(props: Props) -> some View {
         ForEach(props.customLists.compactMap{ $0.value }, id: \.id) { list in
             Button(action: {
                 props.onAddToCustomList(list.id)
+                self.onAction?()
             }) {
                 HStack {
                     Text(list.movies.contains(self.movieId) ? "Remove from \(list.name)" : "Add to \(list.name)")
@@ -39,6 +42,7 @@ struct MovieContextMenu: ConnectedView {
         VStack {
             Button(action: {
                 props.onAddToWishlist()
+                self.onAction?()
             }) {
                 HStack {
                     Text(props.isInWishlist ? "Remove from wishlist" : "Add to wishlist")
@@ -47,6 +51,7 @@ struct MovieContextMenu: ConnectedView {
             }
             Button(action: {
                 props.onAddToSeenList()
+                self.onAction?()
             }) {
                 HStack {
                     Text(props.isInSeenList ? "Remove from seenlist" : "Add to seenlist")

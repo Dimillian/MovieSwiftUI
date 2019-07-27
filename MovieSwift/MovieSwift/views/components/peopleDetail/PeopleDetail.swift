@@ -27,13 +27,29 @@ struct PeopleDetail: ConnectedView {
     let peopleId: Int
     
     @State var selectedPoster: ImageData?
+    @State var isFanScoreUpdated = false
     
     //MARK: - Views
+    private func toggleScoreUpdate() {
+        withAnimation {
+            self.isFanScoreUpdated = true
+            DispatchQueue.main.asyncAfter(deadline: .now() + 2.5) {
+                withAnimation {
+                    self.isFanScoreUpdated = false
+                }
+            }
+        }
+    }
+    
     private func moviesSection(props: Props, year: String) -> some View {
         Section(header: Text(year)) {
             ForEach(props.movieByYears[year]!) { meta in
                 NavigationLink(destination: MovieDetail(movieId: meta.id)) {
-                    PeopleDetailMovieRow(movieId: meta.id, role: meta.role)
+                    PeopleDetailMovieRow(movieId: meta.id, role: meta.role, onMovieContextMenu: {
+                        if props.isInFanClub.value {
+                            self.toggleScoreUpdate()
+                        }
+                    })
                 }
             }
         }
@@ -52,8 +68,38 @@ struct PeopleDetail: ConnectedView {
         })
     }
     
+    private func scoreUpdateView(props: Props) -> some View {
+        Group {
+            if isFanScoreUpdated {
+                VStack(spacing: 30) {
+                    Text("Fan score updated!")
+                        .font(.FjallaOne(size: 30))
+                        .foregroundColor(.steam_gold)
+                    PopularityBadge(score: props.movieScore ?? 0)
+                        .scaleEffect(2.0)
+                }
+                .transition(.scale)
+                .animation(Animation
+                    .interpolatingSpring(stiffness: 70, damping: 7)
+                .delay(0.3))
+                .tapAction {
+                    self.isFanScoreUpdated = false
+                }
+            }
+        }
+    }
+    
+    private func imagesCarouselView(props: Props) -> some View {
+        Group {
+            if selectedPoster != nil && props.people.images != nil {
+                ImagesCarouselView(posters: props.people.images!,
+                                   selectedPoster: $selectedPoster)
+            }
+        }
+    }
+    
     func body(props: Props) -> some View {
-        ZStack(alignment: .bottom) {
+        ZStack(alignment: .center) {
             List {
                 Section {
                     PeopleDetailHeaderRow(peopleId: peopleId)
@@ -81,18 +127,16 @@ struct PeopleDetail: ConnectedView {
                     self.moviesSection(props: props, year: year)
                 })
             }
-            .blur(radius: selectedPoster != nil ? 30 : 0)
-            if selectedPoster != nil && props.people.images != nil {
-                ImagesCarouselView(posters: props.people.images!,
-                                   selectedPoster: $selectedPoster)
-            }
+            .blur(radius: selectedPoster != nil || isFanScoreUpdated ? 30 : 0)
+            imagesCarouselView(props: props)
+            scoreUpdateView(props: props)
         }
         .navigationBarItems(trailing: barbuttons(props: props))
-           .navigationBarTitle(props.people.name)
-            .onAppear {
-                props.dispatch(PeopleActions.FetchDetail(people: self.peopleId))
-                props.dispatch(PeopleActions.FetchImages(people: self.peopleId))
-                props.dispatch(PeopleActions.FetchPeopleCredits(people: self.peopleId))
+        .navigationBarTitle(props.people.name)
+        .onAppear {
+            props.dispatch(PeopleActions.FetchDetail(people: self.peopleId))
+            props.dispatch(PeopleActions.FetchImages(people: self.peopleId))
+            props.dispatch(PeopleActions.FetchPeopleCredits(people: self.peopleId))
         }
     }
 }

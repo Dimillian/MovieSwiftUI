@@ -18,6 +18,8 @@ struct PeopleDetailMovieRow : View {
     }
     let role: String
     
+    let onMovieContextMenu: () -> Void
+    
     var body: some View {
         HStack {
             ZStack {
@@ -33,14 +35,16 @@ struct PeopleDetailMovieRow : View {
                     .foregroundColor(.secondary)
                     .font(.subheadline)
             }
-        }.contextMenu{ MovieContextMenu(movieId: movieId) }
+        }.contextMenu{ MovieContextMenu(movieId: movieId, onAction: onMovieContextMenu) }
     }
 }
 
 #if DEBUG
 struct PeopleDetailMovieRow_Previews : PreviewProvider {
     static var previews: some View {
-        PeopleDetailMovieRow(movieId: sampleMovie.id, role: "Test").environmentObject(sampleStore)
+        PeopleDetailMovieRow(movieId: sampleMovie.id, role: "Test", onMovieContextMenu: {
+            
+        }).environmentObject(sampleStore)
     }
 }
 #endif
