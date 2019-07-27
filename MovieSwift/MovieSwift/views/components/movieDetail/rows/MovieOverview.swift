@@ -14,7 +14,7 @@ struct MovieOverview : View {
     
     var body: some View {
         VStack(alignment: .leading, spacing: 8) {
-            Text("Overview:").font(.FjallaOne(size: 20))
+            Text("Overview:").titleStyle()
             Text(movie.overview)
                 .font(.subheadline)
                 .foregroundColor(.secondary)

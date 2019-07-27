@@ -22,9 +22,8 @@ struct PeopleDetailHeaderRow : View {
             BigPeopleImage(imageLoader: ImageLoader(path: people.profile_path,
                                                     size: .original))
             VStack(alignment: .leading, spacing: 4) {
-                Text("Known for:")
-                    .font(.FjallaOne(size: 16))
-                    .fontWeight(.bold)
+                Text("Known for")
+                    .titleStyle()
                 if people.known_for_department != nil{
                     Text(people.known_for_department!)
                 }

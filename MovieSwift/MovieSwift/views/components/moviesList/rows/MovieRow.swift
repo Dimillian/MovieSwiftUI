@@ -41,7 +41,7 @@ struct MovieRow: ConnectedView {
             .fixedSize()
             VStack(alignment: .leading, spacing: 8) {
                 Text(props.movie.userTitle)
-                    .font(.FjallaOne(size: 20))
+                    .titleStyle()
                     .foregroundColor(.steam_gold)
                     .lineLimit(2)
                 HStack {

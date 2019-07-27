@@ -14,9 +14,8 @@ struct PeopleDetailImagesRow : View {
     
     var body: some View {
         VStack(alignment: .leading, spacing: 6) {
-            Text("Images:")
-                .font(.FjallaOne(size: 16))
-                .fontWeight(.bold)
+            Text("Images")
+                .titleStyle()
                 .padding(.leading)
             ScrollView(.horizontal, showsIndicators: false) {
                 HStack(alignment: .center, spacing: 16) {

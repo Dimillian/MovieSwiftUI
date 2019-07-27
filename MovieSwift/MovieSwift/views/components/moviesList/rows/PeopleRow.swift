@@ -40,7 +40,7 @@ struct PeopleRow : ConnectedView {
                         fanClubIcon
                     }
                     Text(props.people.name)
-                        .font(.FjallaOne(size: 20))
+                        .titleStyle()
                         .foregroundColor(.steam_gold)
                         .lineLimit(1)
                         .animation(.spring())

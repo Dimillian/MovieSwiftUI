@@ -25,7 +25,19 @@ extension Font {
 
 struct TitleFont: ViewModifier {
     let size: Length
+    
     func body(content: Content) -> some View {
         return content.font(.FjallaOne(size: size))
     }
 }
+
+extension View {
+    func titleFont(size: Length) -> some View {
+        return Modified(content: self, modifier: TitleFont(size: size))
+    }
+    
+    func titleStyle() -> some View {
+        return Modified(content: self, modifier: TitleFont(size: 16))
+    }
+}
+

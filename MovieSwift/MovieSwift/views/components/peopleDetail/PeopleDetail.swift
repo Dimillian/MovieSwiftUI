@@ -40,21 +40,16 @@ struct PeopleDetail: ConnectedView {
     }
     
     private func barbuttons(props: Props) -> some View {
-        HStack {
-            if props.isInFanClub.value {
-                PopularityBadge(score: props.movieScore ?? 0)
-            }
-            Button(action: {
-                props.isInFanClub.value.toggle()
-            }, label: {
-                Image(systemName: props.isInFanClub.value ? "star.circle.fill" : "star.circle")
-                    .resizable()
-                    .foregroundColor(props.isInFanClub.value ? .steam_gold : .primary)
-                    .scaleEffect(props.isInFanClub.value ? 1.2 : 1.0)
-                    .frame(width: 25, height: 25)
-                    .animation(.spring())
-            })
-        }
+        Button(action: {
+            props.isInFanClub.value.toggle()
+        }, label: {
+            Image(systemName: props.isInFanClub.value ? "star.circle.fill" : "star.circle")
+                .resizable()
+                .foregroundColor(props.isInFanClub.value ? .steam_gold : .primary)
+                .scaleEffect(props.isInFanClub.value ? 1.2 : 1.0)
+                .frame(width: 25, height: 25)
+                .animation(.spring())
+        })
     }
     
     func body(props: Props) -> some View {
@@ -62,10 +57,22 @@ struct PeopleDetail: ConnectedView {
             List {
                 Section {
                     PeopleDetailHeaderRow(peopleId: peopleId)
-                    PeopleDetailBiographyRow(biography: props.people.biography,
-                                             birthDate: props.people.birthDay,
-                                             deathDate: props.people.deathDay,
-                                             placeOfBirth: props.people.place_of_birth)
+                    if props.people.birthDay != nil ||
+                        props.people.birthDay != nil ||
+                        props.people.place_of_birth != nil ||
+                        props.people.deathDay != nil {
+                        PeopleDetailBiographyRow(biography: props.people.biography,
+                                                 birthDate: props.people.birthDay,
+                                                 deathDate: props.people.deathDay,
+                                                 placeOfBirth: props.people.place_of_birth)
+                    }
+                    if props.isInFanClub.value {
+                        VStack {
+                            Text("Fan level")
+                                .titleStyle()
+                            PopularityBadge(score: props.movieScore ?? 0)
+                        }
+                    }
                     if props.people.images != nil {
                         PeopleDetailImagesRow(images: props.people.images!, selectedPoster: $selectedPoster)
                     }

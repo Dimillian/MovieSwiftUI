@@ -19,9 +19,8 @@ struct PeopleDetailBiographyRow : View {
     var body: some View {
         VStack(alignment: .leading, spacing: 6) {
             if biography != nil {
-                Text("Biography:")
-                    .font(.FjallaOne(size: 16))
-                    .fontWeight(.bold)
+                Text("Biography")
+                    .titleStyle()
                 Text(biography!)
                     .foregroundColor(.secondary)
                     .font(.body)
@@ -33,25 +32,22 @@ struct PeopleDetailBiographyRow : View {
                 Text(isExpanded ? "Less": "Read more").foregroundColor(.steam_blue)
             }
             if birthDate != nil {
-                Text("Birthday:")
-                    .font(.FjallaOne(size: 16))
-                    .fontWeight(.bold)
+                Text("Birthday")
+                    .titleStyle()
                 Text(birthDate!)
                     .foregroundColor(.secondary)
                     .font(.body)
             }
             if placeOfBirth != nil {
-                Text("Place of birth:")
-                    .font(.FjallaOne(size: 16))
-                    .fontWeight(.bold)
+                Text("Place of birth")
+                    .titleStyle()
                 Text(placeOfBirth!)
                     .foregroundColor(.secondary)
                     .font(.body)
             }
             if deathDate != nil {
-                Text("Day of deah:")
-                    .font(.FjallaOne(size: 16))
-                    .fontWeight(.bold)
+                Text("Day of deah")
+                    .titleStyle()
                 Text(deathDate!)
                     .foregroundColor(.secondary)
                     .font(.body)
