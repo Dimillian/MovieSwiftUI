@@ -20,11 +20,12 @@ struct AppState: FluxState, Codable {
     
     init() {
         do {
+            let icloudDirectory = FileManager.default.url(forUbiquityContainerIdentifier: nil)
             let documentDirectory = try FileManager.default.url(for: .documentDirectory,
                                                                 in: .userDomainMask,
                                                                 appropriateFor: nil,
                                                                 create: false)
-            savePath = documentDirectory.appendingPathComponent("userData")
+            savePath = (icloudDirectory ?? documentDirectory).appendingPathComponent("userData")
         } catch let error {
             fatalError("Couldn't create save state data with error: \(error)")
         }

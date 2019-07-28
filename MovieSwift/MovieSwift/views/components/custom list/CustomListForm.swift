@@ -10,7 +10,6 @@ import SwiftUI
 import SwiftUIFlux
 
 final class CustomListFormSearchWrapper: SearchTextWrapper {
-
     override func onUpdateTextDebounced(text: String) {
         if !text.isEmpty {
             store.dispatch(action: MoviesActions.FetchSearch(query: text, page: 1))
@@ -20,7 +19,6 @@ final class CustomListFormSearchWrapper: SearchTextWrapper {
 
 struct CustomListForm : View {
     @EnvironmentObject var store: Store<AppState>
-    @Environment(\.isPresented) private var isPresented
     
     @State private var searchTextWrapper = CustomListFormSearchWrapper()
     @State var listName: String = ""
@@ -40,20 +38,28 @@ struct CustomListForm : View {
                         Text("Name:")
                         TextField("Name your list", text: $listName)
                     }
-                    if listMovieCover == nil {
-                        SearchField(searchTextWrapper: searchTextWrapper,
-                                    placeholder: "Search and add a movie as your cover")
-                            .disabled(listMovieCover != nil)
-                    }
-                    if listMovieCover != nil {
-                        CustomListCoverRow(movieId: listMovieCover!)
-                        Button(action: {
-                            self.listMovieCover = nil
-                        }, label: {
-                            Text("Remove cover").foregroundColor(.red)
-                        })
-                    }
         })
+    }
+    
+    private var coverSection: some View {
+        Section(header: Text("List cover")) {
+            if listMovieCover == nil {
+                SearchField(searchTextWrapper: searchTextWrapper,
+                            placeholder: "Search and add a movie as your cover")
+            }
+            if listMovieCover != nil {
+                CustomListCoverRow(movieId: listMovieCover!)
+                Button(action: {
+                    self.listMovieCover = nil
+                }, label: {
+                    Text("Remove cover").foregroundColor(.red)
+                })
+            }
+            
+            if !searchTextWrapper.searchText.isEmpty {
+                movieSearchSection
+            }
+        }
     }
     
     private var movieSearchSection: some View {
@@ -85,14 +91,12 @@ struct CustomListForm : View {
                 } else {
                     self.store.dispatch(action: MoviesActions.AddCustomList(list: newList))
                 }
-                self.isPresented?.value = false
                 self.shouldDismiss?()
                 
             }, label: {
                 Text(self.editingListId != nil ? "Save changes" : "Create").foregroundColor(.blue)
             })
             Button(action: {
-                self.isPresented?.value = false
                 self.shouldDismiss?()
             }, label: {
                 Text("Cancel").foregroundColor(.red)
@@ -104,9 +108,7 @@ struct CustomListForm : View {
         NavigationView {
             Form {
                 topSection
-                if !searchTextWrapper.searchText.isEmpty {
-                    movieSearchSection
-                }
+                coverSection
                 buttonsSection
             }
             .navigationBarTitle(Text("New list"))
