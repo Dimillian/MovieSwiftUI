@@ -173,8 +173,8 @@ extension PeopleDetail {
         
         let isInFanClub = Binding<Bool>(
             getValue: { state.peoplesState.fanClub.contains(self.peopleId) },
-            setValue: { newValue in
-                if !newValue {
+            setValue: {
+                if !$0 {
                     dispatch(PeopleActions.RemoveFromFanClub(people: self.peopleId))
                 } else {
                     dispatch(PeopleActions.AddToFanClub(people: self.peopleId))
