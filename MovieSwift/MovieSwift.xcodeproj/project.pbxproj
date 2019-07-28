@@ -92,6 +92,7 @@
 		69E3260222D1DE81003749B1 /* PeopleDetailMovieRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69E3260122D1DE81003749B1 /* PeopleDetailMovieRow.swift */; };
 		69EE5F1722B638CA0053A84A /* MovieTopBackdropImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69EE5F1622B638CA0053A84A /* MovieTopBackdropImage.swift */; };
 		69EE5F1922B639030053A84A /* MovieBackdropInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69EE5F1822B639030053A84A /* MovieBackdropInfo.swift */; };
+		69F336CD22EDA77500282CE3 /* CloudKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 69F336CC22EDA77500282CE3 /* CloudKit.framework */; };
 		69FB11C822C36B24002EB74A /* AppState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69FB11C722C36B24002EB74A /* AppState.swift */; };
 		69FB11CB22C376D0002EB74A /* AppReducer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69FB11CA22C376D0002EB74A /* AppReducer.swift */; };
 		69FB61E422BA217C00CBEEC7 /* DiscoverView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69FB61E322BA217C00CBEEC7 /* DiscoverView.swift */; };
@@ -215,6 +216,7 @@
 		69E3260122D1DE81003749B1 /* PeopleDetailMovieRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PeopleDetailMovieRow.swift; sourceTree = "<group>"; };
 		69EE5F1622B638CA0053A84A /* MovieTopBackdropImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieTopBackdropImage.swift; sourceTree = "<group>"; };
 		69EE5F1822B639030053A84A /* MovieBackdropInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieBackdropInfo.swift; sourceTree = "<group>"; };
+		69F336CC22EDA77500282CE3 /* CloudKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CloudKit.framework; path = System/Library/Frameworks/CloudKit.framework; sourceTree = SDKROOT; };
 		69FB11C722C36B24002EB74A /* AppState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppState.swift; sourceTree = "<group>"; };
 		69FB11CA22C376D0002EB74A /* AppReducer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppReducer.swift; sourceTree = "<group>"; };
 		69FB61E322BA217C00CBEEC7 /* DiscoverView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiscoverView.swift; sourceTree = "<group>"; };
@@ -244,6 +246,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				69FB7D7B22E7957200C55F01 /* SwiftUIFlux in Frameworks */,
+				69F336CD22EDA77500282CE3 /* CloudKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -298,6 +301,7 @@
 		69305F6322CFBF9900C4FE07 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				69F336CC22EDA77500282CE3 /* CloudKit.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -1087,7 +1091,7 @@
 				);
 				MARKETING_VERSION = 0.5;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.thomasricouard.film-o-matic";
-				"PRODUCT_BUNDLE_IDENTIFIER[sdk=macosx*]" = "com.thomasricouard.film-o-matic.macos";
+				"PRODUCT_BUNDLE_IDENTIFIER[sdk=macosx*]" = "maccatalyst.com.thomasricouard.film-o-matic";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				"PROVISIONING_PROFILE_SPECIFIER[sdk=macosx*]" = "";
@@ -1119,7 +1123,7 @@
 				);
 				MARKETING_VERSION = 0.5;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.thomasricouard.film-o-matic";
-				"PRODUCT_BUNDLE_IDENTIFIER[sdk=macosx*]" = "com.thomasricouard.film-o-matic.macos";
+				"PRODUCT_BUNDLE_IDENTIFIER[sdk=macosx*]" = "maccatalyst.com.thomasricouard.film-o-matic";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				"PROVISIONING_PROFILE_SPECIFIER[sdk=macosx*]" = "";
