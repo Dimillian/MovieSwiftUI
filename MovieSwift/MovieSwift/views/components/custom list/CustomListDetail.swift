@@ -84,7 +84,7 @@ struct CustomListDetail : View {
     }
     
     var body: some View {
-        List(selection: $selectedMovies) {
+        List {
             if !isSearching {
                 CustomListHeaderRow(sorting: $selectedMoviesSort,  listId: listId)
             }
@@ -92,7 +92,7 @@ struct CustomListDetail : View {
                         placeholder: "Search movies to add to your list")
                 .listRowInsets(EdgeInsets())
                 .padding(4)
-                .tapAction {
+                .onTapGesture {
                     self.searchTextWrapper.searchText = ""
             }
             if isSearching {
@@ -101,12 +101,12 @@ struct CustomListDetail : View {
                 } else if searchedMovies == nil {
                     Text("Loading")
                 } else {
-                    ForEach(searchedMovies!) { movie in
+                    ForEach(searchedMovies!, id: \.self) { movie in
                         MovieRow(movieId: movie, displayListImage: false)
                     }
                 }
             } else {
-                ForEach(movies) { movie in
+                ForEach(movies, id: \.self) { movie in
                     NavigationLink(destination: MovieDetail(movieId: movie).environmentObject(self.store)) {
                         MovieRow(movieId: movie, displayListImage: false)
                     }

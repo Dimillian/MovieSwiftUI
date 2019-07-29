@@ -25,7 +25,7 @@ struct MovieBackdrop: View {
             MovieTopBackdropImage(imageLoader: ImageLoader(path: movie.backdrop_path ?? movie.poster_path,
                                                       size: .original),
                              isExpanded: $seeImage)
-                .tapAction {
+                .onTapGesture {
                     withAnimation{
                         self.seeImage.toggle()
                     }

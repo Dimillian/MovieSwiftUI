@@ -111,7 +111,7 @@ struct MovieDetail: ConnectedView {
             List {
                 MovieBackdrop(movieId: movieId)
                 MovieRatingRow(movie: props.movie)
-                MovieAddToListRow(movieId: movieId).tapAction {
+                MovieAddToListRow(movieId: movieId).onTapGesture {
                     self.isAddSheetPresented = true
                 }
                 MovieOverview(movie: props.movie)

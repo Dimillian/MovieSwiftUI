@@ -10,7 +10,7 @@ import SwiftUI
 import UIKit
 import Combine
 
-final class ImageLoader: BindableObject {
+final class ImageLoader: ObservableObject {
     let willChange = PassthroughSubject<Void, Never>()
     
     let path: String?

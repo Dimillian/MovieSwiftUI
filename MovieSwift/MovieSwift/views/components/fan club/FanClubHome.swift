@@ -20,7 +20,7 @@ struct FanClubHome: ConnectedView {
     
     func body(props: Props) -> some View {
         NavigationView {
-            List(props.peoples) { people in
+            List(props.peoples, id: \.self) { people in
                 NavigationLink(destination: PeopleDetail(peopleId: people)) {
                     PeopleRow(peopleId: people)
                 }

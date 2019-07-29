@@ -29,7 +29,7 @@ struct OutlineRow : View {
                 .foregroundColor(isSelected ? .steam_gold : .primary)
             }
             .padding()
-            .tapAction {
+            .onTapGesture {
                 self.selectedMenu = self.item
             }
     }

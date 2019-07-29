@@ -22,7 +22,7 @@ struct MoviePostersRow : View {
                     ForEach(self.posters) { poster in
                         MoviePosterImage(imageLoader: ImageLoader(path: poster.file_path,
                                                                   size: .medium),
-                                         posterSize: .medium).tapAction {
+                                         posterSize: .medium).onTapGesture {
                                                                     withAnimation {
                                                                         self.selectedPoster = poster
                                                                     }

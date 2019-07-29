@@ -25,9 +25,9 @@ struct MyLists : ConnectedView {
     
     func map(state: AppState, dispatch: @escaping DispatchFunction) -> Props {
         Props(customLists: state.moviesState.customLists.compactMap{ $0.value },
-              wishlist: state.moviesState.wishlist.map{ $0.id }.sortedMoviesIds(by: selectedMoviesSort,
+              wishlist: state.moviesState.wishlist.map{ $0 }.sortedMoviesIds(by: selectedMoviesSort,
                                                                                 state: store.state),
-              seenlist: state.moviesState.seenlist.map{ $0.id }.sortedMoviesIds(by: selectedMoviesSort,
+              seenlist: state.moviesState.seenlist.map{ $0 }.sortedMoviesIds(by: selectedMoviesSort,
                                                                                 state: store.state))
     }
     
@@ -61,7 +61,7 @@ struct MyLists : ConnectedView {
     
     private func wishlistSection(props: Props) -> some View {
         Section(header: Text("\(props.wishlist.count) movies in wishlist (\(selectedMoviesSort.title()))")) {
-            ForEach(props.wishlist) {id in
+            ForEach(props.wishlist, id: \.self) {id in
                 NavigationLink(destination: MovieDetail(movieId: id)) {
                     MovieRow(movieId: id, displayListImage: false)
                 }
@@ -76,7 +76,7 @@ struct MyLists : ConnectedView {
     
     private func seenSection(props: Props) -> some View {
         Section(header: Text("\(props.seenlist.count) movies in seenlist (\(selectedMoviesSort.title()))")) {
-            ForEach(props.seenlist) {id in
+            ForEach(props.seenlist, id: \.self) {id in
                 NavigationLink(destination: MovieDetail(movieId: id)) {
                     MovieRow(movieId: id, displayListImage: false)
                 }
@@ -92,10 +92,12 @@ struct MyLists : ConnectedView {
         NavigationView {
             List {
                 customListsSection(props: props)
-                SegmentedControl(selection: $selectedList) {
+                
+                Picker(selection: $selectedList, label: Text("")) {
                     Text("Wishlist").tag(0)
                     Text("Seenlist").tag(1)
-                }
+                }.pickerStyle(SegmentedPickerStyle())
+                
                 if selectedList == 0 {
                     wishlistSection(props: props)
                 } else if selectedList == 1 {

@@ -23,14 +23,14 @@ struct ScrollableSelector: View {
                     .padding(4)
                     .background(Color.steam_gold)
                     .cornerRadius(8)
-                    .tapAction {
+                    .onTapGesture {
                         self.selection = index
                 }
             } else {
                 Text(items[index])
                     .font(.headline)
                     .foregroundColor(.primary)
-                    .tapAction {
+                    .onTapGesture {
                         self.selection = index
                 }
             }

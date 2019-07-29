@@ -12,7 +12,7 @@ import SwiftUIFlux
 
 struct MoviesHome : View {
     @EnvironmentObject private var store: Store<AppState>
-    @ObjectBinding private var selectedMenu = MoviesSelectedMenuStore(selectedMenu: .popular)
+    @ObservedObject private var selectedMenu = MoviesSelectedMenuStore(selectedMenu: .popular)
     @State private var isSettingPresented = false
     
     private var segmentedView: some View {

@@ -33,9 +33,9 @@ struct MovieReviews : View {
                 Image(systemName: "xmark").imageScale(.large)
             })
             }
-        .navigationViewStyle(.stack)
+        .navigationViewStyle(StackNavigationViewStyle())
         .onAppear{
-                self.store.dispatch(action: MoviesActions.FetchMovieReviews(movie: self.movie.id))
+                self.store.dispatch(action: MoviesActions.FetchMovieReviews(movie: self.movie))
             }
     }
 }

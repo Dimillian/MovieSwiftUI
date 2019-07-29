@@ -39,7 +39,7 @@ struct TabbarView: View {
     }
     
     var body: some View {
-        TabbedView(selection: $selectedTab) {
+        TabView(selection: $selectedTab) {
             MoviesHome().tabItem{
                 self.tabbarItem(text: "Movies", image: "film")
             }.tag(Tab.movies)

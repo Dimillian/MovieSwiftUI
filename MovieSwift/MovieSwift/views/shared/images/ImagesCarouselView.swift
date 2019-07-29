@@ -13,7 +13,7 @@ struct ImagesCarouselView : View {
     @Binding var selectedPoster: ImageData?
     @State var innerSelectedPoster: ImageData?
     
-    func computeCarouselPosterScale(width: Length, itemX: Length) -> Length {
+    func computeCarouselPosterScale(width: CGFloat, itemX: CGFloat) -> CGFloat {
         let trueX = itemX - (width/2 - 250/3)
         if trueX < -5 {
             return 1 - (abs(trueX) / width)
@@ -40,7 +40,7 @@ struct ImagesCarouselView : View {
                                                                             itemX: reader2.frame(in: .global).midX),
                                                      anchor: .center)
                                         .zIndex(1)
-                                        .tapAction {
+                                        .onTapGesture {
                                             withAnimation {
                                                 self.innerSelectedPoster = poster
                                             }
@@ -73,7 +73,7 @@ struct ImagesCarouselView : View {
                             .position(x: reader.frame(in: .local).midX,
                                       y: reader.frame(in: .local).midY)
                             .scaleEffect(1.3)
-                            .tapAction {
+                            .onTapGesture {
                                 withAnimation {
                                     self.innerSelectedPoster = nil
                                 }

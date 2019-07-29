@@ -82,7 +82,7 @@ struct PeopleDetail: ConnectedView {
                 .animation(Animation
                     .interpolatingSpring(stiffness: 70, damping: 7)
                 .delay(0.3))
-                .tapAction {
+                .onTapGesture {
                     self.isFanScoreUpdated = false
                 }
             }
@@ -172,8 +172,8 @@ extension PeopleDetail {
         }
         
         let isInFanClub = Binding<Bool>(
-            getValue: { state.peoplesState.fanClub.contains(self.peopleId) },
-            setValue: {
+            get: { state.peoplesState.fanClub.contains(self.peopleId) },
+            set: {
                 if !$0 {
                     dispatch(PeopleActions.RemoveFromFanClub(people: self.peopleId))
                 } else {

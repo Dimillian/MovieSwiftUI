@@ -9,7 +9,7 @@
 import SwiftUI
 import Combine
 
-class SearchTextWrapper: BindableObject {
+class SearchTextWrapper: ObservableObject {
     var willChange = PassthroughSubject<String, Never>()
     
     var searchText = "" {

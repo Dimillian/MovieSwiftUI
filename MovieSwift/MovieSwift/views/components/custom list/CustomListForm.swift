@@ -66,8 +66,8 @@ struct CustomListForm : View {
         Section() {
             ScrollView(.horizontal) {
                 HStack(spacing: 16) {
-                    ForEach(searchedMovies) { movieId in
-                        CustomListCoverRow(movieId: movieId).tapAction {
+                    ForEach(searchedMovies, id: \.self) { movieId in
+                        CustomListCoverRow(movieId: movieId).onTapGesture {
                             self.listMovieCover = movieId
                             self.searchTextWrapper.searchText = ""
                         }.frame(height: 200)
@@ -113,7 +113,7 @@ struct CustomListForm : View {
             }
             .navigationBarTitle(Text("New list"))
         }
-        .navigationViewStyle(.stack)
+        .navigationViewStyle(StackNavigationViewStyle())
         .onAppear() {
             if let id = self.editingListId,
                 let list = self.store.state.moviesState.customLists[id] {

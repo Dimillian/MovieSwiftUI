@@ -19,7 +19,7 @@ struct MovieOverview : View {
                 .font(.subheadline)
                 .foregroundColor(.secondary)
                 .lineLimit(self.isOverviewExpanded ? nil : 4)
-                .tapAction {
+                .onTapGesture {
                     withAnimation {
                         self.isOverviewExpanded.toggle()
                     }

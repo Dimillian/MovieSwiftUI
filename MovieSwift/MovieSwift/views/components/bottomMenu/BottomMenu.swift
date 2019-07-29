@@ -35,7 +35,7 @@ struct BottomMenu<Content>: View where Content: View {
     var isPresented: Binding<Bool>
     let content: () -> Content
     let onDismiss: () -> Void
-    var defaultHeight: Length = 150
+    var defaultHeight: CGFloat = 150
     
     @GestureState private var dragState = DragState.inactive
     
@@ -47,7 +47,7 @@ struct BottomMenu<Content>: View where Content: View {
         self.onDismiss = onDismiss
     }
     
-    func currentYOffset(geometry: GeometryProxy) -> Length {
+    func currentYOffset(geometry: GeometryProxy) -> CGFloat {
         if isPresented.value && dragState.isDragging {
             return geometry.frame(in: .local).maxY - defaultHeight + dragState.translation.height * 0.5
         } else if isPresented.value {

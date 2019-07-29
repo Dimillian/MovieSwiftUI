@@ -20,7 +20,7 @@ struct DiscoverPosterStyle: ViewModifier {
 
 extension View {
     func discoverPosterStyle() -> some View {
-        return Modified(content: self, modifier: DiscoverPosterStyle())
+        return ModifiedContent(content: self, modifier: DiscoverPosterStyle())
     }
 }
 

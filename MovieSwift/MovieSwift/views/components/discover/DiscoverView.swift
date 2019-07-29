@@ -23,9 +23,9 @@ struct DiscoverView : View {
     private let hapticFeedback = UIImpactFeedbackGenerator(style: .soft)
     
     #if targetEnvironment(macCatalyst)
-    private let bottomSafeInsetFix: Length = 100
+    private let bottomSafeInsetFix: CGFloat = 100
     #else
-    private let bottomSafeInsetFix: Length = 20
+    private let bottomSafeInsetFix: CGFloat = 20
     #endif
     
     // MARK: - Computed properties
@@ -42,7 +42,7 @@ struct DiscoverView : View {
         guard !movies.isEmpty else {
             return nil
         }
-        return store.state.moviesState.movies[movies.reversed()[0].id]
+        return store.state.moviesState.movies[movies.reversed()[0]]
     }
     
     private func scaleResistance() -> Double {
@@ -68,10 +68,10 @@ struct DiscoverView : View {
         if handler == .left || handler == .right {
             previousMovie = currentMovie.id
             if handler == .left {
-                hapticFeedback.impactOccurred(withIntensity: 0.8)
+                hapticFeedback.impactOccurred(intensity: 0.8)
                 store.dispatch(action: MoviesActions.AddToWishlist(movie: currentMovie.id))
             } else if handler == .right {
-                hapticFeedback.impactOccurred(withIntensity: 0.8)
+                hapticFeedback.impactOccurred(intensity: 0.8)
                 store.dispatch(action: MoviesActions.AddToSeenList(movie: currentMovie.id))
             }
             store.dispatch(action: MoviesActions.PopRandromDiscover())
@@ -132,8 +132,8 @@ struct DiscoverView : View {
                     .offset(x: 0, y: 30)
                     .opacity(self.draggedViewState.isDragging ? 0.0 : 1)
                     .animation(.spring())
-                    .tapAction {
-                        self.hapticFeedback.impactOccurred(withIntensity: 0.5)
+                    .onTapGesture {
+                        self.hapticFeedback.impactOccurred(intensity: 0.5)
                         self.previousMovie = self.currentMovie!.id
                         self.store.dispatch(action: MoviesActions.PopRandromDiscover())
                         self.fetchRandomMovies(force: false, filter: self.filter)
@@ -171,25 +171,27 @@ struct DiscoverView : View {
                     .position(x: reader.frame(in: .local).midX, y: 30)
                     .frame(height: 50)
             }
-            ForEach(movies) {id in
-                if self.movies.reversed().firstIndex(of: id) == 0 {
-                    DraggableCover(movieId: id,
-                                   gestureViewState: self.$draggedViewState,
-                                   onTapGesture: {
-                                    self.presentedMovieId = self.currentMovie?.id
-                    },
-                                   willEndGesture: { position in
-                                    self.willEndPosition = position
-                    },
-                                   endGestureHandler: { handler in
-                                    self.draggableCoverEndGestureHandler(handler: handler)
-                    })
-                } else {
-                    DiscoverCoverImage(imageLoader: ImageLoader(path: self.store.state.moviesState.movies[id]!.poster_path,
-                                                                size: .medium))
-                        .scaleEffect(1.0 - Length(self.movies.reversed().firstIndex(of: id)!) * 0.03 + Length(self.scaleResistance()))
-                        .padding(.bottom, Length(self.movies.reversed().firstIndex(of: id)! * 16) - self.dragResistance())
-                        .animation(.spring(response: 0.5, dampingFraction: 0.5, blendDuration: 0))
+            ForEach(movies, id: \.self) { id in
+                Group {
+                    if self.movies.reversed().firstIndex(of: id) == 0 {
+                        DraggableCover(movieId: id,
+                                       gestureViewState: self.$draggedViewState,
+                                       onTapGesture: {
+                                        self.presentedMovieId = self.currentMovie?.id
+                        },
+                                       willEndGesture: { position in
+                                        self.willEndPosition = position
+                        },
+                                       endGestureHandler: { handler in
+                                        self.draggableCoverEndGestureHandler(handler: handler)
+                        })
+                    } else {
+                        DiscoverCoverImage(imageLoader: ImageLoader(path: self.store.state.moviesState.movies[id]!.poster_path,
+                                                                    size: .medium))
+                            .scaleEffect(1.0 - CGFloat(self.movies.reversed().firstIndex(of: id)!) * 0.03 + CGFloat(self.scaleResistance()))
+                            .padding(.bottom, CGFloat(self.movies.reversed().firstIndex(of: id)! * 16) - self.dragResistance())
+                            .animation(.spring(response: 0.5, dampingFraction: 0.5, blendDuration: 0))
+                    }
                 }
             }
             GeometryReader { reader in
@@ -198,11 +200,6 @@ struct DiscoverView : View {
                               y: reader.frame(in: .local).maxY - reader.safeAreaInsets.bottom - self.bottomSafeInsetFix)
             }
         }
-        .sheet(item: $presentedMovieId,
-               onDismiss: { self.presentedMovieId = nil },
-               content: { movie in
-                NavigationView{ MovieDetail(movieId: movie) }.environmentObject(self.store)
-        })
             .sheet(isPresented: $isFilterFormPresented,
                    onDismiss: { self.isFilterFormPresented = false},
                    content: { DiscoverFilterForm(ondismiss: {

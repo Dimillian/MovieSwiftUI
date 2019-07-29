@@ -10,7 +10,7 @@ import Foundation
 import Combine
 import SwiftUI
 
-final class MoviesSelectedMenuStore: BindableObject {
+final class MoviesSelectedMenuStore: ObservableObject {
     var willChange = PassthroughSubject<Void, Never>()
     let pageListener: MoviesMenuListPageListener
     

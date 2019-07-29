@@ -21,7 +21,7 @@ struct PeopleDetailImagesRow : View {
                 HStack(alignment: .center, spacing: 16) {
                     ForEach(images) { image in
                         PeopleImage(imageLoader: ImageLoader(path: image.file_path, size: .cast))
-                            .tapAction {
+                            .onTapGesture {
                                 withAnimation{
                                     self.selectedPoster = image
                                 }

@@ -12,14 +12,14 @@ struct PosterStyle: ViewModifier {
     enum Size {
         case small, medium, big
         
-        func width() -> Length {
+        func width() -> CGFloat {
             switch self {
             case .small: return 53
             case .medium: return 100
             case .big: return 250
             }
         }
-        func height() -> Length {
+        func height() -> CGFloat {
             switch self {
             case .small: return 80
             case .medium: return 150
@@ -42,6 +42,6 @@ struct PosterStyle: ViewModifier {
 
 extension View {
     func posterStyle(loaded: Bool, size: PosterStyle.Size) -> some View {
-        return Modified(content: self, modifier: PosterStyle(loaded: loaded, size: size))
+        return ModifiedContent(content: self, modifier: PosterStyle(loaded: loaded, size: size))
     }
 }

@@ -9,7 +9,7 @@
 import SwiftUI
 
 struct SearchField : View {
-    @ObjectBinding var searchTextWrapper: SearchTextWrapper
+    @ObservedObject var searchTextWrapper: SearchTextWrapper
     let placeholder: String
     var dismissButtonTitle = "Cancel"
     var dismissButtonCallback: (() -> Void)?
@@ -19,7 +19,7 @@ struct SearchField : View {
             Image(systemName: "magnifyingglass")
             TextField(placeholder,
                       text: $searchTextWrapper.searchText)
-            .textFieldStyle(.roundedBorder)
+            .textFieldStyle(RoundedBorderTextFieldStyle())
             .padding(.trailing)
             .padding(.leading)
             if !searchTextWrapper.searchText.isEmpty {
@@ -66,7 +66,7 @@ struct SearchField_Previews : PreviewProvider {
                     SearchField(searchTextWrapper: withText,
                                 placeholder: "Search anything")
                 }
-            }.listStyle(.grouped)
+            }.listStyle(GroupedListStyle())
         }
     }
 }

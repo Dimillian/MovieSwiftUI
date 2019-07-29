@@ -68,8 +68,8 @@ struct DraggableCover : View {
     
     // MARK: - Internal consts
     private let minimumLongPressDuration = 0.01
-    private let shadowSize: Length = 4
-    private let shadowRadius: Length = 16
+    private let shadowSize: CGFloat = 4
+    private let shadowRadius: CGFloat = 16
     
     // MARK: - Constructor vars
     let movieId: Int

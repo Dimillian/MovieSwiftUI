@@ -16,12 +16,12 @@ struct MovieTopBackdropImage : View {
     
     var forceBlur: Bool = false
     var fill: Bool = false
-    var height: Length = 300
+    var height: CGFloat = 300
     
     private let threeshold: CGFloat = 50
     private let maxBlur: CGFloat = 100
     
-    func blurFor(minY: CGFloat) -> Length {
+    func blurFor(minY: CGFloat) -> CGFloat {
         if isExpanded {
             return 0
         }
@@ -46,7 +46,7 @@ struct MovieTopBackdropImage : View {
                             .animation(.easeInOut)
                             .onAppear{
                                 self.isImageLoaded = true
-                            }.tapAction {
+                            }.onTapGesture {
                                 self.isExpanded.toggle()
                             }
                     }

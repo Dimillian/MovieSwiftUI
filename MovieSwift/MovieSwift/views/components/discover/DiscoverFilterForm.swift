@@ -11,7 +11,7 @@ import SwiftUIFlux
 
 struct DiscoverFilterForm : View {
     @EnvironmentObject private var store: Store<AppState>
-    @Environment(\.isPresented) var isPresented
+    @Environment(\.presentationMode) var presentationMode
     
     let ondismiss: () -> Void
     
@@ -114,7 +114,7 @@ struct DiscoverFilterForm : View {
         Group {
             Section {
                 Button(action: {
-                    self.isPresented?.value = false
+                    self.presentationMode.value.dismiss()
                     self.ondismiss()
                     if let toSave = self.formFilter {
                         self.store.dispatch(action: MoviesActions.SaveDiscoverFilter(filter: toSave))
@@ -127,7 +127,7 @@ struct DiscoverFilterForm : View {
                 })
                 
                 Button(action: {
-                    self.isPresented?.value = false
+                    self.presentationMode.value.dismiss()
                     self.ondismiss()
                 }, label: {
                     Text("Cancel").foregroundColor(.red)
@@ -139,7 +139,7 @@ struct DiscoverFilterForm : View {
                     self.selectedCountry = 0
                     self.selectedDate = 0
                     self.selectedGenre = 0
-                    self.isPresented?.value = false
+                    self.presentationMode.value.dismiss()
                     self.ondismiss()
                     self.store.dispatch(action: MoviesActions.ResetRandomDiscover())
                     self.store.dispatch(action: MoviesActions.FetchRandomDiscover())
@@ -156,8 +156,8 @@ struct DiscoverFilterForm : View {
                 Section(header: Text("Saved filters"), content: {
                     ForEach(0 ..< self.savedFilters.count) { index in
                         Text(self.savedFilters[index].toText(state: self.store.state))
-                            .tapAction {
-                                self.isPresented?.value = false
+                            .onTapGesture {
+                                self.presentationMode.value.dismiss()
                                 self.ondismiss()
                                 self.store.dispatch(action: MoviesActions.ResetRandomDiscover())
                                 self.store.dispatch(action: MoviesActions.FetchRandomDiscover(filter: self.savedFilters[index]))
@@ -165,7 +165,7 @@ struct DiscoverFilterForm : View {
                     }
                     Text("Delete saved filters")
                         .foregroundColor(.red)
-                        .tapAction {
+                        .onTapGesture {
                             self.store.dispatch(action: MoviesActions.ClearSavedDiscoverFilters())
                     }
                 })
@@ -180,7 +180,7 @@ struct DiscoverFilterForm : View {
                 buttonsSection
                 savedFiltersSection
             }
-            .navigationViewStyle(.stack)
+            .navigationViewStyle(StackNavigationViewStyle())
                 .navigationBarTitle(Text("Discover filter"))
                 .onAppear {
                     if let startYear = self.currentFilter?.startYear {

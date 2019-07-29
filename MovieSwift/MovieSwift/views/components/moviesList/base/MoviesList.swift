@@ -51,7 +51,7 @@ struct MoviesList: ConnectedView {
     
     // MARK: - Computed views
     private func moviesRows(props: Props) -> some View {
-        ForEach(isSearching ? props.searchedMovies ?? [] : movies) { id in
+        ForEach(isSearching ? props.searchedMovies ?? [] : movies, id: \.self) { id in
             NavigationLink(destination: MovieDetail(movieId: id)) {
                 MovieRow(movieId: id)
             }
@@ -85,7 +85,7 @@ struct MoviesList: ConnectedView {
             } else if isSearching && props.searcherdPeoples?.isEmpty == true {
                 Text("No results")
             } else {
-                ForEach(props.searcherdPeoples ?? []) { id in
+                ForEach(props.searcherdPeoples ?? [], id: \.self) { id in
                     NavigationLink(destination: PeopleDetail(peopleId: id)) {
                         PeopleRow(peopleId: id)
                     }
@@ -110,10 +110,10 @@ struct MoviesList: ConnectedView {
     }
     
     private var searchFilterView: some View {
-        SegmentedControl(selection: $searchFilter) {
+        Picker(selection: $searchFilter, label: Text("")) {
             Text("Movies").tag(SearchFilter.movies.rawValue)
             Text("People").tag(SearchFilter.peoples.rawValue)
-        }
+        }.pickerStyle(SegmentedPickerStyle())
     }
     
     // MARK: - Body

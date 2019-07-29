@@ -18,8 +18,8 @@ struct PeopleContextMenu: ConnectedView {
     
     func map(state: AppState, dispatch: @escaping DispatchFunction) -> Props {
         let isInFanClub = Binding<Bool>(
-            getValue: { state.peoplesState.fanClub.contains(self.people) },
-            setValue: {
+            get: { state.peoplesState.fanClub.contains(self.people) },
+            set: {
                 if !$0 {
                     dispatch(PeopleActions.RemoveFromFanClub(people: self.people))
                 } else {
