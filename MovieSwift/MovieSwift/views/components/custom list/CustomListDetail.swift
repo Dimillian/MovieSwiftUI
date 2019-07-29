@@ -84,7 +84,7 @@ struct CustomListDetail : View {
     }
     
     var body: some View {
-        List {
+        List(selection: $selectedMovies) {
             if !isSearching {
                 CustomListHeaderRow(sorting: $selectedMoviesSort,  listId: listId)
             }
@@ -95,23 +95,25 @@ struct CustomListDetail : View {
                 .onTapGesture {
                     self.searchTextWrapper.searchText = ""
             }
-            if isSearching {
-                if searchedMovies?.isEmpty == true {
-                    Text("No result")
-                } else if searchedMovies == nil {
-                    Text("Loading")
+            Group {
+                if isSearching {
+                    if searchedMovies?.isEmpty == true {
+                        Text("No result")
+                    } else if searchedMovies == nil {
+                        Text("Loading")
+                    } else {
+                        ForEach(searchedMovies!, id: \.self) { movie in
+                            MovieRow(movieId: movie, displayListImage: false)
+                        }
+                    }
                 } else {
-                    ForEach(searchedMovies!, id: \.self) { movie in
-                        MovieRow(movieId: movie, displayListImage: false)
+                    ForEach(movies, id: \.self) { movie in
+                        NavigationLink(destination: MovieDetail(movieId: movie).environmentObject(self.store)) {
+                            MovieRow(movieId: movie, displayListImage: false)
+                        }
+                    }.onDelete { (index) in
+                        self.store.dispatch(action: MoviesActions.RemoveMovieFromCustomList(list: self.listId, movie: self.movies[index.first!]))
                     }
-                }
-            } else {
-                ForEach(movies, id: \.self) { movie in
-                    NavigationLink(destination: MovieDetail(movieId: movie).environmentObject(self.store)) {
-                        MovieRow(movieId: movie, displayListImage: false)
-                    }
-                }.onDelete { (index) in
-                    self.store.dispatch(action: MoviesActions.RemoveMovieFromCustomList(list: self.listId, movie: self.movies[index.first!]))
                 }
             }
             
