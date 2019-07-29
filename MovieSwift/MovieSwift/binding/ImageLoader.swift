@@ -11,18 +11,10 @@ import UIKit
 import Combine
 
 final class ImageLoader: ObservableObject {
-    let willChange = PassthroughSubject<Void, Never>()
-    
     let path: String?
     let size: ImageService.Size
     
-    var image: UIImage? = nil {
-        willSet {
-            if newValue != nil {
-                willChange.send()
-            }
-        }
-    }
+    @Published var image: UIImage? = nil
     
     var cancellable: AnyCancellable?
     

@@ -13,7 +13,7 @@ struct MovieBackdropImage : View {
         case background, normal
     }
     
-    @State var imageLoader: ImageLoader
+    @ObservedObject var imageLoader: ImageLoader
     @State var isImageLoaded = false
     @State var displayMode: DisplayMode = .normal
     

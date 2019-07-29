@@ -25,7 +25,7 @@ extension View {
 }
 
 struct DiscoverCoverImage : View {
-    @State var imageLoader: ImageLoader
+    @ObservedObject var imageLoader: ImageLoader
     
     var cachedImage: UIImage? {
         if let poster = imageLoader.path {

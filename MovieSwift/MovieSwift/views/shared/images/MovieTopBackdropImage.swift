@@ -9,7 +9,7 @@
 import SwiftUI
 
 struct MovieTopBackdropImage : View {
-    @State var imageLoader: ImageLoader
+    @ObservedObject var imageLoader: ImageLoader
     @State var isImageLoaded = false
     
     @Binding var isExpanded: Bool

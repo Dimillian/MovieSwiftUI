@@ -9,7 +9,7 @@
 import SwiftUI
 
 struct BigMoviePosterImage : View {
-    @State var imageLoader: ImageLoader
+    @ObservedObject var imageLoader: ImageLoader
     @State var isImageLoaded = false
     
     var body: some View {
