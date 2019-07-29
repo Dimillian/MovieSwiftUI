@@ -72,7 +72,7 @@ struct PeopleDetail: ConnectedView {
         Group {
             if isFanScoreUpdated {
                 VStack(spacing: 30) {
-                    Text("Fan score updated!")
+                    Text("Fan level updated!")
                         .font(.FjallaOne(size: 30))
                         .foregroundColor(.steam_gold)
                     PopularityBadge(score: props.movieScore ?? 0)
