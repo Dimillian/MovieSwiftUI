@@ -34,7 +34,6 @@ struct MovieRatingRow : View {
             .padding(.top, 8)
             .padding(.bottom, 8)
             .sheet(isPresented: $isReviewsPresented,
-                   onDismiss: { self.isReviewsPresented = false },
                    content: { MovieReviews(isPresented: self.$isReviewsPresented,
                                            movie: self.movie.id).environmentObject(store) })
     }

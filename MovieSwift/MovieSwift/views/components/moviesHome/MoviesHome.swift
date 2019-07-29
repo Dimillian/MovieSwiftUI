@@ -17,7 +17,14 @@ struct MoviesHome : View {
     
     private var segmentedView: some View {
         ScrollableSelector(items: MoviesMenu.allCases.map{ $0.title() },
-                           selection: $selectedMenu.menu.rawValue)
+                           selection: Binding<Int>(
+                            get: {
+                                self.selectedMenu.menu.rawValue
+                           },
+                            set: {
+                                self.selectedMenu.menu = MoviesMenu(rawValue: $0)!
+                           })
+        )
     }
     
     var body: some View {
