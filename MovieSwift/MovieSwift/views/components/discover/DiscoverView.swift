@@ -18,7 +18,7 @@ struct DiscoverView : View {
     @State private var draggedViewState = DraggableCover.DragState.inactive
     @State private var previousMovie: Int? = nil
     @State private var isFilterFormPresented = false
-    @State private var presentedMovieId: Int? = nil
+    @State private var isMovieDetailPresented = false
     @State private var willEndPosition: CGSize? = nil
     private let hapticFeedback = UIImpactFeedbackGenerator(style: .soft)
     
@@ -164,47 +164,47 @@ struct DiscoverView : View {
         }
     }
     
-    var body: some View {
-        ZStack(alignment: .center) {
-            GeometryReader { reader in
-                self.filterView
-                    .position(x: reader.frame(in: .local).midX, y: 30)
-                    .frame(height: 50)
-            }
-            ForEach(movies, id: \.self) { id in
-                Group {
-                    if self.movies.reversed().firstIndex(of: id) == 0 {
-                        DraggableCover(movieId: id,
-                                       gestureViewState: self.$draggedViewState,
-                                       onTapGesture: {
-                                        self.presentedMovieId = self.currentMovie?.id
-                        },
-                                       willEndGesture: { position in
-                                        self.willEndPosition = position
-                        },
-                                       endGestureHandler: { handler in
-                                        self.draggableCoverEndGestureHandler(handler: handler)
-                        })
-                    } else {
-                        DiscoverCoverImage(imageLoader: ImageLoader(path: self.store.state.moviesState.movies[id]!.poster_path,
-                                                                    size: .medium))
-                            .scaleEffect(1.0 - CGFloat(self.movies.reversed().firstIndex(of: id)!) * 0.03 + CGFloat(self.scaleResistance()))
-                            .padding(.bottom, CGFloat(self.movies.reversed().firstIndex(of: id)! * 16) - self.dragResistance())
-                            .animation(.spring(response: 0.5, dampingFraction: 0.5, blendDuration: 0))
-                    }
+    var draggableMovies: some View {
+        ForEach(movies, id: \.self) { id in
+            Group {
+                if self.movies.reversed().firstIndex(of: id) == 0 {
+                    DraggableCover(movieId: id,
+                                   gestureViewState: self.$draggedViewState,
+                                   onTapGesture: {
+                                    self.isMovieDetailPresented = true
+                    },
+                                   willEndGesture: { position in
+                                    self.willEndPosition = position
+                    },
+                                   endGestureHandler: { handler in
+                                    self.draggableCoverEndGestureHandler(handler: handler)
+                    })
+                } else {
+                    DiscoverCoverImage(imageLoader: ImageLoader(path: self.store.state.moviesState.movies[id]!.poster_path,
+                                                                size: .medium))
+                        .scaleEffect(1.0 - CGFloat(self.movies.reversed().firstIndex(of: id)!) * 0.03 + CGFloat(self.scaleResistance()))
+                        .padding(.bottom, CGFloat(self.movies.reversed().firstIndex(of: id)! * 16) - self.dragResistance())
+                        .animation(.spring(response: 0.5, dampingFraction: 0.5, blendDuration: 0))
                 }
             }
+        }
+    }
+    
+    var body: some View {
+        ZStack(alignment: .center) {
+            draggableMovies
             GeometryReader { reader in
+                self.filterView
+                    .position(x: reader.frame(in: .local).midX,
+                              y: reader.frame(in: .local).minY + reader.safeAreaInsets.top + 10)
+                    .frame(height: 50)
                 self.actionsButtons
                     .position(x: reader.frame(in: .local).midX,
                               y: reader.frame(in: .local).maxY - reader.safeAreaInsets.bottom - self.bottomSafeInsetFix)
             }
         }
-            .sheet(isPresented: $isFilterFormPresented,
-                   onDismiss: { self.isFilterFormPresented = false},
-                   content: { DiscoverFilterForm(ondismiss: {
-                    self.isFilterFormPresented = false
-                   }).environmentObject(self.store) })
+        .sheet(isPresented: $isFilterFormPresented,
+               content: { DiscoverFilterForm().environmentObject(self.store) })
             .onAppear {
                 self.hapticFeedback.prepare()
                 self.fetchRandomMovies(force: false, filter: self.filter)

@@ -12,7 +12,7 @@ import Combine
 class SearchTextWrapper: ObservableObject {
     var willChange = PassthroughSubject<String, Never>()
     
-    var searchText = "" {
+    @Published var searchText = "" {
         willSet {
             willChange.send(newValue)
         }

@@ -19,13 +19,13 @@ final class CustomListFormSearchWrapper: SearchTextWrapper {
 
 struct CustomListForm : View {
     @EnvironmentObject var store: Store<AppState>
+    @Environment(\.presentationMode) var presentationMode
     
     @State private var searchTextWrapper = CustomListFormSearchWrapper()
     @State var listName: String = ""
     @State var listMovieCover: Int?
     
     let editingListId: Int?
-    let shouldDismiss: (() -> Void)?
     
     private var searchedMovies: [Int] {
         return store.state.moviesState.search[searchTextWrapper.searchText]?.map{ $0 } ?? []
@@ -91,13 +91,13 @@ struct CustomListForm : View {
                 } else {
                     self.store.dispatch(action: MoviesActions.AddCustomList(list: newList))
                 }
-                self.shouldDismiss?()
+                self.presentationMode.value.dismiss()
                 
             }, label: {
                 Text(self.editingListId != nil ? "Save changes" : "Create").foregroundColor(.blue)
             })
             Button(action: {
-                self.shouldDismiss?()
+                self.presentationMode.value.dismiss()
             }, label: {
                 Text("Cancel").foregroundColor(.red)
             })
@@ -127,9 +127,7 @@ struct CustomListForm : View {
 #if DEBUG
 struct CustomListForm_Previews : PreviewProvider {
     static var previews: some View {
-        CustomListForm(editingListId: nil, shouldDismiss: {
-            
-        }).environmentObject(sampleStore)
+        CustomListForm(editingListId: nil).environmentObject(sampleStore)
     }
 }
 #endif

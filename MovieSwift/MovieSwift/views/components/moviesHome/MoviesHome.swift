@@ -40,7 +40,6 @@ struct MoviesHome : View {
                     }.frame(width: 30, height: 30)
                 }
             ).sheet(isPresented: $isSettingPresented,
-                    onDismiss: { self.isSettingPresented = false },
                     content: { SettingsForm() })
         }
     }

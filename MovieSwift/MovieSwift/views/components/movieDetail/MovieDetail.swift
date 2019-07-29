@@ -151,11 +151,8 @@ struct MovieDetail: ConnectedView {
             }
             .actionSheet(isPresented: $isAddSheetPresented, content: { addActionSheet(props: props) })
                 .sheet(isPresented: $isCreateListFormPresented,
-                       onDismiss: { self.isCreateListFormPresented = false},
-                       content: { CustomListForm(editingListId: nil,
-                                                 shouldDismiss: {
-                                                    self.isCreateListFormPresented = false
-                       }).environmentObject(store) })
+                       content: { CustomListForm(editingListId: nil)
+                        .environmentObject(store) })
                 .disabled(selectedPoster != nil)
                 .animation(nil)
                 .blur(radius: selectedPoster != nil ? 30 : 0)

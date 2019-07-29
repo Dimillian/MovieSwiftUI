@@ -123,11 +123,7 @@ struct CustomListDetail : View {
             .edgesIgnoringSafeArea(isSearching ? .leading : .top)
             .actionSheet(isPresented: $isSortActionSheetPresented, content: { sortActionSheet })
             .sheet(isPresented: $isEditingFormPresented,
-                   onDismiss: { self.isEditingFormPresented = false },
-                   content: { CustomListForm(editingListId: self.listId,
-                                             shouldDismiss: {
-                                                self.isEditingFormPresented = false
-                   }).environmentObject(self.store)
+                   content: { CustomListForm(editingListId: self.listId).environmentObject(self.store)
             })
     }
 }

@@ -114,12 +114,8 @@ struct MyLists : ConnectedView {
                         .frame(width: 25, height: 25)
                 }))
         }
-        .sheet(isPresented: $isEditingFormPresented,
-               onDismiss: { self.isEditingFormPresented = false }) {
-                CustomListForm(editingListId: nil,
-                               shouldDismiss: {
-                                self.isEditingFormPresented = false
-                }).environmentObject(self.store)
+        .sheet(isPresented: $isEditingFormPresented) {
+                CustomListForm(editingListId: nil).environmentObject(self.store)
         }
     }
 }
