@@ -113,6 +113,7 @@
 		69FFAFAA22A9AA6500801F3C /* MoviesState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69FFAFA922A9AA6500801F3C /* MoviesState.swift */; };
 		69FFAFAC22A9AABB00801F3C /* MoviesReducer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69FFAFAB22A9AABB00801F3C /* MoviesReducer.swift */; };
 		69FFAFAE22A9AB1D00801F3C /* MoviesActions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69FFAFAD22A9AB1D00801F3C /* MoviesActions.swift */; };
+		752BFFD822EF66A5005A9F40 /* HTTPURLResponse+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 752BFFD722EF66A5005A9F40 /* HTTPURLResponse+Extension.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -238,6 +239,7 @@
 		69FFAFA922A9AA6500801F3C /* MoviesState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoviesState.swift; sourceTree = "<group>"; };
 		69FFAFAB22A9AABB00801F3C /* MoviesReducer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoviesReducer.swift; sourceTree = "<group>"; };
 		69FFAFAD22A9AB1D00801F3C /* MoviesActions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoviesActions.swift; sourceTree = "<group>"; };
+		752BFFD722EF66A5005A9F40 /* HTTPURLResponse+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "HTTPURLResponse+Extension.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -408,6 +410,7 @@
 				695D55DC22B2316C00F4E68C /* Color.swift */,
 				691E905822BF5AE800AA23FE /* Font.swift */,
 				695F0F9122D490110066E168 /* ActionSheet.swift */,
+				752BFFD722EF66A5005A9F40 /* HTTPURLResponse+Extension.swift */,
 			);
 			path = extensions;
 			sourceTree = "<group>";
@@ -869,6 +872,7 @@
 				69FFAF9D22A9A6D500801F3C /* PaginatedResponse.swift in Sources */,
 				697E531E22C2627B003A7C01 /* SettingsForm.swift in Sources */,
 				695882C722AD1AB500AFABA9 /* PeopleActions.swift in Sources */,
+				752BFFD822EF66A5005A9F40 /* HTTPURLResponse+Extension.swift in Sources */,
 				695F0F9822D4AB710066E168 /* MoviesPageListener.swift in Sources */,
 				695882CD22AD2F3000AFABA9 /* MovieCrosslinePeopleRow.swift in Sources */,
 				6953B50E22D3774E00859723 /* CustomListHeaderRow.swift in Sources */,

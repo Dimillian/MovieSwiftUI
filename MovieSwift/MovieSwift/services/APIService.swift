@@ -10,7 +10,7 @@ import Foundation
 
 struct APIService {
     let baseURL = URL(string: "https://api.themoviedb.org/3")!
-    let apiKey = "1d9b898a212ea52e283351e521e17871"
+    let apiKey = "YOUR_KEY" // TODO: Change to your key (https://www.themoviedb.org/account/signup)
     static let shared = APIService()
     let decoder = JSONDecoder()
     
@@ -90,29 +90,43 @@ struct APIService {
         var request = URLRequest(url: components.url!)
         request.httpMethod = "GET"
         let task = URLSession.shared.dataTask(with: request) { (data, response, error) in
-            guard let data = data else {
-                DispatchQueue.main.async {
-                    completionHandler(.failure(.noResponse))
-                }
-                return
+            
+            guard let data = data,
+                let httpResponse = response as? HTTPURLResponse else {
+                fatalError("Something is wrong with the request results(optional values)")
             }
-            guard error == nil else {
-                DispatchQueue.main.async {
-                    completionHandler(.failure(.networkError(error: error!)))
+            
+            switch httpResponse.status.responseType {
+            case .success:
+                do {
+                    let object = try self.decoder.decode(T.self, from: data)
+                    DispatchQueue.main.async {
+                        completionHandler(.success(object))
+                    }
+                } catch let error {
+                    DispatchQueue.main.async {
+                        #if DEBUG
+                        print("JSON Decoding Error: \(error)")
+                        #endif
+                        completionHandler(.failure(.jsonDecodingError(error: error)))
+                    }
                 }
-                return
-            }
-            do {
-                let object = try self.decoder.decode(T.self, from: data)
-                DispatchQueue.main.async {
-                    completionHandler(.success(object))
-                }
-            } catch let error {
+            case .clientError:
                 DispatchQueue.main.async {
                     #if DEBUG
-                    print("JSON Decoding Error: \(error)")
+                    if httpResponse.status == .unauthorized {
+                        print("Did you added your API Key?")
+                    }
                     #endif
-                    completionHandler(.failure(.jsonDecodingError(error: error)))
+                    let error = NSError(domain:"networkError", code:httpResponse.statusCode, userInfo:nil)
+                    completionHandler(.failure(.networkError(error: error)))
+                }
+            default: // All other error types
+                DispatchQueue.main.async {
+                    #if DEBUG
+                    print("Server Error Code: \(httpResponse.status.hashValue)")
+                    #endif
+                    completionHandler(.failure(.noResponse))
                 }
             }
         }
