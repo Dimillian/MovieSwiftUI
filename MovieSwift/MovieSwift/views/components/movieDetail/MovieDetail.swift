@@ -143,16 +143,16 @@ struct MovieDetail: ConnectedView {
                 }
             }
             .edgesIgnoringSafeArea(.top)
-                .navigationBarItems(trailing: Button(action: onAddButton) {
-                    Image(systemName: "text.badge.plus").imageScale(.large)
-                })
+            .navigationBarItems(trailing: Button(action: onAddButton) {
+                Image(systemName: "text.badge.plus").imageScale(.large)
+            })
                 .onAppear {
                     self.fetchMovieDetails()
             }
             .actionSheet(isPresented: $isAddSheetPresented, content: { addActionSheet(props: props) })
-                .sheet(isPresented: $isCreateListFormPresented,
-                       content: { CustomListForm(editingListId: nil)
-                        .environmentObject(store) })
+            .sheet(isPresented: $isCreateListFormPresented,
+                   content: { CustomListForm(editingListId: nil)
+                    .environmentObject(store) })
                 .disabled(selectedPoster != nil)
                 .animation(nil)
                 .blur(radius: selectedPoster != nil ? 30 : 0)

@@ -17,8 +17,8 @@ struct DiscoverView : View {
     
     @State private var draggedViewState = DraggableCover.DragState.inactive
     @State private var previousMovie: Int? = nil
+    @State private var presentedMovie: Movie? = nil
     @State private var isFilterFormPresented = false
-    @State private var isMovieDetailPresented = false
     @State private var willEndPosition: CGSize? = nil
     private let hapticFeedback = UIImpactFeedbackGenerator(style: .soft)
     
@@ -164,14 +164,14 @@ struct DiscoverView : View {
         }
     }
     
-    var draggableMovies: some View {
+    private var draggableMovies: some View {
         ForEach(movies, id: \.self) { id in
             Group {
                 if self.movies.reversed().firstIndex(of: id) == 0 {
                     DraggableCover(movieId: id,
                                    gestureViewState: self.$draggedViewState,
                                    onTapGesture: {
-                                    self.isMovieDetailPresented = true
+                                    self.presentedMovie = self.currentMovie
                     },
                                    willEndGesture: { position in
                                     self.willEndPosition = position
@@ -179,6 +179,14 @@ struct DiscoverView : View {
                                    endGestureHandler: { handler in
                                     self.draggableCoverEndGestureHandler(handler: handler)
                     })
+                        .sheet(item: self.$presentedMovie, onDismiss: {
+                            self.presentedMovie = nil
+                        }, content: { movie in
+                            NavigationView {
+                                MovieDetail(movieId: movie.id)
+                            }.navigationViewStyle(StackNavigationViewStyle())
+                            .environmentObject(self.store)
+                        })
                 } else {
                     DiscoverCoverImage(imageLoader: ImageLoaderCache.shared.loaderFor(path: self.store.state.moviesState.movies[id]!.poster_path,
                                                                                       size: .medium))
@@ -198,16 +206,15 @@ struct DiscoverView : View {
                     .position(x: reader.frame(in: .local).midX,
                               y: reader.frame(in: .local).minY + reader.safeAreaInsets.top + 10)
                     .frame(height: 50)
+                    .sheet(isPresented: self.$isFilterFormPresented, content: { DiscoverFilterForm().environmentObject(self.store) })
                 self.actionsButtons
                     .position(x: reader.frame(in: .local).midX,
                               y: reader.frame(in: .local).maxY - reader.safeAreaInsets.bottom - self.bottomSafeInsetFix)
             }
         }
-        .sheet(isPresented: $isFilterFormPresented,
-               content: { DiscoverFilterForm().environmentObject(self.store) })
-            .onAppear {
-                self.hapticFeedback.prepare()
-                self.fetchRandomMovies(force: false, filter: self.filter)
+        .onAppear {
+            self.hapticFeedback.prepare()
+            self.fetchRandomMovies(force: false, filter: self.filter)
         }
     }
 }
