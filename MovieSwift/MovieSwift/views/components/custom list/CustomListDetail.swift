@@ -18,6 +18,7 @@ final class CustomListSearchMovieTextWrapper: SearchTextWrapper {
 struct CustomListDetail : View {
     @EnvironmentObject private var store: Store<AppState>
     @State private var searchTextWrapper = CustomListSearchMovieTextWrapper()
+    @State private var isSearching = false
     @State private var selectedMovies = Set<Int>()
     @State private var isEditingFormPresented = false
     @State private var selectedMoviesSort = MoviesSort.byReleaseDate
@@ -32,13 +33,9 @@ struct CustomListDetail : View {
     private var movies: [Int] {
         list.movies.sortedMoviesIds(by: selectedMoviesSort, state: store.state)
     }
-    
-    private var isSearching: Bool {
-        !searchTextWrapper.searchText.isEmpty
-    }
-    
+        
     private var searchedMovies: [Int]? {
-        return store.state.moviesState.search[searchTextWrapper.searchText]
+        store.state.moviesState.search[searchTextWrapper.searchText]
     }
     
     private var navbarButton: some View {
@@ -46,11 +43,14 @@ struct CustomListDetail : View {
             if isSearching {
                 Button(action: {
                     self.searchTextWrapper.searchText = ""
-                    self.store.dispatch(action: MoviesActions.AddMoviesToCustomList(list: self.listId,
-                                                                                    movies: self.selectedMovies.map{ $0 }))
-                    self.selectedMovies = Set<Int>()
+                    self.isSearching = false
+                    if !self.selectedMovies.isEmpty {
+                        self.store.dispatch(action: MoviesActions.AddMoviesToCustomList(list: self.listId,
+                                                                                        movies: self.selectedMovies.map{ $0 }))
+                        self.selectedMovies = Set<Int>()
+                    }
                 }) {
-                    Text("Add movies (\(selectedMovies.count))")
+                    Text(selectedMovies.isEmpty ? "Cancel" : "Add movies (\(selectedMovies.count))")
                 }
             } else {
                 HStack(spacing: 16) {
@@ -84,12 +84,13 @@ struct CustomListDetail : View {
     }
     
     var body: some View {
-        List(selection: $selectedMovies) {
+        List {
             if !isSearching {
                 CustomListHeaderRow(sorting: $selectedMoviesSort,  listId: listId)
             }
             SearchField(searchTextWrapper: searchTextWrapper,
-                        placeholder: "Search movies to add to your list")
+                        placeholder: "Search movies to add to your list",
+                        isSearching: $isSearching)
                 .listRowInsets(EdgeInsets())
                 .padding(4)
                 .onTapGesture {
@@ -98,17 +99,28 @@ struct CustomListDetail : View {
             Group {
                 if isSearching {
                     if searchedMovies?.isEmpty == true {
-                        Text("No result")
+                        Text("No results")
                     } else if searchedMovies == nil {
-                        Text("Loading")
+                        Text("Searching...")
                     } else {
                         ForEach(searchedMovies!, id: \.self) { movie in
-                            MovieRow(movieId: movie, displayListImage: false)
+                            ZStack(alignment: .center) {
+                                MovieRow(movieId: movie, displayListImage: false)
+                                Rectangle().foregroundColor(self.selectedMovies.contains(movie) ?
+                                    Color.gray.opacity(0.2) : .clear)
+                            }
+                            .onTapGesture {
+                                if self.selectedMovies.contains(movie) {
+                                    self.selectedMovies.remove(movie)
+                                } else {
+                                    self.selectedMovies.insert(movie)
+                                }
+                            }
                         }
                     }
                 } else {
                     ForEach(movies, id: \.self) { movie in
-                        NavigationLink(destination: MovieDetail(movieId: movie).environmentObject(self.store)) {
+                        NavigationLink(destination: MovieDetail(movieId: movie)) {
                             MovieRow(movieId: movie, displayListImage: false)
                         }
                     }.onDelete { (index) in
@@ -118,7 +130,6 @@ struct CustomListDetail : View {
             }
             
         }
-        .environment(\.editMode, .constant(searchedMovies != nil && searchedMovies?.isEmpty == false ? .active : .inactive))
             .navigationBarTitle(Text(""),
                                 displayMode: isSearching ? .inline : .automatic)
             .navigationBarItems(trailing: navbarButton)

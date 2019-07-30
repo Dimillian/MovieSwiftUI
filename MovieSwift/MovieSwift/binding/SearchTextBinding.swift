@@ -10,14 +10,20 @@ import SwiftUI
 import Combine
 
 class SearchTextWrapper: ObservableObject {
-    var willChange = PassthroughSubject<String, Never>()
-    
     @Published var searchText = "" {
+        willSet {
+            DispatchQueue.main.async {
+                self.searchSubject.send(newValue)
+            }
+        }
         didSet {
-            willChange.send(searchText)
-            onUpdateText(text: searchText)
+            DispatchQueue.main.async {
+                self.onUpdateText(text: self.searchText)
+            }
         }
     }
+        
+    let searchSubject = PassthroughSubject<String, Never>()
     
     private var searchCancellable: Cancellable? {
         didSet {
@@ -30,14 +36,13 @@ class SearchTextWrapper: ObservableObject {
     }
     
     init() {
-        searchCancellable = willChange.eraseToAnyPublisher()
+        searchCancellable = searchSubject.eraseToAnyPublisher()
             .map {
                 $0
         }
         .debounce(for: .milliseconds(500), scheduler: DispatchQueue.main)
         .removeDuplicates()
         .filter { !$0.isEmpty }
-        .receive(on: DispatchQueue.main)
         .sink(receiveValue: { (searchText) in
             self.onUpdateTextDebounced(text: searchText)
         })

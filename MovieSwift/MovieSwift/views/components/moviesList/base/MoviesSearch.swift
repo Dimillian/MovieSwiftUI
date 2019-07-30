@@ -12,7 +12,8 @@ final class MoviesSearchPageListener: MoviesPagesListener {
     var text: String?
     
     override func loadPage() {
-        if let text = text {
+        if let text = text, !text.isEmpty {
+            store.dispatch(action: MoviesActions.FetchSearchKeyword(query: text))
             store.dispatch(action: MoviesActions.FetchSearch(query: text, page: currentPage))
             store.dispatch(action: PeopleActions.FetchSearch(query: text, page: currentPage))
         }
@@ -21,10 +22,6 @@ final class MoviesSearchPageListener: MoviesPagesListener {
 
 final class MoviesSearchTextWrapper: SearchTextWrapper {
     var searchPageListener = MoviesSearchPageListener()
-    
-    override func onUpdateText(text: String) {
-        store.dispatch(action: MoviesActions.FetchSearchKeyword(query: text))
-    }
     
     override func onUpdateTextDebounced(text: String) {
         searchPageListener.text = text

@@ -26,12 +26,12 @@ struct MoviesList: ConnectedView {
     // MARK: - binding
     @State private var searchFilter: Int = SearchFilter.movies.rawValue
     @State private var searchTextWrapper = MoviesSearchTextWrapper()
+    @State private var isSearching = false
     
     // MARK: - Public var
     let movies: [Int]
     let displaySearch: Bool
     var pageListener: MoviesPagesListener?
-    var deleteHandler: ((Int) -> Void)? = nil
     var headerView: AnyView?
     
     // MARK: - Computed Props
@@ -42,11 +42,6 @@ struct MoviesList: ConnectedView {
                          searcherdPeoples: state.peoplesState.search[searchTextWrapper.searchText])
         }
         return Props(searchedMovies: nil, searchedKeywords: nil, searcherdPeoples: nil)
-    }
-    
-    // MARK: - Computed properties
-    private var isSearching: Bool {
-        return !searchTextWrapper.searchText.isEmpty
     }
     
     // MARK: - Computed views
@@ -106,7 +101,8 @@ struct MoviesList: ConnectedView {
     
     private var searchField: some View {
         SearchField(searchTextWrapper: searchTextWrapper,
-                    placeholder: "Search any movies or person")
+                    placeholder: "Search any movies or person",
+                    isSearching: $isSearching)
     }
     
     private var searchFilterView: some View {

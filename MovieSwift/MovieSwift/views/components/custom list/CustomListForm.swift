@@ -22,6 +22,7 @@ struct CustomListForm : View {
     @Environment(\.presentationMode) var presentationMode
     
     @State private var searchTextWrapper = CustomListFormSearchWrapper()
+    @State private var isSearching = false
     @State var listName: String = ""
     @State var listMovieCover: Int?
     
@@ -45,7 +46,8 @@ struct CustomListForm : View {
         Section(header: Text("List cover")) {
             if listMovieCover == nil {
                 SearchField(searchTextWrapper: searchTextWrapper,
-                            placeholder: "Search and add a movie as your cover")
+                            placeholder: "Search and add a movie as your cover",
+                            isSearching: $isSearching)
             }
             if listMovieCover != nil {
                 CustomListCoverRow(movieId: listMovieCover!)
@@ -70,10 +72,12 @@ struct CustomListForm : View {
                         CustomListCoverRow(movieId: movieId).onTapGesture {
                             self.listMovieCover = movieId
                             self.searchTextWrapper.searchText = ""
-                        }.frame(height: 200)
+                        }
                     }
                 }.padding(.leading, 16)
-            }.listRowInsets(EdgeInsets())
+            }
+            .frame(height: 200)
+            .listRowInsets(EdgeInsets())
         }
     }
     

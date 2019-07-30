@@ -185,7 +185,7 @@ struct DiscoverView : View {
                             NavigationView {
                                 MovieDetail(movieId: movie.id)
                             }.navigationViewStyle(StackNavigationViewStyle())
-                            .environmentObject(self.store)
+                                .environmentObject(self.store)
                         })
                 } else {
                     DiscoverCoverImage(imageLoader: ImageLoaderCache.shared.loaderFor(path: self.store.state.moviesState.movies[id]!.poster_path,

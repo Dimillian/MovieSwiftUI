@@ -14,7 +14,9 @@ struct MovieOverview : View {
     
     var body: some View {
         VStack(alignment: .leading, spacing: 8) {
-            Text("Overview:").titleStyle()
+            Text("Overview:")
+                .titleStyle()
+                .lineLimit(1)
             Text(movie.overview)
                 .font(.subheadline)
                 .foregroundColor(.secondary)
@@ -30,6 +32,7 @@ struct MovieOverview : View {
                 }
             }, label: {
                 Text(self.isOverviewExpanded ? "Less" : "Read more")
+                    .lineLimit(1)
                     .foregroundColor(.steam_blue)
             })
         }

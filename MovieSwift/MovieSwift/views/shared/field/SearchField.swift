@@ -7,12 +7,32 @@
 //
 
 import SwiftUI
+import Combine
 
 struct SearchField : View {
     @ObservedObject var searchTextWrapper: SearchTextWrapper
     let placeholder: String
-    var dismissButtonTitle = "Cancel"
+    @Binding var isSearching: Bool
+    var dismissButtonTitle: String
     var dismissButtonCallback: (() -> Void)?
+    
+    private var searchCancellable: Cancellable? = nil
+    
+    init(searchTextWrapper: SearchTextWrapper,
+         placeholder: String,
+         isSearching: Binding<Bool>,
+         dismissButtonTitle: String = "Cancel",
+         dismissButtonCallback: (() -> Void)? = nil) {
+        self.searchTextWrapper = searchTextWrapper
+        self.placeholder = placeholder
+        self._isSearching = isSearching
+        self.dismissButtonTitle = dismissButtonTitle
+        self.dismissButtonCallback = dismissButtonCallback
+        
+        self.searchCancellable = searchTextWrapper.searchSubject.sink(receiveValue: { value in
+            isSearching.value = !value.isEmpty
+        })
+    }
     
     var body: some View {
         return HStack(alignment: .center, spacing: 0) {
@@ -25,12 +45,15 @@ struct SearchField : View {
             if !searchTextWrapper.searchText.isEmpty {
                 Button(action: {
                     self.searchTextWrapper.searchText = ""
+                    self.isSearching = false
                     self.dismissButtonCallback?()
                 }, label: {
                     Text(dismissButtonTitle).foregroundColor(.steam_blue)
                 }).animation(.easeInOut)
             }
-        }.padding(4)
+        }
+        .padding(4)
+        
     }
 }
 
@@ -42,29 +65,37 @@ struct SearchField_Previews : PreviewProvider {
         
         return VStack {
             SearchField(searchTextWrapper: SearchTextWrapper(),
-                        placeholder: "Search anything")
+                        placeholder: "Search anything",
+                        isSearching: .constant(false))
             SearchField(searchTextWrapper: withText,
-                        placeholder: "Search anything")
+                        placeholder: "Search anything",
+                        isSearching: .constant(false))
             
             List {
                 SearchField(searchTextWrapper: withText,
-                            placeholder: "Search anything")
+                            placeholder: "Search anything",
+                            isSearching: .constant(false))
                 Section(header: SearchField(searchTextWrapper: withText,
-                                            placeholder: "Search anything"))
+                                            placeholder: "Search anything",
+                                            isSearching: .constant(false)))
                 {
                     SearchField(searchTextWrapper: withText,
-                                placeholder: "Search anything")
+                                placeholder: "Search anything",
+                                isSearching: .constant(false))
                 }
             }
             
             List {
                 SearchField(searchTextWrapper: withText,
-                            placeholder: "Search anything")
+                            placeholder: "Search anything",
+                            isSearching: .constant(false))
                 Section(header: SearchField(searchTextWrapper: withText,
-                                            placeholder: "Search anything"))
+                                            placeholder: "Search anything",
+                                            isSearching: .constant(false)))
                 {
                     SearchField(searchTextWrapper: withText,
-                                placeholder: "Search anything")
+                                placeholder: "Search anything",
+                                isSearching: .constant(false))
                 }
             }.listStyle(GroupedListStyle())
         }
