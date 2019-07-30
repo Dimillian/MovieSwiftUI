@@ -13,10 +13,8 @@ class SearchTextWrapper: ObservableObject {
     var willChange = PassthroughSubject<String, Never>()
     
     @Published var searchText = "" {
-        willSet {
-            willChange.send(newValue)
-        }
         didSet {
+            willChange.send(searchText)
             onUpdateText(text: searchText)
         }
     }
@@ -37,13 +35,12 @@ class SearchTextWrapper: ObservableObject {
                 $0
         }
         .debounce(for: .milliseconds(500), scheduler: DispatchQueue.main)
-            .removeDuplicates()
-            .filter { !$0.isEmpty }
-            .sink(receiveValue: { (searchText) in
-                DispatchQueue.main.async {
-                    self.onUpdateTextDebounced(text: searchText)
-                }
-            })
+        .removeDuplicates()
+        .filter { !$0.isEmpty }
+        .receive(on: DispatchQueue.main)
+        .sink(receiveValue: { (searchText) in
+            self.onUpdateTextDebounced(text: searchText)
+        })
     }
     
     func onUpdateText(text: String) {
