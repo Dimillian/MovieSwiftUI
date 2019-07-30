@@ -20,7 +20,7 @@ struct PeopleDetailImagesRow : View {
             ScrollView(.horizontal, showsIndicators: false) {
                 HStack(alignment: .center, spacing: 16) {
                     ForEach(images) { image in
-                        PeopleImage(imageLoader: ImageLoader(path: image.file_path, size: .cast))
+                        PeopleImage(imageLoader: ImageLoaderCache.shared.loaderFor(path: image.file_path, size: .cast))
                             .onTapGesture {
                                 withAnimation{
                                     self.selectedPoster = image

@@ -32,8 +32,8 @@ struct ImagesCarouselView : View {
                         HStack(spacing: 200) {
                             ForEach(self.posters) { poster in
                                 GeometryReader { reader2 in
-                                    BigMoviePosterImage(imageLoader: ImageLoader(path: poster.file_path,
-                                                                                 size: .medium))
+                                    BigMoviePosterImage(imageLoader: ImageLoaderCache.shared.loaderFor(path: poster.file_path,
+                                                                                                       size: .medium))
                                         .scaleEffect(self.selectedPoster == nil ?
                                             .zero :
                                             self.computeCarouselPosterScale(width: reader.frame(in: .global).width,
@@ -68,8 +68,8 @@ struct ImagesCarouselView : View {
                               y: reader.frame(in: .local).maxY - 80)
                     
                     if self.innerSelectedPoster != nil {
-                        BigMoviePosterImage(imageLoader: ImageLoader(path: self.innerSelectedPoster!.file_path,
-                                                                     size: .medium))
+                        BigMoviePosterImage(imageLoader: ImageLoaderCache.shared.loaderFor(path: self.innerSelectedPoster!.file_path,
+                                                                                           size: .medium))
                             .position(x: reader.frame(in: .local).midX,
                                       y: reader.frame(in: .local).midY)
                             .scaleEffect(1.3)

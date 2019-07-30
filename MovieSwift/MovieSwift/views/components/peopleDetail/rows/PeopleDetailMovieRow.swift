@@ -23,8 +23,8 @@ struct PeopleDetailMovieRow : View {
     var body: some View {
         HStack {
             ZStack {
-                MoviePosterImage(imageLoader: ImageLoader(path: movie.poster_path,
-                                                          size: .small),
+                MoviePosterImage(imageLoader: ImageLoaderCache.shared.loaderFor(path: movie.poster_path,
+                                                                                size: .small),
                                  posterSize: .small)
                 ListImage(movieId: movieId)
             }.fixedSize()

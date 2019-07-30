@@ -180,8 +180,8 @@ struct DiscoverView : View {
                                     self.draggableCoverEndGestureHandler(handler: handler)
                     })
                 } else {
-                    DiscoverCoverImage(imageLoader: ImageLoader(path: self.store.state.moviesState.movies[id]!.poster_path,
-                                                                size: .medium))
+                    DiscoverCoverImage(imageLoader: ImageLoaderCache.shared.loaderFor(path: self.store.state.moviesState.movies[id]!.poster_path,
+                                                                                      size: .medium))
                         .scaleEffect(1.0 - CGFloat(self.movies.reversed().firstIndex(of: id)!) * 0.03 + CGFloat(self.scaleResistance()))
                         .padding(.bottom, CGFloat(self.movies.reversed().firstIndex(of: id)! * 16) - self.dragResistance())
                         .animation(.spring(response: 0.5, dampingFraction: 0.5, blendDuration: 0))

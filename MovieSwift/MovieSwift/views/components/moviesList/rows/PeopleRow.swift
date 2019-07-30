@@ -33,7 +33,7 @@ struct PeopleRow : ConnectedView {
     
     func body(props: Props) -> some View {
         HStack {
-            PeopleImage(imageLoader: ImageLoader(path: props.people.profile_path, size: .cast))
+            PeopleImage(imageLoader: ImageLoaderCache.shared.loaderFor(path: props.people.profile_path, size: .cast))
             VStack(alignment: .leading) {
                 HStack {
                     if props.isInFanClub {

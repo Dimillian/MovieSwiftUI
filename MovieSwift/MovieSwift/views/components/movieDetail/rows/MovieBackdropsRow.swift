@@ -19,8 +19,8 @@ struct MovieBackdropsRow : View {
             ScrollView(.horizontal, showsIndicators: false) {
                 HStack(spacing: 16) {
                     ForEach(self.backdrops) { backdrop in
-                        MovieBackdropImage(imageLoader: ImageLoader(path: backdrop.file_path,
-                                                                    size: .original))
+                        MovieBackdropImage(imageLoader: ImageLoaderCache.shared.loaderFor(path: backdrop.file_path,
+                                                                                          size: .original))
                     }
                     }.padding(.leading)
             }
