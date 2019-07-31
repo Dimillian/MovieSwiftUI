@@ -25,6 +25,14 @@ func peoplesStateReducer(state: PeoplesState, action: Action) -> PeoplesState {
         }
         state = mergePeople(peoples: action.response.results, state: state)
         
+    case let action as PeopleActions.SetPopular:
+        if action.page == 1 {
+            state.popular = action.response.results.map{ $0.id }
+        } else {
+            state.popular.append(contentsOf: action.response.results.map{ $0.id })
+        }
+        state = mergePeople(peoples: action.response.results, state: state)
+        
     case let action as PeopleActions.SetDetail:
         if let current = state.peoples[action.person.id] {
             var new = action.person

@@ -12,20 +12,39 @@ import SwiftUIFlux
 struct FanClubHome: ConnectedView {
     struct Props {
         let peoples: [Int]
+        let popular: [Int]
+        let dispatch: DispatchFunction
     }
     
     func map(state: AppState , dispatch: @escaping DispatchFunction) -> Props {
-        Props(peoples: state.peoplesState.fanClub.map{ $0 })
+        Props(peoples: state.peoplesState.fanClub.map{ $0 },
+              popular: state.peoplesState.popular.filter{ !state.peoplesState.fanClub.contains($0) },
+              dispatch: dispatch)
     }
     
     func body(props: Props) -> some View {
         NavigationView {
-            List(props.peoples, id: \.self) { people in
-                NavigationLink(destination: PeopleDetail(peopleId: people)) {
-                    PeopleRow(peopleId: people)
+            List {
+                Section {
+                    ForEach(props.peoples, id: \.self) { people in
+                        NavigationLink(destination: PeopleDetail(peopleId: people)) {
+                            PeopleRow(peopleId: people)
+                        }
+                    }
+                }
+            
+                Section(header: Text("Popular people to add to your Fan Club")) {
+                    ForEach(props.popular, id: \.self) { people in
+                        NavigationLink(destination: PeopleDetail(peopleId: people)) {
+                            PeopleRow(peopleId: people)
+                        }
+                    }
                 }
             }
             .navigationBarTitle("Fan Club")
+        }
+        .onAppear {
+            props.dispatch(PeopleActions.FetchPopular(page: 1))
         }
     }
 }

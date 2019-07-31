@@ -101,6 +101,26 @@ struct PeopleActions {
         }
     }
     
+    struct FetchPopular: AsyncAction {
+        let page: Int
+        
+        func execute(state: FluxState?, dispatch: @escaping DispatchFunction) {
+            APIService.shared.GET(endpoint: .popularPersons, params: ["page": "\(page)",
+                "region": AppUserDefaults.region])
+            {
+                (result: Result<PaginatedResponse<People>, APIService.APIError>) in
+                switch result {
+                case let .success(response):
+                    dispatch(SetPopular(page: self.page,
+                                        response: response))
+                case let .failure(error):
+                    print(error)
+                    break
+                }
+            }
+        }
+    }
+    
     struct SetDetail: Action {
         let person: People
     }
@@ -117,6 +137,11 @@ struct PeopleActions {
     
     struct SetSearch: Action {
         let query: String
+        let page: Int
+        let response: PaginatedResponse<People>
+    }
+    
+    struct SetPopular: Action {
         let page: Int
         let response: PaginatedResponse<People>
     }

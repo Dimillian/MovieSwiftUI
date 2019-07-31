@@ -25,6 +25,7 @@ struct APIService {
         case movieDetail(movie: Int), recommended(movie: Int), similar(movie: Int)
         case credits(movie: Int), review(movie: Int)
         case searchMovie, searchKeyword, searchPerson
+        case popularPersons
         case personDetail(person: Int)
         case personMovieCredits(person: Int)
         case personImages(person: Int)
@@ -35,6 +36,8 @@ struct APIService {
             switch self {
             case .popular:
                 return "movie/popular"
+            case .popularPersons:
+                return "person/popular"
             case .toRated:
                 return "movie/top_rated"
             case .upcoming:

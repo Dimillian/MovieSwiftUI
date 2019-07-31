@@ -44,7 +44,7 @@ struct PeopleRowItem: View {
                     .font(.subheadline)
                     .foregroundColor(.secondary)
                 }.frame(width: 100)
-            }
+        }.contextMenu{ PeopleContextMenu(people: self.people.id) }
     }
 }
 

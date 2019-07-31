@@ -13,6 +13,7 @@ struct PeoplesState: FluxState, Codable {
     var peoples: [Int: People] = [:]
     var peoplesMovies: [Int: [Int]] = [:]
     var search: [String: [Int]] = [:]
+    var popular: [Int] = []
     
     /// [PeopleId: [MovieId:  Character]]
     var casts: [Int: [Int: String]] = [:]
