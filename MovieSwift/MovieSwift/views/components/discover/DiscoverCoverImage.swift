@@ -26,18 +26,11 @@ extension View {
 
 struct DiscoverCoverImage : View {
     @ObservedObject var imageLoader: ImageLoader
-    
-    var cachedImage: UIImage? {
-        if let poster = imageLoader.path {
-            return ImageService.shared.syncImageFromCache(poster: poster, size: imageLoader.size)
-        }
-        return nil
-    }
-    
+        
     var body: some View {
         ZStack {
-            if cachedImage != nil || imageLoader.image != nil {
-                Image(uiImage: cachedImage ?? self.imageLoader.image!)
+            if imageLoader.image != nil {
+                Image(uiImage: self.imageLoader.image!)
                     .resizable()
                     .renderingMode(.original)
                     .discoverPosterStyle()

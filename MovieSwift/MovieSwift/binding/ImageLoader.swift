@@ -15,13 +15,28 @@ class ImageLoaderCache {
     
     var loaders: [String: ImageLoader] = [:]
     
+    let lock = NSLock()
+    
+    init() {
+        NotificationCenter.default.addObserver(forName: UIApplication.didReceiveMemoryWarningNotification,
+                                               object: nil,
+                                               queue: .main) { _ in
+                                                self.lock.lock()
+                                                self.loaders.removeAll()
+                                                self.lock.unlock()
+        }
+    }
+    
     func loaderFor(path: String?, size: ImageService.Size) -> ImageLoader {
+        lock.lock()
         let key = "\(path ?? "missing")#\(size.rawValue)"
         if let loader = loaders[key] {
+            lock.unlock()
             return loader
         } else {
             let loader = ImageLoader(path: path, size: size)
             loaders[key] = loader
+            lock.unlock()
             return loader
         }
     }

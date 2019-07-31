@@ -39,10 +39,14 @@ struct PeopleRowItem: View {
             NavigationLink(destination: PeopleDetail(peopleId: people.id).environmentObject(store)) {
                 PeopleImage(imageLoader: ImageLoaderCache.shared.loaderFor(path: people.profile_path,
                                                                            size: .cast))
-                Text(people.name).font(.body).foregroundColor(.primary)
+                Text(people.name)
+                    .font(.body)
+                    .foregroundColor(.primary)
+                    .lineLimit(1)
                 Text(people.character ?? people.department ?? "")
                     .font(.subheadline)
                     .foregroundColor(.secondary)
+                    .lineLimit(1)
                 }.frame(width: 100)
         }.contextMenu{ PeopleContextMenu(people: self.people.id) }
     }

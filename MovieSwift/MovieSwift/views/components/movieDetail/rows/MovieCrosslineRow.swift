@@ -37,7 +37,7 @@ struct MovieDetailRowItem: View {
     
     var body: some View {
         VStack(alignment: .center) {
-            NavigationLink(destination: MovieDetail(movieId: movie.id).environmentObject(store)) {
+            NavigationLink(destination: MovieDetail(movieId: movie.id)) {
                 ZStack(alignment: .topLeading) {
                     MoviePosterImage(imageLoader: ImageLoaderCache.shared.loaderFor(path: movie.poster_path,
                                                                                     size: .medium),
@@ -50,9 +50,11 @@ struct MovieDetailRowItem: View {
                 Text(movie.userTitle)
                     .font(.body)
                     .foregroundColor(.primary)
+                    .lineLimit(1)
                 Text(movie.release_date != nil ? movie.release_date!.prefix(4) : "")
                     .font(.subheadline)
                     .foregroundColor(.secondary)
+                    .lineLimit(1)
             }
             }
         .frame(width: 120)
