@@ -150,7 +150,7 @@ struct DiscoverFilterForm : View {
             if !savedFilters.isEmpty {
                 Section(header: Text("Saved filters"), content: {
                     ForEach(0 ..< self.savedFilters.count) { index in
-                        Text(self.savedFilters[index].toText(state: self.store.state))
+                        Text(self.savedFilters[index].toText(genres: self.store.state.moviesState.genres))
                             .onTapGesture {
                                 self.presentationMode.value.dismiss()
                                 self.store.dispatch(action: MoviesActions.ResetRandomDiscover())

@@ -9,12 +9,19 @@
 import SwiftUI
 import SwiftUIFlux
 
-struct DiscoverView : View {
+struct DiscoverView: ConnectedView {
     
-    // MARk: - State vars
+    // MARK: - Props
+    struct Props {
+        let movies: [Int]
+        let posters: [Int: String]
+        let currentMovie: Movie?
+        let filter: DiscoverFilter?
+        let genres: [Genre]
+        let dispatch: DispatchFunction
+    }
     
-    @EnvironmentObject private var store: Store<AppState>
-    
+    // MARK: - State vars
     @State private var draggedViewState = DraggableCover.DragState.inactive
     @State private var previousMovie: Int? = nil
     @State private var presentedMovie: Movie? = nil
@@ -28,23 +35,22 @@ struct DiscoverView : View {
     private let bottomSafeInsetFix: CGFloat = 20
     #endif
     
-    // MARK: - Computed properties
-    
-    private var movies: [Int] {
-        store.state.moviesState.discover
-    }
-    
-    private var filter: DiscoverFilter? {
-        store.state.moviesState.discoverFilter
-    }
-    
-    private var currentMovie: Movie? {
-        guard !movies.isEmpty else {
-            return nil
+    // MARK: - Map State to Props
+    func map(state: AppState, dispatch: @escaping DispatchFunction) -> Props {
+        var posters: [Int: String] = [:]
+        let movies = state.moviesState.discover
+        for movie in movies {
+            posters[movie] = state.moviesState.movies[movie]!.poster_path
         }
-        return store.state.moviesState.movies[movies.reversed()[0]]
+        return Props(movies: movies,
+                     posters: posters,
+                     currentMovie: movies.isEmpty ? nil : state.moviesState.movies[movies.reversed()[0]],
+                     filter: state.moviesState.discoverFilter,
+                     genres: state.moviesState.genres,
+                     dispatch: dispatch)
     }
     
+    // MARK: - Functions
     private func scaleResistance() -> Double {
         Double(abs(willEndPosition?.width ?? draggedViewState.translation.width) / 6800)
     }
@@ -61,34 +67,34 @@ struct DiscoverView : View {
         draggedViewState.translation.width / 1000
     }
     
-    private func draggableCoverEndGestureHandler(handler: DraggableCover.EndState) {
-        guard let currentMovie = currentMovie else {
+    private func draggableCoverEndGestureHandler(props: Props, handler: DraggableCover.EndState) {
+        guard let currentMovie = props.currentMovie else {
             return
         }
         if handler == .left || handler == .right {
             previousMovie = currentMovie.id
             if handler == .left {
                 hapticFeedback.impactOccurred(intensity: 0.8)
-                store.dispatch(action: MoviesActions.AddToWishlist(movie: currentMovie.id))
+                props.dispatch(MoviesActions.AddToWishlist(movie: currentMovie.id))
             } else if handler == .right {
                 hapticFeedback.impactOccurred(intensity: 0.8)
-                store.dispatch(action: MoviesActions.AddToSeenList(movie: currentMovie.id))
+                props.dispatch(MoviesActions.AddToSeenList(movie: currentMovie.id))
             }
             store.dispatch(action: MoviesActions.PopRandromDiscover())
             willEndPosition = nil
-            fetchRandomMovies(force: false, filter: self.filter)
+            fetchRandomMovies(props: props, force: false, filter: props.filter)
         }
     }
     
-    private func fetchRandomMovies(force: Bool, filter: DiscoverFilter?) {
-        if movies.count < 10 || force {
-            store.dispatch(action: MoviesActions.FetchRandomDiscover(filter: filter))
+    private func fetchRandomMovies(props: Props, force: Bool, filter: DiscoverFilter?) {
+        if props.movies.count < 10 || force {
+            props.dispatch(MoviesActions.FetchRandomDiscover(filter: filter))
         }
     }
     
     // MARK: Body views
-    private var filterView: some View {
-        return BorderedButton(text: filter?.toText(state: store.state) ?? "Loading...",
+    private func filterView(props: Props) -> some View {
+        return BorderedButton(text: props.filter?.toText(genres: props.genres) ?? "Loading...",
                               systemImageName: "line.horizontal.3.decrease",
                               color: .steam_blue,
                               isOn: false) {
@@ -96,10 +102,10 @@ struct DiscoverView : View {
         }
     }
     
-    private var actionsButtons: some View {
+    private func actionsButtons(props: Props) -> some View {
         ZStack(alignment: .center) {
-            if self.currentMovie != nil {
-                Text(self.currentMovie!.userTitle)
+            if props.currentMovie != nil {
+                Text(props.currentMovie!.userTitle)
                     .foregroundColor(.primary)
                     .multilineTextAlignment(.center)
                     .font(.FjallaOne(size: 18))
@@ -134,13 +140,13 @@ struct DiscoverView : View {
                     .animation(.spring())
                     .onTapGesture {
                         self.hapticFeedback.impactOccurred(intensity: 0.5)
-                        self.previousMovie = self.currentMovie!.id
-                        self.store.dispatch(action: MoviesActions.PopRandromDiscover())
-                        self.fetchRandomMovies(force: false, filter: self.filter)
+                        self.previousMovie = props.currentMovie!.id
+                        props.dispatch(MoviesActions.PopRandromDiscover())
+                        self.fetchRandomMovies(props: props, force: false, filter: props.filter)
                 }
                 
                 Button(action: {
-                    self.store.dispatch(action: MoviesActions.PushRandomDiscover(movie: self.previousMovie!))
+                    props.dispatch(MoviesActions.PushRandomDiscover(movie: self.previousMovie!))
                     self.previousMovie = nil
                 }, label: {
                     Image(systemName: "gobackward").foregroundColor(.steam_blue)
@@ -150,8 +156,8 @@ struct DiscoverView : View {
                     .animation(.spring())
                 
                 Button(action: {
-                    self.store.dispatch(action: MoviesActions.ResetRandomDiscover())
-                    self.fetchRandomMovies(force: true, filter: nil)
+                    props.dispatch(MoviesActions.ResetRandomDiscover())
+                    self.fetchRandomMovies(props: props, force: true, filter: nil)
                 }, label: {
                     Image(systemName: "arrow.swap")
                         .foregroundColor(.steam_blue)
@@ -164,20 +170,20 @@ struct DiscoverView : View {
         }
     }
     
-    private var draggableMovies: some View {
-        ForEach(movies, id: \.self) { id in
+    private func draggableMovies(props: Props) -> some View {
+        ForEach(props.movies, id: \.self) { id in
             Group {
-                if self.movies.reversed().firstIndex(of: id) == 0 {
+                if props.movies.reversed().firstIndex(of: id) == 0 {
                     DraggableCover(movieId: id,
                                    gestureViewState: self.$draggedViewState,
                                    onTapGesture: {
-                                    self.presentedMovie = self.currentMovie
+                                    self.presentedMovie = props.currentMovie
                     },
                                    willEndGesture: { position in
                                     self.willEndPosition = position
                     },
                                    endGestureHandler: { handler in
-                                    self.draggableCoverEndGestureHandler(handler: handler)
+                                    self.draggableCoverEndGestureHandler(props: props, handler: handler)
                     })
                         .sheet(item: self.$presentedMovie, onDismiss: {
                             self.presentedMovie = nil
@@ -185,36 +191,37 @@ struct DiscoverView : View {
                             NavigationView {
                                 MovieDetail(movieId: movie.id)
                             }.navigationViewStyle(StackNavigationViewStyle())
-                                .environmentObject(self.store)
+                                .environmentObject(store)
                         })
                 } else {
-                    DiscoverCoverImage(imageLoader: ImageLoaderCache.shared.loaderFor(path: self.store.state.moviesState.movies[id]!.poster_path,
+                    DiscoverCoverImage(imageLoader: ImageLoaderCache.shared.loaderFor(path: props.posters[id],
                                                                                       size: .medium))
-                        .scaleEffect(1.0 - CGFloat(self.movies.reversed().firstIndex(of: id)!) * 0.03 + CGFloat(self.scaleResistance()))
-                        .padding(.bottom, CGFloat(self.movies.reversed().firstIndex(of: id)! * 16) - self.dragResistance())
+                        .scaleEffect(1.0 - CGFloat(props.movies.reversed().firstIndex(of: id)!) * 0.03 + CGFloat(self.scaleResistance()))
+                        .padding(.bottom, CGFloat(props.movies.reversed().firstIndex(of: id)! * 16) - self.dragResistance())
                         .animation(.spring(response: 0.5, dampingFraction: 0.5, blendDuration: 0))
                 }
             }
         }
     }
     
-    var body: some View {
+    func body(props: Props) -> some View {
         ZStack(alignment: .center) {
-            draggableMovies
+            draggableMovies(props: props)
             GeometryReader { reader in
-                self.filterView
+                self.filterView(props: props)
                     .position(x: reader.frame(in: .local).midX,
                               y: reader.frame(in: .local).minY + reader.safeAreaInsets.top + 10)
                     .frame(height: 50)
-                    .sheet(isPresented: self.$isFilterFormPresented, content: { DiscoverFilterForm().environmentObject(self.store) })
-                self.actionsButtons
+                    .sheet(isPresented: self.$isFilterFormPresented, content: { DiscoverFilterForm().environmentObject(store) })
+                self.actionsButtons(props: props)
                     .position(x: reader.frame(in: .local).midX,
                               y: reader.frame(in: .local).maxY - reader.safeAreaInsets.bottom - self.bottomSafeInsetFix)
             }
         }
         .onAppear {
             self.hapticFeedback.prepare()
-            self.fetchRandomMovies(force: false, filter: self.filter)
+            self.fetchRandomMovies(props: props, force: false, filter: props.filter)
+            props.dispatch(MoviesActions.FetchGenres())
         }
     }
 }

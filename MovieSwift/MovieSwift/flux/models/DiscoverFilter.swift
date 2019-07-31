@@ -63,7 +63,7 @@ struct DiscoverFilter: Codable {
         return params
     }
     
-    func toText(state: AppState) -> String {
+    func toText(genres: [Genre]) -> String {
         var text = String("")
         if let startYear = startYear, let endYear = endYear {
             text = text + "\(startYear)-\(endYear)"
@@ -71,7 +71,7 @@ struct DiscoverFilter: Codable {
             text = text + " · Random"
         }
         if let genre = genre,
-            let stateGenre = state.moviesState.genres.first(where: { (realGenre) -> Bool in
+            let stateGenre = genres.first(where: { (realGenre) -> Bool in
                 realGenre.id == genre
             }) {
             text = text + " · \(stateGenre.name)"
