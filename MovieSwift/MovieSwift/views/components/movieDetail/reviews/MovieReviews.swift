@@ -11,31 +11,20 @@ import SwiftUIFlux
 
 struct MovieReviews : View {
     @EnvironmentObject var store: Store<AppState>
-    @Binding var isPresented: Bool
     
     let movie: Int
     
     var reviews: [Review] {
         return store.state.moviesState.reviews[movie] ?? []
     }
-    
-    func onCloseButton() {
-        isPresented = false
-    }
-    
+        
     var body: some View {
-        NavigationView {
-            List(reviews) {review in
-                ReviewRow(review: review)
-            }
-            .navigationBarTitle(Text("Reviews"))
-            .navigationBarItems(trailing: Button(action: onCloseButton) {
-                Image(systemName: "xmark").imageScale(.large)
-            })
-            }
-        .navigationViewStyle(StackNavigationViewStyle())
+        List(reviews) {review in
+            ReviewRow(review: review)
+        }
+        .navigationBarTitle(Text("Reviews"))
         .onAppear{
-                self.store.dispatch(action: MoviesActions.FetchMovieReviews(movie: self.movie))
-            }
+            self.store.dispatch(action: MoviesActions.FetchMovieReviews(movie: self.movie))
+        }
     }
 }

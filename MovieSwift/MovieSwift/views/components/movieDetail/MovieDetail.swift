@@ -17,6 +17,7 @@ struct MovieDetail: ConnectedView {
         let credits: [People]?
         let recommended: [Movie]?
         let similar: [Movie]?
+        let reviewsCount: Int?
     }
     
     let movieId: Int
@@ -53,7 +54,8 @@ struct MovieDetail: ConnectedView {
                      characters: characters,
                      credits: credits,
                      recommended: recommended,
-                     similar: similar)
+                     similar: similar,
+                     reviewsCount: state.moviesState.reviews[movieId]?.count ?? nil)
     }
     
     // MARK: - Fetch
@@ -62,6 +64,7 @@ struct MovieDetail: ConnectedView {
         store.dispatch(action: PeopleActions.FetchMovieCasts(movie: movieId))
         store.dispatch(action: MoviesActions.FetchRecommended(movie: movieId))
         store.dispatch(action: MoviesActions.FetchSimilar(movie: movieId))
+        store.dispatch(action: MoviesActions.FetchMovieReviews(movie: movieId))
     }
     
     // MARK: - View actions
@@ -110,9 +113,15 @@ struct MovieDetail: ConnectedView {
         ZStack(alignment: .bottom) {
             List {
                 MovieBackdrop(movieId: movieId)
-                MovieRatingRow(movie: props.movie)
-                MovieAddToListRow(movieId: movieId).onTapGesture {
+                MovieCoverRow(movieId: movieId).onTapGesture {
                     self.isAddSheetPresented = true
+                }
+                if props.reviewsCount != nil {
+                    NavigationLink(destination: MovieReviews(movie: self.movieId)) {
+                        Text("\(props.reviewsCount!) reviews")
+                            .foregroundColor(.steam_blue)
+                            .lineLimit(1)
+                    }
                 }
                 MovieOverview(movie: props.movie)
                 Group {
@@ -146,8 +155,8 @@ struct MovieDetail: ConnectedView {
             .navigationBarItems(trailing: Button(action: onAddButton) {
                 Image(systemName: "text.badge.plus").imageScale(.large)
             })
-                .onAppear {
-                    self.fetchMovieDetails()
+            .onAppear {
+                self.fetchMovieDetails()
             }
             .actionSheet(isPresented: $isAddSheetPresented, content: { addActionSheet(props: props) })
             .sheet(isPresented: $isCreateListFormPresented,
