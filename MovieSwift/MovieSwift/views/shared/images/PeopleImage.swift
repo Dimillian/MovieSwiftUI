@@ -26,8 +26,6 @@ struct PeopleImage : View {
                     .foregroundColor(.gray)
                     .opacity(0.1)
             }
-        }.onAppear {
-            self.imageLoader.loadImage()
         }
     }
 }
@@ -51,8 +49,6 @@ struct BigPeopleImage : View {
                     .foregroundColor(.gray)
                     .opacity(0.1)
             }
-        }.onAppear {
-            self.imageLoader.loadImage()
         }
     }
 }

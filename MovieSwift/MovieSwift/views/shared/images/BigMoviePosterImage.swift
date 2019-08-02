@@ -29,8 +29,6 @@ struct BigMoviePosterImage : View {
                     .foregroundColor(.gray)
                     .posterStyle(loaded: false, size: .big)
             }
-            }.onAppear {
-                self.imageLoader.loadImage()
-        }
+            }
     }
 }

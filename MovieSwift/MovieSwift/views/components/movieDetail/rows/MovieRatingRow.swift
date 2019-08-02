@@ -18,11 +18,14 @@ struct MovieRatingRow : View {
             HStack {
                 PopularityBadge(score: Int(movie.vote_average * 10))
                 Text("\(movie.vote_count) ratings")
+                    .lineLimit(1)
                 Button(action: {
                     self.isReviewsPresented = true
                 }) {
                     HStack {
-                        Text("Reviews").foregroundColor(.steam_blue)
+                        Text("Reviews")
+                            .foregroundColor(.steam_blue)
+                            .lineLimit(1)
                         Image(systemName: "chevron.right")
                             .resizable()
                             .frame(width: 5, height: 10)

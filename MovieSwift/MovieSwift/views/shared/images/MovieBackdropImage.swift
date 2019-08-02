@@ -36,8 +36,6 @@ struct MovieBackdropImage : View {
                     .opacity(0.1)
                     .frame(width: 300, height: displayMode == .normal ? 168 : 50)
             }
-        }.onAppear {
-            self.imageLoader.loadImage()
         }
     }
 }

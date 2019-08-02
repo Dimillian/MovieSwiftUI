@@ -39,9 +39,7 @@ struct DiscoverCoverImage : View {
                     .foregroundColor(.clear)
                     .frame(width: 50, height: 50)
             }
-            }.onAppear {
-                self.imageLoader.loadImage()
-        }
+            }
     }
 }
 

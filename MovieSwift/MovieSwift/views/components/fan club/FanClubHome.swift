@@ -17,7 +17,7 @@ struct FanClubHome: ConnectedView {
     }
     
     func map(state: AppState , dispatch: @escaping DispatchFunction) -> Props {
-        Props(peoples: state.peoplesState.fanClub.map{ $0 },
+        Props(peoples: state.peoplesState.fanClub.map{ $0 }.sorted(),
               popular: state.peoplesState.popular.filter{ !state.peoplesState.fanClub.contains($0) },
               dispatch: dispatch)
     }
@@ -30,7 +30,9 @@ struct FanClubHome: ConnectedView {
                         NavigationLink(destination: PeopleDetail(peopleId: people)) {
                             PeopleRow(peopleId: people)
                         }
-                    }
+                    }.onDelete(perform: { index in
+                        props.dispatch(PeopleActions.RemoveFromFanClub(people: props.peoples[index.first!]))
+                    })
                 }
             
                 Section(header: Text("Popular people to add to your Fan Club")) {

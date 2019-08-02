@@ -58,8 +58,6 @@ struct MovieTopBackdropImage : View {
                     .foregroundColor(.gray)
                     .opacity(0.1)
             }
-            }.onAppear {
-                self.imageLoader.loadImage()
-        }
+            }
     }
 }

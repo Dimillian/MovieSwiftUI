@@ -13,30 +13,15 @@ import Combine
 class ImageLoaderCache {
     static let shared = ImageLoaderCache()
     
-    var loaders: [String: ImageLoader] = [:]
-    
-    let lock = NSLock()
-    
-    init() {
-        NotificationCenter.default.addObserver(forName: UIApplication.didReceiveMemoryWarningNotification,
-                                               object: nil,
-                                               queue: .main) { _ in
-                                                self.lock.lock()
-                                                self.loaders.removeAll()
-                                                self.lock.unlock()
-        }
-    }
-    
+    var loaders: NSCache<NSString, ImageLoader> = NSCache()
+            
     func loaderFor(path: String?, size: ImageService.Size) -> ImageLoader {
-        lock.lock()
-        let key = "\(path ?? "missing")#\(size.rawValue)"
-        if let loader = loaders[key] {
-            lock.unlock()
+        let key = NSString(string: "\(path ?? "missing")#\(size.rawValue)")
+        if let loader = loaders.object(forKey: key) {
             return loader
         } else {
             let loader = ImageLoader(path: path, size: size)
-            loaders[key] = loader
-            lock.unlock()
+            loaders.setObject(loader, forKey: key)
             return loader
         }
     }
@@ -46,17 +31,25 @@ final class ImageLoader: ObservableObject {
     let path: String?
     let size: ImageService.Size
     
+    var objectWillChange: AnyPublisher<UIImage?, Never> = Publishers.Sequence<[UIImage?], Never>(sequence: []).eraseToAnyPublisher()
+    
     @Published var image: UIImage? = nil
     
     var cancellable: AnyCancellable?
-    
+        
     init(path: String?, size: ImageService.Size) {
         self.size = size
         self.path = path
+        
+        self.objectWillChange = $image.handleEvents(receiveSubscription: { [weak self] sub in
+            self?.loadImage()
+        }, receiveCancel: { [weak self] in
+            self?.cancellable?.cancel()
+        }).eraseToAnyPublisher()
     }
     
-    func loadImage() {
-        guard let poster = path else {
+    private func loadImage() {
+        guard let poster = path, image == nil else {
             return
         }
         cancellable = ImageService.shared.fetchImage(poster: poster, size: size)

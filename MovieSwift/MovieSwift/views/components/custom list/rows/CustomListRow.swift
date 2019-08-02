@@ -58,9 +58,7 @@ struct SmallMoviePosterImage : View {
                     .cornerRadius(3)
                     .opacity(0.3)
             }
-            }.onAppear {
-                self.imageLoader.loadImage()
-        }
+            }
     }
 }
 
