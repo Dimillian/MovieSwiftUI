@@ -36,7 +36,7 @@ struct PeopleRowItem: View {
     
     var body: some View {
         VStack(alignment: .center) {
-            NavigationLink(destination: PeopleDetail(peopleId: people.id).environmentObject(store)) {
+            NavigationLink(destination: PeopleDetail(peopleId: people.id)) {
                 PeopleImage(imageLoader: ImageLoaderCache.shared.loaderFor(path: people.profile_path,
                                                                            size: .cast))
                 Text(people.name)

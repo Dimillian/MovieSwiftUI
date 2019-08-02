@@ -38,6 +38,8 @@ func peoplesStateReducer(state: PeoplesState, action: Action) -> PeoplesState {
             var new = action.person
             new.known_for = current.known_for
             new.images = current.images
+            new.character = current.character
+            new.department = current.department
             state.peoples[action.person.id] = new
         } else {
             state.peoples[action.person.id] = action.person

@@ -45,8 +45,6 @@ struct MovieDetailRowItem: View {
                     ListImage(movieId: movie.id)
                     
                 }
-                .fixedSize()
-                .contextMenu{ MovieContextMenu(movieId: movie.id) }
                 Text(movie.userTitle)
                     .font(.body)
                     .foregroundColor(.primary)
@@ -55,9 +53,8 @@ struct MovieDetailRowItem: View {
                     .font(.subheadline)
                     .foregroundColor(.secondary)
                     .lineLimit(1)
-            }
-            }
-        .frame(width: 120)
+            }.frame(width: 120)
+        }.contextMenu{ MovieContextMenu(movieId: movie.id) }
     }
 }
 

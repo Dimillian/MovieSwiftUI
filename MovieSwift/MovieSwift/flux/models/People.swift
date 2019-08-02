@@ -12,8 +12,8 @@ import SwiftUI
 struct People: Codable, Identifiable {
     let id: Int
     let name: String
-    let character: String?
-    let department: String?
+    var character: String?
+    var department: String?
     let profile_path: String?
         
     let known_for_department: String?
