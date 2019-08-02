@@ -9,7 +9,7 @@
 import SwiftUI
 import SwiftUIFlux
 
-final class CustomListSearchMovieTextWrapper: SearchTextWrapper {
+final class CustomListSearchMovieTextWrapper: SearchTextObservable {
     override func onUpdateTextDebounced(text: String) {
         store.dispatch(action: MoviesActions.FetchSearch(query: text, page: 1))
     }

@@ -10,7 +10,7 @@ import SwiftUI
 import Combine
 
 struct SearchField : View {
-    @ObservedObject var searchTextWrapper: SearchTextWrapper
+    @ObservedObject var searchTextWrapper: SearchTextObservable
     let placeholder: String
     @Binding var isSearching: Bool
     var dismissButtonTitle: String
@@ -18,7 +18,7 @@ struct SearchField : View {
     
     private var searchCancellable: Cancellable? = nil
     
-    init(searchTextWrapper: SearchTextWrapper,
+    init(searchTextWrapper: SearchTextObservable,
          placeholder: String,
          isSearching: Binding<Bool>,
          dismissButtonTitle: String = "Cancel",
@@ -60,11 +60,11 @@ struct SearchField : View {
 #if DEBUG
 struct SearchField_Previews : PreviewProvider {
     static var previews: some View {
-        let withText = SearchTextWrapper()
+        let withText = SearchTextObservable()
         withText.searchText = "Test"
         
         return VStack {
-            SearchField(searchTextWrapper: SearchTextWrapper(),
+            SearchField(searchTextWrapper: SearchTextObservable(),
                         placeholder: "Search anything",
                         isSearching: .constant(false))
             SearchField(searchTextWrapper: withText,

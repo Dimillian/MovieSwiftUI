@@ -20,7 +20,7 @@ final class MoviesSearchPageListener: MoviesPagesListener {
     }
 }
 
-final class MoviesSearchTextWrapper: SearchTextWrapper {
+final class MoviesSearchTextWrapper: SearchTextObservable {
     var searchPageListener = MoviesSearchPageListener()
     
     override func onUpdateTextDebounced(text: String) {

@@ -9,7 +9,7 @@
 import SwiftUI
 import SwiftUIFlux
 
-final class CustomListFormSearchWrapper: SearchTextWrapper {
+final class CustomListFormSearchWrapper: SearchTextObservable {
     override func onUpdateTextDebounced(text: String) {
         if !text.isEmpty {
             store.dispatch(action: MoviesActions.FetchSearch(query: text, page: 1))

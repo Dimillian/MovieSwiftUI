@@ -9,7 +9,7 @@
 import SwiftUI
 import Combine
 
-class SearchTextWrapper: ObservableObject {
+class SearchTextObservable: ObservableObject {
     @Published var searchText = "" {
         willSet {
             DispatchQueue.main.async {
