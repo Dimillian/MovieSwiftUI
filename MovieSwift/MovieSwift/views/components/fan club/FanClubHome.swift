@@ -16,6 +16,8 @@ struct FanClubHome: ConnectedView {
         let dispatch: DispatchFunction
     }
     
+    @State private var currentPage = 1
+    
     func map(state: AppState , dispatch: @escaping DispatchFunction) -> Props {
         Props(peoples: state.peoplesState.fanClub.map{ $0 }.sorted(),
               popular: state.peoplesState.popular.filter{ !state.peoplesState.fanClub.contains($0) },
@@ -42,11 +44,20 @@ struct FanClubHome: ConnectedView {
                         }
                     }
                 }
+                
+                if !props.popular.isEmpty {
+                    Rectangle()
+                        .foregroundColor(.clear)
+                        .onAppear {
+                            self.currentPage += 1
+                            props.dispatch(PeopleActions.FetchPopular(page: self.currentPage))
+                    }
+                }
             }
             .navigationBarTitle("Fan Club")
         }
         .onAppear {
-            props.dispatch(PeopleActions.FetchPopular(page: 1))
+            props.dispatch(PeopleActions.FetchPopular(page: self.currentPage))
         }
     }
 }
