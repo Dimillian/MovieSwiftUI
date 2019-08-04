@@ -18,6 +18,7 @@ struct MoviesState: FluxState, Codable {
     
     var search: [String: [Int]] = [:]
     var searchKeywords: [String: [Keyword]] = [:]
+    var recentSearches: Set<String> = Set()
     
     var moviesUserMeta: [Int: MovieUserMeta] = [:]
     

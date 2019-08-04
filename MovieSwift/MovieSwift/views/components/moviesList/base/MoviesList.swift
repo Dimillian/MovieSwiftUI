@@ -16,6 +16,7 @@ struct MoviesList: ConnectedView {
         let searchedMovies: [Int]?
         let searchedKeywords: [Keyword]?
         let searcherdPeoples: [Int]?
+        let recentSearches: [String]
     }
     
     enum SearchFilter: Int {
@@ -39,9 +40,10 @@ struct MoviesList: ConnectedView {
         if isSearching {
             return Props(searchedMovies: state.moviesState.search[searchTextWrapper.searchText],
                          searchedKeywords: state.moviesState.searchKeywords[searchTextWrapper.searchText]?.prefix(5).map{ $0 },
-                         searcherdPeoples: state.peoplesState.search[searchTextWrapper.searchText])
+                         searcherdPeoples: state.peoplesState.search[searchTextWrapper.searchText],
+                         recentSearches: state.moviesState.recentSearches.map{ $0 })
         }
-        return Props(searchedMovies: nil, searchedKeywords: nil, searcherdPeoples: nil)
+        return Props(searchedMovies: nil, searchedKeywords: nil, searcherdPeoples: nil, recentSearches: [])
     }
     
     // MARK: - Computed views

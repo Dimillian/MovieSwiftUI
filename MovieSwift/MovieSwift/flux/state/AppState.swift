@@ -57,7 +57,12 @@ struct AppState: FluxState, Codable {
         guard let data = try? encoder.encode(savingState) else {
             return
         }
-        try? data.write(to: savePath)
+        do {
+            try data.write(to: savePath)
+        } catch let error {
+            print("Error while saving app state :\(error)")
+        }
+       
     }
     
     func sizeOfArchivedState() -> String {

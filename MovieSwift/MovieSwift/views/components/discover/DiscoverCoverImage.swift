@@ -12,8 +12,7 @@ struct DiscoverPosterStyle: ViewModifier {
     func body(content: Content) -> some View {
         return content
             .aspectRatio(0.66, contentMode: .fit)
-            .frame(maxWidth: UIApplication.shared.windows.first!.bounds.width * 0.65,
-                   maxHeight: UIApplication.shared.windows.first!.bounds.height * 0.65)
+            .frame(maxWidth: 245)
             .cornerRadius(5)
     }
 }
@@ -33,6 +32,10 @@ struct DiscoverCoverImage : View {
                 Image(uiImage: self.imageLoader.image!)
                     .resizable()
                     .renderingMode(.original)
+                    .discoverPosterStyle()
+            } else if imageLoader.path == nil {
+                Rectangle()
+                    .foregroundColor(.gray)
                     .discoverPosterStyle()
             } else {
                 Rectangle()
