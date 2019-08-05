@@ -11,13 +11,9 @@ import Combine
 import SwiftUI
 
 final class MoviesSelectedMenuStore: ObservableObject {
-    var willChange = PassthroughSubject<Void, Never>()
     let pageListener: MoviesMenuListPageListener
     
-    var menu: MoviesMenu {
-        willSet {
-            willChange.send()
-        }
+    @Published var menu: MoviesMenu {
         didSet {
             pageListener.menu = menu
         }

@@ -8,7 +8,7 @@
 
 import SwiftUI
 
-struct MoviePosterImage : View {
+struct MoviePosterImage: View {
     @ObservedObject var imageLoader: ImageLoader
     @State var isImageLoaded = false
     let posterSize: PosterStyle.Size
