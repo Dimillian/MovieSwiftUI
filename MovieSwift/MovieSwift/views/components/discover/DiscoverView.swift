@@ -218,6 +218,11 @@ struct DiscoverView: ConnectedView {
                               y: reader.frame(in: .local).maxY - reader.safeAreaInsets.bottom - self.bottomSafeInsetFix)
             }
         }
+        .background(FullscreenMoviePosterImage(imageLoader: ImageLoaderCache.shared.loaderFor(path: props.currentMovie?.poster_path,
+                                                                                              size: .original))
+            .allowsHitTesting(false)
+            .transition(.opacity)
+            .animation(.easeInOut))
         .onAppear {
             self.hapticFeedback.prepare()
             self.fetchRandomMovies(props: props, force: false, filter: props.filter)
