@@ -14,7 +14,7 @@ struct ImagesCarouselView : View {
     @State var innerSelectedPoster: ImageData?
     
     func computeCarouselPosterScale(width: CGFloat, itemX: CGFloat) -> CGFloat {
-        let trueX = itemX - (width/2 - 250/3)
+        let trueX = itemX - (width/2 - 200/2) - 100
         if trueX < -5 {
             return 1 - (abs(trueX) / width)
         }
@@ -29,7 +29,7 @@ struct ImagesCarouselView : View {
             ZStack(alignment: .center) {
                 Group {
                     ScrollView(.horizontal, showsIndicators: false) {
-                        HStack(spacing: 200) {
+                        HStack(spacing: 16) {
                             ForEach(self.posters) { poster in
                                 GeometryReader { reader2 in
                                     BigMoviePosterImage(imageLoader: ImageLoaderCache.shared.loaderFor(path: poster.file_path,
@@ -45,7 +45,7 @@ struct ImagesCarouselView : View {
                                                 self.innerSelectedPoster = poster
                                             }
                                     }
-                                }
+                                }.frame(width: 250, height: 375)
                             }
                         }
                     }
@@ -65,7 +65,7 @@ struct ImagesCarouselView : View {
                     }
                     .scaleEffect(self.innerSelectedPoster != nil ? 0 : 1)
                     .position(x: reader.frame(in: .local).midX,
-                              y: reader.frame(in: .local).maxY - 80)
+                              y: reader.frame(in: .local).maxY - 40)
                     
                     if self.innerSelectedPoster != nil {
                         BigMoviePosterImage(imageLoader: ImageLoaderCache.shared.loaderFor(path: self.innerSelectedPoster!.file_path,
