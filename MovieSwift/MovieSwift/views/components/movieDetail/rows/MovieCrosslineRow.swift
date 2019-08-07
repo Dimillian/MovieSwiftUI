@@ -44,16 +44,13 @@ struct MovieDetailRowItem: View {
                                      posterSize: .medium)
                     ListImage(movieId: movie.id)
                     
-                }
+                }.fixedSize()
                 Text(movie.userTitle)
-                    .font(.body)
+                    .font(.footnote)
                     .foregroundColor(.primary)
                     .lineLimit(1)
-                Text(movie.release_date != nil ? movie.release_date!.prefix(4) : "")
-                    .font(.subheadline)
-                    .foregroundColor(.secondary)
-                    .lineLimit(1)
-            }.frame(width: 120)
+                PopularityBadge(score: Int(movie.vote_average * 10))
+            }.frame(width: 120, height: 240)
         }.contextMenu{ MovieContextMenu(movieId: movie.id) }
     }
 }

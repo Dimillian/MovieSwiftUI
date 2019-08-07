@@ -25,9 +25,10 @@ struct BorderedButton : View {
             }
         })
             .padding(6)
-            .border(color, width: isOn ? 0 : 1, cornerRadius: 8)
-            .background(isOn ? color : Color.clear)
-            .cornerRadius(8)
+            .background(RoundedRectangle(cornerRadius: 8)
+                .stroke(color, lineWidth: isOn ? 0 : 1)
+                .background(isOn ? color : .clear)
+                .cornerRadius(8))
     }
 }
 

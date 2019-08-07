@@ -109,47 +109,78 @@ struct MovieDetail: ConnectedView {
     }
     
     // MARK: - Body
+    
+    func peopleRow(role: String, people: People?) -> some View {
+        Group {
+            if people != nil {
+                NavigationLink(destination: PeopleDetail(peopleId: people!.id)) {
+                    HStack(alignment: .center, spacing: 0) {
+                        Text(role + ": ").font(.callout)
+                        Text(people!.name).font(.body).foregroundColor(.secondary)
+                    }
+                }
+            }
+        }
+    }
+    
+    func peopleRows(props: Props) -> some View {
+        Group {
+            peopleRow(role: "Director", people: props.credits?.filter{ $0.department == "Directing" }.first)
+        }
+    }
+
+    func topSection(props: Props) -> some View {
+        Section {
+            MovieBackdrop(movieId: movieId)
+            MovieCoverRow(movieId: movieId).onTapGesture {
+                self.isAddSheetPresented = true
+            }
+            if props.reviewsCount != nil {
+                NavigationLink(destination: MovieReviews(movie: self.movieId)) {
+                    Text("\(props.reviewsCount!) reviews")
+                        .foregroundColor(.steam_blue)
+                        .lineLimit(1)
+                }
+            }
+            MovieOverview(movie: props.movie)
+        }
+    }
+    
+    func bottomSection(props: Props) -> some View {
+        Section {
+            if props.movie.keywords?.keywords?.isEmpty == false {
+                MovieKeywords(keywords: props.movie.keywords!.keywords!)
+            }
+            if props.characters?.isEmpty == false {
+                MovieCrosslinePeopleRow(title: "Cast",
+                                        peoples: props.characters ?? [])
+            }
+            if props.credits?.isEmpty == false {
+                peopleRows(props: props)
+                MovieCrosslinePeopleRow(title: "Crew",
+                                        peoples: props.credits ?? [])
+            }
+            if props.similar?.isEmpty == false {
+                MovieCrosslineRow(title: "Similar Movies", movies: props.similar ?? [])
+            }
+            if  props.recommended?.isEmpty == false {
+                MovieCrosslineRow(title: "Recommended Movies", movies: props.recommended ?? [])
+            }
+            if props.movie.images?.posters?.isEmpty == false {
+                MoviePostersRow(posters: props.movie.images!.posters!,
+                                selectedPoster: $selectedPoster)
+            }
+            if props.movie.images?.backdrops?.isEmpty == false {
+                MovieBackdropsRow(backdrops: props.movie.images!.backdrops!)
+            }
+        }
+    }
+    
     func body(props: Props) -> some View {
         ZStack(alignment: .bottom) {
             List {
-                MovieBackdrop(movieId: movieId)
-                MovieCoverRow(movieId: movieId).onTapGesture {
-                    self.isAddSheetPresented = true
-                }
-                if props.reviewsCount != nil {
-                    NavigationLink(destination: MovieReviews(movie: self.movieId)) {
-                        Text("\(props.reviewsCount!) reviews")
-                            .foregroundColor(.steam_blue)
-                            .lineLimit(1)
-                    }
-                }
-                MovieOverview(movie: props.movie)
-                Group {
-                    if props.movie.keywords?.keywords?.isEmpty == false {
-                        MovieKeywords(keywords: props.movie.keywords!.keywords!)
-                    }
-                    if props.characters?.isEmpty == false {
-                        MovieCrosslinePeopleRow(title: "Characters",
-                                                peoples: props.characters ?? [])
-                    }
-                    if props.credits?.isEmpty == false {
-                        MovieCrosslinePeopleRow(title: "Crew",
-                                                peoples: props.credits ?? [])
-                    }
-                    if props.similar?.isEmpty == false {
-                        MovieCrosslineRow(title: "Similar Movies", movies: props.similar ?? [])
-                    }
-                    if  props.recommended?.isEmpty == false {
-                        MovieCrosslineRow(title: "Recommended Movies", movies: props.recommended ?? [])
-                    }
-                    if props.movie.images?.posters?.isEmpty == false {
-                        MoviePostersRow(posters: props.movie.images!.posters!,
-                                        selectedPoster: $selectedPoster)
-                    }
-                    if props.movie.images?.backdrops?.isEmpty == false {
-                        MovieBackdropsRow(backdrops: props.movie.images!.backdrops!)
-                    }
-                }
+                topSection(props: props)
+                bottomSection(props: props)
             }
             .edgesIgnoringSafeArea(.top)
             .navigationBarItems(trailing: Button(action: onAddButton) {

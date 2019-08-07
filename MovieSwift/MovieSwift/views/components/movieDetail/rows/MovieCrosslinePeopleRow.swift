@@ -40,11 +40,11 @@ struct PeopleRowItem: View {
                 PeopleImage(imageLoader: ImageLoaderCache.shared.loaderFor(path: people.profile_path,
                                                                            size: .cast))
                 Text(people.name)
-                    .font(.body)
+                    .font(.footnote)
                     .foregroundColor(.primary)
                     .lineLimit(1)
                 Text(people.character ?? people.department ?? "")
-                    .font(.subheadline)
+                    .font(.footnote)
                     .foregroundColor(.secondary)
                     .lineLimit(1)
                 }.frame(width: 100)
