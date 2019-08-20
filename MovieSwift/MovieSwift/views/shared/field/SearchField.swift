@@ -30,7 +30,7 @@ struct SearchField : View {
         self.dismissButtonCallback = dismissButtonCallback
         
         self.searchCancellable = searchTextWrapper.searchSubject.sink(receiveValue: { value in
-            isSearching.value = !value.isEmpty
+            isSearching.wrappedValue = !value.isEmpty
         })
     }
     

@@ -46,7 +46,7 @@ struct PeopleDetail: ConnectedView {
             ForEach(props.movieByYears[year]!) { meta in
                 NavigationLink(destination: MovieDetail(movieId: meta.id)) {
                     PeopleDetailMovieRow(movieId: meta.id, role: meta.role, onMovieContextMenu: {
-                        if props.isInFanClub.value {
+                        if props.isInFanClub.wrappedValue {
                             self.toggleScoreUpdate()
                         }
                     })
@@ -57,12 +57,12 @@ struct PeopleDetail: ConnectedView {
     
     private func barbuttons(props: Props) -> some View {
         Button(action: {
-            props.isInFanClub.value.toggle()
+            props.isInFanClub.wrappedValue.toggle()
         }, label: {
-            Image(systemName: props.isInFanClub.value ? "star.circle.fill" : "star.circle")
+            Image(systemName: props.isInFanClub.wrappedValue ? "star.circle.fill" : "star.circle")
                 .resizable()
-                .foregroundColor(props.isInFanClub.value ? .steam_gold : .primary)
-                .scaleEffect(props.isInFanClub.value ? 1.2 : 1.0)
+                .foregroundColor(props.isInFanClub.wrappedValue ? .steam_gold : .primary)
+                .scaleEffect(props.isInFanClub.wrappedValue ? 1.2 : 1.0)
                 .frame(width: 25, height: 25)
                 .animation(.spring())
         })
@@ -112,7 +112,7 @@ struct PeopleDetail: ConnectedView {
                                                  deathDate: props.people.deathDay,
                                                  placeOfBirth: props.people.place_of_birth)
                     }
-                    if props.isInFanClub.value {
+                    if props.isInFanClub.wrappedValue {
                         VStack {
                             Text("Fan level")
                                 .titleStyle()
@@ -183,7 +183,7 @@ extension PeopleDetail {
         )
         
         var movieScore: Int = 0
-        if isInFanClub.value {
+        if isInFanClub.wrappedValue {
             let roles = years.map{ $0.value }.flatMap{ $0 }.map{ $0.id }
             let rolesCount = roles.count
             let userMovies = roles.filter { movie -> Bool in

@@ -32,11 +32,11 @@ struct PeopleContextMenu: ConnectedView {
     func body(props: Props) -> some View {
         VStack {
             Button(action: {
-                props.isInFanClub.value.toggle()
+                props.isInFanClub.wrappedValue.toggle()
             }) {
                 HStack {
-                    Text(props.isInFanClub.value ? "Remove from fan club" : "Add to fan club")
-                    Image(systemName: props.isInFanClub.value ? "star.circle.fill" : "star.circle").imageScale(.medium)
+                    Text(props.isInFanClub.wrappedValue ? "Remove from fan club" : "Add to fan club")
+                    Image(systemName: props.isInFanClub.wrappedValue ? "star.circle.fill" : "star.circle").imageScale(.medium)
                 }
             }
         }

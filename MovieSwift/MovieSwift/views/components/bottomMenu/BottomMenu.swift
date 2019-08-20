@@ -48,9 +48,9 @@ struct BottomMenu<Content>: View where Content: View {
     }
     
     func currentYOffset(geometry: GeometryProxy) -> CGFloat {
-        if isPresented.value && dragState.isDragging {
+        if isPresented.wrappedValue && dragState.isDragging {
             return geometry.frame(in: .local).maxY - defaultHeight + dragState.translation.height * 0.5
-        } else if isPresented.value {
+        } else if isPresented.wrappedValue {
             return geometry.frame(in: .local).maxY - defaultHeight
         }
         return geometry.frame(in: .local).maxY + defaultHeight

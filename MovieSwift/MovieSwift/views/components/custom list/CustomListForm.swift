@@ -95,13 +95,13 @@ struct CustomListForm : View {
                 } else {
                     self.store.dispatch(action: MoviesActions.AddCustomList(list: newList))
                 }
-                self.presentationMode.value.dismiss()
+                self.presentationMode.wrappedValue.dismiss()
                 
             }, label: {
                 Text(self.editingListId != nil ? "Save changes" : "Create").foregroundColor(.blue)
             })
             Button(action: {
-                self.presentationMode.value.dismiss()
+                self.presentationMode.wrappedValue.dismiss()
             }, label: {
                 Text("Cancel").foregroundColor(.red)
             })
