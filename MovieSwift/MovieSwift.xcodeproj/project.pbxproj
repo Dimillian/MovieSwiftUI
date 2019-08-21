@@ -1079,7 +1079,7 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1250;
+				CURRENT_PROJECT_VERSION = 1300;
 				DERIVE_UIKITFORMAC_PRODUCT_BUNDLE_IDENTIFIER = NO;
 				DEVELOPMENT_ASSET_PATHS = "MovieSwift/Preview\\ Content";
 				DEVELOPMENT_TEAM = Z6P74P6T99;
@@ -1089,7 +1089,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 0.5;
+				MARKETING_VERSION = 0.6;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.thomasricouard.film-o-matic";
 				"PRODUCT_BUNDLE_IDENTIFIER[sdk=macosx*]" = "maccatalyst.com.thomasricouard.film-o-matic";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -1111,7 +1111,7 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1250;
+				CURRENT_PROJECT_VERSION = 1300;
 				DERIVE_UIKITFORMAC_PRODUCT_BUNDLE_IDENTIFIER = NO;
 				DEVELOPMENT_ASSET_PATHS = "MovieSwift/Preview\\ Content";
 				DEVELOPMENT_TEAM = Z6P74P6T99;
@@ -1121,7 +1121,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 0.5;
+				MARKETING_VERSION = 0.6;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.thomasricouard.film-o-matic";
 				"PRODUCT_BUNDLE_IDENTIFIER[sdk=macosx*]" = "maccatalyst.com.thomasricouard.film-o-matic";
 				PRODUCT_NAME = "$(TARGET_NAME)";
