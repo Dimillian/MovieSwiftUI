@@ -26,7 +26,7 @@ struct BorderedButton : View {
         })
             .padding(6)
             .background(RoundedRectangle(cornerRadius: 8)
-                .stroke(color, lineWidth: isOn ? 0 : 1)
+                .stroke(color, lineWidth: isOn ? 0 : 2)
                 .background(isOn ? color : .clear)
                 .cornerRadius(8))
     }

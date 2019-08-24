@@ -106,7 +106,7 @@ struct DiscoverView: ConnectedView {
         ZStack(alignment: .center) {
             if props.currentMovie != nil {
                 Text(props.currentMovie!.userTitle)
-                    .foregroundColor(.primary)
+                    .foregroundColor(.white)
                     .multilineTextAlignment(.center)
                     .font(.FjallaOne(size: 18))
                     .lineLimit(2)
