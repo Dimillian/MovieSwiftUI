@@ -32,7 +32,9 @@ struct MovieContextMenu: ConnectedView {
             }) {
                 HStack {
                     Text(list.movies.contains(self.movieId) ? "Remove from \(list.name)" : "Add to \(list.name)")
-                    Image(systemName: list.movies.contains(self.movieId) ? "text.badge.xmark" : "text.badge.plus").imageScale(.small)
+                    Image(systemName: list.movies.contains(self.movieId) ? "text.badge.xmark" : "text.badge.plus")
+                        .imageScale(.small)
+                        .foregroundColor(.primary)
                 }
             }
         }
@@ -46,7 +48,9 @@ struct MovieContextMenu: ConnectedView {
             }) {
                 HStack {
                     Text(props.isInWishlist ? "Remove from wishlist" : "Add to wishlist")
-                    Image(systemName: props.isInWishlist ? "heart.fill" : "heart").imageScale(.small)
+                    Image(systemName: props.isInWishlist ? "heart.fill" : "heart")
+                        .imageScale(.small)
+                        .foregroundColor(.primary)
                 }
             }
             Button(action: {
@@ -55,7 +59,9 @@ struct MovieContextMenu: ConnectedView {
             }) {
                 HStack {
                     Text(props.isInSeenList ? "Remove from seenlist" : "Add to seenlist")
-                    Image(systemName: props.isInSeenList ? "eye.fill" : "eye").imageScale(.small)
+                    Image(systemName: props.isInSeenList ? "eye.fill" : "eye")
+                        .imageScale(.small)
+                        .foregroundColor(.primary)
                 }
             }
             customListsView(props: props)

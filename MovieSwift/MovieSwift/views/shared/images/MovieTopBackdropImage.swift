@@ -11,7 +11,6 @@ import SwiftUI
 struct MovieTopBackdropImage : View {
     @ObservedObject var imageLoader: ImageLoader
     @State var isImageLoaded = false
-    
     @Binding var isExpanded: Bool
     
     var forceBlur: Bool = false
@@ -32,7 +31,7 @@ struct MovieTopBackdropImage : View {
         
         return threeshold - minY
     }
-    
+        
     var body: some View {
         ZStack {
             if self.imageLoader.image != nil {
@@ -42,6 +41,8 @@ struct MovieTopBackdropImage : View {
                             .resizable()
                             .blur(radius: self.forceBlur ? 50 : self.blurFor(minY: geometry.frame(in: .global).minY),
                                   opaque: false)
+                            .aspectRatio(contentMode: self.isExpanded ||
+                                self.blurFor(minY: geometry.frame(in: .global).minY) <= 0 ? .fit : .fill)
                             .opacity(self.isImageLoaded ? 1 : 0)
                             .animation(.easeInOut)
                             .onAppear{

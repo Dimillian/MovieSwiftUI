@@ -16,6 +16,7 @@ struct ReviewRow : View {
             Text("Review written by \(review.author)")
                 .font(.subheadline)
                 .fontWeight(.bold)
+                .lineLimit(1)
             Text(review.content)
                 .font(.body)
                 .lineLimit(nil)
