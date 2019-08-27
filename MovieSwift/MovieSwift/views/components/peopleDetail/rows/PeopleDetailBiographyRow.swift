@@ -21,10 +21,11 @@ struct PeopleDetailBiographyRow : View {
             if biography != nil {
                 Text("Biography")
                     .titleStyle()
+                    .lineLimit(1)
                 Text(biography!)
                     .foregroundColor(.secondary)
                     .font(.body)
-                    .lineLimit(isExpanded ? nil : 4)
+                    .lineLimit(isExpanded ? 1000 : 4)
             }
             Button(action: {
                 self.isExpanded.toggle()
@@ -34,23 +35,29 @@ struct PeopleDetailBiographyRow : View {
             if birthDate != nil {
                 Text("Birthday")
                     .titleStyle()
+                    .lineLimit(1)
                 Text(birthDate!)
                     .foregroundColor(.secondary)
                     .font(.body)
+                    .lineLimit(1)
             }
             if placeOfBirth != nil {
                 Text("Place of birth")
                     .titleStyle()
+                    .lineLimit(1)
                 Text(placeOfBirth!)
                     .foregroundColor(.secondary)
                     .font(.body)
+                    .lineLimit(1)
             }
             if deathDate != nil {
                 Text("Day of deah")
                     .titleStyle()
+                    .lineLimit(1)
                 Text(deathDate!)
                     .foregroundColor(.secondary)
                     .font(.body)
+                    .lineLimit(1)
             }
         }
     }

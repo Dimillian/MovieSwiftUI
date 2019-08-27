@@ -24,61 +24,69 @@ struct ImagesCarouselView : View {
         return 1
     }
     
+    private func scrollView(reader: GeometryProxy) -> some View {
+        ScrollView(.horizontal, showsIndicators: false) {
+            HStack(spacing: 16) {
+                ForEach(self.posters) { poster in
+                    GeometryReader { reader2 in
+                        BigMoviePosterImage(imageLoader: ImageLoaderCache.shared.loaderFor(path: poster.file_path,
+                                                                                           size: .medium))
+                            .scaleEffect(self.selectedPoster == nil ?
+                                .zero :
+                                self.computeCarouselPosterScale(width: reader.frame(in: .global).width,
+                                                                itemX: reader2.frame(in: .global).midX),
+                                         anchor: .center)
+                            .onTapGesture {
+                                withAnimation {
+                                    self.innerSelectedPoster = poster
+                                }
+                        }
+                    }.frame(width: 250, height: 375)
+                }
+            }
+        }
+        .disabled(self.innerSelectedPoster != nil)
+        .scaleEffect(self.innerSelectedPoster != nil ? 0 : 1)
+        .position(x: reader.frame(in: .global).midX,
+                  y: reader.frame(in: .local).midY)
+    }
+    
+    private func closeButton(reader: GeometryProxy) -> some View {
+        Button(action: {
+            self.selectedPoster = nil
+        }) {
+            Circle()
+                .strokeBorder(Color.red, lineWidth: 1)
+                .background(Image(systemName: "xmark").foregroundColor(.red))
+                .frame(width: 50, height: 50)
+            
+        }
+        .scaleEffect(self.innerSelectedPoster != nil ? 0 : 1)
+        .position(x: reader.frame(in: .local).midX,
+                  y: reader.frame(in: .local).maxY - 40)
+    }
+    
+    private func selectedPoster(reader: GeometryProxy) -> some View {
+        BigMoviePosterImage(imageLoader: ImageLoaderCache.shared.loaderFor(path: self.innerSelectedPoster!.file_path,
+                                                                           size: .medium))
+            .position(x: reader.frame(in: .local).midX,
+                      y: reader.frame(in: .global).midY - 120)
+            .scaleEffect(1.3)
+            .onTapGesture {
+                withAnimation {
+                    self.innerSelectedPoster = nil
+                }
+        }
+    }
+    
     var body: some View {
         GeometryReader { reader in
             ZStack(alignment: .center) {
-                Group {
-                    ScrollView(.horizontal, showsIndicators: false) {
-                        HStack(spacing: 16) {
-                            ForEach(self.posters) { poster in
-                                GeometryReader { reader2 in
-                                    BigMoviePosterImage(imageLoader: ImageLoaderCache.shared.loaderFor(path: poster.file_path,
-                                                                                                       size: .medium))
-                                        .scaleEffect(self.selectedPoster == nil ?
-                                            .zero :
-                                            self.computeCarouselPosterScale(width: reader.frame(in: .global).width,
-                                                                            itemX: reader2.frame(in: .global).midX),
-                                                     anchor: .center)
-                                        .zIndex(1)
-                                        .onTapGesture {
-                                            withAnimation {
-                                                self.innerSelectedPoster = poster
-                                            }
-                                    }
-                                }.frame(width: 250, height: 375)
-                            }
-                        }
-                    }
-                    .disabled(self.innerSelectedPoster != nil)
-                    .scaleEffect(self.innerSelectedPoster != nil ? 0 : 1)
-                    .position(x: reader.frame(in: .global).midX,
-                              y: reader.frame(in: .local).midY)
-                    
-                    Button(action: {
-                        self.selectedPoster = nil
-                    }) {
-                        Circle()
-                            .strokeBorder(Color.red, lineWidth: 1)
-                            .background(Image(systemName: "xmark").foregroundColor(.red))
-                            .frame(width: 50, height: 50)
-                        
-                    }
-                    .scaleEffect(self.innerSelectedPoster != nil ? 0 : 1)
-                    .position(x: reader.frame(in: .local).midX,
-                              y: reader.frame(in: .local).maxY - 40)
-                    
-                    if self.innerSelectedPoster != nil {
-                        BigMoviePosterImage(imageLoader: ImageLoaderCache.shared.loaderFor(path: self.innerSelectedPoster!.file_path,
-                                                                                           size: .medium))
-                            .position(x: reader.frame(in: .local).midX,
-                                      y: reader.frame(in: .local).midY)
-                            .scaleEffect(1.3)
-                            .onTapGesture {
-                                withAnimation {
-                                    self.innerSelectedPoster = nil
-                                }
-                        }
-                    }
+                self.scrollView(reader: reader)
+                self.closeButton(reader: reader)
+                
+                if self.innerSelectedPoster != nil {
+                    self.selectedPoster(reader: reader)
                 }
             }
         }

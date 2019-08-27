@@ -18,22 +18,26 @@ struct MoviePostersRow : View {
                 .titleStyle()
                 .padding(.leading)
             ScrollView(.horizontal, showsIndicators: false) {
-                HStack(spacing: 16) {
+                HStack(spacing: 32) {
                     ForEach(self.posters) { poster in
                         MoviePosterImage(imageLoader: ImageLoaderCache.shared.loaderFor(path: poster.file_path,
                                                                                         size: .medium),
-                                         posterSize: .medium).onTapGesture {
-                                                                    withAnimation {
-                                                                        self.selectedPoster = poster
-                                                                    }
+                                         posterSize: .medium)
+                            .onTapGesture {
+                                withAnimation {
+                                    self.selectedPoster = poster
+                                }
                         }
+                        .padding(.top)
+                        .padding(.bottom)
                     }
-                    }.padding(.leading)
+                }
+                .padding(.leading)
             }
-            }
-            .listRowInsets(EdgeInsets())
-            .padding(.top)
-            .padding(.bottom)
+        }
+        .listRowInsets(EdgeInsets())
+        .padding(.top)
+        .padding(.bottom)
     }
 }
 

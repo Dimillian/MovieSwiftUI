@@ -193,17 +193,21 @@ struct MovieDetail: ConnectedView {
             .sheet(isPresented: $isCreateListFormPresented,
                    content: { CustomListForm(editingListId: nil)
                     .environmentObject(store) })
-                .disabled(selectedPoster != nil)
-                .animation(nil)
-                .blur(radius: selectedPoster != nil ? 30 : 0)
-                .animation(.easeInOut)
+            .disabled(selectedPoster != nil)
+            .animation(nil)
+            .blur(radius: selectedPoster != nil ? 30 : 0)
+            .scaleEffect(selectedPoster != nil ? 0.8 : 1)
+            .animation(.spring())
             
             NotificationBadge(text: "Added successfully",
                               color: .blue,
                               show: $isAddedToListBadgePresented).padding(.bottom, 10)
-            if selectedPoster != nil && props.movie.images?.posters != nil {
-                ImagesCarouselView(posters: props.movie.images!.posters!, selectedPoster: $selectedPoster)
-            }
+            ImagesCarouselView(posters: props.movie.images?.posters ?? [],
+                                   selectedPoster: $selectedPoster)
+                .blur(radius: selectedPoster != nil ? 0 : 10)
+                .scaleEffect(selectedPoster != nil ? 1 : 1.2)
+                .opacity(selectedPoster != nil ? 1 : 0)
+                .animation(.spring())
         }
     }
     

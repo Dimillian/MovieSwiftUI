@@ -90,12 +90,12 @@ struct PeopleDetail: ConnectedView {
     }
     
     private func imagesCarouselView(props: Props) -> some View {
-        Group {
-            if selectedPoster != nil && props.people.images != nil {
-                ImagesCarouselView(posters: props.people.images!,
-                                   selectedPoster: $selectedPoster)
-            }
-        }
+        ImagesCarouselView(posters: props.people.images ?? [],
+                           selectedPoster: $selectedPoster)
+            .scaleEffect(selectedPoster != nil ? 1.0 : 1.2)
+            .blur(radius: selectedPoster != nil ? 0 : 10)
+            .opacity(selectedPoster != nil ? 1 : 0)
+            .animation(.spring())
     }
     
     func body(props: Props) -> some View {
@@ -127,7 +127,10 @@ struct PeopleDetail: ConnectedView {
                     self.moviesSection(props: props, year: year)
                 })
             }
+            .animation(nil)
             .blur(radius: selectedPoster != nil || isFanScoreUpdated ? 30 : 0)
+            .scaleEffect(selectedPoster != nil ? 0.8 : 1)
+            .animation(.spring())
             imagesCarouselView(props: props)
             scoreUpdateView(props: props)
         }
