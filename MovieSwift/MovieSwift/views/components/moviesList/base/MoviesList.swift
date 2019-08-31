@@ -100,11 +100,14 @@ struct MoviesList: ConnectedView {
             }
         }
     }
-    
+        
     private var searchField: some View {
         SearchField(searchTextWrapper: searchTextWrapper,
                     placeholder: "Search any movies or person",
                     isSearching: $isSearching)
+        .onPreferenceChange(OffsetTopPreferenceKey.self) { _ in
+            UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
+        }
     }
     
     private var searchFilterView: some View {

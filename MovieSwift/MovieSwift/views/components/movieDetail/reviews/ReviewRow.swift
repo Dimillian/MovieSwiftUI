@@ -21,8 +21,7 @@ struct ReviewRow : View {
                 .font(.body)
                 .lineLimit(nil)
         }
-            .padding(.top)
-            .padding(.bottom)
+        .padding(.vertical)
     }
 }
 

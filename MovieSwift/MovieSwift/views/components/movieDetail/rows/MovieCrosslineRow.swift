@@ -26,9 +26,8 @@ struct MovieCrosslineRow : View {
                     }.padding(.leading)
             }
         }
-            .listRowInsets(EdgeInsets())
-            .padding(.top)
-            .padding(.bottom)
+        .listRowInsets(EdgeInsets())
+        .padding(.vertical)
     }
 }
 

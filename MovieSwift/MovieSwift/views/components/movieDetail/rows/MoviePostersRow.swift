@@ -28,16 +28,14 @@ struct MoviePostersRow : View {
                                     self.selectedPoster = poster
                                 }
                         }
-                        .padding(.top)
-                        .padding(.bottom)
+                        .padding(.vertical)
                     }
                 }
                 .padding(.leading)
             }
         }
         .listRowInsets(EdgeInsets())
-        .padding(.top)
-        .padding(.bottom)
+        .padding(.vertical)
     }
 }
 

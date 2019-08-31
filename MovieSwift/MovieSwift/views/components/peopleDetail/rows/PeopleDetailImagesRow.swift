@@ -32,8 +32,7 @@ struct PeopleDetailImagesRow : View {
             }
         }
         .listRowInsets(EdgeInsets())
-        .padding(.top)
-        .padding(.bottom)
+        .padding(.vertical)
     }
 }
 

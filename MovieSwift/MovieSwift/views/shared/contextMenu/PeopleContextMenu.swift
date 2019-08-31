@@ -36,7 +36,8 @@ struct PeopleContextMenu: ConnectedView {
             }) {
                 HStack {
                     Text(props.isInFanClub.wrappedValue ? "Remove from fan club" : "Add to fan club")
-                    Image(systemName: props.isInFanClub.wrappedValue ? "star.circle.fill" : "star.circle").imageScale(.medium)
+                    Image(systemName: props.isInFanClub.wrappedValue ? "star.circle.fill" : "star.circle")
+                        .imageScale(.medium)
                 }
             }
         }

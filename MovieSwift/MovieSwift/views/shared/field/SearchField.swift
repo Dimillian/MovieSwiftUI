@@ -35,25 +35,27 @@ struct SearchField : View {
     }
     
     var body: some View {
-        return HStack(alignment: .center, spacing: 0) {
-            Image(systemName: "magnifyingglass")
-            TextField(placeholder,
-                      text: $searchTextWrapper.searchText)
-            .textFieldStyle(RoundedBorderTextFieldStyle())
-            .padding(.trailing)
-            .padding(.leading)
-            if !searchTextWrapper.searchText.isEmpty {
-                Button(action: {
-                    self.searchTextWrapper.searchText = ""
-                    self.isSearching = false
-                    self.dismissButtonCallback?()
-                }, label: {
-                    Text(dismissButtonTitle).foregroundColor(.steam_blue)
-                }).animation(.easeInOut)
+        GeometryReader { reader in
+            HStack(alignment: .center, spacing: 0) {
+                Image(systemName: "magnifyingglass")
+                TextField(self.placeholder,
+                          text: self.$searchTextWrapper.searchText)
+                    .textFieldStyle(RoundedBorderTextFieldStyle())
+                    .padding(.horizontal)
+                if !self.searchTextWrapper.searchText.isEmpty {
+                    Button(action: {
+                        self.searchTextWrapper.searchText = ""
+                        self.isSearching = false
+                        self.dismissButtonCallback?()
+                    }, label: {
+                        Text(self.dismissButtonTitle).foregroundColor(.steam_blue)
+                    }).animation(.easeInOut)
+                }
             }
+            .preference(key: OffsetTopPreferenceKey.self,
+                        value: reader.frame(in: .global).minY)
+            .padding(4)
         }
-        .padding(4)
-        
     }
 }
 

@@ -48,6 +48,9 @@ struct CustomListForm : View {
                 SearchField(searchTextWrapper: searchTextWrapper,
                             placeholder: "Search and add a movie as your cover",
                             isSearching: $isSearching)
+                .onPreferenceChange(OffsetTopPreferenceKey.self) { _ in
+                    UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
+                }
             }
             if listMovieCover != nil {
                 CustomListCoverRow(movieId: listMovieCover!)

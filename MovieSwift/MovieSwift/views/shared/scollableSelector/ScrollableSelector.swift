@@ -44,8 +44,7 @@ struct ScrollableSelector: View {
                     self.text(for: $0)
                 }
             }
-            .padding(.leading, 4)
-            .padding(.trailing, 4)
+            .padding([.leading, .trailing], 4)
         }
         .frame(height: 36)
         .background(Color.steam_background)

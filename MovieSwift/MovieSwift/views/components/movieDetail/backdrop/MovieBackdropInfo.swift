@@ -26,8 +26,7 @@ struct MovieBackdropInfo : View {
             .font(.FjallaOne(size: 28))
             .foregroundColor(.steam_gold)
             .lineLimit(nil)
-            .padding(.leading)
-            .padding(.trailing)
+            .padding(.horizontal)
     }
     
     private var infos: some View {

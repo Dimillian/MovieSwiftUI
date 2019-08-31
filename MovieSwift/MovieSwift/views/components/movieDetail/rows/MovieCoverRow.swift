@@ -46,8 +46,8 @@ struct MovieCoverRow : ConnectedView {
                                    action: {
                                     
                     })
-                }.padding(.top, 8)
-                    .padding(.bottom, 8)
+                }
+                .padding(.vertical, 8)
                 
                 HStack {
                     PopularityBadge(score: Int(props.movie.vote_average * 10))
