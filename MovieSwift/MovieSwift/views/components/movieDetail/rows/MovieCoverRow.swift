@@ -47,6 +47,7 @@ struct MovieCoverRow : ConnectedView {
                                     
                     })
                 }
+                .animation(.interactiveSpring())
                 .padding(.vertical, 8)
                 
                 HStack {
