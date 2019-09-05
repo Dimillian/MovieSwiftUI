@@ -39,6 +39,7 @@ struct CustomListHeaderRow : View {
                     .foregroundColor(.white)
             }.padding()
         }
+        .frame(height: 200)
         .listRowInsets(EdgeInsets())
     }
 }

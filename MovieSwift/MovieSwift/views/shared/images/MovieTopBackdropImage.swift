@@ -15,7 +15,7 @@ struct MovieTopBackdropImage : View {
     
     var forceBlur: Bool = false
     var fill: Bool = false
-    var height: CGFloat = 300
+    var height: CGFloat = 250
     
     private let threeshold: CGFloat = 50
     private let maxBlur: CGFloat = 100

@@ -35,8 +35,8 @@ struct MovieDetailRowItem: View {
     let movie: Movie
     
     var body: some View {
-        VStack(alignment: .center) {
-            NavigationLink(destination: MovieDetail(movieId: movie.id)) {
+        NavigationLink(destination: MovieDetail(movieId: movie.id)) {
+            VStack(alignment: .center) {
                 ZStack(alignment: .topLeading) {
                     MoviePosterImage(imageLoader: ImageLoaderCache.shared.loaderFor(path: movie.poster_path,
                                                                                     size: .medium),

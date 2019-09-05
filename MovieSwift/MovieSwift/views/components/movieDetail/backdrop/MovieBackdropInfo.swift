@@ -21,14 +21,6 @@ struct MovieBackdropInfo : View {
             .delay(0.5)
     }
     
-    private var title: some View {
-        Text(movie.userTitle)
-            .font(.FjallaOne(size: 28))
-            .foregroundColor(.steam_gold)
-            .lineLimit(nil)
-            .padding(.horizontal)
-    }
-    
     private var infos: some View {
         HStack {
             Text(movie.release_date != nil ? movie.release_date!.prefix(4) : "")
@@ -76,7 +68,6 @@ struct MovieBackdropInfo : View {
     var body: some View {
         HStack {
             VStack(alignment: .leading) {
-                title
                 infos
                 productionCountry
                 genresBadges

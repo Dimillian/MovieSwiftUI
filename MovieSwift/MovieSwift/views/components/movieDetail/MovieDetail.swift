@@ -182,10 +182,11 @@ struct MovieDetail: ConnectedView {
                 topSection(props: props)
                 bottomSection(props: props)
             }
-            .edgesIgnoringSafeArea(.top)
+            .navigationBarTitle(Text(props.movie.userTitle), displayMode: .large)
             .navigationBarItems(trailing: Button(action: onAddButton) {
                 Image(systemName: "text.badge.plus").imageScale(.large)
             })
+            .edgesIgnoringSafeArea(.top)
             .onAppear {
                 self.fetchMovieDetails()
             }

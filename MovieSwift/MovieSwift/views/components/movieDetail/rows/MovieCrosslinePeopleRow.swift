@@ -35,8 +35,8 @@ struct PeopleRowItem: View {
     let people: People
     
     var body: some View {
-        VStack(alignment: .center) {
-            NavigationLink(destination: PeopleDetail(peopleId: people.id)) {
+        NavigationLink(destination: PeopleDetail(peopleId: people.id)) {
+            VStack(alignment: .center) {
                 PeopleImage(imageLoader: ImageLoaderCache.shared.loaderFor(path: people.profile_path,
                                                                            size: .cast))
                 Text(people.name)
@@ -47,7 +47,7 @@ struct PeopleRowItem: View {
                     .font(.footnote)
                     .foregroundColor(.secondary)
                     .lineLimit(1)
-                }.frame(width: 100)
+            }.frame(width: 100)
         }.contextMenu{ PeopleContextMenu(people: self.people.id) }
     }
 }

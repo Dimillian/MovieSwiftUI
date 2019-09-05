@@ -33,7 +33,9 @@ struct MovieBackdrop: View {
             if !seeImage {
                 MovieBackdropInfo(movie: movie)
             }
-        }.listRowInsets(EdgeInsets())
+        }
+        .frame(height: 250)
+        .listRowInsets(EdgeInsets())
     }
 }
 
