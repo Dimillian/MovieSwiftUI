@@ -25,7 +25,7 @@ enum MoviesMenu: Int, CaseIterable {
     func endpoint() -> APIService.Endpoint {
         switch self {
         case .popular: return APIService.Endpoint.popular
-        case .topRated: return APIService.Endpoint.toRated
+        case .topRated: return APIService.Endpoint.topRated
         case .upcoming: return APIService.Endpoint.upcoming
         case .nowPlaying: return APIService.Endpoint.nowPlaying
         case .trending: return APIService.Endpoint.trending
