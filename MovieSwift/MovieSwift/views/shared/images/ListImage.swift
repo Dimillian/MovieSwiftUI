@@ -21,7 +21,8 @@ struct ListImage: ConnectedView {
     func map(state: AppState, dispatch: @escaping DispatchFunction) -> Props {
         Props(isInwishlist: state.moviesState.wishlist.contains(movieId),
               isInSeenlist: state.moviesState.seenlist.contains(movieId),
-              isInCustomList: state.moviesState.customLists.contains(where: { (_, value) -> Bool in
+              isInCustomList: state.moviesState.customLists.contains(where:
+                { (_, value) -> Bool in
                 value.movies.contains(self.movieId)
               }))
     }

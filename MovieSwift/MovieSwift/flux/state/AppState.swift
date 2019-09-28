@@ -25,6 +25,10 @@ struct AppState: FluxState, Codable {
                                                                 in: .userDomainMask,
                                                                 appropriateFor: nil,
                                                                 create: false)
+            if let icloudDirectory = icloudDirectory {
+                try FileManager.default.startDownloadingUbiquitousItem(at: icloudDirectory)
+            }
+            
             savePath = (icloudDirectory ?? documentDirectory).appendingPathComponent("userData")
         } catch let error {
             fatalError("Couldn't create save state data with error: \(error)")
@@ -41,26 +45,30 @@ struct AppState: FluxState, Codable {
     }
     
     func archiveState() {
-        let movies = moviesState.movies.filter { (arg) -> Bool in
-            let (key, _) = arg
-            return moviesState.seenlist.contains(key) ||
-                moviesState.wishlist.contains(key) ||
-                moviesState.customLists.contains(where: { (_, value) -> Bool in
-                    value.movies.contains(key) ||
-                    value.cover == key
-                })
-        }
-        let people = peoplesState.peoples.filter{ peoplesState.fanClub.contains($0.key) }
-        var savingState = self
-        savingState.moviesState.movies = movies
-        savingState.peoplesState.peoples = people
-        guard let data = try? encoder.encode(savingState) else {
-            return
-        }
-        do {
-            try data.write(to: savePath)
-        } catch let error {
-            print("Error while saving app state :\(error)")
+        let moviesState = self.moviesState
+        let peoplesState = self.peoplesState
+        DispatchQueue.global().async {
+            let movies = moviesState.movies.filter { (arg) -> Bool in
+                let (key, _) = arg
+                return moviesState.seenlist.contains(key) ||
+                    moviesState.wishlist.contains(key) ||
+                    moviesState.customLists.contains(where: { (_, value) -> Bool in
+                        value.movies.contains(key) ||
+                            value.cover == key
+                    })
+            }
+            let people = peoplesState.peoples.filter{ peoplesState.fanClub.contains($0.key) }
+            var savingState = self
+            savingState.moviesState.movies = movies
+            savingState.peoplesState.peoples = people
+            guard let data = try? encoder.encode(savingState) else {
+                return
+            }
+            do {
+                try data.write(to: savePath)
+            } catch let error {
+                print("Error while saving app state :\(error)")
+            }
         }
        
     }

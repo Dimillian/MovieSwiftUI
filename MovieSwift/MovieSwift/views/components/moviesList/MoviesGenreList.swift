@@ -61,8 +61,7 @@ struct MoviesGenreList: ConnectedView {
                     self.isSortSheetPresented.toggle()
                 }, label: {
                     Image(systemName: "line.horizontal.3.decrease.circle")
-                        .resizable()
-                        .frame(width: 25, height: 25)
+                        .imageScale(.large)
                         .foregroundColor(.steam_gold)
                 })
             ))

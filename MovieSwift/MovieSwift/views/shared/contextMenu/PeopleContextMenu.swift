@@ -10,6 +10,7 @@ import SwiftUI
 import SwiftUIFlux
 
 struct PeopleContextMenu: ConnectedView {
+    
     struct Props {
         let isInFanClub: Binding<Bool>
     }

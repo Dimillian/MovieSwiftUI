@@ -13,12 +13,14 @@ import SwiftUIFlux
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
     var window: UIWindow?
+    
+    var archiveTimer: Timer?
 
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
         if let windowScene = scene as? UIWindowScene {
             let window = UIWindow(windowScene: windowScene)
             #if targetEnvironment(macCatalyst)
-                windowScene.titlebar?.titleVisibility = .hidden
+            windowScene.titlebar?.titleVisibility = .hidden
             #endif
             
             //TODO: Move that to SwiftUI once implemented
@@ -44,8 +46,13 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             window.tintColor = UIColor(named: "steam_gold")
             self.window = window
             window.makeKeyAndVisible()
+            
+            archiveTimer = Timer.scheduledTimer(withTimeInterval: 30.0, repeats: true, block: { _ in
+                store.state.archiveState()
+            })
+            
         }
-        }
+    }
     
     func sceneDidEnterBackground(_ scene: UIScene) {
         store.state.archiveState()
