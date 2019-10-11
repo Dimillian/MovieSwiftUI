@@ -19,11 +19,13 @@ final class MoviesMenuListPageListener: MoviesPagesListener {
         store.dispatch(action: MoviesActions.FetchMoviesMenuList(list: menu, page: currentPage))
     }
     
-    init(menu: MoviesMenu) {
+    init(menu: MoviesMenu, loadOnInit: Bool? = true) {
         self.menu = menu
         
         super.init()
         
-        loadPage()
+        if loadOnInit == true {
+            loadPage()
+        }
     }
 }
