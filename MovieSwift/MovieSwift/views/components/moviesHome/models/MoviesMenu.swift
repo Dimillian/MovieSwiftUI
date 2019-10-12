@@ -9,7 +9,7 @@
 import Foundation
 
 enum MoviesMenu: Int, CaseIterable {
-    case popular, topRated, upcoming, nowPlaying, trending, genres
+    case nowPlaying, upcoming, trending, popular, topRated, genres
     
     func title() -> String {
         switch self {

@@ -44,7 +44,12 @@ struct MoviesHomeGrid: ConnectedView {
     }
     
     func map(state: AppState, dispatch: @escaping DispatchFunction) -> Props {
-        return Props(movies: state.moviesState.moviesList, genres: state.moviesState.genres)
+        var genres = state.moviesState.genres
+        if !genres.isEmpty {
+            genres.removeFirst()
+        }
+        return Props(movies: state.moviesState.moviesList,
+                     genres: genres)
     }
     
     func body(props: Props) -> some View {

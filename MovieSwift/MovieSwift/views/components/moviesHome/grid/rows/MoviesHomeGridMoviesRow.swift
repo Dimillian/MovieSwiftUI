@@ -31,12 +31,18 @@ struct MoviesHomeGridMoviesRow: ConnectedView {
             HStack(spacing: 16) {
                 ForEach(props.movies) { movie in
                     NavigationLink(destination: MovieDetail(movieId: movie.id)) {
-                        MoviePosterImage(imageLoader: ImageLoaderCache.shared.loaderFor(path: movie.poster_path,
-                                                                                        size: .medium),
-                                         posterSize: .medium)
+                        ZStack {
+                            MoviePosterImage(imageLoader: ImageLoaderCache.shared.loaderFor(path: movie.poster_path,
+                                                                                            size: .medium),
+                                             posterSize: .medium)
+                                .contextMenu{ MovieContextMenu(movieId: movie.id) }
+                            ListImage(movieId: movie.id)
+                        }
                     }
                 }
-            }.padding(.horizontal, 16)
+            }
+            .frame(height: 150)
+            .padding(.horizontal, 16)
         }
     }
 }
