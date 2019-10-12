@@ -25,7 +25,7 @@ struct MoviesHome : View {
     @EnvironmentObject private var store: Store<AppState>
     @ObservedObject private var selectedMenu = MoviesSelectedMenuStore(selectedMenu: MoviesMenu.allCases.first!)
     @State private var isSettingPresented = false
-    @State private var homeMode = HomeMode.grid
+    @State private var homeMode = HomeMode.list
     
     private var segmentedView: some View {
         ScrollableSelector(items: MoviesMenu.allCases.map{ $0.title() },
@@ -75,23 +75,36 @@ struct MoviesHome : View {
         MoviesHomeGrid()
     }
     
-    var body: some View {
-        NavigationView {
-            Group {
-                if homeMode == .list {
-                    homeAsList
-                } else {
-                    homeAsGrid
-                }
+    private func navigationView(content: AnyView) -> some View {
+        Group {
+            if homeMode == .list {
+                NavigationView {
+                    content
+                }.navigationViewStyle(DoubleColumnNavigationViewStyle())
+            } else {
+                NavigationView {
+                    content
+                }.navigationViewStyle(StackNavigationViewStyle())
             }
-            .navigationBarItems(trailing:
-                HStack {
-                    swapHomeButton
-                    settingButton
-                }
-            ).sheet(isPresented: $isSettingPresented,
-                    content: { SettingsForm() })
         }
+    }
+    
+    var body: some View {
+        let view = Group {
+            if homeMode == .list {
+                homeAsList
+            } else {
+                homeAsGrid
+            }
+        }
+        .navigationBarItems(trailing:
+            HStack {
+                swapHomeButton
+                settingButton
+            }
+        ).sheet(isPresented: $isSettingPresented,
+                content: { SettingsForm() })
+        return navigationView(content: AnyView(view))
     }
 }
 
