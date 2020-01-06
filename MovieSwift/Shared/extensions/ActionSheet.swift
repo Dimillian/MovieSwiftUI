@@ -21,7 +21,9 @@ extension ActionSheet {
         } else {
             let wishlistButton: Alert.Button = .default(Text("Add to wishlist")) {
                 store.dispatch(action: MoviesActions.AddToWishlist(movie: movie))
+                #if !os(tvOS)
                 UISelectionFeedbackGenerator().selectionChanged()
+                #endif
                 onTrigger?()
             }
             return wishlistButton
@@ -38,7 +40,9 @@ extension ActionSheet {
         } else {
             let wishlistButton: Alert.Button = .default(Text("Add to seenlist")) {
                 store.dispatch(action: MoviesActions.AddToSeenList(movie: movie))
+                #if !os(tvOS)
                 UISelectionFeedbackGenerator().selectionChanged()
+                #endif
                 onTrigger?()
             }
             return wishlistButton
@@ -59,7 +63,9 @@ extension ActionSheet {
                 let button: Alert.Button = .default(Text("Add to \(list.name)")) {
                     store.dispatch(action: MoviesActions.AddMovieToCustomList(list: list.id,
                                                                               movie: movie))
+                    #if !os(tvOS)
                     UISelectionFeedbackGenerator().selectionChanged()
+                    #endif
                     onTrigger?()
                 }
                 buttons.append(button)
