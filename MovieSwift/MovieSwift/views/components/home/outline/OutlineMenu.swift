@@ -15,13 +15,18 @@ enum OutlineMenu: Int, CaseIterable, Identifiable {
     }
     
     
-    case popular, genres, fanClub, myLists, settings
+    case popular, topRated, upcoming, nowPlaying, trending, genres, fanClub, discover, myLists, settings
     
     var title: String {
         switch self {
         case .popular:    return "Popular"
+        case .topRated:   return "Top rated"
+        case .upcoming:   return "Upcoming"
+        case .nowPlaying: return "Now Playing"
+        case .trending:   return "Trending"
         case .genres:     return "Genres"
         case .fanClub:    return "Fan Club"
+        case .discover:   return "Discover"
         case .myLists:    return "MyLists"
         case .settings:   return "Settings"
         }
@@ -30,8 +35,13 @@ enum OutlineMenu: Int, CaseIterable, Identifiable {
     var image: String {
         switch self {
         case .popular:    return "film.fill"
+        case .topRated:   return "star.fill"
+        case .upcoming:   return "clock.fill"
+        case .nowPlaying: return "play.circle.fill"
+        case .trending:   return "chart.bar.fill"
         case .genres:     return "tag.fill"
         case .fanClub:    return "star.circle.fill"
+        case .discover:   return "square.stack.fill"
         case .myLists:    return "text.badge.plus"
         case .settings:   return "wrench"
         }
@@ -45,8 +55,13 @@ enum OutlineMenu: Int, CaseIterable, Identifiable {
     var contentView: AnyView {
         switch self {
         case .popular:    return moviesList(menu: .popular)
+        case .topRated:   return moviesList(menu: .topRated)
+        case .upcoming:   return moviesList(menu: .upcoming)
+        case .nowPlaying: return moviesList(menu: .nowPlaying)
+        case .trending:   return moviesList(menu: .trending)
         case .genres:     return AnyView( NavigationView { GenresList() })
         case .fanClub:    return AnyView( FanClubHome() )
+        case .discover:   return AnyView( DiscoverView() )
         case .myLists:    return AnyView( MyLists() )
         case .settings:   return AnyView( SettingsForm() )
         }
