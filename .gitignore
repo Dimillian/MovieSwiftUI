@@ -21,7 +21,7 @@ xcuserdata/
 *.moved-aside
 *.xccheckout
 *.xcscmblueprint
-APITokens.json
+APITokens.plist
 
 
 ## Obj-C/Swift specific
