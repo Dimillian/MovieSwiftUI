@@ -208,7 +208,6 @@ struct MovieDetail: ConnectedView {
                 .blur(radius: selectedPoster != nil ? 0 : 10)
                 .scaleEffect(selectedPoster != nil ? 1 : 1.2)
                 .opacity(selectedPoster != nil ? 1 : 0)
-                .animation(.spring())
         }
     }
     
