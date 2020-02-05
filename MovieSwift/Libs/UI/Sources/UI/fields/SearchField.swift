@@ -9,6 +9,9 @@
 import SwiftUI
 import Combine
 
+@available(iOS 13.0, OSX 10.15, *)
+@available(tvOS, unavailable)
+@available(watchOS, unavailable)
 public struct SearchField : View {
     @ObservedObject var searchTextWrapper: SearchTextObservable
     let placeholder: String
@@ -60,6 +63,9 @@ public struct SearchField : View {
 }
 
 #if DEBUG
+@available(iOS 13.0, OSX 10.15, *)
+@available(tvOS, unavailable)
+@available(watchOS, unavailable)
 struct SearchField_Previews : PreviewProvider {
     static var previews: some View {
         let withText = SearchTextObservable()
