@@ -7,6 +7,7 @@
 //
 
 import SwiftUI
+import Backend
 
 struct FullscreenMoviePosterImage: View {
     @ObservedObject var imageLoader: ImageLoader

@@ -7,6 +7,7 @@
 //
 
 import SwiftUI
+import Backend
 
 struct MoviePostersRow : View {
     let posters: [ImageData]

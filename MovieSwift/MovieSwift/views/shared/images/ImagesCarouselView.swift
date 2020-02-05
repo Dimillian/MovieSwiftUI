@@ -7,6 +7,7 @@
 //
 
 import SwiftUI
+import Backend
 
 struct ImagesCarouselView : View {
     let posters: [ImageData]

@@ -8,6 +8,7 @@
 
 import SwiftUI
 import SwiftUIFlux
+import UI
 
 struct PeopleDetail: ConnectedView {
     // MARK: - Props

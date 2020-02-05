@@ -8,10 +8,14 @@
 
 import SwiftUI
 
-struct PopularityBadge : View {
-    let score: Int
+public struct PopularityBadge : View {
+    public let score: Int
     
-    @State var isDisplayed = false
+    @State private var isDisplayed = false
+    
+    public init(score: Int) {
+        self.score = score
+    }
     
     var scoreColor: Color {
         get {
@@ -41,7 +45,7 @@ struct PopularityBadge : View {
         }
     }
     
-    var body: some View {
+    public var body: some View {
         ZStack {
             Circle()
                 .foregroundColor(.clear)

@@ -7,6 +7,7 @@
 //
 
 import SwiftUI
+import Backend
 
 struct DiscoverPosterStyle: ViewModifier {
     func body(content: Content) -> some View {

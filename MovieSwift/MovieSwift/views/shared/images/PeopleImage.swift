@@ -7,6 +7,7 @@
 //
 
 import SwiftUI
+import Backend
 
 struct PeopleImage : View {
     @ObservedObject var imageLoader: ImageLoader

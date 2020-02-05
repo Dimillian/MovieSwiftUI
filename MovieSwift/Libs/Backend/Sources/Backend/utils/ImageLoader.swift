@@ -10,12 +10,12 @@ import SwiftUI
 import UIKit
 import Combine
 
-class ImageLoaderCache {
-    static let shared = ImageLoaderCache()
+public class ImageLoaderCache {
+    public static let shared = ImageLoaderCache()
     
-    var loaders: NSCache<NSString, ImageLoader> = NSCache()
+    private var loaders: NSCache<NSString, ImageLoader> = NSCache()
             
-    func loaderFor(path: String?, size: ImageService.Size) -> ImageLoader {
+    public func loaderFor(path: String?, size: ImageService.Size) -> ImageLoader {
         let key = NSString(string: "\(path ?? "missing")#\(size.rawValue)")
         if let loader = loaders.object(forKey: key) {
             return loader
@@ -27,17 +27,17 @@ class ImageLoaderCache {
     }
 }
 
-final class ImageLoader: ObservableObject {
-    let path: String?
-    let size: ImageService.Size
+public final class ImageLoader: ObservableObject {
+    public let path: String?
+    public let size: ImageService.Size
     
-    var objectWillChange: AnyPublisher<UIImage?, Never> = Publishers.Sequence<[UIImage?], Never>(sequence: []).eraseToAnyPublisher()
+    public var objectWillChange: AnyPublisher<UIImage?, Never> = Publishers.Sequence<[UIImage?], Never>(sequence: []).eraseToAnyPublisher()
     
-    @Published var image: UIImage? = nil
+    @Published public var image: UIImage? = nil
     
-    var cancellable: AnyCancellable?
+    public var cancellable: AnyCancellable?
         
-    init(path: String?, size: ImageService.Size) {
+    public init(path: String?, size: ImageService.Size) {
         self.size = size
         self.path = path
         

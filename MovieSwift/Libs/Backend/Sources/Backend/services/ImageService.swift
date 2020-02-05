@@ -11,10 +11,10 @@ import SwiftUI
 import Combine
 import UIKit
 
-class ImageService {
-    static let shared = ImageService()
+public class ImageService {
+    public static let shared = ImageService()
     
-    enum Size: String {
+    public enum Size: String {
         case small = "https://image.tmdb.org/t/p/w154/"
         case medium = "https://image.tmdb.org/t/p/w500/"
         case cast = "https://image.tmdb.org/t/p/w185/"
@@ -25,11 +25,11 @@ class ImageService {
         }
     }
     
-    enum ImageError: Error {
+    public enum ImageError: Error {
         case decodingError
     }
     
-    func fetchImage(poster: String, size: Size) -> AnyPublisher<UIImage?, Never> {
+    public func fetchImage(poster: String, size: Size) -> AnyPublisher<UIImage?, Never> {
         return URLSession.shared.dataTaskPublisher(for: size.path(poster: poster))
             .tryMap { (data, response) -> UIImage? in
                 return UIImage(data: data)

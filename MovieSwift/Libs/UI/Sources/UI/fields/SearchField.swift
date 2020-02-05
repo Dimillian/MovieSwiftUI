@@ -9,7 +9,7 @@
 import SwiftUI
 import Combine
 
-struct SearchField : View {
+public struct SearchField : View {
     @ObservedObject var searchTextWrapper: SearchTextObservable
     let placeholder: String
     @Binding var isSearching: Bool
@@ -18,7 +18,7 @@ struct SearchField : View {
     
     private var searchCancellable: Cancellable? = nil
     
-    init(searchTextWrapper: SearchTextObservable,
+    public init(searchTextWrapper: SearchTextObservable,
          placeholder: String,
          isSearching: Binding<Bool>,
          dismissButtonTitle: String = "Cancel",
@@ -34,7 +34,7 @@ struct SearchField : View {
         })
     }
     
-    var body: some View {
+    public var body: some View {
         GeometryReader { reader in
             HStack(alignment: .center, spacing: 0) {
                 Image(systemName: "magnifyingglass")
@@ -48,7 +48,7 @@ struct SearchField : View {
                         self.isSearching = false
                         self.dismissButtonCallback?()
                     }, label: {
-                        Text(self.dismissButtonTitle).foregroundColor(.steam_blue)
+                        Text(self.dismissButtonTitle).foregroundColor(.blue)
                     }).animation(.easeInOut)
                 }
             }

@@ -8,9 +8,16 @@
 
 import SwiftUI
 
-struct RoundedBadge : View {
-    let text: String
-    var body: some View {
+public struct RoundedBadge : View {
+    public let text: String
+    public let color: Color
+    
+    public init(text: String, color: Color) {
+        self.text = text
+        self.color = color
+    }
+    
+    public var body: some View {
         HStack {
             Text(text.capitalized)
                 .font(.footnote)
@@ -27,7 +34,7 @@ struct RoundedBadge : View {
             }
             .background(
                 Rectangle()
-                    .foregroundColor(.steam_background)
+                    .foregroundColor(color)
                     .cornerRadius(12)
         )
             .padding(.bottom, 4)
@@ -37,7 +44,7 @@ struct RoundedBadge : View {
 #if DEBUG
 struct RoundedBadge_Previews : PreviewProvider {
     static var previews: some View {
-        RoundedBadge(text: "Test")
+        RoundedBadge(text: "Test", color: .blue)
     }
 }
 #endif

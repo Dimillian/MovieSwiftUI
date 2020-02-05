@@ -8,6 +8,8 @@
 
 import SwiftUI
 import SwiftUIFlux
+import Backend
+import UI
 
 struct MovieCoverRow : ConnectedView {
     let movieId: Int

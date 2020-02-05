@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import Backend
 
 enum MoviesMenu: Int, CaseIterable {
     case nowPlaying, upcoming, trending, popular, topRated, genres

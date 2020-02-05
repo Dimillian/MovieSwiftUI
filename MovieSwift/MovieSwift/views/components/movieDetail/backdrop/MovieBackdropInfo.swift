@@ -7,6 +7,7 @@
 //
 
 import SwiftUI
+import UI
 
 struct MovieBackdropInfo : View {
     let movie: Movie
@@ -59,7 +60,9 @@ struct MovieBackdropInfo : View {
         ScrollView(.horizontal, showsIndicators: false) {
             HStack {
                 ForEach(movie.genres ?? []) { genre in
-                    GenreBadge(genre: genre)
+                    NavigationLink(destination: MoviesGenreList(genre: genre)) {
+                        RoundedBadge(text: genre.name, color: .steam_background)
+                    }
                 }
             }.padding(.leading)
         }

@@ -7,6 +7,7 @@
 //
 
 import SwiftUI
+import Backend
 
 struct PeopleDetailImagesRow : View {
     let images: [ImageData]

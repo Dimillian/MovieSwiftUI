@@ -8,10 +8,16 @@
 
 import SwiftUI
 
-struct NotificationBadge : View {
-    let text: String
-    let color: Color
-    @Binding var show: Bool
+public struct NotificationBadge : View {
+    public let text: String
+    public let color: Color
+    @Binding public var show: Bool
+    
+    public init(text: String, color: Color, show: Binding<Bool>) {
+        self.text = text
+        self.color = color
+        self._show = show
+    }
     
     var animation: Animation {
         Animation
@@ -19,7 +25,7 @@ struct NotificationBadge : View {
             .speed(2)
     }
     
-    var body: some View {
+    public var body: some View {
         Text(text)
             .foregroundColor(.white)
             .padding()

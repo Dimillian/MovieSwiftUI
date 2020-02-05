@@ -7,6 +7,7 @@
 //
 
 import SwiftUI
+import Backend
 
 struct MovieBackdropImage : View {
     enum DisplayMode {

@@ -8,6 +8,7 @@
 
 import SwiftUI
 import SwiftUIFlux
+import Backend
 
 struct CustomListCoverRow : View {
     @EnvironmentObject var store: Store<AppState>

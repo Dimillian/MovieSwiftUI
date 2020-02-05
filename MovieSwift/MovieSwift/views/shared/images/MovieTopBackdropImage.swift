@@ -7,6 +7,7 @@
 //
 
 import SwiftUI
+import Backend
 
 struct MovieTopBackdropImage : View {
     @ObservedObject var imageLoader: ImageLoader

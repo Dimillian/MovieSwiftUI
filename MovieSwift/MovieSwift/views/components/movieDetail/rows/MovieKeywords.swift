@@ -7,6 +7,7 @@
 //
 
 import SwiftUI
+import UI
 
 struct MovieKeywords : View {
     let keywords: [Keyword]
@@ -19,7 +20,9 @@ struct MovieKeywords : View {
             ScrollView(.horizontal, showsIndicators: false) {
                 HStack {
                     ForEach(keywords) {keyword in
-                        KeywordBadge(keyword: keyword)
+                        NavigationLink(destination: MovieKeywordList(keyword: keyword)) {
+                            RoundedBadge(text: keyword.name, color: .steam_background)
+                        }
                     }
                 }.padding(.leading)
             }

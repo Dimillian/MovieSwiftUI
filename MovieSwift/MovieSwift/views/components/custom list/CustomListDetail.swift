@@ -8,6 +8,7 @@
 
 import SwiftUI
 import SwiftUIFlux
+import UI
 
 final class CustomListSearchMovieTextWrapper: SearchTextObservable {
     override func onUpdateTextDebounced(text: String) {

@@ -9,6 +9,7 @@
 import SwiftUI
 import SwiftUIFlux
 import Combine
+import UI
 
 struct MovieDetail: ConnectedView {
     struct Props {

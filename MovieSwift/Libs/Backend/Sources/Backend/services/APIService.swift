@@ -8,19 +8,19 @@
 
 import Foundation
 
-struct APIService {
+public struct APIService {
     let baseURL = URL(string: "https://api.themoviedb.org/3")!
     let apiKey = "1d9b898a212ea52e283351e521e17871"
-    static let shared = APIService()
+    public static let shared = APIService()
     let decoder = JSONDecoder()
     
-    enum APIError: Error {
+    public enum APIError: Error {
         case noResponse
         case jsonDecodingError(error: Error)
         case networkError(error: Error)
     }
     
-    enum Endpoint {
+    public enum Endpoint {
         case popular, topRated, upcoming, nowPlaying, trending
         case movieDetail(movie: Int), recommended(movie: Int), similar(movie: Int), videos(movie: Int)
         case credits(movie: Int), review(movie: Int)
@@ -78,7 +78,7 @@ struct APIService {
         }
     }
     
-    func GET<T: Codable>(endpoint: Endpoint,
+    public func GET<T: Codable>(endpoint: Endpoint,
                          params: [String: String]?,
                          completionHandler: @escaping (Result<T, APIError>) -> Void) {
         let queryURL = baseURL.appendingPathComponent(endpoint.path())

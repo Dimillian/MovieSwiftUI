@@ -8,6 +8,7 @@
 
 import SwiftUI
 import SwiftUIFlux
+import Backend
 
 struct PeopleDetailHeaderRow : View {
     @EnvironmentObject private var store: Store<AppState>

@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import UI
 
 final class MoviesSearchPageListener: MoviesPagesListener {
     var text: String?

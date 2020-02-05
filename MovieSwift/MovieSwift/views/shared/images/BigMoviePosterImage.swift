@@ -7,6 +7,7 @@
 //
 
 import SwiftUI
+import Backend
 
 struct BigMoviePosterImage : View {
     @ObservedObject var imageLoader: ImageLoader

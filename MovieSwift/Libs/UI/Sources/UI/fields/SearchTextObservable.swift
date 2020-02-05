@@ -9,8 +9,8 @@
 import SwiftUI
 import Combine
 
-class SearchTextObservable: ObservableObject {
-    @Published var searchText = "" {
+open class SearchTextObservable: ObservableObject {
+    @Published public var searchText = "" {
         willSet {
             DispatchQueue.main.async {
                 self.searchSubject.send(newValue)
@@ -23,7 +23,7 @@ class SearchTextObservable: ObservableObject {
         }
     }
         
-    let searchSubject = PassthroughSubject<String, Never>()
+    public let searchSubject = PassthroughSubject<String, Never>()
     
     private var searchCancellable: Cancellable? {
         didSet {
@@ -35,7 +35,7 @@ class SearchTextObservable: ObservableObject {
         searchCancellable?.cancel()
     }
     
-    init() {
+    public init() {
         searchCancellable = searchSubject.eraseToAnyPublisher()
             .map {
                 $0
@@ -48,11 +48,11 @@ class SearchTextObservable: ObservableObject {
         })
     }
     
-    func onUpdateText(text: String) {
+    open func onUpdateText(text: String) {
         /// Overwrite by your subclass to get instant text update.
     }
     
-    func onUpdateTextDebounced(text: String) {
+    open func onUpdateTextDebounced(text: String) {
         /// Overwrite by your subclass to get debounced text update.
     }
 }

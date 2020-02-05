@@ -8,6 +8,7 @@
 
 import SwiftUI
 import SwiftUIFlux
+import Backend
 
 struct CustomListRow : View {
     @EnvironmentObject var store: Store<AppState>

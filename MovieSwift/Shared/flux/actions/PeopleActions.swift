@@ -8,6 +8,7 @@
 
 import Foundation
 import SwiftUIFlux
+import Backend
 
 struct PeopleActions {
     struct FetchDetail: AsyncAction {

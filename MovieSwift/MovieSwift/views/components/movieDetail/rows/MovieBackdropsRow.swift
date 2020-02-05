@@ -7,6 +7,7 @@
 //
 
 import SwiftUI
+import Backend
 
 struct MovieBackdropsRow : View {
     let backdrops: [ImageData]

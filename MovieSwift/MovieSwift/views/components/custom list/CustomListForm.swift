@@ -8,6 +8,7 @@
 
 import SwiftUI
 import SwiftUIFlux
+import UI
 
 final class CustomListFormSearchWrapper: SearchTextObservable {
     override func onUpdateTextDebounced(text: String) {

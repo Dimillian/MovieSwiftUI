@@ -8,14 +8,22 @@
 
 import SwiftUI
 
-struct BorderedButton : View {
-    let text: String
-    let systemImageName: String
-    let color: Color
-    let isOn: Bool
-    let action: () -> Void
+public struct BorderedButton : View {
+    public let text: String
+    public let systemImageName: String
+    public let color: Color
+    public let isOn: Bool
+    public let action: () -> Void
     
-    var body: some View {
+    public init(text: String, systemImageName: String, color: Color, isOn: Bool, action: @escaping () -> Void) {
+        self.text = text
+        self.systemImageName = systemImageName
+        self.color = color
+        self.isOn = isOn
+        self.action = action
+    }
+    
+    public var body: some View {
         Button(action: {
             self.action()
         }, label: {

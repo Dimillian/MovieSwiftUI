@@ -9,6 +9,7 @@
 import SwiftUI
 import SwiftUIFlux
 import Combine
+import UI
 
 // MARK: - Movies List
 struct MoviesList: ConnectedView {

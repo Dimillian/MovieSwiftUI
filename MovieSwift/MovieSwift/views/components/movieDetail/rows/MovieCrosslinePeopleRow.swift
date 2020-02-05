@@ -8,6 +8,7 @@
 
 import SwiftUI
 import SwiftUIFlux
+import Backend
 
 struct MovieCrosslinePeopleRow : View {
     let title: String
