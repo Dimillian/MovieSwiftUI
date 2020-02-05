@@ -29,11 +29,10 @@ struct PopularityBadge : View {
     var overlay: some View {
         ZStack {
             Circle()
-                .stroke(Color.secondary, lineWidth: 2)
-            Circle()
                 .trim(from: 0,
                       to: isDisplayed ? CGFloat(score) / 100 : 0)
-                .stroke(scoreColor, lineWidth: 2)
+                .stroke(style: StrokeStyle(lineWidth: 2, dash: [1]))
+                .foregroundColor(scoreColor)
                 .animation(Animation.interpolatingSpring(stiffness: 60, damping: 10).delay(0.1))
         }
         .rotationEffect(.degrees(-90))
