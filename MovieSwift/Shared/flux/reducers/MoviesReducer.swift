@@ -36,6 +36,9 @@ func moviesStateReducer(state: MoviesState, action: Action) -> MoviesState {
         state.similar[action.movie] = action.response.results.map{ $0.id }
         state = mergeMovies(movies: action.response.results, state: state)
         
+    case let action as MoviesActions.SetVideos:
+        state.videos[action.movie] = action.response.results
+        
     case let action as MoviesActions.SetSearch:
         if action.page == 1 {
             state.search[action.query] = action.response.results.map{ $0.id }

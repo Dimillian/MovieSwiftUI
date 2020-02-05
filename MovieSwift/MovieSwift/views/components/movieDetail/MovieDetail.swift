@@ -18,6 +18,7 @@ struct MovieDetail: ConnectedView {
         let recommended: [Movie]?
         let similar: [Movie]?
         let reviewsCount: Int?
+        let videos: [Video]?
     }
     
     let movieId: Int
@@ -55,7 +56,8 @@ struct MovieDetail: ConnectedView {
                      credits: credits,
                      recommended: recommended,
                      similar: similar,
-                     reviewsCount: state.moviesState.reviews[movieId]?.count ?? nil)
+                     reviewsCount: state.moviesState.reviews[movieId]?.count ?? nil,
+                     videos: state.moviesState.videos[movieId])
     }
     
     // MARK: - Fetch
@@ -65,6 +67,7 @@ struct MovieDetail: ConnectedView {
         store.dispatch(action: MoviesActions.FetchRecommended(movie: movieId))
         store.dispatch(action: MoviesActions.FetchSimilar(movie: movieId))
         store.dispatch(action: MoviesActions.FetchMovieReviews(movie: movieId))
+        store.dispatch(action: MoviesActions.FetchVideos(movie: movieId))
     }
     
     // MARK: - View actions
@@ -135,14 +138,16 @@ struct MovieDetail: ConnectedView {
             MovieCoverRow(movieId: movieId).onTapGesture {
                 self.isAddSheetPresented = true
             }
-            if props.reviewsCount != nil {
+            if props.reviewsCount ?? 0 > 0 {
                 NavigationLink(destination: MovieReviews(movie: self.movieId)) {
                     Text("\(props.reviewsCount!) reviews")
                         .foregroundColor(.steam_blue)
                         .lineLimit(1)
                 }
             }
-            MovieOverview(movie: props.movie)
+            if !props.movie.overview.isEmpty {
+                MovieOverview(movie: props.movie)
+            }
         }
     }
     

@@ -39,6 +39,7 @@ struct Movie: Codable, Identifiable {
     let genres: [Genre]?
     let runtime: Int?
     let status: String?
+    let video: Bool
     
     var keywords: Keywords?
     var images: MovieImages?
@@ -75,4 +76,5 @@ let sampleMovie = Movie(id: 0,
                         release_date: "1972-03-14",
                         genres: [Genre(id: 0, name: "test")],
                         runtime: 80,
-                        status: "released")
+                        status: "released",
+                        video: false)

@@ -29,6 +29,8 @@ struct MoviesState: FluxState, Codable {
     var wishlist: Set<Int> = Set()
     var seenlist: Set<Int> = Set()
     
+    var videos: [Int: [Video]] = [:]
+    
     var withGenre: [Int: [Int]] = [:]
     var withKeywords: [Int: [Int]] = [:]
     var withCrew: [Int: [Int]] = [:]

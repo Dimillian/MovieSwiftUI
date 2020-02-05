@@ -89,6 +89,23 @@ struct MoviesActions {
         }
     }
     
+    struct FetchVideos: AsyncAction {
+        let movie: Int
+        
+        func execute(state: FluxState?, dispatch: @escaping DispatchFunction) {
+            APIService.shared.GET(endpoint: .videos(movie: movie),
+                                  params: nil)
+            {
+                (result: Result<PaginatedResponse<Video>, APIService.APIError>) in
+                switch result {
+                case let.success(response):
+                    dispatch(SetVideos(movie: self.movie, response: response))
+                case .failure(_):
+                    break
+                }
+            }
+        }
+    }
    
     
     struct FetchSearch: AsyncAction {
@@ -260,6 +277,12 @@ struct MoviesActions {
         let movie: Int
         let response: PaginatedResponse<Movie>
     }
+    
+    struct SetVideos: Action {
+        let movie: Int
+        let response: PaginatedResponse<Video>
+    }
+    
     struct KeywordResponse: Codable {
         let id: Int
         let keywords: [Keyword]
