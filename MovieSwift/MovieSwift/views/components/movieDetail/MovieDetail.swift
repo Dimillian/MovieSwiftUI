@@ -136,9 +136,8 @@ struct MovieDetail: ConnectedView {
     func topSection(props: Props) -> some View {
         Section {
             MovieBackdrop(movieId: movieId)
-            MovieCoverRow(movieId: movieId).onTapGesture {
-                self.isAddSheetPresented = true
-            }
+            MovieCoverRow(movieId: movieId,
+                          showCustomListSheet: $isAddSheetPresented)
             if props.reviewsCount ?? 0 > 0 {
                 NavigationLink(destination: MovieReviews(movie: self.movieId)) {
                     Text("\(props.reviewsCount!) reviews")
@@ -226,7 +225,7 @@ struct MovieDetail_Previews : PreviewProvider {
     static var previews: some View {
         NavigationView {
             MovieDetail(movieId: sampleMovie.id).environmentObject(sampleStore)
-        }
+        }.navigationViewStyle(StackNavigationViewStyle())
     }
 }
 #endif

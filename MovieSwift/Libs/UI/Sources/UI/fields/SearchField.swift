@@ -51,8 +51,10 @@ public struct SearchField : View {
                         self.isSearching = false
                         self.dismissButtonCallback?()
                     }, label: {
-                        Text(self.dismissButtonTitle).foregroundColor(.blue)
-                    }).animation(.easeInOut)
+                        Text(self.dismissButtonTitle).foregroundColor(.pink)
+                    })
+                    .buttonStyle(BorderlessButtonStyle())
+                    .animation(.easeInOut)
                 }
             }
             .preference(key: OffsetTopPreferenceKey.self,
