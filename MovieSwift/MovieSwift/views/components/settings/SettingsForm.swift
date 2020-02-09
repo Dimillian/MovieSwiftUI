@@ -8,6 +8,7 @@
 
 import SwiftUI
 import Foundation
+import Backend
 
 struct SettingsForm : View {
     @State var selectedRegion: Int = 0

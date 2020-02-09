@@ -8,6 +8,7 @@
 
 import Foundation
 import SwiftUI
+import Backend
 
 struct Movie: Codable, Identifiable {
     let id: Int

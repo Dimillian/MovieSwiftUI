@@ -39,7 +39,7 @@ struct CustomListDetail : View {
         store.state.moviesState.search[searchTextWrapper.searchText]
     }
     
-    private var navbarButton: some View {
+    private var navbarButtons: some View {
         Group {
             if isSearching {
                 Button(action: {
@@ -85,18 +85,18 @@ struct CustomListDetail : View {
     }
     
     var body: some View {
-        List {
+        List(selection: $selectedMovies) {
             if !isSearching {
                 CustomListHeaderRow(sorting: $selectedMoviesSort,  listId: listId)
             }
             SearchField(searchTextWrapper: searchTextWrapper,
                         placeholder: "Search movies to add to your list",
-                        isSearching: $isSearching)
+                        isSearching: $isSearching,
+                        dismissButtonCallback: {
+                            self.selectedMovies = Set<Int>()
+            })
                 .listRowInsets(EdgeInsets())
                 .padding(4)
-                .onTapGesture {
-                    self.searchTextWrapper.searchText = ""
-            }
             Group {
                 if isSearching {
                     if searchedMovies?.isEmpty == true {
@@ -105,11 +105,7 @@ struct CustomListDetail : View {
                         Text("Searching...")
                     } else {
                         ForEach(searchedMovies!, id: \.self) { movie in
-                            ZStack(alignment: .center) {
-                                MovieRow(movieId: movie, displayListImage: false)
-                                Rectangle().foregroundColor(self.selectedMovies.contains(movie) ?
-                                    Color.gray.opacity(0.2) : .clear)
-                            }
+                            MovieRow(movieId: movie, displayListImage: false)
                             .onTapGesture {
                                 if self.selectedMovies.contains(movie) {
                                     self.selectedMovies.remove(movie)
@@ -133,12 +129,13 @@ struct CustomListDetail : View {
         }
             .navigationBarTitle(Text(""),
                                 displayMode: isSearching ? .inline : .automatic)
-            .navigationBarItems(trailing: navbarButton)
+            .navigationBarItems(trailing: navbarButtons)
             .edgesIgnoringSafeArea(isSearching ? .leading : .top)
             .actionSheet(isPresented: $isSortActionSheetPresented, content: { sortActionSheet })
             .sheet(isPresented: $isEditingFormPresented,
                    content: { CustomListForm(editingListId: self.listId).environmentObject(self.store)
             })
+            .environment(\.editMode, .constant(isSearching ? .active : .inactive))
     }
 }
 

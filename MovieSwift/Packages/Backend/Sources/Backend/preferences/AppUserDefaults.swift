@@ -8,10 +8,10 @@
 
 import Foundation
 
-struct AppUserDefaults {
+public struct AppUserDefaults {
     @UserDefault("user_region", defaultValue: Locale.current.regionCode ?? "US")
-    static var region: String
+    public static var region: String
         
     @UserDefault("original_title", defaultValue: false)
-    static var alwaysOriginalTitle: Bool
+    public static var alwaysOriginalTitle: Bool
 }
