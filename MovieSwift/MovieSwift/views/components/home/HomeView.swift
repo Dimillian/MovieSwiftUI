@@ -52,8 +52,7 @@ struct TabbarView: View {
             MyLists().tabItem{
                 self.tabbarItem(text: "My Lists", image: "heart.circle")
             }.tag(Tab.myLists)
-            }
-            .edgesIgnoringSafeArea(.top)
+        }
     }
 }
 

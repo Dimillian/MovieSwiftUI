@@ -22,8 +22,8 @@ struct DraggableCover : View {
             switch self {
             case .inactive, .pressing:
                 return .zero
-            case .dragging(let data):
-                return data.translation
+            case .dragging(let translation, _):
+                return translation
             }
         }
         
@@ -31,8 +31,8 @@ struct DraggableCover : View {
             switch self {
             case .inactive, .pressing:
                 return .zero
-            case .dragging(let data):
-                return data.predictedLocation
+            case .dragging(_, let predictedLocation):
+                return predictedLocation
             }
         }
         
