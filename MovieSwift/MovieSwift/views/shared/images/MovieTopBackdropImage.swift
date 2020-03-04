@@ -41,7 +41,7 @@ struct MovieTopBackdropImage : View {
                         Image(uiImage: self.imageLoader.image!)
                             .resizable()
                             .blur(radius: self.forceBlur ? 50 : self.blurFor(minY: geometry.frame(in: .global).minY),
-                                  opaque: false)
+                                  opaque: true)
                             .aspectRatio(contentMode: self.isExpanded ||
                                 self.blurFor(minY: geometry.frame(in: .global).minY) <= 0 ? .fit : .fill)
                             .opacity(self.isImageLoaded ? 1 : 0)
