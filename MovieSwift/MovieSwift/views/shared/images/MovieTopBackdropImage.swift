@@ -34,32 +34,30 @@ struct MovieTopBackdropImage : View {
     }
         
     var body: some View {
-        ZStack {
+        Group {
             if self.imageLoader.image != nil {
-                ZStack {
                     GeometryReader { geometry in
                         Image(uiImage: self.imageLoader.image!)
                             .resizable()
                             .blur(radius: self.forceBlur ? 50 : self.blurFor(minY: geometry.frame(in: .global).minY),
                                   opaque: true)
-                            .aspectRatio(contentMode: self.isExpanded ||
-                                self.blurFor(minY: geometry.frame(in: .global).minY) <= 0 ? .fit : .fill)
                             .opacity(self.isImageLoaded ? 1 : 0)
-                            .animation(.easeInOut)
                             .onAppear{
                                 self.isImageLoaded = true
                             }.onTapGesture {
                                 self.isExpanded.toggle()
+                            }.if(self.isExpanded ||
+                                self.blurFor(minY: geometry.frame(in: .global).minY) <= 0)
+                            { image in
+                                image.aspectRatio(contentMode: .fit)
                             }
+                            .animation(.easeInOut)
                     }
-                    }
-                    .frame(maxHeight: fill ? 50 : height)
             } else {
                 Rectangle()
-                    .frame(maxHeight: fill ? 50 : height)
                     .foregroundColor(.gray)
                     .opacity(0.1)
             }
-            }
+        }.frame(maxHeight: fill ? 50 : height)
     }
 }
