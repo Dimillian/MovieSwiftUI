@@ -14,14 +14,26 @@ struct MovieCrosslinePeopleRow : View {
     let title: String
     let peoples: [People]
     
+    private var peoplesListView: some View {
+        List(peoples) { cast in
+            PeopleListItem(people: cast)
+        }.navigationBarTitle(title)
+    }
+    
     var body: some View {
         VStack(alignment: .leading) {
-            Text(title)
-                .titleStyle()
-                .padding(.leading)
+            HStack {
+                Text(title)
+                    .titleStyle()
+                    .padding(.leading)
+                NavigationLink(destination: peoplesListView,
+                               label: {
+                    Text("See all").foregroundColor(.steam_blue)
+                })
+            }
             ScrollView(.horizontal, showsIndicators: false) {
                 HStack {
-                    ForEach(self.peoples) { cast in
+                    ForEach(self.peoples.prefix(8).map{ $0 }) { cast in
                         PeopleRowItem(people: cast)
                     }
                 }.padding(.leading)
@@ -29,6 +41,29 @@ struct MovieCrosslinePeopleRow : View {
         }
         .listRowInsets(EdgeInsets())
         .padding(.vertical)
+    }
+}
+
+struct PeopleListItem: View {
+    let people: People
+    
+    var body: some View {
+        NavigationLink(destination: PeopleDetail(peopleId: people.id)) {
+            HStack {
+                PeopleImage(imageLoader: ImageLoaderCache.shared.loaderFor(path: people.profile_path,
+                                                     size: .cast))
+                VStack(alignment: .leading, spacing: 8) {
+                    Text(people.name)
+                        .font(.headline)
+                        .foregroundColor(.primary)
+                        .lineLimit(1)
+                    Text(people.character ?? people.department ?? "")
+                        .font(.subheadline)
+                        .foregroundColor(.secondary)
+                        .lineLimit(1)
+                }
+            }.contextMenu{ PeopleContextMenu(people: self.people.id) }
+        }
     }
 }
 

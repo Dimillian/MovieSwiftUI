@@ -15,14 +15,27 @@ struct MovieCrosslineRow : View {
     let title: String
     let movies: [Movie]
     
+    private var listView: some View {
+        MoviesList(movies: movies.map{ $0.id },
+                   displaySearch: false,
+                   pageListener: nil,
+            headerView: nil).navigationBarTitle(title)
+    }
+    
     var body: some View {
         VStack(alignment: .leading) {
-            Text(title)
-                .titleStyle()
-                .padding(.leading)
+            HStack {
+                Text(title)
+                    .titleStyle()
+                    .padding(.leading)
+                NavigationLink(destination: listView) {
+                    Text("See all")
+                        .foregroundColor(.steam_blue)
+                }
+            }
             ScrollView(.horizontal, showsIndicators: false) {
                 HStack(spacing: 32) {
-                    ForEach(self.movies) { movie in
+                    ForEach(self.movies.prefix(8).map{ $0 }) { movie in
                         MovieDetailRowItem(movie: movie)
                     }
                     }.padding(.leading)

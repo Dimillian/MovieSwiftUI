@@ -172,11 +172,11 @@ struct MovieDetail: ConnectedView {
                 MovieCrosslineRow(title: "Recommended Movies", movies: props.recommended ?? [])
             }
             if props.movie.images?.posters?.isEmpty == false {
-                MoviePostersRow(posters: props.movie.images!.posters!,
+                MoviePostersRow(posters: props.movie.images!.posters!.prefix(8).map{ $0 },
                                 selectedPoster: $selectedPoster)
             }
             if props.movie.images?.backdrops?.isEmpty == false {
-                MovieBackdropsRow(backdrops: props.movie.images!.backdrops!)
+                MovieBackdropsRow(backdrops: props.movie.images!.backdrops!.prefix(8).map{ $0 })
             }
         }
     }
