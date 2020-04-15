@@ -174,22 +174,21 @@ struct DiscoverFilterForm : View {
                 buttonsSection
                 savedFiltersSection
             }
-            .navigationViewStyle(StackNavigationViewStyle())
-                .navigationBarTitle(Text("Discover filter"))
-                .onAppear {
-                    if let startYear = self.currentFilter?.startYear {
-                        self.selectedDate = self.datesInt.firstIndex(of: startYear) ?? 0
-                    }
-                    if let genre = self.currentFilter?.genre {
-                        self.selectedGenre = self.genres?.firstIndex{ $0.id == genre } ?? 0
-                    }
-                    if let region = self.currentFilter?.region,
-                        let index = NSLocale.isoCountryCodes.firstIndex(of: region) {
-                        self.selectedCountry = index + 1
-                    }
-                    self.store.dispatch(action: MoviesActions.FetchGenres())
+            .navigationBarTitle(Text("Discover filter"))
+            .onAppear {
+                if let startYear = self.currentFilter?.startYear {
+                    self.selectedDate = self.datesInt.firstIndex(of: startYear) ?? 0
+                }
+                if let genre = self.currentFilter?.genre {
+                    self.selectedGenre = self.genres?.firstIndex{ $0.id == genre } ?? 0
+                }
+                if let region = self.currentFilter?.region,
+                    let index = NSLocale.isoCountryCodes.firstIndex(of: region) {
+                    self.selectedCountry = index + 1
+                }
+                self.store.dispatch(action: MoviesActions.FetchGenres())
             }
-        }
+        }.navigationViewStyle(StackNavigationViewStyle())
     }
 }
 
