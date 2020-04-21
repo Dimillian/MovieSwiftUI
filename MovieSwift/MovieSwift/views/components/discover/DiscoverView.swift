@@ -200,7 +200,9 @@ struct DiscoverView: ConnectedView {
                                                                                       size: .medium))
                         .scaleEffect(1.0 - CGFloat(props.movies.reversed().firstIndex(of: id)!) * 0.03 + CGFloat(self.scaleResistance()))
                         .padding(.bottom, CGFloat(props.movies.reversed().firstIndex(of: id)! * 16) - self.dragResistance())
-                        .animation(.spring(response: 0.5, dampingFraction: 0.5, blendDuration: 0))
+                        .animation(self.draggedViewState.isActive ?
+                            .easeIn(duration: 0) :
+                            .spring(response: 0.5, dampingFraction: 0.5, blendDuration: 0))
                 }
             }
         }
