@@ -1,0 +1,26 @@
+name: Xcode build
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+jobs:
+  build:
+    runs-on: macOS-latest
+
+    steps:
+    - uses: actions/checkout@v2
+      
+    - name: CD folder
+      run: cd MovieSwift/        
+  
+    - name: Select Xcode
+      run: sudo xcode-select -switch /Applications/Xcode_11.4.app
+
+    - name: Xcode version
+      run: /usr/bin/xcodebuild -version
+
+    - name: Xcode test on iPhone SE
+      run: xcodebuild clean build -scheme MovieSwift
