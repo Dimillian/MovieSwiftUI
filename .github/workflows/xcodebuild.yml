@@ -22,4 +22,4 @@ jobs:
     - name: Xcode build
       run: |
         cd MovieSwift/
-        xcodebuild clean build -scheme MovieSwift
+        xcodebuild clean build -scheme MovieSwift -allowProvisioningUpdates
