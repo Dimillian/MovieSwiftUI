@@ -19,7 +19,11 @@ jobs:
     - name: Xcode version
       run: /usr/bin/xcodebuild -version
 
+    - name: Create iPhone Simulator
+      run: xcrun simctl create "iPhone 8" "iPhone 8" iOS13.4  
+      
     - name: Xcode build
       run: |
         cd MovieSwift/
-        xcodebuild clean build -scheme MovieSwift -allowProvisioningUpdates
+        xcodebuild clean build -scheme MovieSwift -destination 'platform=iOS Simulator,OS=13.4,name=iPhone 8'
+
