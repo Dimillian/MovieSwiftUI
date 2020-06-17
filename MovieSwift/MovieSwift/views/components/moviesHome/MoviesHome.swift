@@ -22,7 +22,6 @@ struct MoviesHome : View {
         }
     }
 
-    @EnvironmentObject private var store: Store<AppState>
     @ObservedObject private var selectedMenu = MoviesSelectedMenuStore(selectedMenu: MoviesMenu.allCases.first!)
     @State private var isSettingPresented = false
     @State private var homeMode = HomeMode.list
