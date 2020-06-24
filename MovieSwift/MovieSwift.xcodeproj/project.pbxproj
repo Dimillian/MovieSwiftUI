@@ -136,8 +136,6 @@
 		69FB7D7B22E7957200C55F01 /* SwiftUIFlux in Frameworks */ = {isa = PBXBuildFile; productRef = 69FB7D7A22E7957200C55F01 /* SwiftUIFlux */; };
 		69FC640922C3A8620043AB37 /* FjallaOne-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 69FC640822C3A72F0043AB37 /* FjallaOne-Regular.ttf */; };
 		69FD020C22B55268003E529E /* MoviesGenreList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69FD020B22B55268003E529E /* MoviesGenreList.swift */; };
-		69FFAF8022A99F1100801F3C /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69FFAF7F22A99F1100801F3C /* AppDelegate.swift */; };
-		69FFAF8222A99F1100801F3C /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69FFAF8122A99F1100801F3C /* SceneDelegate.swift */; };
 		69FFAF8622A99F1200801F3C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 69FFAF8522A99F1200801F3C /* Assets.xcassets */; };
 		69FFAF8922A99F1200801F3C /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 69FFAF8822A99F1200801F3C /* Preview Assets.xcassets */; };
 		69FFAF8C22A99F1200801F3C /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 69FFAF8A22A99F1200801F3C /* LaunchScreen.storyboard */; };
@@ -263,8 +261,6 @@
 		69FC640822C3A72F0043AB37 /* FjallaOne-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "FjallaOne-Regular.ttf"; sourceTree = "<group>"; };
 		69FD020B22B55268003E529E /* MoviesGenreList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoviesGenreList.swift; sourceTree = "<group>"; };
 		69FFAF7C22A99F1100801F3C /* MovieSwift.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MovieSwift.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		69FFAF7F22A99F1100801F3C /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		69FFAF8122A99F1100801F3C /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		69FFAF8522A99F1200801F3C /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		69FFAF8822A99F1200801F3C /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		69FFAF8B22A99F1200801F3C /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -751,8 +747,6 @@
 		69FFAF9322A9A0D800801F3C /* launch */ = {
 			isa = PBXGroup;
 			children = (
-				69FFAF7F22A99F1100801F3C /* AppDelegate.swift */,
-				69FFAF8122A99F1100801F3C /* SceneDelegate.swift */,
 			);
 			path = launch;
 			sourceTree = "<group>";
@@ -988,7 +982,6 @@
 				69FD020C22B55268003E529E /* MoviesGenreList.swift in Sources */,
 				6967C88822E9647600BA49B1 /* PeopleContextMenu.swift in Sources */,
 				695D55DD22B2316C00F4E68C /* Color.swift in Sources */,
-				69FFAF8022A99F1100801F3C /* AppDelegate.swift in Sources */,
 				69D1D76D22BE57390084C692 /* MoviesHome.swift in Sources */,
 				6953B50722D36A9900859723 /* LoggingMiddleware.swift in Sources */,
 				6912B51322BE1DB4005E51D4 /* MovieBackdropsRow.swift in Sources */,
@@ -1005,7 +998,6 @@
 				69202ACD22F45D6E006DC3B1 /* MovieCoverRow.swift in Sources */,
 				695882C122AD19EF00AFABA9 /* CastResponse.swift in Sources */,
 				691E905922BF5AE800AA23FE /* Font.swift in Sources */,
-				69FFAF8222A99F1100801F3C /* SceneDelegate.swift in Sources */,
 				695F0F9622D4AB570066E168 /* MoviesSearch.swift in Sources */,
 				69FFAF9D22A9A6D500801F3C /* PaginatedResponse.swift in Sources */,
 				697E531E22C2627B003A7C01 /* SettingsForm.swift in Sources */,
@@ -1288,7 +1280,7 @@
 				SUPPORTS_UIKITFORMAC = YES;
 				SWIFT_OBJC_BRIDGING_HEADER = "MovieSwift/MovieSwift-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = "1,2,6";
 			};
 			name = Debug;
 		};
@@ -1321,7 +1313,7 @@
 				SUPPORTS_UIKITFORMAC = YES;
 				SWIFT_OBJC_BRIDGING_HEADER = "MovieSwift/MovieSwift-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = "1,2,6";
 			};
 			name = Release;
 		};

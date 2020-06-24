@@ -10,16 +10,56 @@ import SwiftUI
 import SwiftUIFlux
 
 // MARK:- Shared View
-struct HomeView: View {
+
+let store = Store<AppState>(reducer: appStateReducer,
+                            middleware: [loggingMiddleware],
+                            state: AppState())
+
+@main
+struct HomeView: App {
+    let archiveTimer: Timer
+    
+    init() {
+        archiveTimer = Timer.scheduledTimer(withTimeInterval: 30.0, repeats: true, block: { _ in
+            store.state.archiveState()
+        })
+        setupApperance()
+    }
+    
     #if targetEnvironment(macCatalyst)
-    var body: some View {
-        SplitView()
+    var body: some Scene {
+        WindowGroup {
+            StoreProvider(store: store) {
+                SplitView().accentColor(.steam_gold)
+            }
+        }
     }
     #else
-    var body: some View {
-        TabbarView()
+    var body: some Scene {
+        WindowGroup {
+            StoreProvider(store: store) {
+                TabbarView().accentColor(.steam_gold)
+            }
+        }
     }
     #endif
+    
+    private func setupApperance() {
+        UINavigationBar.appearance().largeTitleTextAttributes = [
+            NSAttributedString.Key.foregroundColor: UIColor(named: "steam_gold")!,
+            NSAttributedString.Key.font: UIFont(name: "FjallaOne-Regular", size: 40)!]
+        
+        UINavigationBar.appearance().titleTextAttributes = [
+            NSAttributedString.Key.foregroundColor: UIColor(named: "steam_gold")!,
+            NSAttributedString.Key.font: UIFont(name: "FjallaOne-Regular", size: 18)!]
+        
+        UIBarButtonItem.appearance().setTitleTextAttributes([
+                                                                NSAttributedString.Key.foregroundColor: UIColor(named: "steam_gold")!,
+                                                                NSAttributedString.Key.font: UIFont(name: "FjallaOne-Regular", size: 16)!],
+                                                            for: .normal)
+        
+        UIWindow.appearance().tintColor = UIColor(named: "steam_gold")
+    }
 }
 
 // MARK: - iOS implementation
@@ -87,9 +127,18 @@ struct SplitView: View {
 }
 
 #if DEBUG
-struct Tabbar_Previews : PreviewProvider {
-    static var previews: some View {
-        HomeView().environmentObject(sampleStore)
-    }
-}
+let sampleCustomList = CustomList(id: 0,
+                                  name: "TestName",
+                                  cover: 0,
+                                  movies: [0])
+let sampleStore = Store<AppState>(reducer: appStateReducer,
+                                  state: AppState(moviesState:
+                                                    MoviesState(movies: [0: sampleMovie],
+                                                                moviesList: [MoviesMenu.popular: [0]],
+                                                                recommended: [0: [0]],
+                                                                similar: [0: [0]],
+                                                                customLists: [0: sampleCustomList]),
+                                                  peoplesState: PeoplesState(peoples: [0: sampleCasts.first!, 1: sampleCasts[1]],
+                                                                             peoplesMovies: [:],
+                                                                             search: [:])))
 #endif
