@@ -60,6 +60,7 @@ struct TabbarView: View {
 struct SplitView: View {
     @State var selectedMenu: OutlineMenu = .popular
     
+    @ViewBuilder
     var body: some View {
         HStack(spacing: 0) {
             ScrollView(showsIndicators: false) {

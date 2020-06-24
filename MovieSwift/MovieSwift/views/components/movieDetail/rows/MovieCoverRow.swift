@@ -63,6 +63,8 @@ struct MovieCoverRow : ConnectedView {
                                     }
                     })
                 }
+                .animation(.spring())
+                .frame(maxHeight: 40)
                 BorderedButton(text: props.isInCustomList ? "Manage custom list" : "Add to custom list",
                                systemImageName: "pin",
                                color: .steam_gold,
@@ -71,12 +73,14 @@ struct MovieCoverRow : ConnectedView {
                                 self.showCustomListSheet = true
                 })
                 .padding(.vertical, 8)
+                .animation(.spring())
+                .frame(maxHeight: 40)
                 
                 HStack {
                     PopularityBadge(score: Int(props.movie.vote_average * 10))
                     Text("\(props.movie.vote_count) ratings").lineLimit(1)
                 }
-            }.animation(.interactiveSpring())
+            }
         }
     }
 }

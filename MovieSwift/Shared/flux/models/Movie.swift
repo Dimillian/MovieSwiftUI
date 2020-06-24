@@ -60,7 +60,9 @@ struct Movie: Codable, Identifiable {
     }
     
     struct productionCountry: Codable, Identifiable {
-        let id = UUID()
+        var id: String {
+            name
+        }
         let name: String
     }
 }

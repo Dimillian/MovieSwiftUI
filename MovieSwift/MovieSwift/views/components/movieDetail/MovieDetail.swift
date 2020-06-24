@@ -135,7 +135,6 @@ struct MovieDetail: ConnectedView {
 
     func topSection(props: Props) -> some View {
         Section {
-            MovieBackdrop(movieId: movieId)
             MovieCoverRow(movieId: movieId,
                           showCustomListSheet: $isAddSheetPresented)
             if props.reviewsCount ?? 0 > 0 {
@@ -191,7 +190,6 @@ struct MovieDetail: ConnectedView {
             .navigationBarItems(trailing: Button(action: onAddButton) {
                 Image(systemName: "text.badge.plus").imageScale(.large)
             })
-            .edgesIgnoringSafeArea(.top)
             .onAppear {
                 self.fetchMovieDetails()
             }
@@ -200,10 +198,8 @@ struct MovieDetail: ConnectedView {
                    content: { CustomListForm(editingListId: nil)
                     .environmentObject(store) })
             .disabled(selectedPoster != nil)
-            .animation(nil)
             .blur(radius: selectedPoster != nil ? 30 : 0)
             .scaleEffect(selectedPoster != nil ? 0.8 : 1)
-            .animation(.spring())
             
             NotificationBadge(text: "Added successfully",
                               color: .blue,

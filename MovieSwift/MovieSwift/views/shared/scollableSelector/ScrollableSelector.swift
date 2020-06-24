@@ -40,8 +40,8 @@ struct ScrollableSelector: View {
     var body: some View {
         ScrollView(.horizontal, showsIndicators: false) {
             HStack(alignment: .center, spacing: 12) {
-                ForEach(0 ..< items.count) {
-                    self.text(for: $0)
+                ForEach(0 ..< items.count, id: \.self) {
+                    self.text(for: $0).id($0)
                 }
             }
             .padding([.leading, .trailing], 4)

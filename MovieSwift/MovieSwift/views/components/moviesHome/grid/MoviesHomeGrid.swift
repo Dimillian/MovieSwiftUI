@@ -36,7 +36,7 @@ struct MoviesHomeGrid: ConnectedView {
                     .padding(.trailing, 16)
                     .padding(.top, 16)
             }
-            MoviesHomeGridMoviesRow(movies: props.movies[menu]?.prefix(upTo: 10).map{ $0 } ?? [])
+            MoviesHomeGridMoviesRow(movies: props.movies[menu] ?? [])
                 .padding(.bottom, 8)
         }.onAppear {
             store.dispatch(action: MoviesActions.FetchMoviesMenuList(list: menu, page: 1))

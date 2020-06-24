@@ -10,6 +10,7 @@ import SwiftUI
 import SwiftUIFlux
 import Combine
 import UI
+import Backend
 
 // MARK: - Movies List
 struct MoviesList: ConnectedView {
@@ -158,9 +159,9 @@ struct MoviesList: ConnectedView {
                         } else if self.pageListener != nil && !self.isSearching && !self.movies.isEmpty {
                             self.pageListener?.currentPage += 1
                         }
-                }
+                    }
             }
-        }
+        }.listStyle(PlainListStyle())
     }
 }
 

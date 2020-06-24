@@ -34,11 +34,11 @@ struct MovieCrosslineRow : View {
                 }
             }
             ScrollView(.horizontal, showsIndicators: false) {
-                HStack(spacing: 32) {
-                    ForEach(self.movies.prefix(8).map{ $0 }) { movie in
+                LazyHStack(spacing: 32) {
+                    ForEach(self.movies) { movie in
                         MovieDetailRowItem(movie: movie)
                     }
-                    }.padding(.leading)
+                }.padding(.leading)
             }
         }
         .listRowInsets(EdgeInsets())

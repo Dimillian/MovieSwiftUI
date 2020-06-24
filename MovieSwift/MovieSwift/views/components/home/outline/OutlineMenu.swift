@@ -47,23 +47,24 @@ enum OutlineMenu: Int, CaseIterable, Identifiable {
         }
     }
     
-    private func moviesList(menu: MoviesMenu) -> AnyView {
-        AnyView( NavigationView{ MoviesHomeList(menu: .constant(menu),
-                                                pageListener: MoviesMenuListPageListener(menu: menu)) })
+    private func moviesList(menu: MoviesMenu) -> some View {
+        NavigationView{ MoviesHomeList(menu: .constant(menu),
+                                       pageListener: MoviesMenuListPageListener(menu: menu)) }
     }
     
-    var contentView: AnyView {
+    @ViewBuilder
+    var contentView: some View {
         switch self {
-        case .popular:    return moviesList(menu: .popular)
-        case .topRated:   return moviesList(menu: .topRated)
-        case .upcoming:   return moviesList(menu: .upcoming)
-        case .nowPlaying: return moviesList(menu: .nowPlaying)
-        case .trending:   return moviesList(menu: .trending)
-        case .genres:     return AnyView( NavigationView { GenresList() })
-        case .fanClub:    return AnyView( FanClubHome() )
-        case .discover:   return AnyView( DiscoverView() )
-        case .myLists:    return AnyView( MyLists() )
-        case .settings:   return AnyView( SettingsForm() )
+        case .popular:    moviesList(menu: .popular)
+        case .topRated:   moviesList(menu: .topRated)
+        case .upcoming:   moviesList(menu: .upcoming)
+        case .nowPlaying: moviesList(menu: .nowPlaying)
+        case .trending:   moviesList(menu: .trending)
+        case .genres:     NavigationView { GenresList() }
+        case .fanClub:    FanClubHome()
+        case .discover:   DiscoverView()
+        case .myLists:    MyLists()
+        case .settings:   SettingsForm()
         }
     }
 }

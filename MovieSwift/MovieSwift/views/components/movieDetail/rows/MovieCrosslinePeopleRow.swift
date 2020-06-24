@@ -32,8 +32,8 @@ struct MovieCrosslinePeopleRow : View {
                 })
             }
             ScrollView(.horizontal, showsIndicators: false) {
-                HStack {
-                    ForEach(self.peoples.prefix(8).map{ $0 }) { cast in
+                LazyHStack {
+                    ForEach(self.peoples) { cast in
                         PeopleRowItem(people: cast)
                     }
                 }.padding(.leading)

@@ -29,7 +29,7 @@ struct MoviesHomeGridMoviesRow: ConnectedView {
     
     func body(props: Props) -> some View {
         ScrollView(.horizontal, showsIndicators: false) {
-            HStack(spacing: 16) {
+            LazyHStack(spacing: 16) {
                 ForEach(props.movies) { movie in
                     NavigationLink(destination: MovieDetail(movieId: movie.id)) {
                         ZStack {

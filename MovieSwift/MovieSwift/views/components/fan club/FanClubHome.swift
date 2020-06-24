@@ -55,6 +55,7 @@ struct FanClubHome: ConnectedView {
                 }
             }
             .navigationBarTitle("Fan Club")
+            .animation(.spring())
         }
         .onAppear {
             props.dispatch(PeopleActions.FetchPopular(page: self.currentPage))

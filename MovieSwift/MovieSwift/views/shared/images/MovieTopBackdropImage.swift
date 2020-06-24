@@ -20,39 +20,21 @@ struct MovieTopBackdropImage : View {
     
     private let threeshold: CGFloat = 50
     private let maxBlur: CGFloat = 100
-    
-    func blurFor(minY: CGFloat) -> CGFloat {
-        if isExpanded {
-            return 0
-        }
-        
-        if threeshold - minY > maxBlur {
-            return maxBlur
-        }
-        
-        return threeshold - minY
-    }
-        
+      
     var body: some View {
         Group {
             if self.imageLoader.image != nil {
-                    GeometryReader { geometry in
-                        Image(uiImage: self.imageLoader.image!)
-                            .resizable()
-                            .blur(radius: self.forceBlur ? 50 : self.blurFor(minY: geometry.frame(in: .global).minY),
-                                  opaque: true)
-                            .opacity(self.isImageLoaded ? 1 : 0)
-                            .onAppear{
-                                self.isImageLoaded = true
-                            }.onTapGesture {
-                                self.isExpanded.toggle()
-                            }.if(self.isExpanded ||
-                                self.blurFor(minY: geometry.frame(in: .global).minY) <= 0)
-                            { image in
-                                image.aspectRatio(contentMode: .fit)
-                            }
-                            .animation(.easeInOut)
+                Image(uiImage: self.imageLoader.image!)
+                    .resizable()
+                    .blur(radius: isExpanded ? 0 : 50, opaque: true)
+                    .opacity(self.isImageLoaded ? 1 : 0)
+                    .onAppear{
+                        self.isImageLoaded = true
+                    }.onTapGesture {
+                        self.isExpanded.toggle()
                     }
+                    .aspectRatio(contentMode: .fit)
+                    .animation(.easeInOut)
             } else {
                 Rectangle()
                     .foregroundColor(.gray)

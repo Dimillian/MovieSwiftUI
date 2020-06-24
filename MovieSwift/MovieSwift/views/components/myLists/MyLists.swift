@@ -104,6 +104,7 @@ struct MyLists : ConnectedView {
                     seenSection(props: props)
                 }
             }
+            .listStyle(GroupedListStyle())
             .actionSheet(isPresented: $isSortActionSheetPresented, content: { sortActionSheet })
                 .navigationBarTitle(Text("My Lists"))
                 .navigationBarItems(trailing: Button(action: {
