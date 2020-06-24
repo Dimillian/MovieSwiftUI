@@ -135,6 +135,7 @@ struct PeopleDetail: ConnectedView {
             imagesCarouselView(props: props)
             scoreUpdateView(props: props)
         }
+        .animation(.spring())
         .navigationBarItems(trailing: barbuttons(props: props))
         .navigationBarTitle(props.people.name)
         .onAppear {

@@ -74,37 +74,25 @@ struct MoviesHome : View {
     private var homeAsGrid: some View {
         MoviesHomeGrid()
     }
-    
-    private func navigationView(content: AnyView) -> some View {
-        Group {
-            if homeMode == .list {
-                NavigationView {
-                    content
-                }.navigationViewStyle(DoubleColumnNavigationViewStyle())
-            } else {
-                NavigationView {
-                    content
-                }.navigationViewStyle(StackNavigationViewStyle())
-            }
-        }
-    }
-    
+        
     var body: some View {
-        let view = Group {
-            if homeMode == .list {
-                homeAsList
-            } else {
-                homeAsGrid
+        NavigationView {
+            Group {
+                switch homeMode {
+                case .list:
+                    homeAsList
+                case .grid:
+                    homeAsGrid
+                }
             }
+            .navigationBarItems(trailing:
+                                    HStack {
+                                        swapHomeButton
+                                        settingButton
+                                    }
+            ).sheet(isPresented: $isSettingPresented,
+                    content: { SettingsForm() })
         }
-        .navigationBarItems(trailing:
-            HStack {
-                swapHomeButton
-                settingButton
-            }
-        ).sheet(isPresented: $isSettingPresented,
-                content: { SettingsForm() })
-        return navigationView(content: AnyView(view))
     }
 }
 

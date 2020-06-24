@@ -161,7 +161,9 @@ struct MoviesList: ConnectedView {
                         }
                     }
             }
-        }.listStyle(PlainListStyle())
+        }
+        .listStyle(PlainListStyle())
+        .animation(.spring())
     }
 }
 
