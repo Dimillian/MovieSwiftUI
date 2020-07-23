@@ -131,7 +131,7 @@ struct PeopleDetail: ConnectedView {
             .animation(nil)
             .blur(radius: selectedPoster != nil || isFanScoreUpdated ? 30 : 0)
             .scaleEffect(selectedPoster != nil ? 0.8 : 1)
-            .animation(.spring())
+            .animation(.interactiveSpring())
             imagesCarouselView(props: props)
             scoreUpdateView(props: props)
         }

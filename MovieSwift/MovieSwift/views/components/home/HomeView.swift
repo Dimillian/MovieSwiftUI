@@ -118,7 +118,7 @@ struct SplitView: View {
                     }
                 }
                 .padding(.top, 32)
-                .frame(width: 250)
+                .frame(width: 300)
             }
             .background(Color.primary.opacity(0.1))
             selectedMenu.contentView

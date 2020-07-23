@@ -24,6 +24,7 @@ struct GenresList: View {
                 }
             }
         }
+        .listStyle(PlainListStyle())
         .navigationBarTitle("Genres")
         .onAppear {
             self.store.dispatch(action: MoviesActions.FetchGenres())

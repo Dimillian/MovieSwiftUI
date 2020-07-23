@@ -68,6 +68,7 @@ struct MoviesHomeGrid: ConnectedView {
                 }
             }
         }
+        .listStyle(PlainListStyle())
         .navigationBarTitle("Movies", displayMode: .automatic)
         .onAppear {
             store.dispatch(action: MoviesActions.FetchGenres())
