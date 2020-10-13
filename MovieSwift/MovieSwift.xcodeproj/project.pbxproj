@@ -725,7 +725,6 @@
 			isa = PBXGroup;
 			children = (
 				69A0F56A22AEFF3C000977BB /* MovieSwift.entitlements */,
-				69FFAF9322A9A0D800801F3C /* launch */,
 				69FFAF9422A9A0DF00801F3C /* views */,
 				69FFAF8522A99F1200801F3C /* Assets.xcassets */,
 				69FFAF8A22A99F1200801F3C /* LaunchScreen.storyboard */,
@@ -742,13 +741,6 @@
 				69FFAF8822A99F1200801F3C /* Preview Assets.xcassets */,
 			);
 			path = "Preview Content";
-			sourceTree = "<group>";
-		};
-		69FFAF9322A9A0D800801F3C /* launch */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = launch;
 			sourceTree = "<group>";
 		};
 		69FFAF9422A9A0DF00801F3C /* views */ = {
