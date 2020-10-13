@@ -14,7 +14,7 @@ jobs:
     - uses: actions/checkout@v2
         
     - name: Select Xcode
-      run: sudo xcode-select -switch /Applications/Xcode_11.4.app
+      run: sudo xcode-select -switch /Applications/Xcode_12.app
 
     - name: Xcode version
       run: /usr/bin/xcodebuild -version
@@ -22,5 +22,4 @@ jobs:
     - name: Xcode build
       run: |
         cd MovieSwift/
-        xcodebuild clean build -scheme MovieSwift -destination 'platform=iOS Simulator,name=iPhone 11,OS=13.4'
-
+        xcodebuild clean build -scheme MovieSwift -destination 'platform=iOS Simulator,name=iPhone 11,OS=14.0'
