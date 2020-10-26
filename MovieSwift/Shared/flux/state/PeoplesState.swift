@@ -11,7 +11,7 @@ import SwiftUIFlux
 
 struct PeoplesState: FluxState, Codable {
     var peoples: [Int: People] = [:]
-    var peoplesMovies: [Int: [Int]] = [:]
+    var peoplesMovies: [Int: Set<Int>] = [:]
     var search: [String: [Int]] = [:]
     var popular: [Int] = []
     
