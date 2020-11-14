@@ -23,12 +23,12 @@ struct MovieBackdropsRow : View {
                         MovieBackdropImage(imageLoader: ImageLoaderCache.shared.loaderFor(path: backdrop.file_path,
                                                                                           size: .original))
                     }
-                    }.padding(.leading)
+                }.padding(.leading)
             }
-            }
-            .listRowInsets(EdgeInsets())
-            .padding(.top)
-            .padding(.bottom)
+        }
+        .listRowInsets(EdgeInsets())
+        .padding(.top)
+        .padding(.bottom)
     }
 }
 

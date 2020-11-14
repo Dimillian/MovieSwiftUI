@@ -15,21 +15,18 @@ struct MoviePosterImage: View {
     let posterSize: PosterStyle.Size
     
     var body: some View {
-        ZStack {
-            if self.imageLoader.image != nil {
-                Image(uiImage: self.imageLoader.image!)
-                    .resizable()
-                    .renderingMode(.original)
-                    .posterStyle(loaded: true, size: posterSize)
-                    .animation(.easeInOut)
-                    .onAppear{
-                        self.isImageLoaded = true
+        if let image = imageLoader.image {
+            Image(uiImage: image)
+                .resizable()
+                .renderingMode(.original)
+                .posterStyle(loaded: true, size: posterSize)
+                .onAppear{
+                    isImageLoaded = true
                 }
-            } else {
-                Rectangle()
-                    .foregroundColor(.gray)
-                    .posterStyle(loaded: false, size: posterSize)
-            }
-            }
+        } else {
+            Rectangle()
+                .foregroundColor(.gray)
+                .posterStyle(loaded: false, size: posterSize)
+        }
     }
 }

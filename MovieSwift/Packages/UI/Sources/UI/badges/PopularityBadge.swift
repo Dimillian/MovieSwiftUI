@@ -10,11 +10,13 @@ import SwiftUI
 
 public struct PopularityBadge : View {
     public let score: Int
+    public let textColor: Color
     
     @State private var isDisplayed = false
     
-    public init(score: Int) {
+    public init(score: Int, textColor: Color = .primary) {
         self.score = score
+        self.textColor = textColor
     }
     
     var scoreColor: Color {
@@ -55,7 +57,7 @@ public struct PopularityBadge : View {
             Text("\(score)%")
                 .font(Font.system(size: 10))
                 .fontWeight(.bold)
-                .foregroundColor(.primary)
+                .foregroundColor(textColor)
             }
             .frame(width: 40, height: 40)
     }

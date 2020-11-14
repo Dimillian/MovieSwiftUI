@@ -29,7 +29,6 @@ struct CustomListHeaderRow : View {
         ZStack(alignment: .bottomLeading) {
             MovieTopBackdropImage(imageLoader: ImageLoaderCache.shared.loaderFor(path: coverBackdropMovie?.backdrop_path ?? coverBackdropMovie?.poster_path,
                                                                                  size: .original),
-                                  isExpanded: .constant(false),
                                   height: 200)
             VStack(alignment: .leading, spacing: 8) {
                 Text(list.name)
