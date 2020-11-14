@@ -37,19 +37,15 @@ struct MovieDetail: ConnectedView {
         var recommended: [Movie]?
         var similar: [Movie]?
         
-        if let peopleIds = state.peoplesState.peoplesMovies[movieId] {
-            let cast = state.peoplesState.peoples.filter{ $0.value.character != nil }
-            characters = peopleIds.filter{ cast[$0] != nil }.map{ cast[$0]! }
-            
-            let departements = state.peoplesState.peoples.filter{ $0.value.department != nil }
-            credits = peopleIds.filter{ departements[$0] != nil }.map{ departements[$0]! }
-            
-            let movies = state.moviesState.movies
+        if let peopleIds = state.peoplesState.peoplesMovies[movieId]?.sorted() {
+            let peoples = peopleIds.compactMap{ state.peoplesState.peoples[$0] }
+            characters = peoples.filter{ $0.character != nil}
+            credits = peoples.filter{ $0.department != nil }
             if let recommendedIds = state.moviesState.recommended[movieId] {
-                recommended = recommendedIds.filter{ movies[$0] != nil }.map{ movies[$0]! }
+                recommended = recommendedIds.compactMap{ state.moviesState.movies[$0] }
             }
             if let simillarIds = state.moviesState.similar[movieId] {
-                similar = simillarIds.filter{ movies[$0] != nil }.map{ movies[$0]! }
+                similar = simillarIds.compactMap{ state.moviesState.movies[$0] }
             }
         }
         return Props(movie: state.moviesState.movies[movieId]!,
