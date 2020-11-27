@@ -14,26 +14,25 @@ struct MovieTopBackdropImage : View {
     @State var isImageLoaded = false
     
     var fill: Bool = false
-    var height: CGFloat = 250
+    var height: CGFloat = 220
           
     var body: some View {
-        Group {
-            if let image = imageLoader.image {
-                Image(uiImage: image)
-                    .resizable()
-                    .blur(radius: 50, opaque: true)
-                    .opacity(isImageLoaded ? 1 : 0)
-                    .onAppear{
-                        isImageLoaded = true
-                    }
-            } else {
-                Rectangle()
-                    .foregroundColor(.gray)
-                    .opacity(0.1)
-            }
+        if let image = imageLoader.image {
+            Image(uiImage: image)
+                .resizable()
+                .blur(radius: 50, opaque: true)
+                .opacity(isImageLoaded ? 1 : 0)
+                .aspectRatio(contentMode: .fill)
+                .overlay(Color.black.opacity(0.3))
+                .frame(height: fill ? 50 : height)
+                .onAppear{
+                    isImageLoaded = true
+                }
+        } else {
+            Rectangle()
+                .foregroundColor(.gray)
+                .opacity(0.1)
+                .frame(height: fill ? 50 : height)
         }
-        .aspectRatio(contentMode: .fill)
-        .frame(maxHeight: fill ? 50 : height)
-        .animation(nil)
     }
 }

@@ -18,18 +18,15 @@ struct MoviesHomeList: ConnectedView {
     @Binding var menu: MoviesMenu
     
     let pageListener: MoviesMenuListPageListener
-    var headerView: AnyView?
 
     func map(state: AppState, dispatch: @escaping DispatchFunction) -> Props {
-        return Props(movies: state.moviesState.moviesList[menu] ?? [])
+        Props(movies: state.moviesState.moviesList[menu] ?? [])
     }
     
     func body(props: Props) -> some View {
         MoviesList(movies: props.movies,
                    displaySearch: true,
-                   pageListener: pageListener,
-                   headerView: headerView)
-            .navigationBarTitle(menu.title())
+                   pageListener: pageListener)
     }
 }
 

@@ -18,8 +18,7 @@ struct MovieCrosslineRow : View {
     private var listView: some View {
         MoviesList(movies: movies.map{ $0.id },
                    displaySearch: false,
-                   pageListener: nil,
-            headerView: nil).navigationBarTitle(title)
+                   pageListener: nil).navigationBarTitle(title)
     }
     
     var body: some View {

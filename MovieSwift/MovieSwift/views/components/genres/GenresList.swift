@@ -11,13 +11,9 @@ import SwiftUIFlux
 
 struct GenresList: View {
     @EnvironmentObject private var store: Store<AppState>
-    var headerView: AnyView?
     
     var body: some View {
         List {
-            if headerView != nil {
-                headerView!
-            }
             ForEach(store.state.moviesState.genres) { genre in
                 NavigationLink(destination: MoviesGenreList(genre: genre)) {
                     Text(genre.name)
@@ -25,7 +21,6 @@ struct GenresList: View {
             }
         }
         .listStyle(PlainListStyle())
-        .navigationBarTitle("Genres")
         .onAppear {
             self.store.dispatch(action: MoviesActions.FetchGenres())
         }

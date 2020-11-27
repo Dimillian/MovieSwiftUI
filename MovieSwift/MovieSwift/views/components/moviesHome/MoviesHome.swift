@@ -22,23 +22,10 @@ struct MoviesHome : View {
         }
     }
 
-    @EnvironmentObject private var store: Store<AppState>
     @StateObject private var selectedMenu = MoviesSelectedMenuStore(selectedMenu: MoviesMenu.allCases.first!)
     @State private var isSettingPresented = false
     @State private var homeMode = HomeMode.list
-    
-    private var segmentedView: some View {
-        ScrollableSelector(items: MoviesMenu.allCases.map{ $0.title() },
-                           selection: Binding<Int>(
-                            get: {
-                                self.selectedMenu.menu.rawValue
-                           },
-                            set: {
-                                self.selectedMenu.menu = MoviesMenu(rawValue: $0)!
-                           })
-        )
-    }
-    
+        
     private var settingButton: some View {
         Button(action: {
             self.isSettingPresented = true
@@ -59,16 +46,22 @@ struct MoviesHome : View {
         }
     }
     
+    @ViewBuilder
     private var homeAsList: some View {
-        Group {
-            if selectedMenu.menu == .genres {
-                GenresList(headerView: AnyView(segmentedView))
-            } else {
-                MoviesHomeList(menu: $selectedMenu.menu,
-                               pageListener: selectedMenu.pageListener,
-                               headerView: AnyView(segmentedView))
+        TabView(selection: $selectedMenu.menu) {
+            ForEach(MoviesMenu.allCases, id: \.self) { menu in
+                if menu == .genres {
+                    GenresList()
+                        .tag(menu)
+                } else {
+                    MoviesHomeList(menu: .constant(menu),
+                                   pageListener: selectedMenu.pageListener)
+                        .tag(menu)
+                }
             }
         }
+        .tabViewStyle(PageTabViewStyle())
+        .indexViewStyle(PageIndexViewStyle(backgroundDisplayMode: .always))
     }
     
     private var homeAsGrid: some View {
@@ -85,6 +78,8 @@ struct MoviesHome : View {
                     homeAsGrid
                 }
             }
+            .navigationBarTitle(selectedMenu.menu.title())
+            .navigationBarTitleDisplayMode(homeMode == .list ? .inline : .automatic)
             .navigationBarItems(trailing:
                                     HStack {
                                         swapHomeButton

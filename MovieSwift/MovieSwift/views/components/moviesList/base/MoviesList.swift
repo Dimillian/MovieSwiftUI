@@ -35,7 +35,6 @@ struct MoviesList: ConnectedView {
     let movies: [Int]
     let displaySearch: Bool
     var pageListener: MoviesPagesListener?
-    var headerView: AnyView?
     
     // MARK: - Computed Props
     func map(state: AppState, dispatch: @escaping DispatchFunction) -> Props {
@@ -125,12 +124,6 @@ struct MoviesList: ConnectedView {
             if displaySearch {
                 Section {
                     searchField
-                }
-            }
-            
-            if headerView != nil && !isSearching {
-                Section {
-                    headerView!
                 }
             }
             

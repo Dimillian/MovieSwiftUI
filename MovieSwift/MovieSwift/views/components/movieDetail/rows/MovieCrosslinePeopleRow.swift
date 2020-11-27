@@ -33,7 +33,7 @@ struct MovieCrosslinePeopleRow : View {
             }
             ScrollView(.horizontal, showsIndicators: false) {
                 LazyHStack {
-                    ForEach(self.peoples) { cast in
+                    ForEach(peoples) { cast in
                         PeopleRowItem(people: cast)
                     }
                 }.padding(.leading)
@@ -62,7 +62,7 @@ struct PeopleListItem: View {
                         .foregroundColor(.secondary)
                         .lineLimit(1)
                 }
-            }.contextMenu{ PeopleContextMenu(people: self.people.id) }
+            }.contextMenu{ PeopleContextMenu(people: people.id) }
         }
     }
 }
@@ -83,8 +83,10 @@ struct PeopleRowItem: View {
                     .font(.footnote)
                     .foregroundColor(.secondary)
                     .lineLimit(1)
-            }.frame(width: 100)
-        }.contextMenu{ PeopleContextMenu(people: self.people.id) }
+            }
+            .frame(width: 100)
+            .contextMenu{ PeopleContextMenu(people: people.id) }
+        }
     }
 }
 
