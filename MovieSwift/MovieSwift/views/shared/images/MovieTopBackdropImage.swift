@@ -14,7 +14,7 @@ struct MovieTopBackdropImage : View {
     @State var isImageLoaded = false
     
     var fill: Bool = false
-    var height: CGFloat = 220
+    var height: CGFloat = 250
           
     var body: some View {
         if let image = imageLoader.image {
@@ -22,17 +22,18 @@ struct MovieTopBackdropImage : View {
                 .resizable()
                 .blur(radius: 50, opaque: true)
                 .opacity(isImageLoaded ? 1 : 0)
-                .aspectRatio(contentMode: .fill)
                 .overlay(Color.black.opacity(0.3))
                 .frame(height: fill ? 50 : height)
                 .onAppear{
                     isImageLoaded = true
                 }
+                .animation(.easeInOut)
         } else {
             Rectangle()
-                .foregroundColor(.gray)
-                .opacity(0.1)
+                .foregroundColor(.black)
+                .opacity(0.3)
                 .frame(height: fill ? 50 : height)
+                .animation(.easeOut)
         }
     }
 }

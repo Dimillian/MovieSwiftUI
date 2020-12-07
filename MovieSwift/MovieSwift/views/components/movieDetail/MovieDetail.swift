@@ -131,8 +131,8 @@ struct MovieDetail: ConnectedView {
 
     func topSection(props: Props) -> some View {
         Section {
-            MovieCoverRow(movieId: movieId,
-                          showCustomListSheet: $isAddSheetPresented)
+            MovieCoverRow(movieId: movieId)
+            MovieButtonsRow(movieId: movieId, showCustomListSheet: $isAddSheetPresented)
             if props.reviewsCount ?? 0 > 0 {
                 NavigationLink(destination: MovieReviews(movie: self.movieId)) {
                     Text("\(props.reviewsCount!) reviews")
