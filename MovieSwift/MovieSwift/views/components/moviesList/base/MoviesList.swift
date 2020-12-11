@@ -162,7 +162,6 @@ struct MoviesList: ConnectedView {
             }
         }
         .listStyle(PlainListStyle())
-        .animation(.easeInOut)
     }
 }
 
