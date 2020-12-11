@@ -42,6 +42,10 @@ struct AppState: FluxState, Codable {
             self.moviesState = MoviesState()
             self.peoplesState = PeoplesState()
         }
+        
+        //Adding a sample movie to id 0 so we can have placeholder movie rows.
+        moviesState.movies[0] = sampleMovie
+        peoplesState.peoples[0] = sampleCasts.first!
     }
     
     func archiveState() {

@@ -21,19 +21,18 @@ struct MovieTopBackdropImage : View {
             Image(uiImage: image)
                 .resizable()
                 .blur(radius: 50, opaque: true)
-                .opacity(isImageLoaded ? 1 : 0)
                 .overlay(Color.black.opacity(0.3))
                 .frame(height: fill ? 50 : height)
                 .onAppear{
                     isImageLoaded = true
                 }
                 .animation(.easeInOut)
+                .transition(.opacity)
         } else {
             Rectangle()
                 .foregroundColor(.black)
                 .opacity(0.3)
                 .frame(height: fill ? 50 : height)
-                .animation(.easeOut)
         }
     }
 }

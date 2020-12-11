@@ -45,18 +45,22 @@ struct MovieCoverRow : ConnectedView {
                 }
                 genresBadges(props: props).padding(.top, 16)
             }
-        }.listRowInsets(EdgeInsets())
+        }
+        .listRowInsets(EdgeInsets())
     }
     
     private func genresBadges(props: Props) -> some View {
-        ScrollView(.horizontal, showsIndicators: false) {
+        let fakeGenres = Array(repeating: Genre(id: 0, name: "     "), count: 3)
+        return ScrollView(.horizontal, showsIndicators: false) {
             HStack {
-                ForEach(props.movie.genres ?? []) { genre in
+                ForEach(props.movie.genres ?? fakeGenres) { genre in
                     NavigationLink(destination: MoviesGenreList(genre: genre)) {
                         RoundedBadge(text: genre.name, color: .steam_background)
-                    }
+                    }.disabled(props.movie.genres == nil)
                 }
-            }.padding(.leading, 16)
+            }
+            .padding(.leading, 16)
+            .redacted(reason: props.movie.genres == nil ? .placeholder : [])
         }
     }
 }

@@ -33,43 +33,41 @@ struct MovieButtonsRow: ConnectedView {
     }
     
     func body(props: Props) -> some View {
-        VStack(alignment: .leading) {
-            HStack(alignment: .center, spacing: 8) {
-                BorderedButton(text: props.isInWishlist ? "In wishlist" : "Wishlist",
-                               systemImageName: "heart",
-                               color: .pink,
-                               isOn: props.isInWishlist,
-                               action: {
-                                if props.isInWishlist {
-                                    store.dispatch(action: MoviesActions.RemoveFromWishlist(movie: self.movieId))
-                                } else {
-                                    store.dispatch(action: MoviesActions.AddToWishlist(movie: self.movieId))
-                                }
-                               })
-                
-                BorderedButton(text: props.isInSeenlist ? "Seen" : "Seenlist",
-                               systemImageName: "eye",
-                               color: .green,
-                               isOn: props.isInSeenlist,
-                               action: {
-                                if props.isInSeenlist {
-                                    store.dispatch(action: MoviesActions.RemoveFromSeenList(movie: self.movieId))
-                                } else {
-                                    store.dispatch(action: MoviesActions.AddToSeenList(movie: self.movieId))
-                                }
-                               })
-            }.frame(maxHeight: 40)
+        HStack(alignment: .center, spacing: 8) {
+            BorderedButton(text: props.isInWishlist ? "In wishlist" : "Wishlist",
+                           systemImageName: "heart",
+                           color: .pink,
+                           isOn: props.isInWishlist,
+                           action: {
+                            if props.isInWishlist {
+                                store.dispatch(action: MoviesActions.RemoveFromWishlist(movie: self.movieId))
+                            } else {
+                                store.dispatch(action: MoviesActions.AddToWishlist(movie: self.movieId))
+                            }
+                           })
             
-            BorderedButton(text: props.isInCustomList ? "Manage custom list" : "Add to custom list",
+            BorderedButton(text: props.isInSeenlist ? "Seen" : "Seenlist",
+                           systemImageName: "eye",
+                           color: .green,
+                           isOn: props.isInSeenlist,
+                           action: {
+                            if props.isInSeenlist {
+                                store.dispatch(action: MoviesActions.RemoveFromSeenList(movie: self.movieId))
+                            } else {
+                                store.dispatch(action: MoviesActions.AddToSeenList(movie: self.movieId))
+                            }
+                           })
+            
+            BorderedButton(text: "List",
                            systemImageName: "pin",
                            color: .steam_gold,
                            isOn: props.isInCustomList,
                            action: {
                             self.showCustomListSheet = true
                            })
-                .padding(.vertical, 8)
-                .frame(maxHeight: 40)
         }
+        .padding(.vertical, 8)
+        .animation(.spring())
     }
 }
 

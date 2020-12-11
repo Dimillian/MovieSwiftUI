@@ -11,7 +11,7 @@ import Backend
 
 struct DiscoverPosterStyle: ViewModifier {
     func body(content: Content) -> some View {
-        return content
+        content
             .aspectRatio(0.66, contentMode: .fit)
             .frame(maxWidth: 245)
             .cornerRadius(5)
@@ -20,7 +20,7 @@ struct DiscoverPosterStyle: ViewModifier {
 
 extension View {
     func discoverPosterStyle() -> some View {
-        return ModifiedContent(content: self, modifier: DiscoverPosterStyle())
+        ModifiedContent(content: self, modifier: DiscoverPosterStyle())
     }
 }
 
@@ -28,22 +28,20 @@ struct DiscoverCoverImage : View {
     @ObservedObject var imageLoader: ImageLoader
         
     var body: some View {
-        ZStack {
-            if imageLoader.image != nil {
-                Image(uiImage: self.imageLoader.image!)
-                    .resizable()
-                    .renderingMode(.original)
-                    .discoverPosterStyle()
-            } else if imageLoader.path == nil {
-                Rectangle()
-                    .foregroundColor(.gray)
-                    .discoverPosterStyle()
-            } else {
-                Rectangle()
-                    .foregroundColor(.clear)
-                    .frame(width: 50, height: 50)
-            }
-            }
+        if let image = imageLoader.image {
+            Image(uiImage: image)
+                .resizable()
+                .renderingMode(.original)
+                .discoverPosterStyle()
+        } else if imageLoader.path == nil {
+            Rectangle()
+                .foregroundColor(.gray)
+                .discoverPosterStyle()
+        } else {
+            Rectangle()
+                .foregroundColor(.clear)
+                .frame(width: 50, height: 50)
+        }
     }
 }
 

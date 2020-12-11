@@ -23,6 +23,8 @@ struct MoviePosterImage: View {
                 .onAppear{
                     isImageLoaded = true
                 }
+                .animation(.easeInOut)
+                .transition(.opacity)
         } else {
             Rectangle()
                 .foregroundColor(.gray)

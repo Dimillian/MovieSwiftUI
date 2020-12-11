@@ -24,7 +24,7 @@ struct MovieKeywordList : View {
     let keyword: Keyword
     
     var movies: [Int] {
-        store.state.moviesState.withKeywords[keyword.id] ?? []
+        store.state.moviesState.withKeywords[keyword.id] ?? [0, 0, 0, 0]
     }
     
     var body: some View {

@@ -13,32 +13,32 @@ struct MovieInfoRow : View {
     let movie: Movie
     
     var asyncTextTransition: AnyTransition {
-        return .scale
+        .opacity
     }
     
     var asyncTextAnimation: Animation {
-        Animation.spring()
-            .speed(2)
-            .delay(0.5)
+        .easeInOut
     }
     
     private var infos: some View {
         HStack {
-            Text(movie.release_date != nil ? movie.release_date!.prefix(4) : "")
-                .font(.subheadline)
-            if movie.runtime != nil {
-                Text("• \(movie.runtime!) minutes")
-                    .font(.subheadline)
-                    .transition(asyncTextTransition)
-                    .animation(asyncTextAnimation)
+            if let date = movie.release_date {
+                Text(date.prefix(4)).font(.subheadline)
             }
-            if movie.status != nil {
-                Text("• \(movie.status!)")
+            if let runtime = movie.runtime {
+                Text("• \(runtime) minutes")
                     .font(.subheadline)
-                    .transition(asyncTextTransition)
                     .animation(asyncTextAnimation)
+                    .transition(asyncTextTransition)
             }
-        }.foregroundColor(.white)
+            if let status = movie.status {
+                Text("• \(status)")
+                    .font(.subheadline)
+                    .animation(asyncTextAnimation)
+                    .transition(asyncTextTransition)
+            }
+        }
+        .foregroundColor(.white)
     }
     
     private var productionCountry: some View {

@@ -61,7 +61,10 @@ struct MoviesList: ConnectedView {
             if isSearching {
                 Section(header: Text("Results for \(searchTextWrapper.searchText)")) {
                     if isSearching && props.searchedMovies == nil {
-                        Text("Searching movies...")
+                        MovieRow(movieId: 0)
+                        MovieRow(movieId: 0)
+                        MovieRow(movieId: 0)
+                        MovieRow(movieId: 0)
                     } else if isSearching && props.searchedMovies?.isEmpty == true {
                         Text("No results")
                     } else {
@@ -79,7 +82,10 @@ struct MoviesList: ConnectedView {
     private func peoplesSection(props: Props) -> some View {
         Section {
             if isSearching && props.searcherdPeoples == nil {
-                Text("Searching peoples...")
+                PeopleRow(peopleId: 0)
+                PeopleRow(peopleId: 0)
+                PeopleRow(peopleId: 0)
+                PeopleRow(peopleId: 0)
             } else if isSearching && props.searcherdPeoples?.isEmpty == true {
                 Text("No results")
             } else {
@@ -156,7 +162,7 @@ struct MoviesList: ConnectedView {
             }
         }
         .listStyle(PlainListStyle())
-        .animation(.spring())
+        .animation(.easeInOut)
     }
 }
 

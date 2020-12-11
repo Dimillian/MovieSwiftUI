@@ -20,7 +20,7 @@ struct MoviesHomeList: ConnectedView {
     let pageListener: MoviesMenuListPageListener
 
     func map(state: AppState, dispatch: @escaping DispatchFunction) -> Props {
-        Props(movies: state.moviesState.moviesList[menu] ?? [])
+        Props(movies: state.moviesState.moviesList[menu] ?? [0, 0, 0, 0])
     }
     
     func body(props: Props) -> some View {

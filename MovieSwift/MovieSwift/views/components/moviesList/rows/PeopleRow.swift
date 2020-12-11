@@ -57,6 +57,7 @@ struct PeopleRow : ConnectedView {
         }.padding(.top)
         .padding(.bottom)
         .contextMenu{ PeopleContextMenu(people: peopleId) }
+        .redacted(reason: peopleId == 0 ? .placeholder : [])
     }
 }
 

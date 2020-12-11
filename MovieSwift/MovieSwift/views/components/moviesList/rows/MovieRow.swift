@@ -62,6 +62,7 @@ struct MovieRow: ConnectedView {
         .padding(.top, 8)
         .padding(.bottom, 8)
         .contextMenu{ MovieContextMenu(movieId: self.movieId) }
+        .redacted(reason: movieId == 0 ? .placeholder : [])
     }
 }
 
