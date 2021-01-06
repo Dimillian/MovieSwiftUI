@@ -1,9 +1,5 @@
 ![Xcode build](https://github.com/Dimillian/MovieSwiftUI/workflows/Xcode%20build/badge.svg?branch=master)
 
-# Important
-
-MovieSwiftUI have been upgraded to the latest SwiftUI features, so you'll need a beta version of Xcode 12 in order to build & run it. 
-
 # MovieSwiftUI
 
 MovieSwiftUI is an application that uses the MovieDB API and is built with SwiftUI. 
