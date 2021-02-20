@@ -104,6 +104,14 @@ struct CustomListForm : View {
             }, label: {
                 Text(self.editingListId != nil ? "Save changes" : "Create").foregroundColor(.blue)
             })
+            if let toDelete = self.editingListId {
+                Button(action: {
+                    self.store.dispatch(action: MoviesActions.RemoveCustomList(list: toDelete))
+                    self.presentationMode.wrappedValue.dismiss()
+                }, label: {
+                    Text("Delete List").foregroundColor(.red)
+                })
+            }
             Button(action: {
                 self.presentationMode.wrappedValue.dismiss()
             }, label: {

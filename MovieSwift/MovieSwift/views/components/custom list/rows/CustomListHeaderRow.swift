@@ -15,11 +15,11 @@ struct CustomListHeaderRow : View {
     @Binding var sorting: MoviesSort
     
     let listId: Int
-    var list: CustomList {
-        return store.state.moviesState.customLists[listId]!
+    var list: CustomList? {
+        return store.state.moviesState.customLists[listId]
     }
     var coverBackdropMovie: Movie? {
-        guard let id = list.cover else {
+        guard let id = list?.cover else {
             return nil
         }
         return store.state.moviesState.movies[id]
@@ -31,10 +31,10 @@ struct CustomListHeaderRow : View {
                                                                                  size: .original),
                                   height: 200)
             VStack(alignment: .leading, spacing: 8) {
-                Text(list.name)
+                Text(list?.name ?? "[Deleted]")
                     .font(.FjallaOne(size: 40))
                     .foregroundColor(.steam_gold)
-                Text("\(list.movies.count) movies sorted \(sorting.title())")
+                Text("\(list?.movies.count ?? 0) movies sorted \(sorting.title())")
                     .font(.subheadline)
                     .foregroundColor(.white)
             }.padding()

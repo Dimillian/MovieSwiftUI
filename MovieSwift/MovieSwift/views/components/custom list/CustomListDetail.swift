@@ -27,12 +27,12 @@ struct CustomListDetail : View {
     
     let listId: Int
     
-    private var list: CustomList {
-        store.state.moviesState.customLists[listId]!
+    private var list: CustomList? {
+        store.state.moviesState.customLists[listId]
     }
     
     private var movies: [Int] {
-        list.movies.sortedMoviesIds(by: selectedMoviesSort, state: store.state)
+        list != nil ? list!.movies.sortedMoviesIds(by: selectedMoviesSort, state: store.state) : []
     }
         
     private var searchedMovies: [Int]? {
