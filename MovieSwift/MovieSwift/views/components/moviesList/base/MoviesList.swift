@@ -36,6 +36,10 @@ struct MoviesList: ConnectedView {
     let displaySearch: Bool
     var pageListener: MoviesPagesListener?
     
+    // MARK: - Private var
+    @State private var selectedItem: String? = nil
+    @State private var listViewId = UUID()
+    
     // MARK: - Computed Props
     func map(state: AppState, dispatch: @escaping DispatchFunction) -> Props {
         if isSearching {
@@ -50,7 +54,7 @@ struct MoviesList: ConnectedView {
     // MARK: - Computed views
     private func moviesRows(props: Props) -> some View {
         ForEach(isSearching ? props.searchedMovies ?? [] : movies, id: \.self) { id in
-            NavigationLink(destination: MovieDetail(movieId: id)) {
+            NavigationLink(destination: MovieDetail(movieId: id), tag: String(id), selection:$selectedItem) {
                 MovieRow(movieId: id)
             }
         }
@@ -90,7 +94,7 @@ struct MoviesList: ConnectedView {
                 Text("No results")
             } else {
                 ForEach(props.searcherdPeoples ?? [], id: \.self) { id in
-                    NavigationLink(destination: PeopleDetail(peopleId: id)) {
+                    NavigationLink(destination: PeopleDetail(peopleId: id), tag: String(id), selection:$selectedItem) {
                         PeopleRow(peopleId: id)
                     }
                 }
@@ -142,8 +146,10 @@ struct MoviesList: ConnectedView {
             
             if isSearching && searchFilter == SearchFilter.peoples.rawValue {
                 peoplesSection(props: props)
+                    .id(listViewId)
             } else {
                 movieSection(props: props)
+                    .id(listViewId)
             }
             
             /// The pagination is done by appending a invisible rectancle at the bottom of the list, and trigerining the next page load as it appear.
@@ -162,6 +168,13 @@ struct MoviesList: ConnectedView {
             }
         }
         .listStyle(PlainListStyle())
+        .onAppear {
+            if selectedItem != nil {
+                selectedItem = nil
+                /// Changing view id to refresh view to avoid a bug of SwiftUI List that selected list row remains highlighted
+                listViewId = UUID()
+            }
+        }
     }
 }
 
