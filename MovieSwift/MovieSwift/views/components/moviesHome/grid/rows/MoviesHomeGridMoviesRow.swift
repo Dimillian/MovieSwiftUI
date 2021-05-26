@@ -28,7 +28,7 @@ struct MoviesHomeGridMoviesRow: ConnectedView {
     }
     
     func body(props: Props) -> some View {
-        ScrollView(.horizontal, showsIndicators: false) {
+        ScrollView(.horizontal, showsIndicators: true) {
             LazyHStack(spacing: 16) {
                 ForEach(props.movies) { movie in
                     NavigationLink(destination: MovieDetail(movieId: movie.id)) {
@@ -43,8 +43,9 @@ struct MoviesHomeGridMoviesRow: ConnectedView {
                 }
             }
             .frame(height: 150)
-            .padding(.horizontal, 16)
+            .padding(.bottom, 10)
         }
+        .padding(.horizontal, 16)
     }
 }
 
