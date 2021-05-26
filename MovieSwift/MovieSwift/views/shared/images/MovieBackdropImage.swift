@@ -24,7 +24,7 @@ struct MovieBackdropImage : View {
                 Image(uiImage: self.imageLoader.image!)
                     .resizable()
                     .renderingMode(.original)
-                    .frame(width: 300, height: displayMode == .normal ? 168 : 50)
+                    .frame(width: 280, height: displayMode == .normal ? 168 : 50)
                     .animation(.easeInOut)
                     .onAppear{
                         DispatchQueue.main.async {
@@ -35,7 +35,7 @@ struct MovieBackdropImage : View {
                 Rectangle()
                     .foregroundColor(.gray)
                     .opacity(0.1)
-                    .frame(width: 300, height: displayMode == .normal ? 168 : 50)
+                    .frame(width: 280, height: displayMode == .normal ? 168 : 50)
             }
         }
     }
