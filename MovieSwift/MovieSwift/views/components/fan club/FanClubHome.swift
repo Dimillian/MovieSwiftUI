@@ -20,7 +20,7 @@ struct FanClubHome: ConnectedView {
     
     func map(state: AppState , dispatch: @escaping DispatchFunction) -> Props {
         Props(peoples: state.peoplesState.fanClub.map{ $0 }.sorted(),
-              popular: Array(Set(state.peoplesState.popular))
+              popular: state.peoplesState.popular
                 .filter{ !state.peoplesState.fanClub.contains($0) }
                 .sorted() { state.peoplesState.peoples[$0]!.name < state.peoplesState.peoples[$1]!.name },
               dispatch: dispatch)
@@ -60,7 +60,9 @@ struct FanClubHome: ConnectedView {
             .animation(.spring())
         }
         .onAppear {
-            props.dispatch(PeopleActions.FetchPopular(page: self.currentPage))
+            if self.currentPage == 1{
+                props.dispatch(PeopleActions.FetchPopular(page: self.currentPage))
+            }
         }
     }
 }
