@@ -78,9 +78,11 @@ struct CustomListForm : View {
                             self.searchTextWrapper.searchText = ""
                         }
                     }
-                }.padding(.leading, 16)
+                }
+                .padding(.bottom, 10)
             }
             .frame(height: 200)
+            .padding(.leading, 16)
             .listRowInsets(EdgeInsets())
         }
     }
