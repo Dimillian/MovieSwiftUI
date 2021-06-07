@@ -29,13 +29,9 @@ public class ImageService {
         case decodingError
     }
     
-    public func fetchImage(poster: String, size: Size) -> AnyPublisher<UIImage?, Never> {
+    public func fetchImage(poster: String, size: Size) -> AnyPublisher<UIImage?, Error> {
         return URLSession.shared.dataTaskPublisher(for: size.path(poster: poster))
-            .tryMap { (data, response) -> UIImage? in
-                return UIImage(data: data)
-        }.catch { error in
-            return Just(nil)
-        }
-        .eraseToAnyPublisher()
+            .tryMap { UIImage(data: $0.data) }
+            .eraseToAnyPublisher()
     }
 }
