@@ -29,8 +29,7 @@ struct MovieCoverRow : ConnectedView {
                                   fill: false)
             VStack(alignment: .leading) {
                 HStack(spacing: 16) {
-                    MoviePosterImage(imageLoader: ImageLoaderCache.shared.loaderFor(path: props.movie.poster_path,
-                                                                                    size: .medium),
+                    MoviePosterImage(posterURL: ImageService.Size.medium.path(poster: props.movie.poster_path ?? ""),
                                      posterSize: .medium)
                         .padding(.leading, 16)
                     VStack(alignment: .leading, spacing: 16) {

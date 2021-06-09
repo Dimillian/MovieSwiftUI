@@ -24,8 +24,7 @@ struct MovieGridRow: ConnectedView {
     
     
     func body(props: Props) -> some View {
-        MoviePosterImage(imageLoader: ImageLoaderCache.shared.loaderFor(path: props.movie.poster_path,
-                                                                        size: .medium),
+        MoviePosterImage(posterURL: ImageService.Size.medium.path(poster: props.movie.poster_path ?? ""),
                          posterSize: .medium)
     }
 }

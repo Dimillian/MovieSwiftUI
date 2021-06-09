@@ -163,7 +163,7 @@ struct MovieDetail: ConnectedView {
             if props.similar?.isEmpty == false {
                 MovieCrosslineRow(title: "Similar Movies", movies: props.similar ?? [])
             }
-            if  props.recommended?.isEmpty == false {
+            if props.recommended?.isEmpty == false {
                 MovieCrosslineRow(title: "Recommended Movies", movies: props.recommended ?? [])
             }
             if props.movie.images?.posters?.isEmpty == false {
@@ -182,6 +182,7 @@ struct MovieDetail: ConnectedView {
                 topSection(props: props)
                 bottomSection(props: props)
             }
+            .listStyle(.plain)
             .navigationBarTitle(Text(props.movie.userTitle), displayMode: .large)
             .navigationBarItems(trailing: Button(action: onAddButton) {
                 Image(systemName: "text.badge.plus").imageScale(.large)

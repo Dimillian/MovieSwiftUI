@@ -10,25 +10,16 @@ import SwiftUI
 import Backend
 
 struct MoviePosterImage: View {
-    @ObservedObject var imageLoader: ImageLoader
-    @State var isImageLoaded = false
+    let posterURL: URL?
     let posterSize: PosterStyle.Size
     
     var body: some View {
-        if let image = imageLoader.image {
-            Image(uiImage: image)
-                .resizable()
-                .renderingMode(.original)
-                .posterStyle(loaded: true, size: posterSize)
-                .onAppear{
-                    isImageLoaded = true
-                }
-                .animation(.easeInOut)
-                .transition(.opacity)
-        } else {
+        AsyncImage(url: posterURL) {
+            $0.resizable()
+        } placeholder: {
             Rectangle()
                 .foregroundColor(.gray)
-                .posterStyle(loaded: false, size: posterSize)
         }
+        .posterStyle(loaded: true, size: posterSize)
     }
 }

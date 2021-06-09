@@ -33,8 +33,7 @@ struct MoviesHomeGridMoviesRow: ConnectedView {
                 ForEach(props.movies) { movie in
                     NavigationLink(destination: MovieDetail(movieId: movie.id)) {
                         ZStack {
-                            MoviePosterImage(imageLoader: ImageLoaderCache.shared.loaderFor(path: movie.poster_path,
-                                                                                            size: .medium),
+                            MoviePosterImage(posterURL: ImageService.Size.medium.path(poster: movie.poster_path ?? ""),
                                              posterSize: .medium)
                                 .contextMenu{ MovieContextMenu(movieId: movie.id) }
                             ListImage(movieId: movie.id)

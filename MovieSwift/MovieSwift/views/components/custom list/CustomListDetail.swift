@@ -135,6 +135,7 @@ struct CustomListDetail : View {
             .sheet(isPresented: $isEditingFormPresented,
                    content: { CustomListForm(editingListId: self.listId).environmentObject(self.store)
             })
+            .listStyle(.plain)
             .environment(\.editMode, .constant(isSearching ? .active : .inactive))
     }
 }

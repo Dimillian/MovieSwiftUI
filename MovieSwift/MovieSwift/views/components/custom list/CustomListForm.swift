@@ -121,6 +121,7 @@ struct CustomListForm : View {
                 coverSection
                 buttonsSection
             }
+            .listStyle(.plain)
             .navigationBarTitle(Text("New list"))
         }
         .navigationViewStyle(StackNavigationViewStyle())
