@@ -17,6 +17,7 @@ struct FanClubHome: ConnectedView {
     }
     
     @State private var currentPage = 1
+    @State private var searchText = ""
     
     func map(state: AppState , dispatch: @escaping DispatchFunction) -> Props {
         Props(peoples: state.peoplesState.fanClub.map{ $0 }.sorted(),
@@ -56,9 +57,11 @@ struct FanClubHome: ConnectedView {
                     }
                 }
             }
+            .listStyle(.insetGrouped)
             .navigationBarTitle("Fan Club")
             .animation(.spring())
         }
+        .searchable(text: $searchText)
         .onAppear {
             if self.currentPage == 1{
                 props.dispatch(PeopleActions.FetchPopular(page: self.currentPage))

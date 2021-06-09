@@ -52,8 +52,7 @@ struct MovieDetailRowItem: View {
         NavigationLink(destination: MovieDetail(movieId: movie.id)) {
             VStack(alignment: .center) {
                 ZStack(alignment: .topLeading) {
-                    MoviePosterImage(imageLoader: ImageLoaderCache.shared.loaderFor(path: movie.poster_path,
-                                                                                    size: .medium),
+                    MoviePosterImage(posterURL: ImageService.Size.medium.path(poster: movie.poster_path ?? ""),
                                      posterSize: .medium)
                     ListImage(movieId: movie.id)
                     

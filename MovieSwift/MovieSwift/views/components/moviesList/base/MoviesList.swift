@@ -167,7 +167,7 @@ struct MoviesList: ConnectedView {
                     }
             }
         }
-        .listStyle(PlainListStyle())
+        .listStyle(.plain)
         .onAppear {
             if selectedItem != nil {
                 selectedItem = nil

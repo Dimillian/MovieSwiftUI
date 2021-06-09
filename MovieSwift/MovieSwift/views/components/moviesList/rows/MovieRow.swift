@@ -33,8 +33,7 @@ struct MovieRow: ConnectedView {
     func body(props: Props) -> some View {
         HStack {
             ZStack(alignment: .topLeading) {
-                MoviePosterImage(imageLoader: ImageLoaderCache.shared.loaderFor(path: props.movie.poster_path,
-                                                                                size: .medium),
+                MoviePosterImage(posterURL: ImageService.Size.medium.path(poster: props.movie.poster_path ?? ""),
                                  posterSize: .medium)
                 if displayListImage {
                     ListImage(movieId: movieId)
