@@ -83,7 +83,7 @@ struct DiscoverFilterForm : View {
             Picker(selection: $selectedDate,
                    label: Text("Era"),
                    content: {
-                    ForEach(0 ..< self.datesText.count) {
+                ForEach(0 ..< self.datesText.count, id: \.self) {
                         Text(self.datesText[$0]).tag($0)
                     }
             })
@@ -92,7 +92,7 @@ struct DiscoverFilterForm : View {
                 Picker(selection: $selectedGenre,
                        label: Text("Genre"),
                        content: {
-                        ForEach(0 ..< self.genres!.count) {
+                    ForEach(0 ..< self.genres!.count, id: \.self) {
                             Text(self.genres![$0].name).tag($0)
                         }
                 })
@@ -101,7 +101,7 @@ struct DiscoverFilterForm : View {
             Picker(selection: $selectedCountry,
                    label: Text("Country"),
                    content: {
-                    ForEach(0 ..< self.countries.count) {
+                ForEach(0 ..< self.countries.count, id: \.self) {
                         Text(self.countries[$0]).tag($0)
                     }
             })
@@ -149,7 +149,7 @@ struct DiscoverFilterForm : View {
         Group {
             if !savedFilters.isEmpty {
                 Section(header: Text("Saved filters"), content: {
-                    ForEach(0 ..< self.savedFilters.count) { index in
+                    ForEach(0 ..< self.savedFilters.count, id: \.self) { index in
                         Text(self.savedFilters[index].toText(genres: self.store.state.moviesState.genres))
                             .onTapGesture {
                                 self.presentationMode.wrappedValue.dismiss()

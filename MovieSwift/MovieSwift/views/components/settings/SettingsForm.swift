@@ -47,7 +47,7 @@ struct SettingsForm : View {
                         Picker(selection: $selectedRegion,
                                label: Text("Region"),
                                content: {
-                                ForEach(0 ..< self.countries.count) {
+                            ForEach(0 ..< self.countries.count, id: \.self) {
                                     Text(self.countries[$0]).tag($0)
                                 }
                         })
