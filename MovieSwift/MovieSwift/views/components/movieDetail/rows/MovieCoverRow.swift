@@ -54,9 +54,11 @@ struct MovieCoverRow : ConnectedView {
         return ScrollView(.horizontal, showsIndicators: false) {
             HStack {
                 ForEach(props.movie.genres ?? fakeGenres) { genre in
-                    NavigationLink(destination: MoviesGenreList(genre: genre)) {
-                        RoundedBadge(text: genre.name, color: .steam_background)
-                    }.disabled(props.movie.genres == nil)
+                    NavigationLink {
+                         MoviesGenreList(genre: genre)
+                     } label: {
+                         RoundedBadge(text: genre.name, color: .steam_background)
+                     }.disabled(props.movie.genres == nil)
                 }
             }
             .padding(.leading, 16)

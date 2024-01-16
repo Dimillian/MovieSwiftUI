@@ -54,7 +54,9 @@ struct MoviesList: ConnectedView {
     // MARK: - Computed views
     private func moviesRows(props: Props) -> some View {
         ForEach(isSearching ? props.searchedMovies ?? [] : movies, id: \.self) { id in
-            NavigationLink(destination: MovieDetail(movieId: id), tag: String(id), selection:$selectedItem) {
+            NavigationLink {
+                MovieDetail(movieId: id)
+            } label: {
                 MovieRow(movieId: id)
             }
         }
