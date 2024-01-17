@@ -128,14 +128,11 @@ struct PeopleDetail: ConnectedView {
                     self.moviesSection(props: props, year: year)
                 })
             }
-            .animation(nil)
             .blur(radius: selectedPoster != nil || isFanScoreUpdated ? 30 : 0)
             .scaleEffect(selectedPoster != nil ? 0.8 : 1)
-            .animation(.interactiveSpring())
             imagesCarouselView(props: props)
             scoreUpdateView(props: props)
         }
-        .animation(.spring())
         .navigationBarItems(trailing: barbuttons(props: props))
         .navigationBarTitle(props.people.name)
         .onAppear {
